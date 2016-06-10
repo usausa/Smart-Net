@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>17a7e1e6-c4ab-4bf4-a87c-3b729fcb5117</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Smart</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\IValueHolder.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\NotificationObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\NotificationValue.cs" />
+  </ItemGroup>
+</Project>
