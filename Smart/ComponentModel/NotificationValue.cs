@@ -8,6 +8,9 @@
     /// <typeparam name="T"></typeparam>
     public sealed class NotificationValue<T> : IValueHolder<T>, INotifyPropertyChanged
     {
+        /// <summary>
+        ///
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         private T storage;

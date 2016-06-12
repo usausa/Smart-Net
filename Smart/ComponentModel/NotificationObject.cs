@@ -8,6 +8,9 @@
     /// </summary>
     public abstract class NotificationObject : INotifyPropertyChanged
     {
+        /// <summary>
+        ///
+        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Usa.Smart.Core</id>
+    <version>0.0.1</version>
+    <title>Smart library fundation for .NET</title>
+    <authors>machi_pon</authors>
+    <owners>machi_pon</owners>
+    <description>Smart library fundation for .NET</description>
+    <releaseNotes></releaseNotes>
+    <summary>Smart library fundation for .NET</summary>
+    <projectUrl>https://github.com/usausa/Smart-Net</projectUrl>
+    <copyright></copyright>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <dependencies>
+    </dependencies>
+    <tags>Smart pcl</tags>
+  </metadata>
+  <files>
+    <!-- .NET 4.5.1 -->
+    <file src="Smart.NET45\bin\Release\Smart.dll" target="lib\net451\Smart.dll" />
+    <file src="Smart.NET45\bin\Release\Smart.pdb" target="lib\net451\Smart.pdb" />
+    <file src="Smart.NET45\bin\Release\Smart.xml" target="lib\net451\Smart.xml" />
+
+    <!-- PCL -->
+    <file src="Smart.PCL\bin\Release\Smart.dll" target="lib\portable-net45+win8+wpa81\Smart.dll" />
+    <file src="Smart.PCL\bin\Release\Smart.pdb" target="lib\portable-net45+win8+wpa81\Smart.pdb" />
+    <file src="Smart.PCL\bin\Release\Smart.xml" target="lib\portable-net45+win8+wpa81\Smart.xml" />
+  </files>
+</package>
