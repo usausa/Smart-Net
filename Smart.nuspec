@@ -3,12 +3,12 @@
   <metadata>
     <id>Usa.Smart.Core</id>
     <version>0.0.1</version>
-    <title>Smart library fundation for .NET</title>
+    <title>Smart fundation library for .NET</title>
     <authors>machi_pon</authors>
     <owners>machi_pon</owners>
-    <description>Smart library fundation for .NET</description>
+    <description>Smart fundation library for .NET</description>
     <releaseNotes></releaseNotes>
-    <summary>Smart library fundation for .NET</summary>
+    <summary>Smart fundation library for .NET</summary>
     <projectUrl>https://github.com/usausa/Smart-Net</projectUrl>
     <copyright></copyright>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
