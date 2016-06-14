@@ -9,8 +9,24 @@
     <Import_RootNamespace>Smart</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)ArrayExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ArrayExtensions.ArrayEquals.cs">
+      <DependentUpon>ArrayExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ArrayExtensions.Combine.cs">
+      <DependentUpon>ArrayExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ArrayExtensions.Fill.cs">
+      <DependentUpon>ArrayExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)ArrayExtensions.SubArray.cs">
+      <DependentUpon>ArrayExtensions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Bytes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\IValueHolder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\NotificationObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\NotificationValue.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\AtomicBoolean.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Threading\AtomicInteger.cs" />
   </ItemGroup>
 </Project>
