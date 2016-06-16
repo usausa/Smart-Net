@@ -23,6 +23,8 @@
       <DependentUpon>ArrayExtensions.cs</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Bytes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\CollectionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\DictionaryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\IValueHolder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\NotificationObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\NotificationValue.cs" />
