@@ -35,5 +35,21 @@
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Value"));
             }
         }
+
+        /// <summary>
+        ///
+        /// </summary>
+        public NotificationValue()
+        {
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="value"></param>
+        public NotificationValue(T value)
+        {
+            storage = value;
+        }
     }
 }
