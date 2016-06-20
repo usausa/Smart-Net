@@ -113,7 +113,7 @@
 
             if (type.IsGenericType && type.GetGenericTypeDefinition() == EnumerableType)
             {
-                return type.GetGenericArguments()[0];
+                return type.GenericTypeArguments[0];
             }
 
             var enumerableType = type.GetInterfaces().FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == EnumerableType);
@@ -130,6 +130,11 @@
             return null;
         }
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static Type GetNonNullableType(this Type type)
         {
