@@ -169,27 +169,5 @@
 
             return null;
         }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="interfaceType"></param>
-        /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
-        public static bool IsImplements(this Type type, Type interfaceType)
-        {
-            if (interfaceType == null)
-            {
-                throw new ArgumentNullException(nameof(interfaceType));
-            }
-
-            if (!interfaceType.IsInterface)
-            {
-                throw new ArgumentException("TInterface");
-            }
-
-            return type.GetInterfaces().Any(t => t == interfaceType);
-        }
     }
 }
