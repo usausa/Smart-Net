@@ -16,7 +16,9 @@
 
         private static readonly Type CompilerGeneratedAttributeType = typeof(CompilerGeneratedAttribute);
 
-        private static readonly Type EnumerableType = typeof(IEnumerable<>);
+        private static readonly Type GenericEnumerableType = typeof(IEnumerable<>);
+
+        private static readonly Type EnumerableType = typeof(IEnumerable);
 
         private static readonly Type ObjectType = typeof(object);
 
@@ -111,18 +113,18 @@
                 return type.GetElementType();
             }
 
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == EnumerableType)
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == GenericEnumerableType)
             {
                 return type.GenericTypeArguments[0];
             }
 
-            var enumerableType = type.GetInterfaces().FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == EnumerableType);
+            var enumerableType = type.GetInterfaces().FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == GenericEnumerableType);
             if (enumerableType != null)
             {
                 return enumerableType.GenericTypeArguments[0];
             }
 
-            if (typeof(IEnumerable).IsAssignableFrom(type))
+            if (EnumerableType.IsAssignableFrom(type))
             {
                 return ObjectType;
             }
@@ -140,7 +142,7 @@
         {
             if (type.IsGenericType && (type.GetGenericTypeDefinition() == NullableType))
             {
-                return type.GetGenericArguments()[0];
+                return type.GenericTypeArguments[0];
             }
 
             return null;
@@ -161,7 +163,7 @@
 
             if (type.IsGenericType && (type.GetGenericTypeDefinition() == NullableType))
             {
-                type = type.GetGenericArguments()[0];
+                type = type.GenericTypeArguments[0];
                 return type.IsEnum ? type : null;
             }
 
