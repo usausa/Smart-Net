@@ -18,9 +18,13 @@
         /// </summary>
         /// <param name="hex"></param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Ignore")]
         public static byte[] FromHex(string hex)
         {
+            if (hex == null)
+            {
+                throw new ArgumentNullException(nameof(hex));
+            }
+
             var bytes = new byte[hex.Length / 2];
 
             for (var i = 0; i < bytes.Length; i++)
