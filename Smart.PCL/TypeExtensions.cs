@@ -18,7 +18,7 @@
 
         private static readonly Type GenericEnumerableType = typeof(IEnumerable<>);
 
-        private static readonly Type EnumerableType = typeof(IEnumerable);
+        private static readonly TypeInfo EnumerableTypeInfo = typeof(IEnumerable).GetTypeInfo();
 
         private static readonly Type ObjectType = typeof(object);
 
@@ -48,7 +48,9 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static object GetDefaultValue(this Type type)
         {
-            if (type.IsValueType && !(type.IsGenericType && type.GetGenericTypeDefinition() == NullableType))
+            var typeInfo = type.GetTypeInfo();
+
+            if (typeInfo.IsValueType && !(typeInfo.IsGenericType && typeInfo.GetGenericTypeDefinition() == NullableType))
             {
                 object value;
                 if (DefaultValues.TryGetValue(type, out value))
@@ -70,7 +72,9 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool IsNullableType(this Type type)
         {
-            return type.IsGenericType && (type.GetGenericTypeDefinition() == NullableType);
+            var typeInfo = type.GetTypeInfo();
+
+            return typeInfo.IsGenericType && (typeInfo.GetGenericTypeDefinition() == NullableType);
         }
 
         /// <summary>
@@ -81,8 +85,10 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool IsStruct(this Type type)
         {
-            return type.IsValueType && !type.IsEnum && !type.IsPrimitive &&
-                !(type.IsGenericType && (type.GetGenericTypeDefinition() == NullableType));
+            var typeInfo = type.GetTypeInfo();
+
+            return typeInfo.IsValueType && !typeInfo.IsEnum && !typeInfo.IsPrimitive &&
+                !(typeInfo.IsGenericType && (typeInfo.GetGenericTypeDefinition() == NullableType));
         }
 
         /// <summary>
@@ -93,12 +99,14 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool IsAnonymous(this Type type)
         {
-            return Attribute.IsDefined(type, CompilerGeneratedAttributeType, false) &&
-                type.IsGenericType &&
+            var typeInfo = type.GetTypeInfo();
+
+            return (typeInfo.GetCustomAttribute(CompilerGeneratedAttributeType, false) != null) &&
+                typeInfo.IsGenericType &&
                 type.Name.Contains("AnonymousType") &&
                 (type.Name.StartsWith("<>", StringComparison.Ordinal) || type.Name.StartsWith("VB$", StringComparison.Ordinal)) &&
-                ((type.Attributes & TypeAttributes.NotPublic) == TypeAttributes.NotPublic) &&
-                ((type.Attributes & TypeAttributes.Sealed) == TypeAttributes.Sealed);
+                ((typeInfo.Attributes & TypeAttributes.NotPublic) == TypeAttributes.NotPublic) &&
+                ((typeInfo.Attributes & TypeAttributes.Sealed) == TypeAttributes.Sealed);
         }
 
         /// <summary>
@@ -114,18 +122,21 @@
                 return type.GetElementType();
             }
 
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == GenericEnumerableType)
+            var typeInfo = type.GetTypeInfo();
+
+            if (typeInfo.IsGenericType && typeInfo.GetGenericTypeDefinition() == GenericEnumerableType)
             {
-                return type.GenericTypeArguments[0];
+                return typeInfo.GenericTypeArguments[0];
             }
 
-            var enumerableType = type.GetInterfaces().FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == GenericEnumerableType);
+            var enumerableType = typeInfo.ImplementedInterfaces
+                .FirstOrDefault(t => t.GetTypeInfo().IsGenericType && t.GetTypeInfo().GetGenericTypeDefinition() == GenericEnumerableType);
             if (enumerableType != null)
             {
-                return enumerableType.GenericTypeArguments[0];
+                return enumerableType.GetTypeInfo().GenericTypeArguments[0];
             }
 
-            if (EnumerableType.IsAssignableFrom(type))
+            if (EnumerableTypeInfo.IsAssignableFrom(typeInfo))
             {
                 return ObjectType;
             }
@@ -141,9 +152,11 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static Type GetNonNullableType(this Type type)
         {
-            if (type.IsGenericType && (type.GetGenericTypeDefinition() == NullableType))
+            var typeInfo = type.GetTypeInfo();
+
+            if (typeInfo.IsGenericType && (typeInfo.GetGenericTypeDefinition() == NullableType))
             {
-                return type.GenericTypeArguments[0];
+                return typeInfo.GenericTypeArguments[0];
             }
 
             return null;
@@ -157,15 +170,17 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static Type GetEnumType(this Type type)
         {
-            if (type.IsEnum)
+            var typeInfo = type.GetTypeInfo();
+
+            if (typeInfo.IsEnum)
             {
                 return type;
             }
 
-            if (type.IsGenericType && (type.GetGenericTypeDefinition() == NullableType))
+            if (typeInfo.IsGenericType && (type.GetGenericTypeDefinition() == NullableType))
             {
-                var genericType = type.GenericTypeArguments[0];
-                return genericType.IsEnum ? genericType : null;
+                var genericType = typeInfo.GenericTypeArguments[0];
+                return genericType.GetTypeInfo().IsEnum ? genericType : null;
             }
 
             return null;
