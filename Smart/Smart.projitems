@@ -24,6 +24,38 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Bytes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\CollectionExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\Comparers.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\Comparers.ProjectionEquality.cs">
+      <DependentUpon>Comparers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\Comparers.Projection.cs">
+      <DependentUpon>Comparers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\Comparers.DelegateEquality.cs">
+      <DependentUpon>Comparers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\Comparers.DelegateComparer.cs">
+      <DependentUpon>Comparers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\Comparers.Comparison.cs">
+      <DependentUpon>Comparers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\Comparers.Reverse.cs">
+      <DependentUpon>Comparers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\Comparers.Chain.cs">
+      <DependentUpon>Comparers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\ComparersEnumerable.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\ComparersEnumerable.ProjectionEquality.cs">
+      <DependentUpon>ComparersEnumerable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\ComparersEnumerable.Delegate.cs">
+      <DependentUpon>ComparersEnumerable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\ComparersEnumerable.Comparison.cs">
+      <DependentUpon>ComparersEnumerable.cs</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\DictionaryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\EnumerableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\IValueHolder.cs" />

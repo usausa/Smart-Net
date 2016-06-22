@@ -2,10 +2,12 @@
 {
     using System.Threading;
 
+    using Smart.ComponentModel;
+
     /// <summary>
     ///
     /// </summary>
-    public class AtomicBoolean
+    public class AtomicBoolean : IValueHolder<bool>
     {
         private const int True = -1;
         private const int False = 0;

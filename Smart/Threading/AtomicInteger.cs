@@ -2,10 +2,12 @@
 {
     using System.Threading;
 
+    using Smart.ComponentModel;
+
     /// <summary>
     ///
     /// </summary>
-    public class AtomicInteger
+    public class AtomicInteger : IValueHolder<int>
     {
         private int currentValue;
 
