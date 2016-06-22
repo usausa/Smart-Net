@@ -25,12 +25,15 @@
     <Compile Include="$(MSBuildThisFileDirectory)Bytes.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\CollectionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\DictionaryExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\EnumerableExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\IValueHolder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\NotificationObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\NotificationValue.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\DebugBreak.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Linq\Enumerable.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Linq\Enumerable.Custom.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Linq\Enumerable.Custom.cs">
+      <DependentUpon>Enumerable.cs</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Linq\Indexed.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\IAccessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Threading\AtomicBoolean.cs" />

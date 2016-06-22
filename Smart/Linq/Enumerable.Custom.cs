@@ -10,21 +10,6 @@
     public static partial class EnumerableExtensions
     {
         //--------------------------------------------------------------------------------
-        // Safe
-        //--------------------------------------------------------------------------------
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        public static IEnumerable<T> Safe<T>(this IEnumerable<T> source)
-        {
-            return source ?? Enumerable.Empty<T>();
-        }
-
-        //--------------------------------------------------------------------------------
         // Append
         //--------------------------------------------------------------------------------
 
@@ -93,7 +78,7 @@
 
             if (source == null)
             {
-                throw new ArgumentNullException("source");
+                throw new ArgumentNullException(nameof(source));
             }
 
             if (source is ICollection<T>)
