@@ -1,7 +1,6 @@
 ﻿namespace Smart.Reflection
 {
     using System;
-    using System.Reflection;
 
     /// <summary>
     ///
@@ -11,7 +10,7 @@
         /// <summary>
         ///
         /// </summary>
-        MemberInfo MemberInfo { get; }
+        string Name { get; }
 
         /// <summary>
         ///
