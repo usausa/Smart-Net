@@ -33,8 +33,8 @@
         /// <returns></returns>
         private static Type FindValueHolderType(PropertyInfo pi)
         {
-            return pi.PropertyType.GetInterfaces()
-                .FirstOrDefault(_ => _.IsGenericType && _.GetGenericTypeDefinition() == ValueHolderType);
+            return pi.PropertyType.GetTypeInfo().ImplementedInterfaces
+                .FirstOrDefault(_ => _.GetTypeInfo().IsGenericType && _.GetGenericTypeDefinition() == ValueHolderType);
         }
 
         /// <summary>
@@ -93,7 +93,7 @@
             Tuple<PropertyInfo, Delegate, Delegate> tuple;
             if (!SharedValueProperties.TryGetValue(holderInterface, out tuple))
             {
-                var vpi = holderInterface.GetProperty("Value");
+                var vpi = holderInterface.GetTypeInfo().GetDeclaredProperty("Value");
                 var getter = DelegateMethodGenerator.CreateTypedGetDelegate(vpi);
                 var setter = DelegateMethodGenerator.CreateTypedSetDelegate(vpi);
 
@@ -101,7 +101,7 @@
                 SharedValueProperties[holderInterface] = tuple;
             }
 
-            if (tuple.Item1.PropertyType.IsValueType)
+            if (tuple.Item1.PropertyType.GetTypeInfo().IsValueType)
             {
                 var accessorType = NonNullableValueHolderDelegateAccessorType.MakeGenericType(pi.DeclaringType, tuple.Item1.PropertyType);
                 return (IAccessor)Activator.CreateInstance(accessorType, pi.Name, tuple.Item1.PropertyType, holderGetter, tuple.Item2, tuple.Item3, tuple.Item1.PropertyType.GetDefaultValue());
@@ -123,7 +123,7 @@
             var getter = DelegateMethodGenerator.CreateTypedGetDelegate(pi);
             var setter = DelegateMethodGenerator.CreateTypedSetDelegate(pi);
 
-            if (pi.PropertyType.IsValueType)
+            if (pi.PropertyType.GetTypeInfo().IsValueType)
             {
                 var accessorType = NonNullableDelegateAccsessorType.MakeGenericType(pi.DeclaringType, pi.PropertyType);
                 return (IAccessor)Activator.CreateInstance(accessorType, pi.Name, pi.PropertyType, getter, setter, pi.PropertyType.GetDefaultValue());

@@ -39,6 +39,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reflection\AccessorExtensions.cs" />
+    <Compile Include="Reflection\DelegateMethodGenerator.cs" />
     <Compile Include="TypeExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
