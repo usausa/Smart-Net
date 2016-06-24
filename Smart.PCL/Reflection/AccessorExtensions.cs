@@ -40,11 +40,12 @@
         /// <summary>
         ///
         /// </summary>
-        /// <param name="pi"></param>
+        /// <param name="fi"></param>
         /// <returns></returns>
-        public static IAccessor ToAccessor(this PropertyInfo pi)
+        private static Type FindValueHolderType(FieldInfo fi)
         {
-            return ToAccessor(pi, true);
+            return fi.FieldType.GetTypeInfo().ImplementedInterfaces
+                .FirstOrDefault(_ => _.GetTypeInfo().IsGenericType && _.GetGenericTypeDefinition() == ValueHolderType);
         }
 
         /// <summary>
@@ -54,6 +55,27 @@
         /// <param name="extension"></param>
         /// <returns></returns>
         public static IAccessor ToAccessor(this PropertyInfo pi, bool extension)
+        {
+            return ToDelegateAccessor(pi, extension);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="pi"></param>
+        /// <returns></returns>
+        public static IAccessor ToAccessor(this PropertyInfo pi)
+        {
+            return ToDelegateAccessor(pi, true);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="pi"></param>
+        /// <param name="extension"></param>
+        /// <returns></returns>
+        public static IAccessor ToDelegateAccessor(this PropertyInfo pi, bool extension)
         {
             var holderInterface = !extension ? null : FindValueHolderType(pi);
             if (holderInterface != null)
@@ -69,15 +91,21 @@
         /// </summary>
         /// <param name="pi"></param>
         /// <returns></returns>
-        public static IAccessor ToValueHolderDelegateAccessor(this PropertyInfo pi)
+        public static IAccessor ToDelegateAccessor(this PropertyInfo pi)
         {
-            var holderInterface = FindValueHolderType(pi);
-            if (holderInterface == null)
-            {
-                throw new ArgumentException("PropertyType is not IValueHolder.", nameof(pi));
-            }
+            var getter = DelegateMethodGenerator.CreateTypedGetDelegate(pi);
+            var setter = DelegateMethodGenerator.CreateTypedSetDelegate(pi);
 
-            return ToValueHolderDelegateAccessorInternal(pi, holderInterface);
+            if (pi.PropertyType.GetTypeInfo().IsValueType)
+            {
+                var accessorType = NonNullableDelegateAccsessorType.MakeGenericType(pi.DeclaringType, pi.PropertyType);
+                return (IAccessor)Activator.CreateInstance(accessorType, pi.Name, pi.PropertyType, getter, setter, pi.PropertyType.GetDefaultValue());
+            }
+            else
+            {
+                var accessorType = NullableDelegateAccsessorType.MakeGenericType(pi.DeclaringType, pi.PropertyType);
+                return (IAccessor)Activator.CreateInstance(accessorType, pi.Name, pi.PropertyType, getter, setter);
+            }
         }
 
         /// <summary>
@@ -116,23 +144,19 @@
         /// <summary>
         ///
         /// </summary>
-        /// <param name="pi"></param>
+        /// <param name="fi"></param>
+        /// <param name="extension"></param>
         /// <returns></returns>
-        public static IAccessor ToDelegateAccessor(this PropertyInfo pi)
+        public static IAccessor ToReflectionAccessor(this FieldInfo fi, bool extension)
         {
-            var getter = DelegateMethodGenerator.CreateTypedGetDelegate(pi);
-            var setter = DelegateMethodGenerator.CreateTypedSetDelegate(pi);
+            var holderInterface = !extension ? null : FindValueHolderType(fi);
+            if (holderInterface != null)
+            {
+                var vpi = holderInterface.GetTypeInfo().GetDeclaredProperty("Value");
+                return new ReflectionValueHolderFieldAccessor(fi, vpi);
+            }
 
-            if (pi.PropertyType.GetTypeInfo().IsValueType)
-            {
-                var accessorType = NonNullableDelegateAccsessorType.MakeGenericType(pi.DeclaringType, pi.PropertyType);
-                return (IAccessor)Activator.CreateInstance(accessorType, pi.Name, pi.PropertyType, getter, setter, pi.PropertyType.GetDefaultValue());
-            }
-            else
-            {
-                var accessorType = NullableDelegateAccsessorType.MakeGenericType(pi.DeclaringType, pi.PropertyType);
-                return (IAccessor)Activator.CreateInstance(accessorType, pi.Name, pi.PropertyType, getter, setter);
-            }
+            return new ReflectionFieldAccessor(fi);
         }
 
         /// <summary>
@@ -149,6 +173,24 @@
         ///
         /// </summary>
         /// <param name="pi"></param>
+        /// <param name="extension"></param>
+        /// <returns></returns>
+        public static IAccessor ToReflectionAccessor(this PropertyInfo pi, bool extension)
+        {
+            var holderInterface = !extension ? null : FindValueHolderType(pi);
+            if (holderInterface != null)
+            {
+                var vpi = holderInterface.GetTypeInfo().GetDeclaredProperty("Value");
+                return new ReflectionValueHolderPropertyAccessor(pi, vpi);
+            }
+
+            return new ReflectionPropertyAccessor(pi);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="pi"></param>
         /// <returns></returns>
         public static IAccessor ToReflectionAccessor(this PropertyInfo pi)
         {
@@ -159,8 +201,9 @@
         ///
         /// </summary>
         /// <param name="mi"></param>
+        /// <param name="extension"></param>
         /// <returns></returns>
-        public static IAccessor ToAccessor(this MemberInfo mi)
+        public static IAccessor ToAccessor(this MemberInfo mi, bool extension)
         {
             if (mi == null)
             {
@@ -170,16 +213,26 @@
             var fi = mi as FieldInfo;
             if (fi != null)
             {
-                return fi.ToAccessor();
+                return ToAccessor(fi, extension);
             }
 
             var pi = mi as PropertyInfo;
             if (pi != null)
             {
-                return pi.ToAccessor();
+                return ToAccessor(pi, extension);
             }
 
             throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Type {0} must be PropertyInfo or FieldInfo.", mi.GetType()));
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="mi"></param>
+        /// <returns></returns>
+        public static IAccessor ToAccessor(this MemberInfo mi)
+        {
+            return ToAccessor(mi, false);
         }
     }
 }
