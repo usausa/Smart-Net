@@ -69,6 +69,8 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Linq\Indexed.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\AccessorExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Reflection\DelegateMethodGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\IAccessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\NonNullableDelegateAccsessor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\NonNullableValueHolderDelegateAccessor.cs" />
@@ -83,6 +85,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Text\Inflector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Threading\AtomicBoolean.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Threading\AtomicInteger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UnixEpoch.cs" />
   </ItemGroup>
 </Project>
