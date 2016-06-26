@@ -18,11 +18,7 @@
 
         private static readonly Type GenericEnumerableType = typeof(IEnumerable<>);
 
-#if PCL
-        private static readonly TypeInfo EnumerableTypeInfo = typeof(IEnumerable).GetTypeInfo();
-#else
         private static readonly Type EnumerableType = typeof(IEnumerable);
-#endif
 
         private static readonly Type ObjectType = typeof(object);
 
@@ -52,13 +48,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static object GetDefaultValue(this Type type)
         {
-#if PCL
-            var typeInfo = type.GetTypeInfo();
-
-            if (typeInfo.IsValueType && !(typeInfo.IsGenericType && typeInfo.GetGenericTypeDefinition() == NullableType))
-#else
-            if (type.IsValueType && !(type.IsGenericType && type.GetGenericTypeDefinition() == NullableType))
-#endif
+            if (type.GetIsValueType() && !type.IsNullableType())
             {
                 object value;
                 if (DefaultValues.TryGetValue(type, out value))
@@ -80,13 +70,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool IsNullableType(this Type type)
         {
-#if PCL
-            var typeInfo = type.GetTypeInfo();
-
-            return typeInfo.IsGenericType && (typeInfo.GetGenericTypeDefinition() == NullableType);
-#else
-            return type.IsGenericType && (type.GetGenericTypeDefinition() == NullableType);
-#endif
+            return type.GetIsGenericType() && (type.GetGenericTypeDefinition() == NullableType);
         }
 
         /// <summary>
@@ -97,15 +81,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool IsStruct(this Type type)
         {
-#if PCL
-            var typeInfo = type.GetTypeInfo();
-
-            return typeInfo.IsValueType && !typeInfo.IsEnum && !typeInfo.IsPrimitive &&
-                !(typeInfo.IsGenericType && (typeInfo.GetGenericTypeDefinition() == NullableType));
-#else
-            return type.IsValueType && !type.IsEnum && !type.IsPrimitive &&
-                !(type.IsGenericType && (type.GetGenericTypeDefinition() == NullableType));
-#endif
+            return type.GetIsValueType() && !type.GetIsEnum() && !type.GetIsPrimitive() && !type.IsNullableType();
         }
 
         /// <summary>
@@ -116,23 +92,12 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool IsAnonymous(this Type type)
         {
-#if PCL
-            var typeInfo = type.GetTypeInfo();
-
-            return (typeInfo.GetCustomAttribute(CompilerGeneratedAttributeType, false) != null) &&
-                typeInfo.IsGenericType &&
+            return type.GetIsDefined(CompilerGeneratedAttributeType, false) &&
+                type.GetIsGenericType() &&
                 type.Name.Contains("AnonymousType") &&
                 (type.Name.StartsWith("<>", StringComparison.Ordinal) || type.Name.StartsWith("VB$", StringComparison.Ordinal)) &&
-                ((typeInfo.Attributes & TypeAttributes.NotPublic) == TypeAttributes.NotPublic) &&
-                ((typeInfo.Attributes & TypeAttributes.Sealed) == TypeAttributes.Sealed);
-#else
-            return Attribute.IsDefined(type, CompilerGeneratedAttributeType, false) &&
-                type.IsGenericType &&
-                type.Name.Contains("AnonymousType") &&
-                (type.Name.StartsWith("<>", StringComparison.Ordinal) || type.Name.StartsWith("VB$", StringComparison.Ordinal)) &&
-                ((type.Attributes & TypeAttributes.NotPublic) == TypeAttributes.NotPublic) &&
-                ((type.Attributes & TypeAttributes.Sealed) == TypeAttributes.Sealed);
-#endif
+                ((type.GetTypeAttributes() & TypeAttributes.NotPublic) == TypeAttributes.NotPublic) &&
+                ((type.GetTypeAttributes() & TypeAttributes.Sealed) == TypeAttributes.Sealed);
         }
 
         /// <summary>
@@ -148,32 +113,12 @@
                 return type.GetElementType();
             }
 
-#if PCL
-            var typeInfo = type.GetTypeInfo();
-
-            if (typeInfo.IsGenericType && typeInfo.GetGenericTypeDefinition() == GenericEnumerableType)
-            {
-                return typeInfo.GenericTypeArguments[0];
-            }
-
-            var enumerableType = typeInfo.ImplementedInterfaces
-                .FirstOrDefault(t => t.GetTypeInfo().IsGenericType && t.GetTypeInfo().GetGenericTypeDefinition() == GenericEnumerableType);
-            if (enumerableType != null)
-            {
-                return enumerableType.GetTypeInfo().GenericTypeArguments[0];
-            }
-
-            if (EnumerableTypeInfo.IsAssignableFrom(typeInfo))
-            {
-                return ObjectType;
-            }
-#else
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == GenericEnumerableType)
+            if (type.GetIsGenericType() && type.GetGenericTypeDefinition() == GenericEnumerableType)
             {
                 return type.GenericTypeArguments[0];
             }
 
-            var enumerableType = type.GetInterfaces().FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == GenericEnumerableType);
+            var enumerableType = type.GetInterfaces().FirstOrDefault(t => t.GetIsGenericType() && t.GetGenericTypeDefinition() == GenericEnumerableType);
             if (enumerableType != null)
             {
                 return enumerableType.GenericTypeArguments[0];
@@ -183,7 +128,6 @@
             {
                 return ObjectType;
             }
-#endif
 
             return null;
         }
@@ -196,19 +140,10 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static Type GetNonNullableType(this Type type)
         {
-#if PCL
-            var typeInfo = type.GetTypeInfo();
-
-            if (typeInfo.IsGenericType && (typeInfo.GetGenericTypeDefinition() == NullableType))
+            if (type.IsNullableType())
             {
-                return typeInfo.GenericTypeArguments[0];
+                return type.GetGenericTypeArguments()[0];
             }
-#else
-            if (type.IsGenericType && (type.GetGenericTypeDefinition() == NullableType))
-            {
-                return type.GenericTypeArguments[0];
-            }
-#endif
 
             return null;
         }
@@ -221,31 +156,16 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static Type GetEnumType(this Type type)
         {
-#if PCL
-            var typeInfo = type.GetTypeInfo();
-
-            if (typeInfo.IsEnum)
+            if (type.GetIsEnum())
             {
                 return type;
             }
 
-            if (typeInfo.IsGenericType && (type.GetGenericTypeDefinition() == NullableType))
+            if (type.IsNullableType())
             {
-                var genericType = typeInfo.GenericTypeArguments[0];
-                return genericType.GetTypeInfo().IsEnum ? genericType : null;
+                var genericType = type.GetGenericTypeArguments()[0];
+                return genericType.GetIsEnum() ? genericType : null;
             }
-#else
-            if (type.IsEnum)
-            {
-                return type;
-            }
-
-            if (type.IsGenericType && (type.GetGenericTypeDefinition() == NullableType))
-            {
-                var genericType = type.GenericTypeArguments[0];
-                return genericType.IsEnum ? genericType : null;
-            }
-#endif
 
             return null;
         }

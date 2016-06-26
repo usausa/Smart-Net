@@ -85,6 +85,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Text\Inflector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Threading\AtomicBoolean.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Threading\AtomicInteger.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)AbstractionLayer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)TypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)UnixEpoch.cs" />
   </ItemGroup>

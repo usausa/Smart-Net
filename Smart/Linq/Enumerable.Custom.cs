@@ -22,9 +22,9 @@
         /// <returns></returns>
         public static IEnumerable<T> Append<T>(this IEnumerable<T> source, T item)
         {
-            foreach (var i in source)
+            foreach (var e in source)
             {
-                yield return i;
+                yield return e;
             }
 
             yield return item;
@@ -41,9 +41,9 @@
         {
             yield return item;
 
-            foreach (var i in source)
+            foreach (var e in source)
             {
-                yield return i;
+                yield return e;
             }
         }
 
@@ -139,6 +139,46 @@
         public static IEnumerable<Indexed<T>> Indexed<T>(this IEnumerable<T> source)
         {
             return source.Select((x, i) => new Indexed<T>(x, i));
+        }
+
+        //--------------------------------------------------------------------------------
+        // Pair
+        //--------------------------------------------------------------------------------
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="resultSelector"></param>
+        /// <returns></returns>
+        public static IEnumerable<TResult> Pairwise<TSource, TResult>(this IEnumerable<TSource> source, Func<TSource, TSource, TResult> resultSelector)
+        {
+            if (source == null)
+            {
+                throw new ArgumentNullException(nameof(source));
+            }
+
+            if (resultSelector == null)
+            {
+                throw new ArgumentNullException(nameof(resultSelector));
+            }
+
+            using (var e = source.GetEnumerator())
+            {
+                if (!e.MoveNext())
+                {
+                    yield break;
+                }
+
+                var previous = e.Current;
+                while (e.MoveNext())
+                {
+                    yield return resultSelector(previous, e.Current);
+                    previous = e.Current;
+                }
+            }
         }
     }
 }
