@@ -31,7 +31,7 @@
                 throw new ArgumentException("DeclaringType is null type.", pi.Name);
             }
 
-            if (pi.PropertyType.GetIsValueType())
+            if (pi.DeclaringType.GetIsValueType())
             {
                 throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Value type is not supported type {0}.", pi.DeclaringType));
             }
@@ -81,7 +81,7 @@
                 throw new ArgumentException("DeclaringType is null type.", pi.Name);
             }
 
-            if (pi.PropertyType.GetIsValueType())
+            if (pi.DeclaringType.GetIsValueType())
             {
                 throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Value type is not supported type {0}.", pi.DeclaringType));
             }
