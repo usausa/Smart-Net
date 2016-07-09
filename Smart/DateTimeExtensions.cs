@@ -32,28 +32,6 @@
         /// <summary>
         ///
         /// </summary>
-        /// <param name="source"></param>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public static bool IsBefore(this DateTime source, DateTime other)
-        {
-            return source.CompareTo(other) < 0;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="source"></param>
-        /// <param name="other"></param>
-        /// <returns></returns>
-        public static bool IsAfter(this DateTime source, DateTime other)
-        {
-            return source.CompareTo(other) > 0;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
         public static bool IsLeapYear(this DateTime date)
@@ -69,26 +47,6 @@
         public static DateTime Tomorrow(this DateTime date)
         {
             return date.AddDays(1);
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
-        public static DateTime Yesterday(this DateTime date)
-        {
-            return date.AddDays(-1);
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
-        public static DateTime EndOfTheMonth(this DateTime date)
-        {
-            return new DateTime(date.Year, date.Month, 1).AddMonths(1).AddDays(-1);
         }
 
         /// <summary>
