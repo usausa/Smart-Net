@@ -97,20 +97,6 @@
 #endif
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static Type[] GetGenericTypeArguments(this Type type)
-        {
-#if PCL
-            return type.GetTypeInfo().GenericTypeArguments;
-#else
-            return type.GenericTypeArguments;
-#endif
-        }
-
 #if PCL
     /// <summary>
     ///
