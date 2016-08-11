@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Reflection;
-using System.Resources;
 using System.Runtime.InteropServices;
 
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。
@@ -11,21 +10,26 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Smart")]
-[assembly: AssemblyCopyright("Copyright (C)  2016")]
+[assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: NeutralResourcesLanguage("")]
 
 [assembly: CLSCompliant(true)]
 
+// ComVisible を false に設定すると、その型はこのアセンブリ内で COM コンポーネントから
+// 参照不可能になります。COM からこのアセンブリ内の型にアクセスする場合は、
+// その型の ComVisible 属性を true に設定してください。
 [assembly: ComVisible(false)]
+
+// このプロジェクトが COM に公開される場合、次の GUID が typelib の ID になります
+[assembly: Guid("e9dae76e-60f6-403a-803a-0a68975309ac")]
 
 // アセンブリのバージョン情報は次の 4 つの値で構成されています:
 //
 //      メジャー バージョン
 //      マイナー バージョン
 //      ビルド番号
-//      リビジョン
+//      Revision
 //
 // すべての値を指定するか、下のように '*' を使ってビルドおよびリビジョン番号を
 // 既定値にすることができます:

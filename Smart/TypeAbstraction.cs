@@ -4,12 +4,13 @@
 #if PCL
     using System.Collections.Generic;
 #endif
+    using System.Linq;
     using System.Reflection;
 
     /// <summary>
     ///
     /// </summary>
-    internal static class AbstractionLayer
+    internal static class TypeAbstraction
     {
         /// <summary>
         ///
@@ -94,20 +95,6 @@
             return type.GetTypeInfo().Attributes;
 #else
             return type.Attributes;
-#endif
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public static Type[] GetGenericTypeArguments(this Type type)
-        {
-#if PCL
-            return type.GetTypeInfo().GenericTypeArguments;
-#else
-            return type.GenericTypeArguments;
 #endif
         }
 

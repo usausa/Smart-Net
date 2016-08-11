@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Usa.Smart.Core</id>
-    <version>0.1.0</version>
+    <version>0.2.0.0</version>
     <title>Smart.Core .NET</title>
     <authors>machi_pon</authors>
     <owners>machi_pon</owners>
@@ -17,10 +17,10 @@
     <tags>smart pcl</tags>
   </metadata>
   <files>
-    <!-- .NET 4.5.1 -->
-    <file src="Smart.NET45\bin\Release\Smart.dll" target="lib\net451\Smart.dll" />
-    <file src="Smart.NET45\bin\Release\Smart.pdb" target="lib\net451\Smart.pdb" />
-    <file src="Smart.NET45\bin\Release\Smart.xml" target="lib\net451\Smart.xml" />
+    <!-- .NET 4.6.2 -->
+    <file src="Smart.NET4\bin\Release\Smart.dll" target="lib\net462\Smart.dll" />
+    <file src="Smart.NET4\bin\Release\Smart.pdb" target="lib\net462\Smart.pdb" />
+    <file src="Smart.NET4\bin\Release\Smart.xml" target="lib\net462\Smart.xml" />
 
     <!-- PCL -->
     <file src="Smart.PCL\bin\Release\Smart.dll" target="lib\portable-net45+win8+wpa81\Smart.dll" />

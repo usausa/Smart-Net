@@ -138,22 +138,6 @@
         /// <param name="type"></param>
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
-        public static Type GetNonNullableType(this Type type)
-        {
-            if (type.IsNullableType())
-            {
-                return type.GetGenericTypeArguments()[0];
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static Type GetEnumType(this Type type)
         {
             if (type.GetIsEnum())
@@ -163,7 +147,7 @@
 
             if (type.IsNullableType())
             {
-                var genericType = type.GetGenericTypeArguments()[0];
+                var genericType = Nullable.GetUnderlyingType(type);
                 return genericType.GetIsEnum() ? genericType : null;
             }
 
