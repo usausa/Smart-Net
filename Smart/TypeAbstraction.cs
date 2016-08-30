@@ -4,7 +4,6 @@
 #if PCL
     using System.Collections.Generic;
 #endif
-    using System.Linq;
     using System.Reflection;
 
     /// <summary>
@@ -107,6 +106,16 @@
         public static IEnumerable<Type> GetInterfaces(this Type type)
         {
             return type.GetTypeInfo().ImplementedInterfaces;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static IEnumerable<ConstructorInfo> GetConstructors(this Type type)
+        {
+            return type.GetTypeInfo().DeclaredConstructors;
         }
 
         /// <summary>

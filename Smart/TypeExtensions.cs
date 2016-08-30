@@ -7,6 +7,8 @@
     using System.Reflection;
     using System.Runtime.CompilerServices;
 
+    using Smart.ComponentModel;
+
     /// <summary>
     ///
     /// </summary>
@@ -21,6 +23,8 @@
         private static readonly Type EnumerableType = typeof(IEnumerable);
 
         private static readonly Type ObjectType = typeof(object);
+
+        private static readonly Type ValueHolderType = typeof(IValueHolder<>);
 
         private static readonly Dictionary<Type, object> DefaultValues = new Dictionary<Type, object>
         {
@@ -152,6 +156,27 @@
             }
 
             return null;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
+        public static Type GetValueHolderType(this Type type)
+        {
+            return type.GetInterfaces().FirstOrDefault(it => it.GetIsGenericType() && it.GetGenericTypeDefinition() == ValueHolderType);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static PropertyInfo GetValueHolderProperty(this Type type)
+        {
+            return type.GetValueHolderType()?.GetProperty("Value");
         }
     }
 }

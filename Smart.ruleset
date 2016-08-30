@@ -2,6 +2,7 @@
 <RuleSet Name="Smart Rules" Description="Smart Rules" ToolsVersion="14.0">
   <IncludeAll Action="Warning" />
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+    <Rule Id="CA1004" Action="None" />
     <Rule Id="CA1006" Action="None" />
     <Rule Id="CA1020" Action="None" />
     <Rule Id="CA1026" Action="None" />
