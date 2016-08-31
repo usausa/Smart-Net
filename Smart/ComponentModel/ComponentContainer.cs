@@ -39,13 +39,17 @@
         {
             if (disposing)
             {
-                foreach (var instance in instances.Values)
+                lock (instances)
                 {
-                    (instance as IDisposable)?.Dispose();
+                    foreach (var instance in instances.Values)
+                    {
+                        (instance as IDisposable)?.Dispose();
+                    }
+
+                    instances.Clear();
                 }
 
                 mapping.Clear();
-                instances.Clear();
             }
         }
 
@@ -90,14 +94,17 @@
                 return;
             }
 
-            foreach (var implementationType in list)
+            lock (instances)
             {
-                object instance;
-                if (instances.TryGetValue(implementationType, out instance))
+                foreach (var implementationType in list)
                 {
-                    (instance as IDisposable)?.Dispose();
+                    object instance;
+                    if (instances.TryGetValue(implementationType, out instance))
+                    {
+                        (instance as IDisposable)?.Dispose();
 
-                    instances.Remove(implementationType);
+                        instances.Remove(implementationType);
+                    }
                 }
             }
 
@@ -183,26 +190,29 @@
         /// <returns></returns>
         private object ResolveInstance(Type implementationType)
         {
-            object instance;
-            if (instances.TryGetValue(implementationType, out instance))
+            lock (instances)
             {
+                object instance;
+                if (instances.TryGetValue(implementationType, out instance))
+                {
+                    return instance;
+                }
+
+                var constructor = implementationType.GetConstructors().OrderByDescending(_ => _.GetParameters().Length).FirstOrDefault();
+                if (constructor == null)
+                {
+                    throw new InvalidOperationException(
+                        String.Format(CultureInfo.InvariantCulture, "No constructor avaiable. implementation type = {0}", implementationType.Name));
+                }
+
+                var arguments = constructor.GetParameters().Select(_ => Get(_.ParameterType)).ToArray();
+
+                instance = constructor.Invoke(arguments);
+
+                instances.Add(implementationType, instance);
+
                 return instance;
             }
-
-            var constructor = implementationType.GetConstructors().OrderByDescending(_ => _.GetParameters().Length).FirstOrDefault();
-            if (constructor == null)
-            {
-                throw new InvalidOperationException(
-                    String.Format(CultureInfo.InvariantCulture, "No constructor avaiable. implementation type = {0}", implementationType.Name));
-            }
-
-            var arguments = constructor.GetParameters().Select(_ => Get(_.ParameterType)).ToArray();
-
-            instance = constructor.Invoke(arguments);
-
-            instances.Add(implementationType, instance);
-
-            return instance;
         }
     }
 }
