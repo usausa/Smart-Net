@@ -58,9 +58,7 @@
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\DictionaryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\EnumerableExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\ComponentContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\DisposableObject.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\IComponentContainer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\IValueHolder.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\NotificationObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\NotificationValue.cs" />
