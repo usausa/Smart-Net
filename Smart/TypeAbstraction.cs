@@ -9,13 +9,14 @@
     /// <summary>
     ///
     /// </summary>
-    internal static class TypeAbstraction
+    public static class TypeAbstraction
     {
         /// <summary>
         ///
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool GetIsValueType(this Type type)
         {
 #if PCL
@@ -30,6 +31,7 @@
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool GetIsGenericType(this Type type)
         {
 #if PCL
@@ -44,6 +46,7 @@
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool GetIsEnum(this Type type)
         {
 #if PCL
@@ -58,6 +61,7 @@
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool GetIsPrimitive(this Type type)
         {
 #if PCL
@@ -74,6 +78,8 @@
         /// <param name="attributeType"></param>
         /// <param name="inherit"></param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters", Justification = "Ignore")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool GetIsDefined(this Type type, Type attributeType, bool inherit)
         {
 #if PCL
@@ -88,6 +94,7 @@
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static TypeAttributes GetTypeAttributes(this Type type)
         {
 #if PCL
@@ -98,11 +105,12 @@
         }
 
 #if PCL
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="type"></param>
-    /// <returns></returns>
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static IEnumerable<Type> GetInterfaces(this Type type)
         {
             return type.GetTypeInfo().ImplementedInterfaces;
@@ -113,6 +121,7 @@
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static IEnumerable<ConstructorInfo> GetConstructors(this Type type)
         {
             return type.GetTypeInfo().DeclaredConstructors;
@@ -124,6 +133,7 @@
         /// <param name="type"></param>
         /// <param name="name"></param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static PropertyInfo GetProperty(this Type type, string name)
         {
             return type.GetRuntimeProperty(name);
@@ -135,6 +145,8 @@
         /// <param name="type"></param>
         /// <param name="c"></param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Ignore")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool IsAssignableFrom(this Type type, Type c)
         {
             return type.GetTypeInfo().IsAssignableFrom(c.GetTypeInfo());
@@ -146,6 +158,7 @@
         /// <param name="pi"></param>
         /// <param name="nonPublic"></param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static MethodInfo GetGetMethod(this PropertyInfo pi, bool nonPublic)
         {
             var mi = pi.GetMethod;
@@ -158,6 +171,7 @@
         /// <param name="pi"></param>
         /// <param name="nonPublic"></param>
         /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static MethodInfo GetSetMethod(this PropertyInfo pi, bool nonPublic)
         {
             var mi = pi.SetMethod;
