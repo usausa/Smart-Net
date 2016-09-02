@@ -11,6 +11,25 @@
     /// </summary>
     public static class TypeAbstraction
     {
+        //--------------------------------------------------------------------------------
+        // Attributes
+        //--------------------------------------------------------------------------------
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
+        public static TypeAttributes GetTypeAttributes(this Type type)
+        {
+#if PCL
+            return type.GetTypeInfo().Attributes;
+#else
+            return type.Attributes;
+#endif
+        }
+
         /// <summary>
         ///
         /// </summary>
@@ -32,12 +51,12 @@
         /// <param name="type"></param>
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
-        public static bool GetIsGenericType(this Type type)
+        public static bool GetIsEnum(this Type type)
         {
 #if PCL
-            return type.GetTypeInfo().IsGenericType;
+            return type.GetTypeInfo().IsEnum;
 #else
-            return type.IsGenericType;
+            return type.IsEnum;
 #endif
         }
 
@@ -47,12 +66,12 @@
         /// <param name="type"></param>
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
-        public static bool GetIsEnum(this Type type)
+        public static bool GetIsGenericType(this Type type)
         {
 #if PCL
-            return type.GetTypeInfo().IsEnum;
+            return type.GetTypeInfo().IsGenericType;
 #else
-            return type.IsEnum;
+            return type.IsGenericType;
 #endif
         }
 
@@ -89,32 +108,14 @@
 #endif
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
-        public static TypeAttributes GetTypeAttributes(this Type type)
-        {
 #if PCL
-            return type.GetTypeInfo().Attributes;
-#else
-            return type.Attributes;
-#endif
-        }
+        //--------------------------------------------------------------------------------
+        // PCL
+        //--------------------------------------------------------------------------------
 
-#if PCL
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
-        public static IEnumerable<Type> GetInterfaces(this Type type)
-        {
-            return type.GetTypeInfo().ImplementedInterfaces;
-        }
+        //--------------------------------------------------------------------------------
+        // Constructor
+        //--------------------------------------------------------------------------------
 
         /// <summary>
         ///
@@ -126,6 +127,36 @@
         {
             return type.GetTypeInfo().DeclaredConstructors;
         }
+
+        //--------------------------------------------------------------------------------
+        // Method
+        //--------------------------------------------------------------------------------
+
+            /// <summary>
+            ///
+            /// </summary>
+            /// <param name="source"></param>
+            /// <param name="name"></param>
+            /// <param name="parameters"></param>
+            /// <returns></returns>
+        public static MethodInfo GetMethod(this Type source, string name, Type[] parameters)
+        {
+            return source.GetRuntimeMethod(name, parameters);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        public static IEnumerable<MethodInfo> GetMethods(this Type source)
+        {
+            return source.GetRuntimeMethods();
+        }
+
+        //--------------------------------------------------------------------------------
+        // Property
+        //--------------------------------------------------------------------------------
 
         /// <summary>
         ///
@@ -143,13 +174,11 @@
         ///
         /// </summary>
         /// <param name="type"></param>
-        /// <param name="c"></param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Ignore")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
-        public static bool IsAssignableFrom(this Type type, Type c)
+        public static IEnumerable<PropertyInfo> GetProperties(this Type type)
         {
-            return type.GetTypeInfo().IsAssignableFrom(c.GetTypeInfo());
+            return type.GetRuntimeProperties();
         }
 
         /// <summary>
@@ -176,6 +205,53 @@
         {
             var mi = pi.SetMethod;
             return (nonPublic || mi.IsPublic) ? mi : null;
+        }
+
+        //--------------------------------------------------------------------------------
+        // Field
+        //--------------------------------------------------------------------------------
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static FieldInfo GetField(this Type source, string name)
+        {
+            return source.GetRuntimeField(name);
+        }
+
+        //--------------------------------------------------------------------------------
+        // Interface
+        //--------------------------------------------------------------------------------
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
+        public static IEnumerable<Type> GetInterfaces(this Type type)
+        {
+            return type.GetTypeInfo().ImplementedInterfaces;
+        }
+
+        //--------------------------------------------------------------------------------
+        // Attributes
+        //--------------------------------------------------------------------------------
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="c"></param>
+        /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Ignore")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
+        public static bool IsAssignableFrom(this Type type, Type c)
+        {
+            return type.GetTypeInfo().IsAssignableFrom(c.GetTypeInfo());
         }
 #endif
     }
