@@ -36,6 +36,21 @@
         /// <param name="type"></param>
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
+        public static bool GetIsAbstract(this Type type)
+        {
+#if PCL
+            return type.GetTypeInfo().IsAbstract;
+#else
+            return type.IsAbstract;
+#endif
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool GetIsValueType(this Type type)
         {
 #if PCL
@@ -72,6 +87,36 @@
             return type.GetTypeInfo().IsGenericType;
 #else
             return type.IsGenericType;
+#endif
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
+        public static bool GetContainsGenericParameters(this Type type)
+        {
+#if PCL
+            return type.GetTypeInfo().ContainsGenericParameters;
+#else
+            return type.ContainsGenericParameters;
+#endif
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
+        public static bool GetIsInterface(this Type type)
+        {
+#if PCL
+            return type.GetTypeInfo().IsInterface;
+#else
+            return type.IsInterface;
 #endif
         }
 
