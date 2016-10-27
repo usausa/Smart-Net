@@ -76,6 +76,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converter\TypePair.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DateTimeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\DebugBreak.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Functional\ObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlobalSuppressions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IO\BinaryReaderExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IO\ByteBuffer.cs" />
@@ -87,7 +88,6 @@
       <DependentUpon>Enumerable.cs</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Linq\Indexed.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)ObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\AccessorExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\DelegateMethodGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Reflection\IAccessor.cs" />
