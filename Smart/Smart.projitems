@@ -78,6 +78,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\DebugBreak.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Functional\ObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlobalSuppressions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)IInitializable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IO\BinaryReaderExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IO\ByteBuffer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IO\ByteOrder.cs" />
