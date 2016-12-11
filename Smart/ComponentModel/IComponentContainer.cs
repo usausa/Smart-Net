@@ -11,26 +11,6 @@
         /// <summary>
         ///
         /// </summary>
-        /// <typeparam name="TComponent"></typeparam>
-        /// <typeparam name="TImplement"></typeparam>
-        void Add<TComponent, TImplement>()
-            where TImplement : TComponent;
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="TComponent"></typeparam>
-        void RemoveAll<TComponent>();
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="componentType"></param>
-        void RemoveAll(Type componentType);
-
-        /// <summary>
-        ///
-        /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", Justification = "Ignore")]
