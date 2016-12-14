@@ -84,7 +84,7 @@
                 var typePair = new TypePair(sourceType, targetType);
                 var converter = converterCache.GetOrAdd(
                     typePair,
-                    tp => factories.Select(_ => _.GetConverter(tp)).FirstOrDefault(_ => _ != null));
+                    tp => factories.Select(f => f.GetConverter(tp)).FirstOrDefault(c => c != null));
                 if (converter == null)
                 {
                     throw new ObjectConverterException(String.Format(CultureInfo.InvariantCulture, "Type {0} can't convert to {1}", value.GetType().ToString(), targetType));

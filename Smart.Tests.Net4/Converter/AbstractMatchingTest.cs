@@ -15,14 +15,14 @@
         public void Initialize()
         {
             Factories = DefaultObjectFactories.Create()
-                .Select(_ => new MatchingConverterFactoryWrapper(_))
+                .Select(x => new MatchingConverterFactoryWrapper(x))
                 .ToList();
             ObjectConverter.Default.SetFactories(Factories.Cast<IConverterFactory>().ToList());
         }
 
         protected IConverterFactory FindMatchngFactory()
         {
-            return Factories.FirstOrDefault(_ => _.Match)?.Factory;
+            return Factories.FirstOrDefault(x => x.Match)?.Factory;
         }
     }
 }

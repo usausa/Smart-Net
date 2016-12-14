@@ -34,7 +34,7 @@
         private static Type FindValueHolderType(PropertyInfo pi)
         {
             return pi.PropertyType.GetInterfaces()
-                .FirstOrDefault(_ => _.GetIsGenericType() && _.GetGenericTypeDefinition() == ValueHolderType);
+                .FirstOrDefault(i => i.GetIsGenericType() && i.GetGenericTypeDefinition() == ValueHolderType);
         }
 
         /// <summary>
@@ -45,7 +45,7 @@
         private static Type FindValueHolderType(FieldInfo fi)
         {
             return fi.FieldType.GetInterfaces()
-                .FirstOrDefault(_ => _.GetIsGenericType() && _.GetGenericTypeDefinition() == ValueHolderType);
+                .FirstOrDefault(i => i.GetIsGenericType() && i.GetGenericTypeDefinition() == ValueHolderType);
         }
 
         /// <summary>
