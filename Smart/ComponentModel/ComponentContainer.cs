@@ -198,14 +198,14 @@
                     return instance;
                 }
 
-                var constructor = implementationType.GetConstructors().OrderByDescending(_ => _.GetParameters().Length).FirstOrDefault();
+                var constructor = implementationType.GetConstructors().OrderByDescending(c => c.GetParameters().Length).FirstOrDefault();
                 if (constructor == null)
                 {
                     throw new InvalidOperationException(
                         String.Format(CultureInfo.InvariantCulture, "No constructor avaiable. implementation type = {0}", implementationType.Name));
                 }
 
-                var arguments = constructor.GetParameters().Select(_ => Get(_.ParameterType)).ToArray();
+                var arguments = constructor.GetParameters().Select(p => Get(p.ParameterType)).ToArray();
 
                 instance = constructor.Invoke(arguments);
 
