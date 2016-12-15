@@ -2,14 +2,13 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     /// <summary>
     ///
     /// </summary>
     public class ComponentConfig : IComponentConfig
     {
-        private readonly IDictionary<Type, ICollection<Type>> entries = new Dictionary<Type, ICollection<Type>>();
+        private readonly IDictionary<Type, List<Type>> entries = new Dictionary<Type, List<Type>>();
 
         /// <summary>
         ///
@@ -63,8 +62,15 @@
                 throw new ArgumentException("Implement type is not component type.", nameof(implementType));
             }
 
-            ICollection<Type> list;
-            if (!entries.TryGetValue(componentType, out list))
+            List<Type> list;
+            if (entries.TryGetValue(componentType, out list))
+            {
+                if (list.Contains(implementType))
+                {
+                    return;
+                }
+            }
+            else
             {
                 list = new List<Type>();
                 entries[componentType] = list;
@@ -89,6 +95,32 @@
         public void RemoveAll(Type componentType)
         {
             entries.Remove(componentType);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="TComponent"></typeparam>
+        /// <typeparam name="TImplement"></typeparam>
+        public void Remove<TComponent, TImplement>()
+        {
+            Remove(typeof(TComponent), typeof(TImplement));
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="componentType"></param>
+        /// <param name="implementType"></param>
+        public void Remove(Type componentType, Type implementType)
+        {
+            List<Type> list;
+            if (!entries.TryGetValue(componentType, out list))
+            {
+                return;
+            }
+
+            list.Remove(implementType);
         }
 
         /// <summary>
