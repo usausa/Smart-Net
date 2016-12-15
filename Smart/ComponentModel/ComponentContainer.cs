@@ -10,9 +10,23 @@
     /// </summary>
     public class ComponentContainer : IComponentContainer
     {
-        private readonly Dictionary<Type, ICollection<Type>> mapping = new Dictionary<Type, ICollection<Type>>();
+        private readonly IDictionary<Type, Type[]> mapping;
 
-        private readonly Dictionary<Type, object> instances = new Dictionary<Type, object>();
+        private readonly IDictionary<Type, object> instances = new Dictionary<Type, object>();
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="config"></param>
+        public ComponentContainer(IComponentConfig config)
+        {
+            if (config == null)
+            {
+                throw new ArgumentNullException(nameof(config));
+            }
+
+            mapping = config.CreateMapping();
+        }
 
         /// <summary>
         ///
@@ -56,64 +70,6 @@
         /// <summary>
         ///
         /// </summary>
-        /// <typeparam name="TComponent"></typeparam>
-        /// <typeparam name="TImplement"></typeparam>
-        public void Add<TComponent, TImplement>()
-            where TImplement : TComponent
-        {
-            var key = typeof(TComponent);
-
-            ICollection<Type> list;
-            if (!mapping.TryGetValue(key, out list))
-            {
-                list = new List<Type>();
-                mapping[key] = list;
-            }
-
-            list.Add(typeof(TImplement));
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="TComponent"></typeparam>
-        public void RemoveAll<TComponent>()
-        {
-            RemoveAll(typeof(TComponent));
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="componentType"></param>
-        public void RemoveAll(Type componentType)
-        {
-            ICollection<Type> list;
-            if (!mapping.TryGetValue(componentType, out list))
-            {
-                return;
-            }
-
-            lock (instances)
-            {
-                foreach (var implementationType in list)
-                {
-                    object instance;
-                    if (instances.TryGetValue(implementationType, out instance))
-                    {
-                        (instance as IDisposable)?.Dispose();
-
-                        instances.Remove(implementationType);
-                    }
-                }
-            }
-
-            mapping.Remove(componentType);
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
         public T Get<T>()
@@ -143,8 +99,8 @@
                 throw new ArgumentNullException(nameof(componentType));
             }
 
-            ICollection<Type> list;
-            var implementationType = mapping.TryGetValue(componentType, out list) ? list.FirstOrDefault() : null;
+            Type[] types;
+            var implementationType = mapping.TryGetValue(componentType, out types) && types.Length > 0 ? types[types.Length - 1] : null;
             if (implementationType == null)
             {
                 throw new InvalidOperationException(
@@ -161,13 +117,13 @@
         /// <returns></returns>
         public IEnumerable<object> GetAll(Type componentType)
         {
-            ICollection<Type> list;
-            if (!mapping.TryGetValue(componentType, out list))
+            Type[] types;
+            if (!mapping.TryGetValue(componentType, out types))
             {
                 yield break;
             }
 
-            foreach (var implementationType in list)
+            foreach (var implementationType in types)
             {
                 yield return ResolveInstance(implementationType);
             }
