@@ -61,6 +61,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\ComponentConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\ComponentConfigExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\ComponentContainer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\ComponentEntry.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\DisposableObject.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\IComponentConfig.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)ComponentModel\IComponentContainer.cs" />

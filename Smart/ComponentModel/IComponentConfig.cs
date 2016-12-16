@@ -12,6 +12,6 @@
         ///
         /// </summary>
         /// <returns></returns>
-        IDictionary<Type, Type[]> CreateMapping();
+        IDictionary<Type, ComponentEntry[]> ToMappings();
     }
 }

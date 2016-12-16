@@ -4,15 +4,20 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Reflection;
 
     /// <summary>
     ///
     /// </summary>
     public class ComponentContainer : IComponentContainer
     {
-        private readonly IDictionary<Type, Type[]> mapping;
+        private static readonly Type EnumerableType = typeof(IEnumerable<>);
 
-        private readonly IDictionary<Type, object> instances = new Dictionary<Type, object>();
+        private static readonly object[] EmptyResult = new object[0];
+
+        private readonly IDictionary<Type, object[]> cache = new Dictionary<Type, object[]>();
+
+        private readonly IDictionary<Type, ComponentEntry[]> mappings;
 
         /// <summary>
         ///
@@ -25,7 +30,7 @@
                 throw new ArgumentNullException(nameof(config));
             }
 
-            mapping = config.CreateMapping();
+            mappings = config.ToMappings();
         }
 
         /// <summary>
@@ -53,17 +58,21 @@
         {
             if (disposing)
             {
-                lock (instances)
+                lock (cache)
                 {
-                    foreach (var instance in instances.Values)
+                    foreach (var instance in cache.Values.SelectMany(x => x))
                     {
                         (instance as IDisposable)?.Dispose();
                     }
 
-                    instances.Clear();
-                }
+                    foreach (var entry in mappings.Values.SelectMany(x => x))
+                    {
+                        (entry.Constant as IDisposable)?.Dispose();
+                    }
 
-                mapping.Clear();
+                    cache.Clear();
+                    mappings.Clear();
+                }
             }
         }
 
@@ -75,6 +84,16 @@
         public T Get<T>()
         {
             return (T)Get(typeof(T));
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T TryGet<T>()
+        {
+            return (T)TryGet(typeof(T));
         }
 
         /// <summary>
@@ -99,15 +118,30 @@
                 throw new ArgumentNullException(nameof(componentType));
             }
 
-            Type[] types;
-            var implementationType = mapping.TryGetValue(componentType, out types) && types.Length > 0 ? types[types.Length - 1] : null;
-            if (implementationType == null)
+            var objects = ResolveAll(componentType);
+            if (objects.Length == 0)
             {
                 throw new InvalidOperationException(
                     String.Format(CultureInfo.InvariantCulture, "No such component registerd. component type = {0}", componentType.Name));
             }
 
-            return ResolveInstance(implementationType);
+            return objects[objects.Length - 1];
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="componentType"></param>
+        /// <returns></returns>
+        public object TryGet(Type componentType)
+        {
+            if (componentType == null)
+            {
+                throw new ArgumentNullException(nameof(componentType));
+            }
+
+            var objects = ResolveAll(componentType);
+            return objects.Length > 0 ? objects[objects.Length - 1] : null;
         }
 
         /// <summary>
@@ -117,16 +151,7 @@
         /// <returns></returns>
         public IEnumerable<object> GetAll(Type componentType)
         {
-            Type[] types;
-            if (!mapping.TryGetValue(componentType, out types))
-            {
-                yield break;
-            }
-
-            foreach (var implementationType in types)
-            {
-                yield return ResolveInstance(implementationType);
-            }
+            return ResolveAll(componentType);
         }
 
         /// <summary>
@@ -136,39 +161,83 @@
         /// <returns></returns>
         public object GetService(Type serviceType)
         {
-            return Get(serviceType);
+            if (serviceType == null)
+            {
+                throw new ArgumentNullException(nameof(serviceType));
+            }
+
+            if (serviceType.GetTypeInfo().IsGenericType && serviceType.GetGenericTypeDefinition() == EnumerableType)
+            {
+                return ConvertArray(serviceType.GenericTypeArguments[0], GetAll(serviceType.GenericTypeArguments[0]));
+            }
+
+            return TryGet(serviceType);
         }
 
         /// <summary>
         ///
         /// </summary>
-        /// <param name="implementationType"></param>
+        /// <param name="componentType"></param>
         /// <returns></returns>
-        private object ResolveInstance(Type implementationType)
+        private object[] ResolveAll(Type componentType)
         {
-            lock (instances)
+            lock (cache)
             {
-                object instance;
-                if (instances.TryGetValue(implementationType, out instance))
+                object[] objects;
+                if (cache.TryGetValue(componentType, out objects))
                 {
-                    return instance;
+                    return objects;
                 }
 
-                var constructor = implementationType.GetConstructors().OrderByDescending(c => c.GetParameters().Length).FirstOrDefault();
-                if (constructor == null)
+                ComponentEntry[] entries;
+                if (!mappings.TryGetValue(componentType, out entries))
                 {
-                    throw new InvalidOperationException(
-                        String.Format(CultureInfo.InvariantCulture, "No constructor avaiable. implementation type = {0}", implementationType.Name));
+                    return EmptyResult;
                 }
 
-                var arguments = constructor.GetParameters().Select(p => Get(p.ParameterType)).ToArray();
+                mappings.Remove(componentType);
 
-                instance = constructor.Invoke(arguments);
+                var list = new List<object>();
+                foreach (var entry in entries)
+                {
+                    if (entry.Constant != null)
+                    {
+                        list.Add(entry.Constant);
+                    }
+                    else
+                    {
+                        var constructor = entry.ImplementType.GetConstructors().OrderByDescending(c => c.GetParameters().Length).FirstOrDefault();
+                        if (constructor == null)
+                        {
+                            throw new InvalidOperationException(
+                                String.Format(CultureInfo.InvariantCulture, "No constructor avaiable. implementation type = {0}", entry.ImplementType.Name));
+                        }
 
-                instances.Add(implementationType, instance);
+                        var arguments = constructor.GetParameters().Select(p => Get(p.ParameterType)).ToArray();
+                        var instance = constructor.Invoke(arguments);
+                        list.Add(instance);
+                    }
+                }
 
-                return instance;
+                objects = list.ToArray();
+                cache[componentType] = objects;
+
+                return objects;
             }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="elementType"></param>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        private static Array ConvertArray(Type elementType, IEnumerable<object> source)
+        {
+            var sourceArray = source.ToArray();
+            var array = Array.CreateInstance(elementType, sourceArray.Length);
+            Array.Copy(sourceArray, 0, array, 0, sourceArray.Length);
+            return array;
         }
     }
 }

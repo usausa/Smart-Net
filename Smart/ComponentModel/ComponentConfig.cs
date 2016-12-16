@@ -2,13 +2,33 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     /// <summary>
     ///
     /// </summary>
     public class ComponentConfig : IComponentConfig
     {
-        private readonly IDictionary<Type, List<Type>> entries = new Dictionary<Type, List<Type>>();
+        private readonly IDictionary<Type, List<ComponentEntry>> mappings = new Dictionary<Type, List<ComponentEntry>>();
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="componentType"></param>
+        /// <returns></returns>
+        private List<ComponentEntry> GetEntries(Type componentType)
+        {
+            List<ComponentEntry> entries;
+            if (mappings.TryGetValue(componentType, out entries))
+            {
+                return entries;
+            }
+
+            entries = new List<ComponentEntry>();
+            mappings[componentType] = entries;
+
+            return entries;
+        }
 
         /// <summary>
         ///
@@ -57,26 +77,39 @@
                 throw new ArgumentNullException(nameof(implementType));
             }
 
-            if (!componentType.IsAssignableFrom(implementType))
+            var entries = GetEntries(componentType);
+            entries.Add(new ComponentEntry(implementType));
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="TComponent"></typeparam>
+        /// <param name="constant"></param>
+        public void Add<TComponent>(TComponent constant)
+        {
+            Add(typeof(TComponent), constant);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="componentType"></param>
+        /// <param name="constant"></param>
+        public void Add(Type componentType, object constant)
+        {
+            if (componentType == null)
             {
-                throw new ArgumentException("Implement type is not component type.", nameof(implementType));
+                throw new ArgumentNullException(nameof(componentType));
             }
 
-            List<Type> list;
-            if (entries.TryGetValue(componentType, out list))
+            if (constant == null)
             {
-                if (list.Contains(implementType))
-                {
-                    return;
-                }
-            }
-            else
-            {
-                list = new List<Type>();
-                entries[componentType] = list;
+                throw new ArgumentNullException(nameof(constant));
             }
 
-            list.Add(implementType);
+            var entries = GetEntries(componentType);
+            entries.Add(new ComponentEntry(constant));
         }
 
         /// <summary>
@@ -94,7 +127,7 @@
         /// <param name="componentType"></param>
         public void RemoveAll(Type componentType)
         {
-            entries.Remove(componentType);
+            mappings.Remove(componentType);
         }
 
         /// <summary>
@@ -114,28 +147,48 @@
         /// <param name="implementType"></param>
         public void Remove(Type componentType, Type implementType)
         {
-            List<Type> list;
-            if (!entries.TryGetValue(componentType, out list))
+            List<ComponentEntry> list;
+            if (!mappings.TryGetValue(componentType, out list))
             {
                 return;
             }
 
-            list.Remove(implementType);
+            list.RemoveAll(x => x.ImplementType != null && x.ImplementType == implementType);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="TComponent"></typeparam>
+        /// <param name="constant"></param>
+        public void Remove<TComponent>(TComponent constant)
+        {
+            Remove(typeof(TComponent), constant);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="componentType"></param>
+        /// <param name="constant"></param>
+        public void Remove(Type componentType, object constant)
+        {
+            List<ComponentEntry> list;
+            if (!mappings.TryGetValue(componentType, out list))
+            {
+                return;
+            }
+
+            list.RemoveAll(x => x.Constant != null && x.Constant == constant);
         }
 
         /// <summary>
         ///
         /// </summary>
         /// <returns></returns>
-        public IDictionary<Type, Type[]> CreateMapping()
+        public IDictionary<Type, ComponentEntry[]> ToMappings()
         {
-            var mapping = new Dictionary<Type, Type[]>();
-            foreach (var entry in entries)
-            {
-                mapping[entry.Key] = entry.Value.ToArray();
-            }
-
-            return mapping;
+            return mappings.ToDictionary(x => x.Key, x => x.Value.ToArray());
         }
     }
 }

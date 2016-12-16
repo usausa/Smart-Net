@@ -21,6 +21,13 @@
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
+        T TryGet<T>();
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
         IEnumerable<T> GetAll<T>();
 
         /// <summary>
@@ -30,6 +37,13 @@
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1716:IdentifiersShouldNotMatchKeywords", Justification = "Ignore")]
         object Get(Type componentType);
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="componentType"></param>
+        /// <returns></returns>
+        object TryGet(Type componentType);
 
         /// <summary>
         ///
