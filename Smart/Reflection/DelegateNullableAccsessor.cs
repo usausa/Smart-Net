@@ -1,13 +1,14 @@
 ﻿namespace Smart.Reflection
 {
     using System;
+    using System.Reflection;
 
     /// <summary>
     ///
     /// </summary>
     /// <typeparam name="TTarget"></typeparam>
     /// <typeparam name="TMember"></typeparam>
-    internal class NullableDelegateAccsessor<TTarget, TMember> : IAccessor
+    internal class DelegateNullableAccsessor<TTarget, TMember> : IAccessor
     {
         private readonly Func<TTarget, TMember> getter;
 
@@ -16,12 +17,17 @@
         /// <summary>
         ///
         /// </summary>
-        public string Name { get; }
+        public PropertyInfo Source { get; }
 
         /// <summary>
         ///
         /// </summary>
-        public Type Type { get; }
+        public string Name => Source.Name;
+
+        /// <summary>
+        ///
+        /// </summary>
+        public Type Type => Source.PropertyType;
 
         /// <summary>
         ///
@@ -36,14 +42,12 @@
         /// <summary>
         ///
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="type"></param>
+        /// <param name="source"></param>
         /// <param name="getter"></param>
         /// <param name="setter"></param>
-        public NullableDelegateAccsessor(string name, Type type, Func<TTarget, TMember> getter, Action<TTarget, TMember> setter)
+        public DelegateNullableAccsessor(PropertyInfo source, Func<TTarget, TMember> getter, Action<TTarget, TMember> setter)
         {
-            Name = name;
-            Type = type;
+            Source = source;
             this.getter = getter;
             this.setter = setter;
         }

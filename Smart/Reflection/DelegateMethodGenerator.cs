@@ -19,7 +19,7 @@
         /// </summary>
         /// <param name="pi"></param>
         /// <returns></returns>
-        public static Delegate CreateTypedGetDelegate(PropertyInfo pi)
+        public static Delegate CreateGetter(PropertyInfo pi)
         {
             if (pi == null)
             {
@@ -58,10 +58,10 @@
         /// <typeparam name="TMember"></typeparam>
         /// <param name="pi"></param>
         /// <returns></returns>
-        public static Func<TTarget, TMember> CreateTypedGetDelegate<TTarget, TMember>(PropertyInfo pi)
+        public static Func<TTarget, TMember> CreateTypedGetter<TTarget, TMember>(PropertyInfo pi)
             where TTarget : class
         {
-            return (Func<TTarget, TMember>)CreateTypedGetDelegate(pi);
+            return (Func<TTarget, TMember>)CreateGetter(pi);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@
         /// </summary>
         /// <param name="pi"></param>
         /// <returns></returns>
-        public static Delegate CreateTypedSetDelegate(PropertyInfo pi)
+        public static Delegate CreateSetter(PropertyInfo pi)
         {
             if (pi == null)
             {
@@ -108,10 +108,10 @@
         /// <typeparam name="TMember"></typeparam>
         /// <param name="pi"></param>
         /// <returns></returns>
-        public static Action<TTarget, TMember> CreateTypedSetDelegate<TTarget, TMember>(PropertyInfo pi)
+        public static Action<TTarget, TMember> CreateTypedSetter<TTarget, TMember>(PropertyInfo pi)
             where TTarget : class
         {
-            return (Action<TTarget, TMember>)CreateTypedSetDelegate(pi);
+            return (Action<TTarget, TMember>)CreateSetter(pi);
         }
     }
 }
