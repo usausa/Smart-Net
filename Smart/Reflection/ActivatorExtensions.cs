@@ -11,17 +11,17 @@
         ///
         /// </summary>
         /// <param name="ci"></param>
-        /// <param name="safeMode"></param>
+        /// <param name="mode"></param>
         /// <returns></returns>
-        public static IActivator ToActivator(this ConstructorInfo ci, bool safeMode)
+        public static IActivator ToActivator(this ConstructorInfo ci, GeneratorMode mode)
         {
-            if (safeMode)
+            if (mode == GeneratorMode.Throughput)
             {
-                return new ReflectionActivator(ci);
+                var activator = ExpressionMethodGenerator.CreateActivator(ci);
+                return new DelegateActivator(ci, activator);
             }
 
-            var activator = ExpressionMethodGenerator.CreateActivator(ci);
-            return new DelegateActivator(ci, activator);
+            return new ReflectionActivator(ci);
         }
 
         /// <summary>
@@ -31,7 +31,7 @@
         /// <returns></returns>
         public static IActivator ToActivator(this ConstructorInfo ci)
         {
-            return ToActivator(ci, GeneratorConfig.SafeMode);
+            return ToActivator(ci, GeneratorConfig.GeneratorMode);
         }
     }
 }

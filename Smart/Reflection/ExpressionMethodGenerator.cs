@@ -11,10 +11,6 @@
     {
         private static readonly Type ObjectArrayType = typeof(object[]);
 
-        private static readonly Type ObjectType = typeof(object);
-
-        private static readonly Type ConvertType = typeof(Convert);
-
         /// <summary>
         ///
         /// </summary>
@@ -37,9 +33,7 @@
                 var parameterType = parameters[i].ParameterType;
 
                 var parameterIndexExpression = Expression.ArrayIndex(parametersExpression, Expression.Constant(i));
-                var convertExpression = parameterType.GetTypeInfo().IsPrimitive
-                    ? Expression.Convert(MakeCallConvertExpression(parameterIndexExpression, parameterType), parameterType)
-                    : Expression.Convert(parameterIndexExpression, parameterType);
+                var convertExpression = Expression.Convert(parameterIndexExpression, parameterType);
                 if (parameterType.GetTypeInfo().IsValueType)
                 {
                     argumentsExpression[i] = Expression.Condition(
@@ -58,18 +52,40 @@
                 parametersExpression).Compile();
         }
 
+#if false
         /// <summary>
         ///
         /// </summary>
-        /// <param name="valueExpression"></param>
-        /// <param name="conversionType"></param>
+        /// <typeparam name="TTarget"></typeparam>
+        /// <typeparam name="TMember"></typeparam>
+        /// <param name="pi"></param>
         /// <returns></returns>
-        private static MethodCallExpression MakeCallConvertExpression(Expression valueExpression, Type conversionType)
+        public static Func<TTarget, TMember> CreateTypedGetter<TTarget, TMember>(PropertyInfo pi)
         {
-            return Expression.Call(
-                ConvertType.GetRuntimeMethod(nameof(Convert.ChangeType), new[] { ObjectType, typeof(Type) }),
-                valueExpression,
-                Expression.Constant(conversionType));
+            var parameterExpression = Expression.Parameter(typeof(TTarget));
+            var propertyExpression = Expression.Property(parameterExpression, pi);
+            return Expression.Lambda<Func<TTarget, TMember>>(
+                propertyExpression,
+                parameterExpression).Compile();
         }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="TTarget"></typeparam>
+        /// <typeparam name="TMember"></typeparam>
+        /// <param name="pi"></param>
+        /// <returns></returns>
+        public static Action<TTarget, TMember> CreateTypedSetter<TTarget, TMember>(PropertyInfo pi)
+        {
+            var parameterExpression = Expression.Parameter(typeof(TTarget));
+            var parameterExpression2 = Expression.Parameter(typeof(TMember));
+            var propertyExpression = Expression.Property(parameterExpression, pi);
+            return Expression.Lambda<Action<TTarget, TMember>>(
+                Expression.Assign(propertyExpression, parameterExpression2),
+                parameterExpression,
+                parameterExpression2).Compile();
+        }
+#endif
     }
 }

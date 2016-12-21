@@ -8,6 +8,6 @@
         /// <summary>
         ///
         /// </summary>
-        public static bool SafeMode { get; set; }
+        public static GeneratorMode GeneratorMode { get; set; } = GeneratorMode.Throughput;
     }
 }
