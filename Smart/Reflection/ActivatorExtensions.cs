@@ -15,7 +15,7 @@
         /// <returns></returns>
         public static IActivator ToActivator(this ConstructorInfo ci, GeneratorMode mode)
         {
-            if (mode == GeneratorMode.Throughput)
+            if (!GeneratorConfig.SageMode && (mode == GeneratorMode.Throughput))
             {
                 var activator = ExpressionMethodGenerator.CreateActivator(ci);
                 return new DelegateActivator(ci, activator);

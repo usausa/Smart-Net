@@ -11,7 +11,7 @@
     public class ToStringConverterFactoryTest : AbstractMatchingTest
     {
         [TestMethod]
-        public void TestToString()
+        public void ConvertToString()
         {
             Assert.AreEqual(ObjectConverter.Default.Convert<string>(new StructType { Value1 = 1, Value2 = 2 }), "(1, 2)");
             Assert.AreEqual(FindMatchngFactory()?.GetType(), typeof(ToStringConverterFactory));

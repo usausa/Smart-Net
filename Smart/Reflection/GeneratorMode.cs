@@ -13,11 +13,6 @@
         /// <summary>
         ///
         /// </summary>
-        Responsivity,
-
-        /// <summary>
-        ///
-        /// </summary>
-        Safe,
+        Responsivity
     }
 }

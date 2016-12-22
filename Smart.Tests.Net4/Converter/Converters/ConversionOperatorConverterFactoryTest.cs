@@ -11,56 +11,56 @@
     public class ConversionOperatorConverterFactoryTest : AbstractMatchingTest
     {
         [TestMethod]
-        public void TestImplicitToInt()
+        public void ConvertImplicitToInt()
         {
             Assert.AreEqual(ObjectConverter.Default.Convert<int>(new ImplicitType { Value = 1 }), 1);
             Assert.AreEqual(FindMatchngFactory()?.GetType(), typeof(ConversionOperatorConverterFactory));
         }
 
         [TestMethod]
-        public void TestImplicitToIntNullable()
+        public void ConvertImplicitToIntNullable()
         {
             Assert.AreEqual(ObjectConverter.Default.Convert<int?>(new ImplicitType { Value = 1 }), 1);
             Assert.AreEqual(FindMatchngFactory()?.GetType(), typeof(ConversionOperatorConverterFactory));
         }
 
         [TestMethod]
-        public void TestIntToImplicit()
+        public void ConvertIntToImplicit()
         {
             Assert.AreEqual(ObjectConverter.Default.Convert<ImplicitType>(1).Value, 1);
             Assert.AreEqual(FindMatchngFactory()?.GetType(), typeof(ConversionOperatorConverterFactory));
         }
 
         [TestMethod]
-        public void TestIntToImplicitNullable()
+        public void ConvertIntToImplicitNullable()
         {
             Assert.AreEqual(ObjectConverter.Default.Convert<ImplicitType?>(1)?.Value, 1);
             Assert.AreEqual(FindMatchngFactory()?.GetType(), typeof(ConversionOperatorConverterFactory));
         }
 
         [TestMethod]
-        public void TestExplicitToInt()
+        public void ConvertExplicitToInt()
         {
             Assert.AreEqual(ObjectConverter.Default.Convert<int>(new ExplicitType { Value = 1 }), 1);
             Assert.AreEqual(FindMatchngFactory()?.GetType(), typeof(ConversionOperatorConverterFactory));
         }
 
         [TestMethod]
-        public void TestExplicitToIntNullable()
+        public void ConvertExplicitToIntNullable()
         {
             Assert.AreEqual(ObjectConverter.Default.Convert<int?>(new ExplicitType { Value = 1 }), 1);
             Assert.AreEqual(FindMatchngFactory()?.GetType(), typeof(ConversionOperatorConverterFactory));
         }
 
         [TestMethod]
-        public void TestIntToExplicit()
+        public void ConvertIntToExplicit()
         {
             Assert.AreEqual(ObjectConverter.Default.Convert<ExplicitType>(1).Value, 1);
             Assert.AreEqual(FindMatchngFactory()?.GetType(), typeof(ConversionOperatorConverterFactory));
         }
 
         [TestMethod]
-        public void TestIntToExplicitNullable()
+        public void ConvertIntToExplicitNullable()
         {
             Assert.AreEqual(ObjectConverter.Default.Convert<ExplicitType?>(1)?.Value, 1);
             Assert.AreEqual(FindMatchngFactory()?.GetType(), typeof(ConversionOperatorConverterFactory));

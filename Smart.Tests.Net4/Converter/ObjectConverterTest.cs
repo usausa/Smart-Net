@@ -12,14 +12,14 @@
     public class ObjectConverterTest : AbstractMatchingTest
     {
         [TestMethod]
-        public void TestMatchNullToDefault()
+        public void ConvertMatchNullToDefault()
         {
             Assert.AreEqual(ObjectConverter.Default.Convert<int>(null), 0);
             Assert.AreEqual(FindMatchngFactory(), null);
         }
 
         [TestMethod]
-        public void TestMatchSame()
+        public void ConvertMatchSame()
         {
             Assert.AreEqual(ObjectConverter.Default.Convert<int>(0), 0);
             Assert.AreEqual(FindMatchngFactory(), null);
@@ -27,7 +27,7 @@
 
         [TestMethod]
         [ExpectedException(typeof(ObjectConverterException))]
-        public void TestUnmatch()
+        public void ConvertUnmatch()
         {
             ObjectConverter.Default.Convert<StructType>(string.Empty);
         }

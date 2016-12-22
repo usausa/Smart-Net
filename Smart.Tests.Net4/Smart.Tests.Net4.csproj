@@ -49,11 +49,14 @@
     </When>
     <Otherwise>
       <ItemGroup>
-        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework" />
+        <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework">
+          <Private>False</Private>
+        </Reference>
       </ItemGroup>
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="ComponentModel\ComponentContainerTest.cs" />
     <Compile Include="Converter\AbstractMatchingTest.cs" />
     <Compile Include="Converter\Converters\AssignableConverterFactoryTest.cs" />
     <Compile Include="Converter\Converters\ConversionOperatorConverterFactoryTest.cs" />

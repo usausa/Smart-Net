@@ -49,6 +49,14 @@
         ///
         /// </summary>
         /// <param name="componentType"></param>
+        /// <param name="result"></param>
+        /// <returns></returns>
+        object TryGet(Type componentType, out bool result);
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="componentType"></param>
         /// <returns></returns>
         IEnumerable<object> GetAll(Type componentType);
     }

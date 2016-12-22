@@ -11,7 +11,7 @@
     public class AssignableConverterFactoryTest : AbstractMatchingTest
     {
         [TestMethod]
-        public void TestAssignable()
+        public void ConvertAssignable()
         {
             var source = new DeliverdType();
             Assert.AreEqual(ObjectConverter.Default.Convert<BaseType>(source), source);
@@ -20,7 +20,7 @@
 
         [TestMethod]
         [ExpectedException(typeof(ObjectConverterException))]
-        public void TestNotAssignable()
+        public void ConvertNotAssignable()
         {
             var source = new BaseType();
             Assert.AreEqual(ObjectConverter.Default.Convert<DeliverdType>(source), source);
