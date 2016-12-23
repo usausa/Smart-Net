@@ -81,6 +81,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)DateTimeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DebugMode.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\DebugBreak.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Empty.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Functional\ObjectExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlobalSuppressions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IInitializable.cs" />

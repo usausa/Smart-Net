@@ -10,8 +10,8 @@
         /// <summary>
         ///
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Security", "CA2105:ArrayFieldsShouldNotBeReadOnly", Justification = "Ignore")]
-        public static readonly byte[] Empty = new byte[0];
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "Ignore")]
+        public static byte[] Empty { get; } = new byte[0];
 
         /// <summary>
         ///
