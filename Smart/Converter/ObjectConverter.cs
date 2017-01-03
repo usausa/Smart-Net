@@ -11,7 +11,7 @@
     /// <summary>
     ///
     /// </summary>
-    public class ObjectConverter
+    public class ObjectConverter : IObjectConverter
     {
         /// <summary>
         ///

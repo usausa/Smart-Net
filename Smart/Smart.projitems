@@ -75,6 +75,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converter\Converters\EnumConverterFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converter\Converters\ToStringConverterFactory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converter\IConverterFactory.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converter\IObjectConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converter\ObjectConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converter\ObjectConverterException.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converter\TypePair.cs" />
