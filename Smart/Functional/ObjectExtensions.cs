@@ -11,6 +11,18 @@
         ///
         /// </summary>
         /// <typeparam name="T"></typeparam>
+        /// <param name="value"></param>
+        /// <param name="action"></param>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Ignore")]
+        public static void Apply<T>(this T value, Action<T> action)
+        {
+            action(value);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
         /// <typeparam name="TResult"></typeparam>
         /// <param name="value"></param>
         /// <param name="func"></param>
