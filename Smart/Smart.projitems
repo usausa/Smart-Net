@@ -23,6 +23,7 @@
       <DependentUpon>ArrayExtensions.cs</DependentUpon>
     </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Bytes.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\BinarySearch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\CollectionExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\Comparers.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Collections\Generic\Comparers.ProjectionEquality.cs">
@@ -84,6 +85,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Diagnostics\DebugBreak.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Empty.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Functional\ObjectExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Functions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)GlobalSuppressions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IInitializable.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)IO\BinaryReaderExtensions.cs" />
