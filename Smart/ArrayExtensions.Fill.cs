@@ -36,6 +36,11 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static T[] Fill<T>(this T[] array, int offset, int length, T value)
         {
+            if (length <= 0)
+            {
+                return array;
+            }
+
             array[offset] = value;
 
             int copy;
@@ -72,6 +77,11 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static byte[] Fill(this byte[] array, int offset, int length, byte value)
         {
+            if (length <= 0)
+            {
+                return array;
+            }
+
             array[offset] = value;
 
             int copy;
@@ -108,6 +118,11 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static short[] Fill(this short[] array, int offset, int length, short value)
         {
+            if (length <= 0)
+            {
+                return array;
+            }
+
             array[offset] = value;
 
             int copy;
@@ -144,6 +159,11 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static int[] Fill(this int[] array, int offset, int length, int value)
         {
+            if (length <= 0)
+            {
+                return array;
+            }
+
             array[offset] = value;
 
             int copy;
@@ -180,6 +200,11 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static long[] Fill(this long[] array, int offset, int length, long value)
         {
+            if (length <= 0)
+            {
+                return array;
+            }
+
             array[offset] = value;
 
             int copy;
@@ -216,6 +241,11 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static float[] Fill(this float[] array, int offset, int length, float value)
         {
+            if (length <= 0)
+            {
+                return array;
+            }
+
             array[offset] = value;
 
             int copy;
@@ -252,6 +282,11 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static double[] Fill(this double[] array, int offset, int length, double value)
         {
+            if (length <= 0)
+            {
+                return array;
+            }
+
             array[offset] = value;
 
             int copy;
@@ -288,6 +323,11 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool[] Fill(this bool[] array, int offset, int length, bool value)
         {
+            if (length <= 0)
+            {
+                return array;
+            }
+
             array[offset] = value;
 
             int copy;
@@ -324,6 +364,11 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static char[] Fill(this char[] array, int offset, int length, char value)
         {
+            if (length <= 0)
+            {
+                return array;
+            }
+
             array[offset] = value;
 
             int copy;
