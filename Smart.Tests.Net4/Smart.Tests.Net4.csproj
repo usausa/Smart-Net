@@ -56,6 +56,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Collections\Generic\BinarySearchTest.cs" />
     <Compile Include="ComponentModel\ComponentContainerTest.cs" />
     <Compile Include="Converter\AbstractMatchingTest.cs" />
     <Compile Include="Converter\Converters\AssignableConverterFactoryTest.cs" />
@@ -91,6 +92,7 @@
       <Name>Smart.Net4</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
