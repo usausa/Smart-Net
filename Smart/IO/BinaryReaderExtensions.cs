@@ -18,13 +18,13 @@
         public static T ReadStruct<T>(this BinaryReader reader)
             where T : struct
         {
-            var bytes = new byte[Marshal.SizeOf(typeof(T))];
+            var bytes = new byte[Marshal.SizeOf<T>()];
             reader.Read(bytes, 0, bytes.Length);
 
             var handle = GCHandle.Alloc(bytes, GCHandleType.Pinned);
             try
             {
-                return (T)Marshal.PtrToStructure(handle.AddrOfPinnedObject(), typeof(T));
+                return Marshal.PtrToStructure<T>(handle.AddrOfPinnedObject());
             }
             finally
             {

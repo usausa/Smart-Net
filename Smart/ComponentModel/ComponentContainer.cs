@@ -181,25 +181,25 @@
             return ResolveAll(componentType);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="serviceType"></param>
-        /// <returns></returns>
-        public object GetService(Type serviceType)
-        {
-            if (serviceType == null)
-            {
-                throw new ArgumentNullException(nameof(serviceType));
-            }
+        ///// <summary>
+        /////
+        ///// </summary>
+        ///// <param name="serviceType"></param>
+        ///// <returns></returns>
+        //public object GetService(Type serviceType)
+        //{
+        //    if (serviceType == null)
+        //    {
+        //        throw new ArgumentNullException(nameof(serviceType));
+        //    }
 
-            if (serviceType.GetTypeInfo().IsGenericType && serviceType.GetGenericTypeDefinition() == EnumerableType)
-            {
-                return ConvertArray(serviceType.GenericTypeArguments[0], GetAll(serviceType.GenericTypeArguments[0]));
-            }
+        //    if (serviceType.GetTypeInfo().IsGenericType && serviceType.GetGenericTypeDefinition() == EnumerableType)
+        //    {
+        //        return ConvertArray(serviceType.GenericTypeArguments[0], GetAll(serviceType.GenericTypeArguments[0]));
+        //    }
 
-            return TryGet(serviceType);
-        }
+        //    return TryGet(serviceType);
+        //}
 
         /// <summary>
         ///
@@ -238,7 +238,7 @@
         /// <returns></returns>
         private object CreateInstance(Type type)
         {
-            foreach (var ci in type.GetConstructors().OrderByDescending(c => c.GetParameters().Length))
+            foreach (var ci in type.GetTypeInfo().DeclaredConstructors.OrderByDescending(c => c.GetParameters().Length))
             {
                 if (ci.GetParameters().Length == 0)
                 {
@@ -290,7 +290,7 @@
                 return type.GetElementType();
             }
 
-            if (type.GetIsGenericType())
+            if (type.GetTypeInfo().IsGenericType)
             {
                 var genericType = type.GetGenericTypeDefinition();
                 if ((genericType == EnumerableType) || (genericType == CollectionType) || (genericType == ListType))

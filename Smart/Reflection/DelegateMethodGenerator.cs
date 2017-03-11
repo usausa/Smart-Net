@@ -31,7 +31,7 @@
                 throw new ArgumentException("DeclaringType is null type.", pi.Name);
             }
 
-            if (pi.DeclaringType.GetIsValueType())
+            if (pi.DeclaringType.GetTypeInfo().IsValueType)
             {
                 throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Value type is not supported type {0}.", pi.DeclaringType));
             }
@@ -41,7 +41,7 @@
                 throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Property has index parameters {0}.", pi.Name));
             }
 
-            var getter = pi.GetGetMethod(true);
+            var getter = pi.GetMethod;
             if (getter == null)
             {
                 return null;
@@ -81,7 +81,7 @@
                 throw new ArgumentException("DeclaringType is null type.", pi.Name);
             }
 
-            if (pi.DeclaringType.GetIsValueType())
+            if (pi.DeclaringType.GetTypeInfo().IsValueType)
             {
                 throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Value type is not supported type {0}.", pi.DeclaringType));
             }
@@ -91,7 +91,7 @@
                 throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, "Property has index parameters {0}.", pi.Name));
             }
 
-            var setter = pi.GetSetMethod(true);
+            var setter = pi.SetMethod;
             if (setter == null)
             {
                 return null;

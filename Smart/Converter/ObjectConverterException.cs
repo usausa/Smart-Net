@@ -1,16 +1,10 @@
 ﻿namespace Smart.Converter
 {
     using System;
-#if !PCL
-    using System.Runtime.Serialization;
-#endif
 
     /// <summary>
     ///
     /// </summary>
-#if !PCL
-    [Serializable]
-#endif
     public class ObjectConverterException : Exception
     {
         /// <summary>
@@ -38,17 +32,5 @@
             : base(message, innerException)
         {
         }
-
-#if !PCL
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        protected ObjectConverterException(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
-#endif
     }
 }

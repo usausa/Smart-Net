@@ -36,8 +36,8 @@
         /// <returns></returns>
         private static Type FindValueHolderType(PropertyInfo pi)
         {
-            return pi.PropertyType.GetInterfaces()
-                .FirstOrDefault(i => i.GetIsGenericType() && i.GetGenericTypeDefinition() == ValueHolderType);
+            return pi.PropertyType.GetTypeInfo().ImplementedInterfaces
+                .FirstOrDefault(i => i.GetTypeInfo().IsGenericType && i.GetGenericTypeDefinition() == ValueHolderType);
         }
 
         //--------------------------------------------------------------------------------
@@ -96,7 +96,7 @@
             var getter = DelegateMethodGenerator.CreateGetter(pi);
             var setter = DelegateMethodGenerator.CreateSetter(pi);
 
-            if (pi.PropertyType.GetIsValueType())
+            if (pi.PropertyType.GetTypeInfo().IsValueType)
             {
                 var accessorType = DelegateNonNullableAccsessorType.MakeGenericType(pi.DeclaringType, pi.PropertyType);
                 return (IAccessor)Activator.CreateInstance(accessorType, pi, getter, setter, pi.PropertyType.GetDefaultValue());
@@ -121,7 +121,7 @@
             Tuple<PropertyInfo, Delegate, Delegate> tuple;
             if (!SharedValueProperties.TryGetValue(holderInterface, out tuple))
             {
-                var vpi = holderInterface.GetProperty("Value");
+                var vpi = holderInterface.GetRuntimeProperty("Value");
                 var getter = DelegateMethodGenerator.CreateGetter(vpi);
                 var setter = DelegateMethodGenerator.CreateSetter(vpi);
 
@@ -129,7 +129,7 @@
                 SharedValueProperties[holderInterface] = tuple;
             }
 
-            if (pi.PropertyType.GetIsValueType())
+            if (pi.PropertyType.GetTypeInfo().IsValueType)
             {
                 var accessorType = DelegateNonNullableValueHolderAccessorType.MakeGenericType(pi.DeclaringType, tuple.Item1.PropertyType);
                 return (IAccessor)Activator.CreateInstance(accessorType, pi, tuple.Item1.PropertyType, holderGetter, tuple.Item2, tuple.Item3, tuple.Item1.PropertyType.GetDefaultValue());
@@ -156,7 +156,7 @@
             var holderInterface = !extension ? null : FindValueHolderType(pi);
             if (holderInterface != null)
             {
-                var vpi = holderInterface.GetProperty("Value");
+                var vpi = holderInterface.GetRuntimeProperty("Value");
                 return new ReflectionValueHolderAccessor(pi, vpi);
             }
 

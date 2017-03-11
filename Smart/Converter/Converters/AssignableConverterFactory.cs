@@ -1,6 +1,7 @@
 ﻿namespace Smart.Converter.Converters
 {
     using System;
+    using System.Reflection;
 
     /// <summary>
     ///
@@ -16,7 +17,7 @@
         /// <returns></returns>
         public Func<TypePair, object, object> GetConverter(TypePair typePair)
         {
-            return typePair.TargetType.IsAssignableFrom(typePair.SourceType) ? Converter : null;
+            return typePair.TargetType.GetTypeInfo().IsAssignableFrom(typePair.SourceType.GetTypeInfo()) ? Converter : null;
         }
     }
 }

@@ -55,20 +55,12 @@
                 {
                     if (toUpper)
                     {
-#if PCL
                         sb.Append(Char.ToUpper(c));
-#else
-                        sb.Append(Char.ToUpper(c, CultureInfo.InvariantCulture));
-#endif
                         toUpper = false;
                     }
                     else
                     {
-#if PCL
                         sb.Append(Char.ToLower(c));
-#else
-                        sb.Append(Char.ToLower(c, CultureInfo.InvariantCulture));
-#endif
                     }
                 }
             }
@@ -107,11 +99,7 @@
                     sb.Append("_");
                 }
 
-#if PCL
                 sb.Append(toUpper ? Char.ToUpper(c) : Char.ToLower(c));
-#else
-                sb.Append(toUpper ? Char.ToUpper(c, CultureInfo.InvariantCulture) : Char.ToLower(c, CultureInfo.InvariantCulture));
-#endif
             }
 
             return sb.ToString();

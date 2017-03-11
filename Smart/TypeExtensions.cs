@@ -52,7 +52,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static object GetDefaultValue(this Type type)
         {
-            if (type.GetIsValueType() && !type.IsNullableType())
+            if (type.GetTypeInfo().IsValueType && !type.IsNullableType())
             {
                 object value;
                 if (DefaultValues.TryGetValue(type, out value))
@@ -74,7 +74,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool IsNullableType(this Type type)
         {
-            return type.GetIsGenericType() && (type.GetGenericTypeDefinition() == NullableType);
+            return type.GetTypeInfo().IsGenericType && (type.GetGenericTypeDefinition() == NullableType);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool IsStruct(this Type type)
         {
-            return type.GetIsValueType() && !type.GetIsEnum() && !type.GetIsPrimitive() && !type.IsNullableType();
+            return type.GetTypeInfo().IsValueType && !type.GetTypeInfo().IsEnum && !type.GetTypeInfo().IsPrimitive && !type.IsNullableType();
         }
 
         /// <summary>
@@ -96,12 +96,12 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool IsAnonymous(this Type type)
         {
-            return type.GetIsDefined(CompilerGeneratedAttributeType, false) &&
-                type.GetIsGenericType() &&
+            return type.GetTypeInfo().IsDefined(CompilerGeneratedAttributeType, false) &&
+                type.GetTypeInfo().IsGenericType &&
                 type.Name.Contains("AnonymousType") &&
                 (type.Name.StartsWith("<>", StringComparison.Ordinal) || type.Name.StartsWith("VB$", StringComparison.Ordinal)) &&
-                ((type.GetTypeAttributes() & TypeAttributes.NotPublic) == TypeAttributes.NotPublic) &&
-                ((type.GetTypeAttributes() & TypeAttributes.Sealed) == TypeAttributes.Sealed);
+                ((type.GetTypeInfo().Attributes & TypeAttributes.NotPublic) == TypeAttributes.NotPublic) &&
+                ((type.GetTypeInfo().Attributes & TypeAttributes.Sealed) == TypeAttributes.Sealed);
         }
 
         /// <summary>
@@ -117,18 +117,18 @@
                 return type.GetElementType();
             }
 
-            if (type.GetIsGenericType() && type.GetGenericTypeDefinition() == GenericEnumerableType)
+            if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == GenericEnumerableType)
             {
                 return type.GenericTypeArguments[0];
             }
 
-            var enumerableType = type.GetInterfaces().FirstOrDefault(t => t.GetIsGenericType() && t.GetGenericTypeDefinition() == GenericEnumerableType);
+            var enumerableType = type.GetTypeInfo().ImplementedInterfaces.FirstOrDefault(t => t.GetTypeInfo().IsGenericType && t.GetGenericTypeDefinition() == GenericEnumerableType);
             if (enumerableType != null)
             {
                 return enumerableType.GenericTypeArguments[0];
             }
 
-            if (EnumerableType.IsAssignableFrom(type))
+            if (EnumerableType.GetTypeInfo().IsAssignableFrom(type.GetTypeInfo()))
             {
                 return ObjectType;
             }
@@ -144,7 +144,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static Type GetEnumType(this Type type)
         {
-            if (type.GetIsEnum())
+            if (type.GetTypeInfo().IsEnum)
             {
                 return type;
             }
@@ -152,7 +152,7 @@
             if (type.IsNullableType())
             {
                 var genericType = Nullable.GetUnderlyingType(type);
-                return genericType.GetIsEnum() ? genericType : null;
+                return genericType.GetTypeInfo().IsEnum ? genericType : null;
             }
 
             return null;
@@ -166,7 +166,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static Type GetValueHolderType(this Type type)
         {
-            return type.GetInterfaces().FirstOrDefault(it => it.GetIsGenericType() && it.GetGenericTypeDefinition() == ValueHolderType);
+            return type.GetTypeInfo().ImplementedInterfaces.FirstOrDefault(it => it.GetTypeInfo().IsGenericType && it.GetGenericTypeDefinition() == ValueHolderType);
         }
 
         /// <summary>
@@ -176,7 +176,7 @@
         /// <returns></returns>
         public static PropertyInfo GetValueHolderProperty(this Type type)
         {
-            return type.GetValueHolderType()?.GetProperty("Value");
+            return type.GetValueHolderType()?.GetRuntimeProperty("Value");
         }
     }
 }

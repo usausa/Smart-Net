@@ -6,7 +6,7 @@
     /// <summary>
     ///
     /// </summary>
-    public interface IComponentContainer : IDisposable, IServiceProvider
+    public interface IComponentContainer : IDisposable //, IServiceProvider
     {
         /// <summary>
         ///
