@@ -9,10 +9,6 @@
     {
         // position <= limit <= array.Length
 
-        private readonly byte[] array;
-
-        private readonly int capacity;
-
         private int position;
 
         private int limit;
@@ -23,7 +19,7 @@
         ///
         /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "Performance")]
-        public byte[] Array => array;
+        public byte[] Array { get; }
 
         /// <summary>
         ///
@@ -50,7 +46,7 @@
             get { return limit; }
             set
             {
-                if ((value > capacity) || (value < 0))
+                if ((value > Capacity) || (value < 0))
                 {
                     throw new ArgumentOutOfRangeException(nameof(value));
                 }
@@ -66,7 +62,7 @@
         /// <summary>
         ///
         /// </summary>
-        public int Capacity => capacity;
+        public int Capacity { get; }
 
         /// <summary>
         ///
@@ -84,8 +80,8 @@
         /// <param name="capacity"></param>
         public ByteBuffer(int capacity)
         {
-            array = new byte[capacity];
-            this.capacity = capacity;
+            Array = new byte[capacity];
+            Capacity = capacity;
             limit = capacity;
         }
 
@@ -100,9 +96,9 @@
                 throw new ArgumentNullException(nameof(array));
             }
 
-            this.array = array;
-            capacity = array.Length;
-            limit = capacity;
+            Array = array;
+            Capacity = array.Length;
+            limit = Capacity;
         }
 
         /// <summary>
@@ -118,9 +114,9 @@
                 throw new ArgumentNullException(nameof(array));
             }
 
-            this.array = array;
+            Array = array;
             position = offset;
-            capacity = length;
+            Capacity = length;
             limit = length;
         }
 
@@ -136,7 +132,7 @@
                 throw new ArgumentNullException(nameof(array));
             }
 
-            return CopyOf(array.array, array.position, array.Remaining);
+            return CopyOf(array.Array, array.position, array.Remaining);
         }
 
         /// <summary>
@@ -165,7 +161,7 @@
         public ByteBuffer Clear()
         {
             position = 0;
-            limit = capacity;
+            limit = Capacity;
             return this;
         }
 
@@ -204,7 +200,7 @@
         /// <returns></returns>
         public ByteBuffer Put(int index, byte value)
         {
-            array[index] = value;
+            Array[index] = value;
             return this;
         }
 
@@ -221,7 +217,7 @@
                 throw new ArgumentNullException(nameof(value));
             }
 
-            Buffer.BlockCopy(value, 0, array, index, value.Length);
+            Buffer.BlockCopy(value, 0, Array, index, value.Length);
             return this;
         }
 
@@ -233,7 +229,7 @@
         /// <returns></returns>
         public ByteBuffer PutShort(int index, short value)
         {
-            order.PutShort(array, index, value);
+            order.PutShort(Array, index, value);
             return this;
         }
 
@@ -245,7 +241,7 @@
         /// <returns></returns>
         public ByteBuffer PutInt(int index, int value)
         {
-            order.PutInt(array, index, value);
+            order.PutInt(Array, index, value);
             return this;
         }
 
@@ -256,7 +252,7 @@
         /// <returns></returns>
         public byte Get(int index)
         {
-            return array[index];
+            return Array[index];
         }
 
         /// <summary>
@@ -268,7 +264,7 @@
         public byte[] GetBytes(int index, int length)
         {
             var bytes = new byte[length];
-            Buffer.BlockCopy(array, index, bytes, 0, length);
+            Buffer.BlockCopy(Array, index, bytes, 0, length);
             return bytes;
         }
 
@@ -279,7 +275,7 @@
         /// <returns></returns>
         public short GetShort(int index)
         {
-            return order.GetShort(array, index);
+            return order.GetShort(Array, index);
         }
 
         /// <summary>
@@ -289,7 +285,7 @@
         /// <returns></returns>
         public int GetInt(int index)
         {
-            return order.GetInt(array, index);
+            return order.GetInt(Array, index);
         }
     }
 }

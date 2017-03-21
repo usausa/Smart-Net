@@ -1,9 +1,6 @@
 ﻿namespace Smart.Text
 {
     using System;
-#if !PCL
-    using System.Globalization;
-#endif
     using System.Text;
 
     /// <summary>

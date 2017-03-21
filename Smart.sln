@@ -15,6 +15,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Smart.sln.DotSettings = Smart.sln.DotSettings
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart.Tests.NETCore", "Smart.Tests.NETCore\Smart.Tests.NETCore.csproj", "{91AE95D3-C4A0-4418-968F-FBC3E0684AAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{01578278-AD89-49FD-AFB8-EC67F5B9D124}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01578278-AD89-49FD-AFB8-EC67F5B9D124}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01578278-AD89-49FD-AFB8-EC67F5B9D124}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91AE95D3-C4A0-4418-968F-FBC3E0684AAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91AE95D3-C4A0-4418-968F-FBC3E0684AAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91AE95D3-C4A0-4418-968F-FBC3E0684AAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91AE95D3-C4A0-4418-968F-FBC3E0684AAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
