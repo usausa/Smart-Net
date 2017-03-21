@@ -18,8 +18,8 @@
   </metadata>
   <files>
     <!-- .NET Standard -->
-    <file src="Smart\bin\Release\netstandard1.4\Smart.dll" target="lib\netstandard1.4\Smart.dll" />
-    <file src="Smart\bin\Release\netstandard1.4\Smart.pdb" target="lib\netstandard1.4\Smart.pdb" />
-    <!--<file src="Smart\bin\Release\netstandard1.4\Smart.xml" target="lib\netstandard1.4\Smart.xml" />-->
+    <file src="Smart\bin\Release\netstandard1.4\Smart.dll" target="lib\netstandard1.4" />
+    <file src="Smart\bin\Release\netstandard1.4\Smart.pdb" target="lib\netstandard1.4" />
+    <!--<file src="Smart\bin\Release\netstandard1.4\Smart.xml" target="lib\netstandard1.4" />-->
   </files>
 </package>
