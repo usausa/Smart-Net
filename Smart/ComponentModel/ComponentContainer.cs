@@ -181,25 +181,25 @@
             return ResolveAll(componentType);
         }
 
-        ///// <summary>
-        /////
-        ///// </summary>
-        ///// <param name="serviceType"></param>
-        ///// <returns></returns>
-        //public object GetService(Type serviceType)
-        //{
-        //    if (serviceType == null)
-        //    {
-        //        throw new ArgumentNullException(nameof(serviceType));
-        //    }
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="serviceType"></param>
+        /// <returns></returns>
+        public object GetService(Type serviceType)
+        {
+            if (serviceType == null)
+            {
+                throw new ArgumentNullException(nameof(serviceType));
+            }
 
-        //    if (serviceType.GetTypeInfo().IsGenericType && serviceType.GetGenericTypeDefinition() == EnumerableType)
-        //    {
-        //        return ConvertArray(serviceType.GenericTypeArguments[0], GetAll(serviceType.GenericTypeArguments[0]));
-        //    }
+            if (serviceType.GetTypeInfo().IsGenericType && serviceType.GetGenericTypeDefinition() == EnumerableType)
+            {
+                return ConvertArray(serviceType.GenericTypeArguments[0], GetAll(serviceType.GenericTypeArguments[0]));
+            }
 
-        //    return TryGet(serviceType);
-        //}
+            return TryGet(serviceType);
+        }
 
         /// <summary>
         ///

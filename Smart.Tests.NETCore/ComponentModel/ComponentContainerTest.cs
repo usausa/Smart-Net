@@ -1,6 +1,7 @@
 ﻿namespace Smart.ComponentModel
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
 
     using Xunit;
@@ -39,20 +40,20 @@
             }
         }
 
-        //[Fact]
-        //public void ComponentIsMultipleResolvedByGetService()
-        //{
-        //    var config = new ComponentConfig();
-        //    config.Add<ICalcService, AddCalcService>();
-        //    config.Add<ICalcService, SubCalcService>();
+        [Fact]
+        public void ComponentIsMultipleResolvedByGetService()
+        {
+            var config = new ComponentConfig();
+            config.Add<ICalcService, AddCalcService>();
+            config.Add<ICalcService, SubCalcService>();
 
-        //    using (var container = config.ToContainer())
-        //    {
-        //        var services = (IEnumerable<ICalcService>)container.GetService(typeof(IEnumerable<ICalcService>));
+            using (var container = config.ToContainer())
+            {
+                var services = (IEnumerable<ICalcService>)container.GetService(typeof(IEnumerable<ICalcService>));
 
-        //        Assert.Equal(services.Count(), 2);
-        //    }
-        //}
+                Assert.Equal(services.Count(), 2);
+            }
+        }
 
         [Fact]
         public void ComponentIsNotResolved()
@@ -67,33 +68,33 @@
             }
         }
 
-        //[Fact]
-        //public void ComponentIsNotResolvedByGetService()
-        //{
-        //    var config = new ComponentConfig();
+        [Fact]
+        public void ComponentIsNotResolvedByGetService()
+        {
+            var config = new ComponentConfig();
 
-        //    using (var container = config.ToContainer())
-        //    {
-        //        var obj = container.GetService(typeof(SimpleObject));
+            using (var container = config.ToContainer())
+            {
+                var obj = container.GetService(typeof(SimpleObject));
 
-        //        Assert.Null(obj);
-        //    }
-        //}
+                Assert.Null(obj);
+            }
+        }
 
-        //[Fact]
-        //public void ComponentIsResolvedSameObject()
-        //{
-        //    var config = new ComponentConfig();
-        //    config.Add<SimpleObject>();
+        [Fact]
+        public void ComponentIsResolvedSameObject()
+        {
+            var config = new ComponentConfig();
+            config.Add<SimpleObject>();
 
-        //    using (var container = config.ToContainer())
-        //    {
-        //        var obj1 = container.Get<SimpleObject>();
-        //        var obj2 = container.GetService(typeof(SimpleObject));
+            using (var container = config.ToContainer())
+            {
+                var obj1 = container.Get<SimpleObject>();
+                var obj2 = container.GetService(typeof(SimpleObject));
 
-        //        Assert.Same(obj1, obj2);
-        //    }
-        //}
+                Assert.Same(obj1, obj2);
+            }
+        }
 
         [Fact]
         public void ComponentIsDisposed()

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Usa.Smart.Core</id>
-    <version>1.0.0-beta4</version>
+    <version>1.0.0-beta5</version>
     <title>Smart.Core .NET</title>
     <authors>machi_pon</authors>
     <owners>machi_pon</owners>
@@ -14,6 +14,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <dependencies>
       <dependency id="NETStandard.Library" version="1.6.1" />
+      <dependency id="System.ComponentModel" version="4.3.0" />
     </dependencies>
     <tags>smart</tags>
   </metadata>
