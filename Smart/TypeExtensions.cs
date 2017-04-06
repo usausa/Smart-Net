@@ -54,8 +54,7 @@
         {
             if (type.GetTypeInfo().IsValueType && !type.IsNullableType())
             {
-                object value;
-                if (DefaultValues.TryGetValue(type, out value))
+                if (DefaultValues.TryGetValue(type, out object value))
                 {
                     return value;
                 }

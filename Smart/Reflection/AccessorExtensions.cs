@@ -118,8 +118,7 @@
         {
             var holderGetter = DelegateMethodGenerator.CreateGetter(pi);
 
-            Tuple<PropertyInfo, Delegate, Delegate> tuple;
-            if (!SharedValueProperties.TryGetValue(holderInterface, out tuple))
+            if (!SharedValueProperties.TryGetValue(holderInterface, out Tuple<PropertyInfo, Delegate, Delegate> tuple))
             {
                 var vpi = holderInterface.GetRuntimeProperty("Value");
                 var getter = DelegateMethodGenerator.CreateGetter(vpi);

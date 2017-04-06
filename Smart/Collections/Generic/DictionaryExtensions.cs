@@ -19,8 +19,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : default(TValue);
+            return dictionary.TryGetValue(key, out TValue value) ? value : default(TValue);
         }
 
         /// <summary>
@@ -35,8 +34,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static TValue GetOr<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
         {
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : defaultValue;
+            return dictionary.TryGetValue(key, out TValue value) ? value : defaultValue;
         }
 
         /// <summary>
@@ -56,8 +54,7 @@
                 throw new ArgumentNullException(nameof(valueFactory));
             }
 
-            TValue value;
-            return dictionary.TryGetValue(key, out value) ? value : valueFactory();
+            return dictionary.TryGetValue(key, out TValue value) ? value : valueFactory();
         }
 
         /// <summary>
@@ -72,8 +69,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
-            TValue ret;
-            if (dictionary.TryGetValue(key, out ret))
+            if (dictionary.TryGetValue(key, out TValue ret))
             {
                 return ret;
             }
@@ -101,8 +97,7 @@
                 throw new ArgumentNullException(nameof(valueFactory));
             }
 
-            TValue ret;
-            if (dictionary.TryGetValue(key, out ret))
+            if (dictionary.TryGetValue(key, out TValue ret))
             {
                 return ret;
             }

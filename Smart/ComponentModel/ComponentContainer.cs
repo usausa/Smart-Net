@@ -149,8 +149,7 @@
         /// <returns></returns>
         public object TryGet(Type componentType)
         {
-            bool result;
-            return TryGet(componentType, out result);
+            return TryGet(componentType, out bool _);
         }
 
         /// <summary>
@@ -210,14 +209,12 @@
         {
             lock (cache)
             {
-                object[] objects;
-                if (cache.TryGetValue(componentType, out objects))
+                if (cache.TryGetValue(componentType, out object[] objects))
                 {
                     return objects;
                 }
 
-                ComponentEntry[] entries;
-                if (!mappings.TryGetValue(componentType, out entries))
+                if (!mappings.TryGetValue(componentType, out ComponentEntry[] entries))
                 {
                     return EmptyResult;
                 }
