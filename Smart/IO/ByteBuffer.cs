@@ -26,7 +26,7 @@
         /// </summary>
         public int Position
         {
-            get { return position; }
+            get => position;
             set
             {
                 if ((value > limit) || (value < 0))
@@ -43,7 +43,7 @@
         /// </summary>
         public int Limit
         {
-            get { return limit; }
+            get => limit;
             set
             {
                 if ((value > Capacity) || (value < 0))

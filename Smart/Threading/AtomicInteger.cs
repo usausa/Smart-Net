@@ -16,14 +16,8 @@
         /// </summary>
         public int Value
         {
-            get
-            {
-                return Interlocked.Exchange(ref currentValue, currentValue);
-            }
-            set
-            {
-                Interlocked.Exchange(ref currentValue, value);
-            }
+            get => Interlocked.Exchange(ref currentValue, currentValue);
+            set => Interlocked.Exchange(ref currentValue, value);
         }
 
         /// <summary>

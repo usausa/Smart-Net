@@ -13,8 +13,8 @@
         /// </summary>
         public T Value
         {
-            get { return storage; }
-            set { SetProperty(ref storage, value); }
+            get => storage;
+            set => SetProperty(ref storage, value);
         }
 
         /// <summary>
