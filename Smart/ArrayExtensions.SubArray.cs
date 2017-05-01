@@ -15,12 +15,22 @@
         /// <param name="offset"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static T[] SubArray<T>(this T[] array, int offset, int length)
         {
-            var result = new T[Math.Min(length, array.Length - offset)];
+            if (array == null)
+            {
+                return null;
+            }
 
-            Buffer.BlockCopy(array, offset, result, 0, result.Length);
+            if (offset >= array.Length)
+            {
+                return Empty<T>.Array;
+            }
+
+            var fixedLength = array.Length - offset < length ? array.Length - offset : length;
+            var result = new T[fixedLength];
+
+            Array.Copy(array, offset, result, 0, fixedLength);
 
             return result;
         }
@@ -32,12 +42,22 @@
         /// <param name="offset"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static byte[] SubArray(this byte[] array, int offset, int length)
         {
-            var result = new byte[Math.Min(length, array.Length - offset)];
+            if (array == null)
+            {
+                return null;
+            }
 
-            Buffer.BlockCopy(array, offset, result, 0, result.Length);
+            if (offset >= array.Length)
+            {
+                return Empty<byte>.Array;
+            }
+
+            var fixedLength = array.Length - offset < length ? array.Length - offset : length;
+            var result = new byte[fixedLength];
+
+            Buffer.BlockCopy(array, offset, result, 0, fixedLength);
 
             return result;
         }
@@ -49,12 +69,22 @@
         /// <param name="offset"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static short[] SubArray(this short[] array, int offset, int length)
         {
-            var result = new short[Math.Min(length, array.Length - offset)];
+            if (array == null)
+            {
+                return null;
+            }
 
-            Buffer.BlockCopy(array, offset, result, 0, result.Length);
+            if (offset >= array.Length)
+            {
+                return Empty<short>.Array;
+            }
+
+            var fixedLength = array.Length - offset < length ? array.Length - offset : length;
+            var result = new short[fixedLength];
+
+            Array.Copy(array, offset, result, 0, fixedLength);
 
             return result;
         }
@@ -66,12 +96,22 @@
         /// <param name="offset"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static int[] SubArray(this int[] array, int offset, int length)
         {
-            var result = new int[Math.Min(length, array.Length - offset)];
+            if (array == null)
+            {
+                return null;
+            }
 
-            Buffer.BlockCopy(array, offset, result, 0, result.Length);
+            if (offset >= array.Length)
+            {
+                return Empty<int>.Array;
+            }
+
+            var fixedLength = array.Length - offset < length ? array.Length - offset : length;
+            var result = new int[fixedLength];
+
+            Array.Copy(array, offset, result, 0, fixedLength);
 
             return result;
         }
@@ -83,12 +123,22 @@
         /// <param name="offset"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static long[] SubArray(this long[] array, int offset, int length)
         {
-            var result = new long[Math.Min(length, array.Length - offset)];
+            if (array == null)
+            {
+                return null;
+            }
 
-            Buffer.BlockCopy(array, offset, result, 0, result.Length);
+            if (offset >= array.Length)
+            {
+                return Empty<long>.Array;
+            }
+
+            var fixedLength = array.Length - offset < length ? array.Length - offset : length;
+            var result = new long[fixedLength];
+
+            Array.Copy(array, offset, result, 0, fixedLength);
 
             return result;
         }
@@ -100,12 +150,22 @@
         /// <param name="offset"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static float[] SubArray(this float[] array, int offset, int length)
         {
-            var result = new float[Math.Min(length, array.Length - offset)];
+            if (array == null)
+            {
+                return null;
+            }
 
-            Buffer.BlockCopy(array, offset, result, 0, result.Length);
+            if (offset >= array.Length)
+            {
+                return Empty<float>.Array;
+            }
+
+            var fixedLength = array.Length - offset < length ? array.Length - offset : length;
+            var result = new float[fixedLength];
+
+            Array.Copy(array, offset, result, 0, fixedLength);
 
             return result;
         }
@@ -117,12 +177,22 @@
         /// <param name="offset"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static double[] SubArray(this double[] array, int offset, int length)
         {
-            var result = new double[Math.Min(length, array.Length - offset)];
+            if (array == null)
+            {
+                return null;
+            }
 
-            Buffer.BlockCopy(array, offset, result, 0, result.Length);
+            if (offset >= array.Length)
+            {
+                return Empty<double>.Array;
+            }
+
+            var fixedLength = array.Length - offset < length ? array.Length - offset : length;
+            var result = new double[fixedLength];
+
+            Array.Copy(array, offset, result, 0, fixedLength);
 
             return result;
         }
@@ -134,12 +204,22 @@
         /// <param name="offset"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool[] SubArray(this bool[] array, int offset, int length)
         {
-            var result = new bool[Math.Min(length, array.Length - offset)];
+            if (array == null)
+            {
+                return null;
+            }
 
-            Buffer.BlockCopy(array, offset, result, 0, result.Length);
+            if (offset >= array.Length)
+            {
+                return Empty<bool>.Array;
+            }
+
+            var fixedLength = array.Length - offset < length ? array.Length - offset : length;
+            var result = new bool[fixedLength];
+
+            Array.Copy(array, offset, result, 0, fixedLength);
 
             return result;
         }
@@ -151,12 +231,22 @@
         /// <param name="offset"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static char[] SubArray(this char[] array, int offset, int length)
         {
-            var result = new char[Math.Min(length, array.Length - offset)];
+            if (array == null)
+            {
+                return null;
+            }
 
-            Buffer.BlockCopy(array, offset, result, 0, result.Length);
+            if (offset >= array.Length)
+            {
+                return Empty<char>.Array;
+            }
+
+            var fixedLength = array.Length - offset < length ? array.Length - offset : length;
+            var result = new char[fixedLength];
+
+            Array.Copy(array, offset, result, 0, fixedLength);
 
             return result;
         }

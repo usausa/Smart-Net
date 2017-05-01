@@ -12,7 +12,7 @@
         /// </summary>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static string Safe(this string value)
+        public static string EmptyIfNull(this string value)
         {
             return value ?? string.Empty;
         }
