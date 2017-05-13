@@ -5,7 +5,6 @@
     public class ArrayExtensionTest
     {
         [Fact]
-
         public static void TestArrayRemoveAt()
         {
             Assert.Equal(null, ((int[])null).RemoveAt(0));
@@ -16,7 +15,6 @@
         }
 
         [Fact]
-
         public static void TestArrayRemoveRange()
         {
             Assert.Equal(null, ((int[])null).RemoveRange(0, 1));
