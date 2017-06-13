@@ -7,7 +7,7 @@
     using Xunit;
 
     /// <summary>
-    /// ComponentContainerTest の概要の説明
+    ///
     /// </summary>
     public class ComponentContainerTest
     {

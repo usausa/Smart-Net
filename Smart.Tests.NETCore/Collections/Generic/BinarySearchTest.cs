@@ -6,7 +6,7 @@
     using Xunit;
 
     /// <summary>
-    /// BinarySearchTest の概要の説明
+    ///
     /// </summary>
     public class BinarySearchTest
     {

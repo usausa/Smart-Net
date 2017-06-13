@@ -239,6 +239,14 @@
         /// </summary>
         public int Count => table.Count;
 
+        /// <summary>
+        ///
+        /// </summary>
+        public int Depth => table.Depth;
+
+        /// <summary>
+        ///
+        /// </summary>
         public void Clear()
         {
             lock (sync)
