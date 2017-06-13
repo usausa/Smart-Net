@@ -4,6 +4,7 @@
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Threading;
 
@@ -22,8 +23,6 @@
         private readonly IHashArrayMapStrategy strategy;
 
         private Table table;
-
-        // TODO Add (max)depth to table
 
         //--------------------------------------------------------------------------------
         // Constructor
@@ -70,6 +69,41 @@
         ///
         /// </summary>
         /// <param name="nodes"></param>
+        /// <returns></returns>
+        private static int CalculateDepth(Node[][] nodes)
+        {
+            var depth = 0;
+            for (var i = 0; i < nodes.Length; i++)
+            {
+                depth = Math.Max(nodes[i].Length, depth);
+            }
+
+            return depth;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
+        private Table CreateInitialTable()
+        {
+            var size = CalculateSize(strategy.CalculateInitialSize());
+            var mask = (int)(size - 1);
+
+            var nodes = new Node[size][];
+
+            for (var i = 0; i < nodes.Length; i++)
+            {
+                nodes[i] = EmptyNodes;
+            }
+
+            return new Table(mask, nodes, 0, 0);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="nodes"></param>
         /// <param name="addNode"></param>
         /// <returns></returns>
         private static Node[] AddNode(Node[] nodes, Node addNode)
@@ -89,90 +123,86 @@
         /// <summary>
         ///
         /// </summary>
-        private Table CreateInitialTable()
+        /// <param name="nodes"></param>
+        /// <param name="oldNodes"></param>
+        /// <param name="mask"></param>
+        private static void RelocateNodes(Node[][] nodes, Node[][] oldNodes, int mask)
         {
-            var size = CalculateSize(strategy.CalcInitialSize());
-            var mask = (int)(size - 1);
+            for (var i = 0; i < oldNodes.Length; i++)
+            {
+                for (var j = 0; j < oldNodes[i].Length; j++)
+                {
+                    var node = oldNodes[i][j];
+                    var relocateIndex = node.Key.GetHashCode() & mask;
+                    nodes[relocateIndex] = AddNode(nodes[relocateIndex], node);
+                }
+            }
+        }
 
-            var nodes = new Node[size][];
-
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="nodes"></param>
+        private static void FillEmptyIfNull(Node[][] nodes)
+        {
             for (var i = 0; i < nodes.Length; i++)
             {
-                nodes[i] = EmptyNodes;
+                if (nodes[i] == null)
+                {
+                    nodes[i] = EmptyNodes;
+                }
             }
-
-            return new Table(mask, nodes, 0);
         }
 
         /// <summary>
         ///
         /// </summary>
         /// <param name="oldTable"></param>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
+        /// <param name="node"></param>
         /// <returns></returns>
-        private Table CreateAddTable(Table oldTable, TKey key, TValue value)
+        private Table CreateAddTable(Table oldTable, Node node)
         {
-            var hashCode = key.GetHashCode();
-            var addIndex = hashCode & oldTable.HashMask;
-            var requestSize = strategy.CalcRequestSize(new AddResizeContext(oldTable.Nodes.Length, oldTable.Count));
+            var requestSize = strategy.CalculateRequestSize(new AddResizeContext(oldTable.Nodes.Length, oldTable.Depth, oldTable.Count, 1));
 
-            if (requestSize <= oldTable.Nodes.Length)
+            var size = CalculateSize(requestSize);
+            var mask = (int)(size - 1);
+            var newNodes = new Node[size][];
+
+            RelocateNodes(newNodes, oldTable.Nodes, mask);
+
+            var index = node.Key.GetHashCode() & mask;
+            newNodes[index] = AddNode(newNodes[index], node);
+
+            FillEmptyIfNull(newNodes);
+
+            return new Table(mask, newNodes, oldTable.Count + 1, CalculateDepth(newNodes));
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="oldTable"></param>
+        /// <param name="addNodes"></param>
+        /// <returns></returns>
+        private Table CreateAddRangeTable(Table oldTable, ICollection<Node> addNodes)
+        {
+            var requestSize = strategy.CalculateRequestSize(new AddResizeContext(oldTable.Nodes.Length, oldTable.Depth, oldTable.Count, addNodes.Count));
+
+            var size = CalculateSize(requestSize);
+            var mask = (int)(size - 1);
+            var newNodes = new Node[size][];
+
+            RelocateNodes(newNodes, oldTable.Nodes, mask);
+
+            foreach (var node in addNodes)
             {
-                var nodes = new Node[oldTable.Nodes.Length][];
-
-                for (var i = 0; i < oldTable.Nodes.Length; i++)
-                {
-                    var oldLength = oldTable.Nodes[i].Length;
-                    var newLength = oldLength + (i == addIndex ? 1 : 0);
-                    if (newLength > 0)
-                    {
-                        nodes[i] = new Node[newLength];
-                        if (oldLength > 0)
-                        {
-                            Array.Copy(oldTable.Nodes[i], 0, nodes[i], 0, oldLength);
-                        }
-                    }
-                    else
-                    {
-                        nodes[i] = EmptyNodes;
-                    }
-                }
-
-                nodes[addIndex][nodes[addIndex].Length - 1] = new Node(key, value);
-
-                return new Table(oldTable.HashMask, nodes, oldTable.Count + 1);
+                var index = node.Key.GetHashCode() & mask;
+                newNodes[index] = AddNode(newNodes[index], node);
             }
-            else
-            {
-                var size = CalculateSize(requestSize);
-                var mask = (int)(size - 1);
-                addIndex = hashCode & mask;
 
-                var nodes = new Node[size][];
+            FillEmptyIfNull(newNodes);
 
-                for (var i = 0; i < oldTable.Nodes.Length; i++)
-                {
-                    for (var j = 0; j < oldTable.Nodes[i].Length; j++)
-                    {
-                        var node = oldTable.Nodes[i][j];
-                        var relocateIndex = node.Key.GetHashCode() & mask;
-                        nodes[relocateIndex] = AddNode(nodes[relocateIndex], node);
-                    }
-                }
-
-                nodes[addIndex] = AddNode(nodes[addIndex], new Node(key, value));
-
-                for (var i = 0; i < nodes.Length; i++)
-                {
-                    if (nodes[i] == null)
-                    {
-                        nodes[i] = EmptyNodes;
-                    }
-                }
-
-                return new Table(mask, nodes, oldTable.Count + 1);
-            }
+            return new Table(mask, newNodes, oldTable.Count + addNodes.Count, CalculateDepth(newNodes));
         }
 
         /// <summary>
@@ -234,6 +264,30 @@
         ///
         /// </summary>
         /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public TValue AddIfNotExist(TKey key, TValue value)
+        {
+            lock (sync)
+            {
+                // Double checked locking
+                if (TryGetValueInternal(table, key, out TValue currentValue))
+                {
+                    return currentValue;
+                }
+
+                // Rebuild
+                var newTable = CreateAddTable(table, new Node(key, value));
+                Interlocked.Exchange(ref table, newTable);
+
+                return value;
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="key"></param>
         /// <param name="valueFactory"></param>
         /// <returns></returns>
         public TValue AddIfNotExist(TKey key, Func<TKey, TValue> valueFactory)
@@ -248,7 +302,7 @@
 
                 // Rebuild
                 var value = valueFactory(key);
-                var newTable = CreateAddTable(table, key, value);
+                var newTable = CreateAddTable(table, new Node(key, value));
                 Interlocked.Exchange(ref table, newTable);
 
                 return value;
@@ -258,24 +312,47 @@
         /// <summary>
         ///
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
+        /// <param name="pairs"></param>
         /// <returns></returns>
-        public TValue AddIfNotExist(TKey key, TValue value)
+        public int AddRangeIfNotExist(IEnumerable<KeyValuePair<TKey, TValue>> pairs)
         {
             lock (sync)
             {
-                // Double checked locking
-                if (TryGetValueInternal(table, key, out TValue currentValue))
-                {
-                    return currentValue;
-                }
+                var nodes = pairs
+                    .Distinct(new KeyValuePairEqualityComparer())
+                    .Where(x => !TryGetValueInternal(table, x.Key, out TValue _))
+                    .Select(x => new Node(x.Key, x.Value))
+                    .ToList();
 
                 // Rebuild
-                var newTable = CreateAddTable(table, key, value);
+                var newTable = CreateAddRangeTable(table, nodes);
                 Interlocked.Exchange(ref table, newTable);
 
-                return value;
+                return nodes.Count;
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="keys"></param>
+        /// <param name="valueFactory"></param>
+        /// <returns></returns>
+        public int AddRangeIfNotExist(IEnumerable<TKey> keys, Func<TKey, TValue> valueFactory)
+        {
+            lock (sync)
+            {
+                var nodes = keys
+                    .Distinct(new KeyEqualityComparer())
+                    .Where(x => !TryGetValueInternal(table, x, out TValue _))
+                    .Select(x => new Node(x, valueFactory(x)))
+                    .ToList();
+
+                // Rebuild
+                var newTable = CreateAddRangeTable(table, nodes);
+                Interlocked.Exchange(ref table, newTable);
+
+                return nodes.Count;
             }
         }
 
@@ -322,6 +399,7 @@
                 {
                     throw new KeyNotFoundException();
                 }
+
                 return value;
             }
         }
@@ -342,7 +420,7 @@
         // Inner
         //--------------------------------------------------------------------------------
 
-        internal class Node
+        private class Node
         {
             public TKey Key { get; }
 
@@ -355,7 +433,7 @@
             }
         }
 
-        internal class Table
+        private class Table
         {
             public int HashMask { get; }
 
@@ -363,11 +441,40 @@
 
             public int Count { get; }
 
-            public Table(int hashMask, Node[][] nodes, int count)
+            public int Depth { get; }
+
+            public Table(int hashMask, Node[][] nodes, int count, int depth)
             {
                 HashMask = hashMask;
                 Nodes = nodes;
                 Count = count;
+                Depth = depth;
+            }
+        }
+
+        private class KeyValuePairEqualityComparer : IEqualityComparer<KeyValuePair<TKey, TValue>>
+        {
+            public bool Equals(KeyValuePair<TKey, TValue> x, KeyValuePair<TKey, TValue> y)
+            {
+                return ReferenceEquals(x.Key, y.Key) || x.Key.Equals(y.Key);
+            }
+
+            public int GetHashCode(KeyValuePair<TKey, TValue> obj)
+            {
+                return obj.Key.GetHashCode();
+            }
+        }
+
+        private class KeyEqualityComparer : IEqualityComparer<TKey>
+        {
+            public bool Equals(TKey x, TKey y)
+            {
+                return ReferenceEquals(x, y) || x.Equals(y);
+            }
+
+            public int GetHashCode(TKey obj)
+            {
+                return obj.GetHashCode();
             }
         }
 
@@ -375,14 +482,18 @@
         {
             public int Width { get; }
 
-            public int Growth => 1;
+            public int Depth { get; }
 
             public int Count { get; }
 
-            public AddResizeContext(int width, int count)
+            public int Growth { get; }
+
+            public AddResizeContext(int width, int depth, int count, int growth)
             {
                 Width = width;
                 Count = count;
+                Depth = depth;
+                Growth = growth;
             }
         }
     }
