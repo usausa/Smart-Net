@@ -1,10 +1,12 @@
 ﻿namespace Smart.Reflection
 {
+    using System;
     using System.Reflection;
 
     /// <summary>
     ///
     /// </summary>
+    [Obsolete]
     public static class ActivatorExtensions
     {
         /// <summary>

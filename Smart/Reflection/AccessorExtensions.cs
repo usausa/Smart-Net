@@ -10,6 +10,7 @@
     /// <summary>
     ///
     /// </summary>
+    [Obsolete]
     public static class AccessorExtension
     {
         private static readonly Type ValueHolderType = typeof(IValueHolder<>);
