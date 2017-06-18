@@ -1,8 +1,11 @@
 ﻿namespace Smart.Reflection
 {
+    using System;
+
     /// <summary>
     ///
     /// </summary>
+    [Obsolete]
     public static class GeneratorConfig
     {
         /// <summary>
