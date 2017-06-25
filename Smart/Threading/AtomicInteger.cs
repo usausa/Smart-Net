@@ -16,7 +16,7 @@
         /// </summary>
         public int Value
         {
-            get => Interlocked.Exchange(ref currentValue, currentValue);
+            get => currentValue;
             set => Interlocked.Exchange(ref currentValue, value);
         }
 
@@ -44,6 +44,17 @@
         public int GetAndSet(int value)
         {
             return Interlocked.Exchange(ref currentValue, value);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="comparand"></param>
+        /// <returns></returns>
+        public bool TrySet(int value, int comparand)
+        {
+            return Interlocked.CompareExchange(ref currentValue, value, comparand) == comparand;
         }
     }
 }

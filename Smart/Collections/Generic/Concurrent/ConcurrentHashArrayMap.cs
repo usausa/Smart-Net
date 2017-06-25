@@ -252,7 +252,8 @@
             lock (sync)
             {
                 var newTable = CreateInitialTable();
-                Interlocked.Exchange(ref table, newTable);
+                Interlocked.MemoryBarrier();
+                table = newTable;
             }
         }
 
@@ -286,7 +287,8 @@
 
                 // Rebuild
                 var newTable = CreateAddTable(table, new Node(key, value));
-                Interlocked.Exchange(ref table, newTable);
+                Interlocked.MemoryBarrier();
+                table = newTable;
 
                 return value;
             }
@@ -311,7 +313,8 @@
                 // Rebuild
                 var value = valueFactory(key);
                 var newTable = CreateAddTable(table, new Node(key, value));
-                Interlocked.Exchange(ref table, newTable);
+                Interlocked.MemoryBarrier();
+                table = newTable;
 
                 return value;
             }
@@ -334,7 +337,8 @@
 
                 // Rebuild
                 var newTable = CreateAddRangeTable(table, nodes);
-                Interlocked.Exchange(ref table, newTable);
+                Interlocked.MemoryBarrier();
+                table = newTable;
 
                 return nodes.Count;
             }
@@ -358,7 +362,8 @@
 
                 // Rebuild
                 var newTable = CreateAddRangeTable(table, nodes);
-                Interlocked.Exchange(ref table, newTable);
+                Interlocked.MemoryBarrier();
+                table = newTable;
 
                 return nodes.Count;
             }

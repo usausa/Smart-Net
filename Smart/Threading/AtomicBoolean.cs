@@ -19,7 +19,7 @@
         /// </summary>
         public bool Value
         {
-            get => Interlocked.Exchange(ref currentValue, currentValue) == True;
+            get => currentValue == True;
             set => Interlocked.Exchange(ref currentValue, value ? True : False);
         }
 
@@ -47,6 +47,17 @@
         public bool GetAndSet(bool value)
         {
             return Interlocked.Exchange(ref currentValue, value ? True : False) == True;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="comparand"></param>
+        /// <returns></returns>
+        public bool TrySet(bool value, bool comparand)
+        {
+            return Interlocked.CompareExchange(ref currentValue, value ? True : False, comparand ? True : False) == (comparand ? True : False);
         }
     }
 }
