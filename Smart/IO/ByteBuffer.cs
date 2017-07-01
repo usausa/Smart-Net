@@ -13,7 +13,7 @@
 
         private int limit;
 
-        private IByteOrder order = ByteOrders.Default;
+        private IByteOrder order = BitConverter.IsLittleEndian ? ByteOrders.LittleEndian : ByteOrders.BigEndian;
 
         /// <summary>
         ///
