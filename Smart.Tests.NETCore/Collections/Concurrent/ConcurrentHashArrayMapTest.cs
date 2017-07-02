@@ -1,4 +1,4 @@
-﻿namespace Smart.Collections.Generic.Concurrent
+﻿namespace Smart.Collections.Concurrent
 {
     using System.Collections.Generic;
     using System.Linq;
