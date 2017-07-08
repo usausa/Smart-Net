@@ -1,5 +1,7 @@
 ﻿namespace Smart.IO
 {
+    using System.Runtime.CompilerServices;
+
     /// <summary>
     ///
     /// </summary>
@@ -59,24 +61,12 @@
     /// </summary>
     internal sealed class LittleEndian : IByteOrder
     {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="index"></param>
-        /// <param name="value"></param>
         public void PutShort(byte[] bytes, int index, short value)
         {
             bytes[index] = (byte)(value & 0xff);
             bytes[index + 1] = (byte)((value >> 8) & 0xff);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="index"></param>
-        /// <param name="value"></param>
         public void PutInt(byte[] bytes, int index, int value)
         {
             bytes[index] = (byte)(value & 0xff);
@@ -85,12 +75,6 @@
             bytes[index + 3] = (byte)((value >> 24) & 0xff);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="index"></param>
-        /// <param name="value"></param>
         public void PutLong(byte[] bytes, int index, long value)
         {
             bytes[index] = (byte)(value & 0xff);
@@ -103,64 +87,30 @@
             bytes[index + 7] = (byte)((value >> 56) & 0xff);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="index"></param>
-        /// <returns></returns>
         public short GetShort(byte[] bytes, int index)
         {
-            return (short)(bytes[index] | (bytes[index + 1] << 8));
+            return ByteOrders.GetShortLE(bytes, index);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="index"></param>
-        /// <returns></returns>
         public int GetInt(byte[] bytes, int index)
         {
-            return bytes[index] | (bytes[index + 1] << 8) | (bytes[index + 2] << 16) | (bytes[index + 3] << 24);
+            return ByteOrders.GetIntLE(bytes, index);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="index"></param>
-        /// <returns></returns>
         public long GetLong(byte[] bytes, int index)
         {
-            return bytes[index] | (bytes[index + 1] << 8) | (bytes[index + 2] << 16) | (bytes[index + 3] << 24) |
-                   (bytes[index + 4] << 32) | (bytes[index + 5] << 40) | (bytes[index + 6] << 48) | (bytes[index + 7] << 56);
+            return ByteOrders.GetLongLE(bytes, index);
         }
     }
 
-    /// <summary>
-    ///
-    /// </summary>
     internal sealed class BigEndian : IByteOrder
     {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="index"></param>
-        /// <param name="value"></param>
         public void PutShort(byte[] bytes, int index, short value)
         {
             bytes[index] = (byte)((value >> 8) & 0xff);
             bytes[index + 1] = (byte)(value & 0xff);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="index"></param>
-        /// <param name="value"></param>
         public void PutInt(byte[] bytes, int index, int value)
         {
             bytes[index] = (byte)((value >> 24) & 0xff);
@@ -169,12 +119,6 @@
             bytes[index + 3] = (byte)(value & 0xff);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="index"></param>
-        /// <param name="value"></param>
         public void PutLong(byte[] bytes, int index, long value)
         {
             bytes[index] = (byte)((value >> 56) & 0xff);
@@ -187,38 +131,19 @@
             bytes[index + 7] = (byte)(value & 0xff);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="index"></param>
-        /// <returns></returns>
         public short GetShort(byte[] bytes, int index)
         {
-            return (short)((bytes[index] << 8) | bytes[index + 1]);
+            return ByteOrders.GetShortBE(bytes, index);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="index"></param>
-        /// <returns></returns>
         public int GetInt(byte[] bytes, int index)
         {
-            return (bytes[index] << 24) | (bytes[index + 1] << 16) | (bytes[index + 2] << 8) | bytes[index + 3];
+            return ByteOrders.GetIntBE(bytes, index);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="index"></param>
-        /// <returns></returns>
         public long GetLong(byte[] bytes, int index)
         {
-            return (bytes[index] << 56) | (bytes[index + 1] << 48) | (bytes[index + 2] << 40) | (bytes[index + 3] << 32) |
-                   (bytes[index + 4] << 24) | (bytes[index + 5] << 16) | (bytes[index + 6] << 8) | bytes[index + 7];
+            return ByteOrders.GetLongBE(bytes, index);
         }
     }
 
@@ -236,5 +161,63 @@
         ///
         /// </summary>
         public static IByteOrder BigEndian { get; } = new BigEndian();
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe short GetShortLE(byte[] value, int startIndex)
+        {
+            fixed (byte* pbyte = &value[startIndex])
+            {
+                return (short)((*pbyte) | (*(pbyte + 1) << 8));
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe int GetIntLE(byte[] value, int startIndex)
+        {
+            fixed (byte* pbyte = &value[startIndex])
+            {
+                return (*pbyte) | (*(pbyte + 1) << 8) | (*(pbyte + 2) << 16) | (*(pbyte + 3) << 24);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe long GetLongLE(byte[] value, int startIndex)
+        {
+            fixed (byte* pbyte = &value[startIndex])
+            {
+                var i1 = (*pbyte) | (*(pbyte + 1) << 8) | (*(pbyte + 2) << 16) | (*(pbyte + 3) << 24);
+                var i2 = (*(pbyte + 4)) | (*(pbyte + 5) << 8) | (*(pbyte + 6) << 16) | (*(pbyte + 7) << 24);
+                return (uint)i1 | ((long)i2 << 32);
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe short GetShortBE(byte[] value, int startIndex)
+        {
+            fixed (byte* pbyte = &value[startIndex])
+            {
+                return (short)((*pbyte << 8) | (*(pbyte + 1)));
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe int GetIntBE(byte[] value, int startIndex)
+        {
+            fixed (byte* pbyte = &value[startIndex])
+            {
+                return (*pbyte << 24) | (*(pbyte + 1) << 16) | (*(pbyte + 2) << 8) | (*(pbyte + 3));
+            }
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe long GetLongBE(byte[] value, int startIndex)
+        {
+            fixed (byte* pbyte = &value[startIndex])
+            {
+                var i1 = (*pbyte << 24) | (*(pbyte + 1) << 16) | (*(pbyte + 2) << 8) | (*(pbyte + 3));
+                var i2 = (*(pbyte + 4) << 24) | (*(pbyte + 5) << 16) | (*(pbyte + 6) << 8) | (*(pbyte + 7));
+                return (uint)i2 | ((long)i1 << 32);
+            }
+        }
     }
 }
