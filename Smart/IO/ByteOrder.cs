@@ -1,5 +1,6 @@
 ﻿namespace Smart.IO
 {
+    using System;
     using System.Runtime.CompilerServices;
 
     /// <summary>
@@ -63,32 +64,32 @@
     {
         public void PutShort(byte[] bytes, int index, short value)
         {
-            ByteOrders.PutShortLE(bytes, index, value);
+            ByteOrder.PutShortLE(bytes, index, value);
         }
 
         public void PutInt(byte[] bytes, int index, int value)
         {
-            ByteOrders.PutIntLE(bytes, index, value);
+            ByteOrder.PutIntLE(bytes, index, value);
         }
 
         public void PutLong(byte[] bytes, int index, long value)
         {
-            ByteOrders.PutLongLE(bytes, index, value);
+            ByteOrder.PutLongLE(bytes, index, value);
         }
 
         public short GetShort(byte[] bytes, int index)
         {
-            return ByteOrders.GetShortLE(bytes, index);
+            return ByteOrder.GetShortLE(bytes, index);
         }
 
         public int GetInt(byte[] bytes, int index)
         {
-            return ByteOrders.GetIntLE(bytes, index);
+            return ByteOrder.GetIntLE(bytes, index);
         }
 
         public long GetLong(byte[] bytes, int index)
         {
-            return ByteOrders.GetLongLE(bytes, index);
+            return ByteOrder.GetLongLE(bytes, index);
         }
     }
 
@@ -96,49 +97,58 @@
     {
         public void PutShort(byte[] bytes, int index, short value)
         {
-            ByteOrders.PutShortBE(bytes, index, value);
+            ByteOrder.PutShortBE(bytes, index, value);
         }
 
         public void PutInt(byte[] bytes, int index, int value)
         {
-            ByteOrders.PutIntBE(bytes, index, value);
+            ByteOrder.PutIntBE(bytes, index, value);
         }
 
         public void PutLong(byte[] bytes, int index, long value)
         {
-            ByteOrders.PutLongBE(bytes, index, value);
+            ByteOrder.PutLongBE(bytes, index, value);
         }
 
         public short GetShort(byte[] bytes, int index)
         {
-            return ByteOrders.GetShortBE(bytes, index);
+            return ByteOrder.GetShortBE(bytes, index);
         }
 
         public int GetInt(byte[] bytes, int index)
         {
-            return ByteOrders.GetIntBE(bytes, index);
+            return ByteOrder.GetIntBE(bytes, index);
         }
 
         public long GetLong(byte[] bytes, int index)
         {
-            return ByteOrders.GetLongBE(bytes, index);
+            return ByteOrder.GetLongBE(bytes, index);
         }
     }
 
     /// <summary>
     ///
     /// </summary>
-    public static class ByteOrders
+    public static class ByteOrder
     {
-        /// <summary>
-        ///
-        /// </summary>
-        public static IByteOrder LittleEndian { get; } = new LittleEndian();
+        private static readonly IByteOrder Little = new LittleEndian();
+
+        private static readonly IByteOrder Big = new BigEndian();
 
         /// <summary>
         ///
         /// </summary>
-        public static IByteOrder BigEndian { get; } = new BigEndian();
+        public static IByteOrder Default { get; } = BitConverter.IsLittleEndian ? Little : Big;
+
+        /// <summary>
+        ///
+        /// </summary>
+        public static IByteOrder LittleEndian { get; } = Little;
+
+        /// <summary>
+        ///
+        /// </summary>
+        public static IByteOrder BigEndian { get; } = Big;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe void PutShortLE(byte[] bytes, int index, short value)
