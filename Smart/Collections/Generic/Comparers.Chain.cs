@@ -7,7 +7,7 @@
     ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ChainComparers<T> : IComparer<T>
+    public sealed class ChainComparers<T> : IComparer<T>
     {
         private readonly IComparer<T>[] comparers;
 

@@ -7,7 +7,7 @@
     ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DelegateComparer<T> : IComparer<T>
+    public sealed class DelegateComparer<T> : IComparer<T>
     {
         private readonly Func<T, T, int> comparer;
 

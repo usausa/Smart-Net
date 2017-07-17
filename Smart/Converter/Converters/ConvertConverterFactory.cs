@@ -9,7 +9,7 @@
     ///
     /// </summary>
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1505:AvoidUnmaintainableCode", Justification = "Ignore")]
-    public class ConvertConverterFactory : IConverterFactory
+    public sealed class ConvertConverterFactory : IConverterFactory
     {
         private static readonly IReadOnlyDictionary<TypePair, Func<TypePair, object, object>> Converters = new ReadOnlyDictionary<TypePair, Func<TypePair, object, object>>(new Dictionary<TypePair, Func<TypePair, object, object>>
         {

@@ -3,7 +3,7 @@
     using System;
     using System.Reflection;
 
-    internal class ReflectionAccessor : IAccessor
+    internal sealed class ReflectionAccessor : IAccessor
     {
         /// <summary>
         ///

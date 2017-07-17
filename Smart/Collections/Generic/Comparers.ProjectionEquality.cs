@@ -8,7 +8,7 @@
     /// </summary>
     /// <typeparam name="TSource"></typeparam>
     /// <typeparam name="TKey"></typeparam>
-    public class ProjectionEqualityComparer<TSource, TKey> : IEqualityComparer<TSource>
+    public sealed class ProjectionEqualityComparer<TSource, TKey> : IEqualityComparer<TSource>
     {
         private readonly Func<TSource, TKey> keySelector;
 

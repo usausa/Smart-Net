@@ -7,7 +7,7 @@
     /// <summary>
     ///
     /// </summary>
-    public class ConversionOperatorConverterFactory : IConverterFactory
+    public sealed class ConversionOperatorConverterFactory : IConverterFactory
     {
         /// <summary>
         ///

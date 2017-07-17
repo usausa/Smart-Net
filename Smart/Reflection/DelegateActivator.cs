@@ -6,7 +6,7 @@
     /// <summary>
     ///
     /// </summary>
-    public class DelegateActivator : IActivator
+    public sealed class DelegateActivator : IActivator
     {
         private readonly Func<object[], object> activator;
 

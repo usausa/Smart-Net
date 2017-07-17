@@ -6,7 +6,7 @@
     /// <summary>
     ///
     /// </summary>
-    public class AssignableConverterFactory : IConverterFactory
+    public sealed class AssignableConverterFactory : IConverterFactory
     {
         private static readonly Func<TypePair, object, object> Converter = (typePair, source) => source;
 

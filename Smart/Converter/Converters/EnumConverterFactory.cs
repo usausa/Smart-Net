@@ -7,7 +7,7 @@
     /// <summary>
     ///
     /// </summary>
-    public class EnumConverterFactory : IConverterFactory
+    public sealed class EnumConverterFactory : IConverterFactory
     {
         private static readonly Type StringType = typeof(string);
 

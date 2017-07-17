@@ -8,7 +8,7 @@
     /// </summary>
     /// <typeparam name="TSource"></typeparam>
     /// <typeparam name="TKey"></typeparam>
-    public class ProjectionComparer<TSource, TKey> : IComparer<TSource>
+    public sealed class ProjectionComparer<TSource, TKey> : IComparer<TSource>
     {
         private readonly Func<TSource, TKey> keySelector;
 

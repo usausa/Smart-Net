@@ -7,7 +7,7 @@
     /// <summary>
     ///
     /// </summary>
-    public class AtomicInteger : IValueHolder<int>
+    public sealed class AtomicInteger : IValueHolder<int>
     {
         private int currentValue;
 

@@ -20,7 +20,7 @@
         int CalculateRequestSize(IHashArrayMapResizeContext context);
     }
 
-    public class GrowthHashArrayMapStrategy : IHashArrayMapStrategy
+    public sealed class GrowthHashArrayMapStrategy : IHashArrayMapStrategy
     {
         private readonly int initialSize;
 
