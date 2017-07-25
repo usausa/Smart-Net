@@ -14,7 +14,7 @@
     /// <typeparam name="TKey"></typeparam>
     /// <typeparam name="TValue"></typeparam>
     [DebuggerDisplay("Count = {" + nameof(Count) + "}")]
-    public class ConcurrentHashArrayMap<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
+    public sealed class ConcurrentHashArrayMap<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
     {
         private static readonly Node[] EmptyNodes = new Node[0];
 
@@ -465,7 +465,7 @@
             }
         }
 
-        private class KeyValuePairEqualityComparer : IEqualityComparer<KeyValuePair<TKey, TValue>>
+        private sealed class KeyValuePairEqualityComparer : IEqualityComparer<KeyValuePair<TKey, TValue>>
         {
             public bool Equals(KeyValuePair<TKey, TValue> x, KeyValuePair<TKey, TValue> y)
             {
@@ -478,7 +478,7 @@
             }
         }
 
-        private class KeyEqualityComparer : IEqualityComparer<TKey>
+        private sealed class KeyEqualityComparer : IEqualityComparer<TKey>
         {
             public bool Equals(TKey x, TKey y)
             {
@@ -491,7 +491,7 @@
             }
         }
 
-        private class AddResizeContext : IHashArrayMapResizeContext
+        private sealed class AddResizeContext : IHashArrayMapResizeContext
         {
             public int Width { get; }
 

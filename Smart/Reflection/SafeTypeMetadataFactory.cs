@@ -5,7 +5,7 @@
     /// <summary>
     ///
     /// </summary>
-    public class SafeTypeMetadataFactory : ITypeMetadataFactory
+    public sealed class SafeTypeMetadataFactory : ITypeMetadataFactory
     {
         /// <summary>
         ///

@@ -3,7 +3,7 @@
     using System;
     using System.Reflection;
 
-    internal class ReflectionValueHolderAccessor : IAccessor
+    internal sealed class ReflectionValueHolderAccessor : IAccessor
     {
         private readonly PropertyInfo valueProperty;
 

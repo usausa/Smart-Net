@@ -7,7 +7,7 @@
     /// <summary>
     ///
     /// </summary>
-    public class ComponentConfig : IComponentConfig
+    public sealed class ComponentConfig : IComponentConfig
     {
         private readonly IDictionary<Type, List<ComponentEntry>> mappings = new Dictionary<Type, List<ComponentEntry>>();
 

@@ -7,7 +7,7 @@
     ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ComparisonComparer<T> : IComparer<T>
+    public sealed class ComparisonComparer<T> : IComparer<T>
     {
         private readonly Comparison<T> comparison;
 

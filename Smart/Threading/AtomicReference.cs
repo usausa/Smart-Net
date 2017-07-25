@@ -8,7 +8,7 @@
     ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class AtomicReference<T> : IValueHolder<T>
+    public sealed class AtomicReference<T> : IValueHolder<T>
         where T : class
     {
         private T currentValue;

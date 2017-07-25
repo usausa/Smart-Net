@@ -8,7 +8,7 @@
     /// </summary>
     /// <typeparam name="TTarget"></typeparam>
     /// <typeparam name="TMember"></typeparam>
-    internal class DelegateNonNullableAccsessor<TTarget, TMember> : IAccessor
+    internal sealed class DelegateNonNullableAccsessor<TTarget, TMember> : IAccessor
     {
         private readonly Func<TTarget, TMember> getter;
 

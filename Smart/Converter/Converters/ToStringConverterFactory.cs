@@ -5,7 +5,7 @@
     /// <summary>
     ///
     /// </summary>
-    public class ToStringConverterFactory : IConverterFactory
+    public sealed class ToStringConverterFactory : IConverterFactory
     {
         private static readonly Type StringType = typeof(string);
 

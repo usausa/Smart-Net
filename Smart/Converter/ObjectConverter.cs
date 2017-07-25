@@ -11,7 +11,7 @@
     /// <summary>
     ///
     /// </summary>
-    public class ObjectConverter : IObjectConverter
+    public sealed class ObjectConverter : IObjectConverter
     {
         /// <summary>
         ///

@@ -9,7 +9,7 @@
     /// <summary>
     ///
     /// </summary>
-    public class ComponentContainer : IComponentContainer
+    public sealed class ComponentContainer : IComponentContainer
     {
         private static readonly Type EnumerableType = typeof(IEnumerable<>);
 
@@ -58,7 +58,7 @@
         ///
         /// </summary>
         /// <param name="disposing"></param>
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (disposing)
             {

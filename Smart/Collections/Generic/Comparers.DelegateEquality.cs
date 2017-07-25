@@ -7,7 +7,7 @@
     ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class DelegateEqualityComparer<T> : IEqualityComparer<T>
+    public sealed class DelegateEqualityComparer<T> : IEqualityComparer<T>
     {
         private readonly Func<T, T, bool> equals;
 

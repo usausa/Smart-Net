@@ -7,7 +7,7 @@
     /// <summary>
     ///
     /// </summary>
-    public class AtomicBoolean : IValueHolder<bool>
+    public sealed class AtomicBoolean : IValueHolder<bool>
     {
         private const int True = -1;
         private const int False = 0;

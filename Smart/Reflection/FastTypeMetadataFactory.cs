@@ -6,7 +6,7 @@
     /// <summary>
     ///
     /// </summary>
-    public class FastTypeMetadataFactory : ITypeMetadataFactory
+    public sealed class FastTypeMetadataFactory : ITypeMetadataFactory
     {
         private static readonly Type DelegateNonNullableAccsessorType = typeof(DelegateNonNullableAccsessor<,>);
 

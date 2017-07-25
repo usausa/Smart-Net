@@ -10,7 +10,7 @@
     /// </summary>
     /// <typeparam name="TTarget"></typeparam>
     /// <typeparam name="TValue"></typeparam>
-    internal class DelegateNullableValueHolderAccessor<TTarget, TValue> : IAccessor
+    internal sealed class DelegateNullableValueHolderAccessor<TTarget, TValue> : IAccessor
     {
         private readonly Func<TTarget, IValueHolder<TValue>> holderGetter;
 
