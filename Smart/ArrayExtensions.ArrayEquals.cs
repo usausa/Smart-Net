@@ -79,7 +79,7 @@
 
             for (var i = 0; i < length; i++)
             {
-                if (array[offset + i] == other[otherOffset + i])
+                if (array[offset + i] != other[otherOffset + i])
                 {
                     return false;
                 }
@@ -111,7 +111,7 @@
 
             for (var i = 0; i < length; i++)
             {
-                if (array[offset + i] == other[otherOffset + i])
+                if (array[offset + i] != other[otherOffset + i])
                 {
                     return false;
                 }
@@ -143,7 +143,7 @@
 
             for (var i = 0; i < length; i++)
             {
-                if (array[offset + i] == other[otherOffset + i])
+                if (array[offset + i] != other[otherOffset + i])
                 {
                     return false;
                 }
@@ -175,7 +175,7 @@
 
             for (var i = 0; i < length; i++)
             {
-                if (array[offset + i] == other[otherOffset + i])
+                if (array[offset + i] != other[otherOffset + i])
                 {
                     return false;
                 }
@@ -271,7 +271,7 @@
 
             for (var i = 0; i < length; i++)
             {
-                if (array[offset + i] == other[otherOffset + i])
+                if (array[offset + i] != other[otherOffset + i])
                 {
                     return false;
                 }
@@ -303,7 +303,7 @@
 
             for (var i = 0; i < length; i++)
             {
-                if (array[offset + i] == other[otherOffset + i])
+                if (array[offset + i] != other[otherOffset + i])
                 {
                     return false;
                 }
