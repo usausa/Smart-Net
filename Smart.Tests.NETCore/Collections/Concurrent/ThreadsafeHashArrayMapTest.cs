@@ -9,7 +9,7 @@
     /// <summary>
     ///
     /// </summary>
-    public class ConcurrentHashArrayMapTest
+    public class ThreadsafeHashArrayMapTest
     {
         private static string Factory(int value)
         {
@@ -19,7 +19,7 @@
         [Fact]
         public void TestBasic()
         {
-            var map = new ConcurrentHashArrayMap<int, string>();
+            var map = new ThreadsafeHashArrayMap<int, string>();
 
             // Initial
             Assert.Equal(0, map.Count);
@@ -51,7 +51,7 @@
         [Fact]
         public void TestGrowth()
         {
-            var map = new ConcurrentHashArrayMap<int, string>(1);
+            var map = new ThreadsafeHashArrayMap<int, string>(1);
             for (var i = 0; i < 20; i++)
             {
                 map.AddIfNotExist(i, Factory);
@@ -64,7 +64,7 @@
         [Fact]
         public void TestRange()
         {
-            var map = new ConcurrentHashArrayMap<int, string>(1);
+            var map = new ThreadsafeHashArrayMap<int, string>(1);
 
             // AddRange1
             map.AddRangeIfNotExist(Enumerable.Range(1, 10), Factory);
@@ -87,7 +87,7 @@
         [Fact]
         public void TestThread()
         {
-            var map = new ConcurrentHashArrayMap<int, string>(1);
+            var map = new ThreadsafeHashArrayMap<int, string>(1);
 
             using (var evThreadStarted = new CountdownEvent(2))
             using (var evTyread1Completed = new CountdownEvent(1))

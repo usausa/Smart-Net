@@ -14,11 +14,13 @@
     /// <typeparam name="TKey"></typeparam>
     /// <typeparam name="TValue"></typeparam>
     [DebuggerDisplay("Count = {" + nameof(Count) + "}")]
-    public sealed class ConcurrentHashArrayMap<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
+    public sealed class ThreadsafeHashArrayMap<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
     {
         private static readonly Node[] EmptyNodes = new Node[0];
 
         private readonly object sync = new object();
+
+        private readonly IEqualityComparer<TKey> keyComparer;
 
         private readonly IHashArrayMapStrategy strategy;
 
@@ -33,13 +35,30 @@
         /// </summary>
         /// <param name="initialSize"></param>
         /// <param name="factor"></param>
-        public ConcurrentHashArrayMap(int initialSize = 32, double factor = 1.0)
-            : this(new GrowthHashArrayMapStrategy(initialSize, factor))
+        public ThreadsafeHashArrayMap(int initialSize = 32, double factor = 1.25)
+            : this(EqualityComparer<TKey>.Default, new GrowthHashArrayMapStrategy(initialSize, factor))
         {
         }
 
-        public ConcurrentHashArrayMap(IHashArrayMapStrategy strategy)
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="keyComparer"></param>
+        /// <param name="initialSize"></param>
+        /// <param name="factor"></param>
+        public ThreadsafeHashArrayMap(IEqualityComparer<TKey> keyComparer, int initialSize = 32, double factor = 1.25)
+            : this(keyComparer, new GrowthHashArrayMapStrategy(initialSize, factor))
         {
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="keyComparer"></param>
+        /// <param name="strategy"></param>
+        public ThreadsafeHashArrayMap(IEqualityComparer<TKey> keyComparer, IHashArrayMapStrategy strategy)
+        {
+            this.keyComparer = keyComparer;
             this.strategy = strategy;
             table = CreateInitialTable();
         }
@@ -208,18 +227,17 @@
         /// <summary>
         ///
         /// </summary>
-        /// <param name="table"></param>
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool TryGetValueInternal(Table table, TKey key, out TValue value)
+        private bool TryGetValueInternal(TKey key, out TValue value)
         {
             var index = key.GetHashCode() & table.HashMask;
             var array = table.Nodes[index];
             for (var i = 0; i < array.Length; i++)
             {
-                if (ReferenceEquals(array[i].Key, key) || array[i].Key.Equals(key))
+                if (keyComparer.Equals(array[i].Key, key))
                 {
                     value = array[i].Value;
                     return true;
@@ -266,7 +284,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetValue(TKey key, out TValue value)
         {
-            return TryGetValueInternal(table, key, out value);
+            return TryGetValueInternal(key, out value);
         }
 
         /// <summary>
@@ -280,7 +298,7 @@
             lock (sync)
             {
                 // Double checked locking
-                if (TryGetValueInternal(table, key, out TValue currentValue))
+                if (TryGetValueInternal(key, out TValue currentValue))
                 {
                     return currentValue;
                 }
@@ -305,7 +323,7 @@
             lock (sync)
             {
                 // Double checked locking
-                if (TryGetValueInternal(table, key, out TValue currentValue))
+                if (TryGetValueInternal(key, out TValue currentValue))
                 {
                     return currentValue;
                 }
@@ -330,8 +348,8 @@
             lock (sync)
             {
                 var nodes = pairs
-                    .Distinct(new KeyValuePairEqualityComparer())
-                    .Where(x => !TryGetValueInternal(table, x.Key, out TValue _))
+                    .GroupBy(x => x.Key, (key, g) => g.First(), keyComparer)
+                    .Where(x => !TryGetValueInternal(x.Key, out TValue _))
                     .Select(x => new Node(x.Key, x.Value))
                     .ToList();
 
@@ -355,8 +373,8 @@
             lock (sync)
             {
                 var nodes = keys
-                    .Distinct(new KeyEqualityComparer())
-                    .Where(x => !TryGetValueInternal(table, x, out TValue _))
+                    .Distinct(keyComparer)
+                    .Where(x => !TryGetValueInternal(x, out TValue _))
                     .Select(x => new Node(x, valueFactory(x)))
                     .ToList();
 
@@ -462,32 +480,6 @@
                 Nodes = nodes;
                 Count = count;
                 Depth = depth;
-            }
-        }
-
-        private sealed class KeyValuePairEqualityComparer : IEqualityComparer<KeyValuePair<TKey, TValue>>
-        {
-            public bool Equals(KeyValuePair<TKey, TValue> x, KeyValuePair<TKey, TValue> y)
-            {
-                return ReferenceEquals(x.Key, y.Key) || x.Key.Equals(y.Key);
-            }
-
-            public int GetHashCode(KeyValuePair<TKey, TValue> obj)
-            {
-                return obj.Key.GetHashCode();
-            }
-        }
-
-        private sealed class KeyEqualityComparer : IEqualityComparer<TKey>
-        {
-            public bool Equals(TKey x, TKey y)
-            {
-                return ReferenceEquals(x, y) || x.Equals(y);
-            }
-
-            public int GetHashCode(TKey obj)
-            {
-                return obj.GetHashCode();
             }
         }
 
