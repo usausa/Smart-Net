@@ -11,9 +11,11 @@
     /// <summary>
     ///
     /// </summary>
+    /// <typeparam name="TKey"></typeparam>
     /// <typeparam name="TValue"></typeparam>
     [DebuggerDisplay("Count = {" + nameof(Count) + "}")]
-    public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePair<Type, TValue>>
+    public sealed class ThreadsafeObjectHashArrayMap<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TValue>>
+        where TKey : class
     {
         private static readonly Node[] EmptyNodes = new Node[0];
 
@@ -32,7 +34,7 @@
         /// </summary>
         /// <param name="initialSize"></param>
         /// <param name="factor"></param>
-        public ThreadsafeTypeHashArrayMap(int initialSize = 32, double factor = 1.25)
+        public ThreadsafeObjectHashArrayMap(int initialSize = 32, double factor = 1.25)
             : this(new GrowthHashArrayMapStrategy(initialSize, factor))
         {
         }
@@ -41,7 +43,7 @@
         ///
         /// </summary>
         /// <param name="strategy"></param>
-        public ThreadsafeTypeHashArrayMap(IHashArrayMapStrategy strategy)
+        public ThreadsafeObjectHashArrayMap(IHashArrayMapStrategy strategy)
         {
             this.strategy = strategy;
             table = CreateInitialTable();
@@ -216,7 +218,7 @@
         /// <param name="value"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool TryGetValueInternal(Table table, Type key, out TValue value)
+        private static bool TryGetValueInternal(Table table, TKey key, out TValue value)
         {
             var index = key.GetHashCode() & table.HashMask;
             var array = table.Nodes[index];
@@ -267,7 +269,7 @@
         /// <param name="value"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool TryGetValue(Type key, out TValue value)
+        public bool TryGetValue(TKey key, out TValue value)
         {
             return TryGetValueInternal(table, key, out value);
         }
@@ -278,7 +280,7 @@
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public TValue AddIfNotExist(Type key, TValue value)
+        public TValue AddIfNotExist(TKey key, TValue value)
         {
             lock (sync)
             {
@@ -303,7 +305,7 @@
         /// <param name="key"></param>
         /// <param name="valueFactory"></param>
         /// <returns></returns>
-        public TValue AddIfNotExist(Type key, Func<Type, TValue> valueFactory)
+        public TValue AddIfNotExist(TKey key, Func<TKey, TValue> valueFactory)
         {
             lock (sync)
             {
@@ -328,7 +330,7 @@
         /// </summary>
         /// <param name="pairs"></param>
         /// <returns></returns>
-        public int AddRangeIfNotExist(IEnumerable<KeyValuePair<Type, TValue>> pairs)
+        public int AddRangeIfNotExist(IEnumerable<KeyValuePair<TKey, TValue>> pairs)
         {
             lock (sync)
             {
@@ -353,7 +355,7 @@
         /// <param name="keys"></param>
         /// <param name="valueFactory"></param>
         /// <returns></returns>
-        public int AddRangeIfNotExist(IEnumerable<Type> keys, Func<Type, TValue> valueFactory)
+        public int AddRangeIfNotExist(IEnumerable<TKey> keys, Func<TKey, TValue> valueFactory)
         {
             lock (sync)
             {
@@ -380,7 +382,7 @@
         ///
         /// </summary>
         /// <returns></returns>
-        public IEnumerator<KeyValuePair<Type, TValue>> GetEnumerator()
+        public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             var nodes = table.Nodes;
 
@@ -389,7 +391,7 @@
                 for (var j = 0; j < nodes[i].Length; j++)
                 {
                     var node = nodes[i][j];
-                    yield return new KeyValuePair<Type, TValue>(node.Key, node.Value);
+                    yield return new KeyValuePair<TKey, TValue>(node.Key, node.Value);
                 }
             }
         }
@@ -407,7 +409,7 @@
         // Helper
         //--------------------------------------------------------------------------------
 
-        public TValue this[Type key]
+        public TValue this[TKey key]
         {
             get
             {
@@ -421,13 +423,13 @@
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool ContainsKey(Type key)
+        public bool ContainsKey(TKey key)
         {
             return TryGetValue(key, out TValue _);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public TValue GetValueOrDefault(Type key, TValue defaultValue = default(TValue))
+        public TValue GetValueOrDefault(TKey key, TValue defaultValue = default(TValue))
         {
             return TryGetValue(key, out TValue value) ? value : defaultValue;
         }
@@ -438,11 +440,11 @@
 
         private class Node
         {
-            public Type Key { get; }
+            public TKey Key { get; }
 
             public TValue Value { get; }
 
-            public Node(Type key, TValue value)
+            public Node(TKey key, TValue value)
             {
                 Key = key;
                 Value = value;
