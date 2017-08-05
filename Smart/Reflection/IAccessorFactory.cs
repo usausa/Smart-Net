@@ -5,15 +5,8 @@
     /// <summary>
     ///
     /// </summary>
-    public interface ITypeMetadataFactory
+    public interface IAccessorFactory
     {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="ci"></param>
-        /// <returns></returns>
-        IActivator CreateActivator(ConstructorInfo ci);
-
         /// <summary>
         ///
         /// </summary>

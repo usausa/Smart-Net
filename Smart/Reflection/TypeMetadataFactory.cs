@@ -5,8 +5,14 @@
     /// <summary>
     ///
     /// </summary>
-    public sealed class SafeTypeMetadataFactory : IActivatorFactory, IAccessorFactory
+    public sealed class TypeMetadataFactory : IActivatorFactory
     {
+        public static TypeMetadataFactory Default { get; } = new TypeMetadataFactory();
+
+        public IActivatorFactory ActivatorFactory { get; set; }
+
+        public IAccessorFactory AccessorFactory { get; set; }
+
         /// <summary>
         ///
         /// </summary>
@@ -14,7 +20,7 @@
         /// <returns></returns>
         public IActivator CreateActivator(ConstructorInfo ci)
         {
-            return new ReflectionActivator(ci);
+            return ActivatorFactory.CreateActivator(ci);
         }
 
         /// <summary>
@@ -24,7 +30,7 @@
         /// <returns></returns>
         public IAccessor CreateAccessor(PropertyInfo pi)
         {
-            return new ReflectionAccessor(pi);
+            return AccessorFactory.CreateAccessor(pi);
         }
 
         /// <summary>
@@ -35,14 +41,7 @@
         /// <returns></returns>
         public IAccessor CreateAccessor(PropertyInfo pi, bool extension)
         {
-            var holderInterface = !extension ? null : AccessorHelper.FindValueHolderType(pi);
-            if (holderInterface == null)
-            {
-                return new ReflectionAccessor(pi);
-            }
-
-            var vpi = AccessorHelper.GetValueTypeProperty(holderInterface);
-            return new ReflectionValueHolderAccessor(pi, vpi);
+            return AccessorFactory.CreateAccessor(pi, extension);
         }
     }
 }
