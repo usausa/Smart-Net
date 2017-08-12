@@ -6,7 +6,7 @@
     /// <summary>
     ///
     /// </summary>
-    public sealed class FastTypeMetadataFactory : IActivatorFactory, IAccessorFactory
+    public sealed class CodeGenerateTypeMetadataFactory : IActivatorFactory, IAccessorFactory
     {
         private static readonly Type DelegateNonNullableAccsessorType = typeof(DelegateNonNullableAccsessor<,>);
 
@@ -15,6 +15,11 @@
         private static readonly Type DelegateNonNullableValueHolderAccessorType = typeof(DelegateNonNullableValueHolderAccessor<,>);
 
         private static readonly Type DelegateNullableValueHolderAccessorType = typeof(DelegateNullableValueHolderAccessor<,>);
+
+        /// <summary>
+        ///
+        /// </summary>
+        public static CodeGenerateTypeMetadataFactory Default { get; } = new CodeGenerateTypeMetadataFactory();
 
         /// <summary>
         ///

@@ -5,8 +5,13 @@
     /// <summary>
     ///
     /// </summary>
-    public sealed class SafeTypeMetadataFactory : IActivatorFactory, IAccessorFactory
+    public sealed class ReflectionTypeMetadataFactory : IActivatorFactory, IAccessorFactory
     {
+        /// <summary>
+        ///
+        /// </summary>
+        public static ReflectionTypeMetadataFactory Default { get; } = new ReflectionTypeMetadataFactory();
+
         /// <summary>
         ///
         /// </summary>
