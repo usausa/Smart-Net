@@ -2,13 +2,10 @@
 
   <PropertyGroup>    
     <TargetFramework>netcoreapp2.0</TargetFramework>    
+    <LangVersion>7.1</LangVersion>
     <RootNamespace>Smart</RootNamespace>
     <CodeAnalysisRuleSet>..\Smart.ruleset</CodeAnalysisRuleSet>
     <Version>1.0.0</Version>
-  </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
