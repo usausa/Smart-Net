@@ -39,6 +39,17 @@
             return buffer;
         }
 
+        public static ByteBuffer PutBytes(this ByteBuffer buffer, int index, ByteBuffer value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            Buffer.BlockCopy(value.Array, value.Position, buffer.Array, index, value.Remaining);
+            return buffer;
+        }
+
         public static ByteBuffer PutShort(this ByteBuffer buffer, int index, short value)
         {
             ByteOrder.Default.PutShort(buffer.Array, index, value);
@@ -179,6 +190,17 @@
             }
 
             Buffer.BlockCopy(value, offset, buffer.Array, buffer.Position, length);
+            return buffer;
+        }
+
+        public static ByteBuffer PutBytes(this ByteBuffer buffer, ByteBuffer value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            Buffer.BlockCopy(value.Array, value.Position, buffer.Array, buffer.Position, value.Remaining);
             return buffer;
         }
 
@@ -325,6 +347,18 @@
 
             Buffer.BlockCopy(value, offset, buffer.Array, buffer.Position, length);
             buffer.Position += length;
+            return buffer;
+        }
+
+        public static ByteBuffer PutBytesStep(this ByteBuffer buffer, ByteBuffer value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            Buffer.BlockCopy(value.Array, value.Position, buffer.Array, buffer.Position, value.Remaining);
+            buffer.Position += value.Remaining;
             return buffer;
         }
 
