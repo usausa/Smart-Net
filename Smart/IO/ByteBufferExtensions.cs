@@ -116,6 +116,11 @@
             return bytes;
         }
 
+        public static void GetBytes(this ByteBuffer buffer, int index, byte[] destination, int offset, int length)
+        {
+            Buffer.BlockCopy(buffer.Array, index, destination, offset, length);
+        }
+
         public static short GetShort(this ByteBuffer buffer, int index)
         {
             return ByteOrder.Default.GetShort(buffer.Array, index);
@@ -268,6 +273,11 @@
             var bytes = new byte[length];
             Buffer.BlockCopy(buffer.Array, buffer.Position, bytes, 0, length);
             return bytes;
+        }
+
+        public static void GetBytes(this ByteBuffer buffer, byte[] destination, int offset, int length)
+        {
+            Buffer.BlockCopy(buffer.Array, buffer.Position, destination, offset, length);
         }
 
         public static short GetShort(this ByteBuffer buffer)
@@ -438,6 +448,12 @@
             Buffer.BlockCopy(buffer.Array, buffer.Position, bytes, 0, length);
             buffer.Position += length;
             return bytes;
+        }
+
+        public static void GetBytesStep(this ByteBuffer buffer, byte[] destination, int offset, int length)
+        {
+            Buffer.BlockCopy(buffer.Array, buffer.Position, destination, offset, length);
+            buffer.Position += length;
         }
 
         public static short GetShortStep(this ByteBuffer buffer)
