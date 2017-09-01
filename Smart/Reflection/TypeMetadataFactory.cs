@@ -5,7 +5,7 @@
     /// <summary>
     ///
     /// </summary>
-    public sealed class TypeMetadataFactory : IActivatorFactory
+    public sealed class TypeMetadataFactory : IActivatorFactory, IAccessorFactory
     {
         public static TypeMetadataFactory Default { get; } = new TypeMetadataFactory();
 
