@@ -229,7 +229,7 @@
                 }
             }
 
-            value = default(TValue);
+            value = default;
             return false;
         }
 
@@ -427,7 +427,7 @@
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public TValue GetValueOrDefault(Type key, TValue defaultValue = default(TValue))
+        public TValue GetValueOrDefault(Type key, TValue defaultValue = default)
         {
             return TryGetValue(key, out TValue value) ? value : defaultValue;
         }

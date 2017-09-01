@@ -1,5 +1,6 @@
 ﻿namespace Smart.Collections.Generic
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -10,9 +11,13 @@
     /// </summary>
     public class BinarySearchTest
     {
-        // ReSharper disable once UnusedParameter.Local
-        private static void AssertIndex(List<int> expects, List<int> actuals)
+        private static void AssertIndex(IList<int> expects, IList<int> actuals)
         {
+            if (actuals == null)
+            {
+                throw new ArgumentNullException(nameof(actuals));
+            }
+
             for (var i = 0; i < expects.Count; i++)
             {
                 if (expects[i] >= 0)

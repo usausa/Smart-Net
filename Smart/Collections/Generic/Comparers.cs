@@ -86,8 +86,7 @@
         /// <returns></returns>
         public static IComparer<T> Reverse<T>(this IComparer<T> original)
         {
-            var originalAsReverse = original as ReverseComparer<T>;
-            if (originalAsReverse != null)
+            if (original is ReverseComparer<T> originalAsReverse)
             {
                 return originalAsReverse.OriginalComparer;
             }

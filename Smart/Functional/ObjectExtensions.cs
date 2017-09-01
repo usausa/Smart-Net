@@ -46,7 +46,7 @@
         public static TResult Or<T, TResult>(this T value, Func<T, TResult> func)
             where T : class
         {
-            return value == null ? default(TResult) : func(value);
+            return value == null ? default : func(value);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@
         public static TResult Or<T, TResult>(this T? value, Func<T, TResult> func)
             where T : struct
         {
-            return value == null ? default(TResult) : func(value.Value);
+            return value == null ? default : func(value.Value);
         }
 
         /// <summary>

@@ -19,7 +19,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
-            return dictionary.TryGetValue(key, out TValue value) ? value : default(TValue);
+            return dictionary.TryGetValue(key, out TValue value) ? value : default;
         }
 
         /// <summary>

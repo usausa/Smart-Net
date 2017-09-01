@@ -67,8 +67,7 @@
                     var disposed = new HashSet<object>();
                     foreach (var instance in cache.Values.SelectMany(x => x))
                     {
-                        var disposable = instance as IDisposable;
-                        if (disposable != null)
+                        if (instance is IDisposable disposable)
                         {
                             disposable.Dispose();
                             disposed.Add(instance);
@@ -77,8 +76,7 @@
 
                     foreach (var entry in mappings.Values.SelectMany(x => x))
                     {
-                        var disposable = entry.Constant as IDisposable;
-                        if ((disposable != null) && !disposed.Contains(disposable))
+                        if ((entry.Constant is IDisposable disposable) && !disposed.Contains(disposable))
                         {
                             disposable.Dispose();
                         }

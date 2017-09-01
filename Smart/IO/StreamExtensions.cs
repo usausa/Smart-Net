@@ -15,8 +15,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static byte[] ReadAllBytes(this Stream stream)
         {
-            var memoryStream = stream as MemoryStream;
-            if (memoryStream != null)
+            if (stream is MemoryStream memoryStream)
             {
                 return memoryStream.ToArray();
             }
