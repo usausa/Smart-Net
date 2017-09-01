@@ -1,5 +1,7 @@
 ﻿namespace Smart.Reflection
 {
+    using System;
+    using System.Linq.Expressions;
     using System.Reflection;
 
     /// <summary>
@@ -12,6 +14,42 @@
         public IActivatorFactory ActivatorFactory { get; set; }
 
         public IAccessorFactory AccessorFactory { get; set; }
+
+        /// <summary>
+        ///
+        /// </summary>
+        private TypeMetadataFactory()
+        {
+            if (IsCodeGenerateSupported())
+            {
+                AccessorFactory = CodeGenerateTypeMetadataFactory.Default;
+                AccessorFactory = CodeGenerateTypeMetadataFactory.Default;
+            }
+            else
+            {
+                AccessorFactory = ReflectionTypeMetadataFactory.Default;
+                AccessorFactory = ReflectionTypeMetadataFactory.Default;
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <returns></returns>
+        private static bool IsCodeGenerateSupported()
+        {
+            try
+            {
+                var expr = Expression.Constant(0, typeof(int));
+                var lambda = Expression.Lambda<Func<int>>(expr);
+                lambda.Compile();
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
 
         /// <summary>
         ///
