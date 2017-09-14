@@ -38,7 +38,7 @@
             reflectionActivator = ReflectionTypeMetadataFactory.Default.CreateActivator(ctor);
         }
 
-        [Benchmark]
+        [Benchmark(Baseline = true)]
         public object NewRaw()
         {
             return new Class0();
