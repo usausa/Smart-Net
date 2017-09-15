@@ -19,7 +19,9 @@
         /// <returns></returns>
         public IActivator CreateActivator(ConstructorInfo ci)
         {
-            return new ReflectionActivator(ci);
+            return ci.GetParameters().Length == 0
+                ? (IActivator)new ReflectionActivatorActivator(ci)
+                : new ReflectionConstructorActivator(ci);
         }
 
         /// <summary>

@@ -1,11 +1,12 @@
 ﻿namespace Smart.Reflection
 {
+    using System;
     using System.Reflection;
 
     /// <summary>
     ///
     /// </summary>
-    public sealed class ReflectionActivator : IActivator
+    public sealed class ReflectionActivatorActivator : IActivator
     {
         /// <summary>
         ///
@@ -16,7 +17,7 @@
         ///
         /// </summary>
         /// <param name="constructor"></param>
-        public ReflectionActivator(ConstructorInfo constructor)
+        public ReflectionActivatorActivator(ConstructorInfo constructor)
         {
             Source = constructor;
         }
@@ -28,7 +29,7 @@
         /// <returns></returns>
         public object Create(params object[] arguments)
         {
-            return Source.Invoke(arguments);
+            return Activator.CreateInstance(Source.DeclaringType, arguments);
         }
     }
 }
