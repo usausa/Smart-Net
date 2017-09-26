@@ -22,12 +22,12 @@
         {
             if (IsCodeGenerateSupported())
             {
-                AccessorFactory = CodeGenerateTypeMetadataFactory.Default;
+                ActivatorFactory = CodeGenerateTypeMetadataFactory.Default;
                 AccessorFactory = CodeGenerateTypeMetadataFactory.Default;
             }
             else
             {
-                AccessorFactory = ReflectionTypeMetadataFactory.Default;
+                ActivatorFactory = ReflectionTypeMetadataFactory.Default;
                 AccessorFactory = ReflectionTypeMetadataFactory.Default;
             }
         }
