@@ -34,17 +34,7 @@
 
                 var parameterIndexExpression = Expression.ArrayIndex(parametersExpression, Expression.Constant(i));
                 var convertExpression = Expression.Convert(parameterIndexExpression, parameterType);
-                if (parameterType.GetTypeInfo().IsValueType)
-                {
-                    argumentsExpression[i] = Expression.Condition(
-                        Expression.Equal(parameterIndexExpression, Expression.Constant(null)),
-                        Expression.Default(parameterType),
-                        convertExpression);
-                }
-                else
-                {
-                    argumentsExpression[i] = convertExpression;
-                }
+                argumentsExpression[i] = convertExpression;
             }
 
             return Expression.Lambda<Func<object[], object>>(
