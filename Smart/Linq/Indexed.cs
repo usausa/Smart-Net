@@ -4,12 +4,12 @@
     ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class Indexed<T>
+    public struct Indexed<T>
     {
         /// <summary>
         ///
         /// </summary>
-        public T Item { get; }
+        public T Item { get;  }
 
         /// <summary>
         ///
