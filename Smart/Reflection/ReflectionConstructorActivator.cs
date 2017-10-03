@@ -5,7 +5,7 @@
     /// <summary>
     ///
     /// </summary>
-    public sealed class ReflectionConstructorActivator : IActivator
+    internal sealed class ReflectionConstructorActivator : IActivator
     {
         /// <summary>
         ///

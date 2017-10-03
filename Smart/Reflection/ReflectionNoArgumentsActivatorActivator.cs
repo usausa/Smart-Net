@@ -6,7 +6,7 @@
     /// <summary>
     ///
     /// </summary>
-    public sealed class ReflectionActivatorActivator : IActivator
+    internal sealed class ReflectionActivatorActivator : IActivator
     {
         /// <summary>
         ///
@@ -29,7 +29,7 @@
         /// <returns></returns>
         public object Create(params object[] arguments)
         {
-            return Activator.CreateInstance(Source.DeclaringType, arguments);
+            return Activator.CreateInstance(Source.DeclaringType);
         }
     }
 }
