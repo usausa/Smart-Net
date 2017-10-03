@@ -388,11 +388,23 @@
                     sb.Append(prefix);
                 }
 
-                sb.Append(bytes[i].ToString("X2", CultureInfo.InvariantCulture));
+                var b = bytes[i];
+                sb.Append(ToHex(b >> 4));
+                sb.Append(ToHex(b & 0x0F));
                 count++;
             }
 
             return sb.ToString();
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        private static char ToHex(int x)
+        {
+            return x < 10 ? (char)(x + '0') : (char)(x + 'A' - 10);
         }
 
         /// <summary>
