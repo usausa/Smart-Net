@@ -39,19 +39,7 @@
         /// <returns></returns>
         public IAccessor CreateAccessor(PropertyInfo pi)
         {
-            var getter = DelegateMethodGenerator.CreateGetter(pi);
-            var setter = DelegateMethodGenerator.CreateSetter(pi);
-
-            if (pi.PropertyType.GetTypeInfo().IsValueType)
-            {
-                var accessorType = DelegateNonNullableAccsessorType.MakeGenericType(pi.DeclaringType, pi.PropertyType);
-                return (IAccessor)Activator.CreateInstance(accessorType, pi, getter, setter, pi.PropertyType.GetDefaultValue());
-            }
-            else
-            {
-                var accessorType = DelegateNullableAccsessorType.MakeGenericType(pi.DeclaringType, pi.PropertyType);
-                return (IAccessor)Activator.CreateInstance(accessorType, pi, getter, setter);
-            }
+            return CreateAccessor(pi, true);
         }
 
         /// <summary>
@@ -65,24 +53,38 @@
             var holderInterface = !extension ? null : AccessorHelper.FindValueHolderType(pi);
             if (holderInterface == null)
             {
-                return CreateAccessor(pi);
-            }
+                var getter = DelegateMethodGenerator.CreateGetter(pi);
+                var setter = DelegateMethodGenerator.CreateSetter(pi);
 
-            var holderGetter = DelegateMethodGenerator.CreateGetter(pi);
-
-            var vpi = AccessorHelper.GetValueTypeProperty(holderInterface);
-            var getter = DelegateMethodGenerator.CreateGetter(vpi);
-            var setter = DelegateMethodGenerator.CreateSetter(vpi);
-
-            if (pi.PropertyType.GetTypeInfo().IsValueType)
-            {
-                var accessorType = DelegateNonNullableValueHolderAccessorType.MakeGenericType(pi.DeclaringType, vpi.PropertyType);
-                return (IAccessor)Activator.CreateInstance(accessorType, pi, vpi.PropertyType, holderGetter, getter, setter, vpi.PropertyType.GetDefaultValue());
+                if (pi.PropertyType.GetTypeInfo().IsValueType)
+                {
+                    var accessorType = DelegateNonNullableAccsessorType.MakeGenericType(pi.DeclaringType, pi.PropertyType);
+                    return (IAccessor)Activator.CreateInstance(accessorType, pi, getter, setter, pi.PropertyType.GetDefaultValue());
+                }
+                else
+                {
+                    var accessorType = DelegateNullableAccsessorType.MakeGenericType(pi.DeclaringType, pi.PropertyType);
+                    return (IAccessor)Activator.CreateInstance(accessorType, pi, getter, setter);
+                }
             }
             else
             {
-                var accessorType = DelegateNullableValueHolderAccessorType.MakeGenericType(pi.DeclaringType, vpi.PropertyType);
-                return (IAccessor)Activator.CreateInstance(accessorType, pi, vpi.PropertyType, holderGetter, getter, setter);
+                var holderGetter = DelegateMethodGenerator.CreateGetter(pi);
+
+                var vpi = AccessorHelper.GetValueTypeProperty(holderInterface);
+                var getter = DelegateMethodGenerator.CreateGetter(vpi);
+                var setter = DelegateMethodGenerator.CreateSetter(vpi);
+
+                if (pi.PropertyType.GetTypeInfo().IsValueType)
+                {
+                    var accessorType = DelegateNonNullableValueHolderAccessorType.MakeGenericType(pi.DeclaringType, vpi.PropertyType);
+                    return (IAccessor)Activator.CreateInstance(accessorType, pi, vpi.PropertyType, holderGetter, getter, setter, vpi.PropertyType.GetDefaultValue());
+                }
+                else
+                {
+                    var accessorType = DelegateNullableValueHolderAccessorType.MakeGenericType(pi.DeclaringType, vpi.PropertyType);
+                    return (IAccessor)Activator.CreateInstance(accessorType, pi, vpi.PropertyType, holderGetter, getter, setter);
+                }
             }
         }
     }

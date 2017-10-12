@@ -31,7 +31,7 @@
         /// <returns></returns>
         public IAccessor CreateAccessor(PropertyInfo pi)
         {
-            return new ReflectionAccessor(pi);
+            return CreateAccessor(pi, true);
         }
 
         /// <summary>
