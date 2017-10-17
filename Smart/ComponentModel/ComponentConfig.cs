@@ -18,7 +18,7 @@
         /// <returns></returns>
         private List<ComponentEntry> GetEntries(Type componentType)
         {
-            if (mappings.TryGetValue(componentType, out List<ComponentEntry> entries))
+            if (mappings.TryGetValue(componentType, out var entries))
             {
                 return entries;
             }
@@ -146,7 +146,7 @@
         /// <param name="implementType"></param>
         public void Remove(Type componentType, Type implementType)
         {
-            if (!mappings.TryGetValue(componentType, out List<ComponentEntry> list))
+            if (!mappings.TryGetValue(componentType, out var list))
             {
                 return;
             }
@@ -171,7 +171,7 @@
         /// <param name="constant"></param>
         public void Remove(Type componentType, object constant)
         {
-            if (!mappings.TryGetValue(componentType, out List<ComponentEntry> list))
+            if (!mappings.TryGetValue(componentType, out var list))
             {
                 return;
             }

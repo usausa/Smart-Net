@@ -267,7 +267,7 @@
                 typePair = new TypePair(typePair.SourceType, Nullable.GetUnderlyingType(typePair.TargetType));
             }
 
-            Converters.TryGetValue(typePair, out Func<TypePair, object, object> converter);
+            Converters.TryGetValue(typePair, out var converter);
             return converter;
         }
     }

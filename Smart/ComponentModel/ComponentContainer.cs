@@ -207,12 +207,12 @@
         {
             lock (cache)
             {
-                if (cache.TryGetValue(componentType, out object[] objects))
+                if (cache.TryGetValue(componentType, out var objects))
                 {
                     return objects;
                 }
 
-                if (!mappings.TryGetValue(componentType, out ComponentEntry[] entries))
+                if (!mappings.TryGetValue(componentType, out var entries))
                 {
                     return EmptyResult;
                 }
