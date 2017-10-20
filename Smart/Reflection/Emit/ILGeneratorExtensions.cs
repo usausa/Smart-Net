@@ -13,7 +13,7 @@
         /// </summary>
         /// <param name="il"></param>
         /// <param name="i"></param>
-        public static void EmitLdcI4(ILGenerator il, int i)
+        public static void EmitLdcI4(this ILGenerator il, int i)
         {
             switch (i)
             {
@@ -62,7 +62,7 @@
         /// </summary>
         /// <param name="il"></param>
         /// <param name="type"></param>
-        public static void EmitTypeConversion(ILGenerator il, Type type)
+        public static void EmitTypeConversion(this ILGenerator il, Type type)
         {
             if (type.IsValueType)
             {
