@@ -25,7 +25,9 @@
 
         private IActivator newActivator;
 
-        private IActivator codeGenerateActivator;
+        private IActivator emitActivator;
+
+        private IActivator expressionActivator;
 
         private IActivator reflectionActivator;
 
@@ -34,7 +36,8 @@
         {
             var ctor = typeof(Class0).GetConstructor(Type.EmptyTypes);
             newActivator = new NewActivator();
-            codeGenerateActivator = CodeGenerateTypeMetadataFactory.Default.CreateActivator(ctor);
+            emitActivator = EmitMethodGenerator.CreateActivator(ctor);
+            expressionActivator = new DelegateActivator(ctor, ExpressionMethodGenerator.CreateActivator(ctor));
             reflectionActivator = ReflectionTypeMetadataFactory.Default.CreateActivator(ctor);
         }
 
@@ -51,9 +54,15 @@
         }
 
         [Benchmark]
-        public object CodeGenerate()
+        public object Emit()
         {
-            return codeGenerateActivator.Create(null);
+            return emitActivator.Create(null);
+        }
+
+        [Benchmark]
+        public object Expression()
+        {
+            return expressionActivator.Create(null);
         }
 
         [Benchmark]
