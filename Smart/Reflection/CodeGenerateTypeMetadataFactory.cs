@@ -28,8 +28,7 @@
         /// <returns></returns>
         public IActivator CreateActivator(ConstructorInfo ci)
         {
-            var activator = ExpressionMethodGenerator.CreateActivator(ci);
-            return new DelegateActivator(ci, activator);
+            return EmitMethodGenerator.CreateActivator(ci);
         }
 
         /// <summary>
