@@ -1,6 +1,7 @@
 ﻿namespace Smart.Reflection.Emit
 {
     using System;
+    using System.Reflection;
     using System.Reflection.Emit;
 
     /// <summary>
@@ -45,7 +46,7 @@
                     il.Emit(OpCodes.Ldc_I4_8);
                     break;
                 default:
-                    if (i < 128)
+                    if ((i >= -128) && (i <= 127))
                     {
                         il.Emit(OpCodes.Ldc_I4_S, (sbyte)i);
                     }
@@ -72,6 +73,17 @@
             {
                 il.Emit(OpCodes.Castclass, type);
             }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="il"></param>
+        /// <param name="method"></param>
+        public static void EmitCall(this ILGenerator il, MethodInfo method)
+        {
+            var opcode = (method.IsStatic || method.DeclaringType.IsValueType) ? OpCodes.Call : OpCodes.Callvirt;
+            il.EmitCall(opcode, method, null);
         }
     }
 }
