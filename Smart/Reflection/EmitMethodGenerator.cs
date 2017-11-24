@@ -70,11 +70,11 @@
 
         private static readonly object Sync = new object();
 
-        private static readonly Dictionary<ConstructorInfo, IActivator> ActivatorCash = new Dictionary<ConstructorInfo, IActivator>();
+        private static readonly Dictionary<ConstructorInfo, IActivator> ActivatorCache = new Dictionary<ConstructorInfo, IActivator>();
 
-        private static readonly Dictionary<PropertyInfo, IAccessor> AccessorCash = new Dictionary<PropertyInfo, IAccessor>();
+        private static readonly Dictionary<PropertyInfo, IAccessor> AccessorCache = new Dictionary<PropertyInfo, IAccessor>();
 
-        private static readonly Dictionary<PropertyInfo, IAccessor> HolderAccessorCash = new Dictionary<PropertyInfo, IAccessor>();
+        private static readonly Dictionary<PropertyInfo, IAccessor> HolderAccessorCache = new Dictionary<PropertyInfo, IAccessor>();
 
         private static AssemblyBuilder assemblyBuilder;
 
@@ -112,10 +112,10 @@
 
             lock (Sync)
             {
-                if (!ActivatorCash.TryGetValue(ci, out var activator))
+                if (!ActivatorCache.TryGetValue(ci, out var activator))
                 {
                     activator = CreateActivatorInternal(ci);
-                    ActivatorCash[ci] = activator;
+                    ActivatorCache[ci] = activator;
                 }
 
                 return activator;
@@ -241,31 +241,22 @@
 
             lock (Sync)
             {
-                if (holderType == null)
+                var cache = holderType == null ? AccessorCache : HolderAccessorCache;
+                if (!cache.TryGetValue(pi, out var accessor))
                 {
-                    if (!AccessorCash.TryGetValue(pi, out var accessor))
-                    {
-                        accessor = CreateAccessorInternal(pi);
-                        AccessorCash[pi] = accessor;
-                    }
-
-                    return accessor;
+                    accessor = CreateAccessorInternal(pi, holderType);
+                    cache[pi] = accessor;
                 }
-                else
-                {
-                    if (!HolderAccessorCash.TryGetValue(pi, out var accessor))
-                    {
-                        accessor = CreateAccessorInternal(pi, holderType);
-                        HolderAccessorCash[pi] = accessor;
-                    }
 
-                    return accessor;
-                }
+                return accessor;
             }
         }
 
-        private static IAccessor CreateAccessorInternal(PropertyInfo pi)
+        private static IAccessor CreateAccessorInternal(PropertyInfo pi, Type holderType)
         {
+            var isValueProperty = holderType != null;
+            var vpi = isValueProperty ? AccessorHelper.GetValueTypeProperty(holderType) : pi;
+
             var typeBuilder = ModuleBuilder.DefineType(
                 $"{pi.DeclaringType.FullName}_{pi.Name}_DynamicAccsessor",
                 TypeAttributes.Public | TypeAttributes.AutoLayout | TypeAttributes.AnsiClass | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit);
@@ -277,62 +268,30 @@
                  "source",
                  PropertyInfoType,
                  FieldAttributes.Private | FieldAttributes.InitOnly);
+            var typeField = isValueProperty
+                ? typeBuilder.DefineField(
+                    "type",
+                    TypeType,
+                    FieldAttributes.Private | FieldAttributes.InitOnly)
+                : null;
 
             // Property
             DefineAccessorPropertySource(typeBuilder, sourceField);
             DefineAccessorPropertyName(typeBuilder, sourceField);
-            DefineAccessorPropertyType(typeBuilder, sourceField);
-            DefineAccessorPropertyAccessibility(typeBuilder, pi.CanRead, nameof(IAccessor.CanRead));
-            DefineAccessorPropertyAccessibility(typeBuilder, pi.CanWrite, nameof(IAccessor.CanWrite));
+            DefineAccessorPropertyType(typeBuilder, typeField != null ? typeField : sourceField, typeField == null);
+            DefineAccessorPropertyAccessibility(typeBuilder, vpi.CanRead, nameof(IAccessor.CanRead));
+            DefineAccessorPropertyAccessibility(typeBuilder, vpi.CanWrite, nameof(IAccessor.CanWrite));
 
             // Constructor
-            DefineAccessorConstructor(typeBuilder, sourceField);
+            DefineAccessorConstructor(typeBuilder, sourceField, typeField);
 
             // Method
-            DefineAccessorMethodGetValue(typeBuilder, pi);
-            DefineAccessorMethodSetValue(typeBuilder, pi);
+            DefineAccessorMethodGetValue(typeBuilder, pi, vpi, isValueProperty);
+            DefineAccessorMethodSetValue(typeBuilder, pi, vpi, isValueProperty);
 
-            var typeInfo = typeBuilder.CreateTypeInfo();
+            var type = typeBuilder.CreateTypeInfo().AsType();
 
-            return (IAccessor)Activator.CreateInstance(typeInfo.AsType(), pi);
-        }
-
-        private static IAccessor CreateAccessorInternal(PropertyInfo pi, Type holderType)
-        {
-            var typeBuilder = ModuleBuilder.DefineType(
-                $"{pi.DeclaringType.FullName}_{pi.Name}_DynamicAccsessor",
-                TypeAttributes.Public | TypeAttributes.AutoLayout | TypeAttributes.AnsiClass | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit);
-
-            typeBuilder.AddInterfaceImplementation(AccessorType);
-
-            // Fields
-            var sourceField = typeBuilder.DefineField(
-                "source",
-                PropertyInfoType,
-                FieldAttributes.Private | FieldAttributes.InitOnly);
-            var typeField = typeBuilder.DefineField(
-                "type",
-                TypeType,
-                FieldAttributes.Private | FieldAttributes.InitOnly);
-
-            // Property
-            DefineAccessorPropertySource(typeBuilder, sourceField);
-            DefineAccessorPropertyName(typeBuilder, sourceField);
-            DefineValueHolderAccessorPropertyType(typeBuilder, typeField);
-            DefineAccessorPropertyAccessibility(typeBuilder, true, nameof(IAccessor.CanRead));
-            DefineAccessorPropertyAccessibility(typeBuilder, true, nameof(IAccessor.CanWrite));
-
-            // Constructor
-            DefineValueHolderAccessorConstructor(typeBuilder, sourceField, typeField);
-
-            // Method
-            DefineValueHolderAccessorMethodGetValue(typeBuilder, pi, holderType);
-            // TODO
-            DefineAccessorMethodSetValue(typeBuilder, pi);
-
-            var typeInfo = typeBuilder.CreateTypeInfo();
-
-            return (IAccessor)Activator.CreateInstance(typeInfo.AsType(), pi);
+            return (IAccessor)Activator.CreateInstance(type, pi);
         }
 
         private static void DefineAccessorPropertySource(TypeBuilder typeBuilder, FieldBuilder sourceField)
@@ -380,7 +339,7 @@
             ilGenerator.Emit(OpCodes.Ret);
         }
 
-        private static void DefineAccessorPropertyType(TypeBuilder typeBuilder, FieldBuilder sourceField)
+        private static void DefineAccessorPropertyType(TypeBuilder typeBuilder, FieldBuilder field, bool isProperty)
         {
             var property = typeBuilder.DefineProperty(
                 "Type",
@@ -397,30 +356,11 @@
             var ilGenerator = method.GetILGenerator();
 
             ilGenerator.Emit(OpCodes.Ldarg_0);
-            ilGenerator.Emit(OpCodes.Ldfld, sourceField);
-            ilGenerator.Emit(OpCodes.Callvirt, PropertyInfoPropertyTypeGetMethod);
-
-            ilGenerator.Emit(OpCodes.Ret);
-        }
-
-        private static void DefineValueHolderAccessorPropertyType(TypeBuilder typeBuilder, FieldBuilder typeField)
-        {
-            var property = typeBuilder.DefineProperty(
-                "Type",
-                PropertyAttributes.None,
-                TypeType,
-                null);
-            var method = typeBuilder.DefineMethod(
-                "get_Type",
-                MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.SpecialName | MethodAttributes.Virtual | MethodAttributes.Final,
-                TypeType,
-                Type.EmptyTypes);
-            property.SetGetMethod(method);
-
-            var ilGenerator = method.GetILGenerator();
-
-            ilGenerator.Emit(OpCodes.Ldarg_0);
-            ilGenerator.Emit(OpCodes.Ldfld, typeField);
+            ilGenerator.Emit(OpCodes.Ldfld, field);
+            if (isProperty)
+            {
+                ilGenerator.Emit(OpCodes.Callvirt, PropertyInfoPropertyTypeGetMethod);
+            }
 
             ilGenerator.Emit(OpCodes.Ret);
         }
@@ -441,24 +381,17 @@
 
             var ilGenerator = method.GetILGenerator();
 
-            if (enable)
-            {
-                ilGenerator.Emit(OpCodes.Ldc_I4_1);
-            }
-            else
-            {
-                ilGenerator.Emit(OpCodes.Ldc_I4_1);
-            }
+            ilGenerator.Emit(enable ? OpCodes.Ldc_I4_1 : OpCodes.Ldc_I4_0);
             ilGenerator.Emit(OpCodes.Ret);
         }
 
-        private static void DefineAccessorConstructor(TypeBuilder typeBuilder, FieldBuilder sourceField)
+        private static void DefineAccessorConstructor(TypeBuilder typeBuilder, FieldBuilder sourceField, FieldBuilder typeField)
         {
             var ctor = typeBuilder.DefineConstructor(
                 MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName |
                 MethodAttributes.RTSpecialName,
                 CallingConventions.Standard,
-                AccessorConstructorArgumentTypes);
+                typeField == null ? AccessorConstructorArgumentTypes : ValueHolderAccessorConstructorArgumentTypes);
 
             var ilGenerator = ctor.GetILGenerator();
 
@@ -469,34 +402,17 @@
             ilGenerator.Emit(OpCodes.Ldarg_1);
             ilGenerator.Emit(OpCodes.Stfld, sourceField);
 
-            ilGenerator.Emit(OpCodes.Ret);
-        }
-
-        private static void DefineValueHolderAccessorConstructor(TypeBuilder typeBuilder, FieldBuilder sourceField, FieldBuilder typeField)
-        {
-            var ctor = typeBuilder.DefineConstructor(
-                MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName |
-                MethodAttributes.RTSpecialName,
-                CallingConventions.Standard,
-                ValueHolderAccessorConstructorArgumentTypes);
-
-            var ilGenerator = ctor.GetILGenerator();
-
-            ilGenerator.Emit(OpCodes.Ldarg_0);
-            ilGenerator.Emit(OpCodes.Call, ObjectCotor);
-
-            ilGenerator.Emit(OpCodes.Ldarg_0);
-            ilGenerator.Emit(OpCodes.Ldarg_1);
-            ilGenerator.Emit(OpCodes.Stfld, sourceField);
-
-            ilGenerator.Emit(OpCodes.Ldarg_0);
-            ilGenerator.Emit(OpCodes.Ldarg_2);
-            ilGenerator.Emit(OpCodes.Stfld, typeField);
+            if (typeField != null)
+            {
+                ilGenerator.Emit(OpCodes.Ldarg_0);
+                ilGenerator.Emit(OpCodes.Ldarg_2);
+                ilGenerator.Emit(OpCodes.Stfld, typeField);
+            }
 
             ilGenerator.Emit(OpCodes.Ret);
         }
 
-        private static void DefineAccessorMethodGetValue(TypeBuilder typeBuilder, PropertyInfo pi)
+        private static void DefineAccessorMethodGetValue(TypeBuilder typeBuilder, PropertyInfo pi, PropertyInfo vpi, bool isValueProperty)
         {
             var method = typeBuilder.DefineMethod(
                 nameof(IAccessor.GetValue),
@@ -507,7 +423,7 @@
 
             var ilGenerator = method.GetILGenerator();
 
-            if (!pi.CanRead)
+            if (!vpi.CanRead)
             {
                 ilGenerator.Emit(OpCodes.Newobj, NotSupportedExceptionCtor);
                 ilGenerator.Emit(OpCodes.Throw);
@@ -517,40 +433,19 @@
             ilGenerator.Emit(OpCodes.Ldarg_1);
             ilGenerator.Emit(OpCodes.Castclass, pi.DeclaringType);
             ilGenerator.Emit(OpCodes.Callvirt, pi.GetGetMethod());
-            if (pi.PropertyType.IsValueType)
+            if (isValueProperty)
             {
-                ilGenerator.Emit(OpCodes.Box, pi.PropertyType);
+                ilGenerator.Emit(OpCodes.Callvirt, vpi.GetGetMethod());
+            }
+            if (vpi.PropertyType.IsValueType)
+            {
+                ilGenerator.Emit(OpCodes.Box, vpi.PropertyType);
             }
 
             ilGenerator.Emit(OpCodes.Ret);
         }
 
-        private static void DefineValueHolderAccessorMethodGetValue(TypeBuilder typeBuilder, PropertyInfo pi, Type holderType)
-        {
-            var valueProperty = AccessorHelper.GetValueTypeProperty(holderType);
-
-            var method = typeBuilder.DefineMethod(
-                nameof(IAccessor.GetValue),
-                MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.Final,
-                ObjectType,
-                AccessorGetValueArgumentTypes);
-            typeBuilder.DefineMethodOverride(method, AccessorGetValueMethodInfo);
-
-            var ilGenerator = method.GetILGenerator();
-
-            ilGenerator.Emit(OpCodes.Ldarg_1);
-            ilGenerator.Emit(OpCodes.Castclass, pi.DeclaringType);
-            ilGenerator.Emit(OpCodes.Callvirt, pi.GetGetMethod());
-            ilGenerator.Emit(OpCodes.Callvirt, valueProperty.GetGetMethod());
-            if (pi.PropertyType.IsValueType)
-            {
-                ilGenerator.Emit(OpCodes.Box, valueProperty.PropertyType);
-            }
-
-            ilGenerator.Emit(OpCodes.Ret);
-        }
-
-        private static void DefineAccessorMethodSetValue(TypeBuilder typeBuilder, PropertyInfo pi)
+        private static void DefineAccessorMethodSetValue(TypeBuilder typeBuilder, PropertyInfo pi, PropertyInfo vpi, bool isValueProperty)
         {
             var method = typeBuilder.DefineMethod(
                 nameof(IAccessor.SetValue),
@@ -561,14 +456,14 @@
 
             var ilGenerator = method.GetILGenerator();
 
-            if (!pi.CanWrite)
+            if (!vpi.CanWrite)
             {
                 ilGenerator.Emit(OpCodes.Newobj, NotSupportedExceptionCtor);
                 ilGenerator.Emit(OpCodes.Throw);
                 return;
             }
 
-            if (pi.PropertyType.IsValueType)
+            if (vpi.PropertyType.IsValueType)
             {
                 var hasValue = ilGenerator.DefineLabel();
 
@@ -578,20 +473,25 @@
                 // null
                 ilGenerator.Emit(OpCodes.Ldarg_1);
                 ilGenerator.Emit(OpCodes.Castclass, pi.DeclaringType);
+                if (isValueProperty)
+                {
+                    ilGenerator.Emit(OpCodes.Callvirt, pi.GetGetMethod());
+                }
 
-                if (LdcDictionary.TryGetValue(pi.PropertyType, out var action))
+                var type = vpi.PropertyType.IsEnum ? vpi.PropertyType.GetEnumUnderlyingType() : vpi.PropertyType;
+                if (LdcDictionary.TryGetValue(type, out var action))
                 {
                     action(ilGenerator);
                 }
                 else
                 {
-                    var local = ilGenerator.DeclareLocal(pi.PropertyType);
+                    var local = ilGenerator.DeclareLocal(vpi.PropertyType);
                     ilGenerator.Emit(OpCodes.Ldloca_S, local);
-                    ilGenerator.Emit(OpCodes.Initobj, pi.PropertyType);
+                    ilGenerator.Emit(OpCodes.Initobj, vpi.PropertyType);
                     ilGenerator.Emit(OpCodes.Ldloc_0);
                 }
 
-                ilGenerator.Emit(OpCodes.Callvirt, pi.GetSetMethod());
+                ilGenerator.Emit(OpCodes.Callvirt, vpi.GetSetMethod());
 
                 ilGenerator.Emit(OpCodes.Ret);
 
@@ -600,11 +500,15 @@
 
                 ilGenerator.Emit(OpCodes.Ldarg_1);
                 ilGenerator.Emit(OpCodes.Castclass, pi.DeclaringType);
+                if (isValueProperty)
+                {
+                    ilGenerator.Emit(OpCodes.Callvirt, pi.GetGetMethod());
+                }
 
                 ilGenerator.Emit(OpCodes.Ldarg_2);
-                ilGenerator.Emit(OpCodes.Unbox_Any, pi.PropertyType);
+                ilGenerator.Emit(OpCodes.Unbox_Any, vpi.PropertyType);
 
-                ilGenerator.Emit(OpCodes.Callvirt, pi.GetSetMethod());
+                ilGenerator.Emit(OpCodes.Callvirt, vpi.GetSetMethod());
 
                 ilGenerator.Emit(OpCodes.Ret);
             }
@@ -612,17 +516,19 @@
             {
                 ilGenerator.Emit(OpCodes.Ldarg_1);
                 ilGenerator.Emit(OpCodes.Castclass, pi.DeclaringType);
+                if (isValueProperty)
+                {
+                    ilGenerator.Emit(OpCodes.Callvirt, pi.GetGetMethod());
+                }
 
                 ilGenerator.Emit(OpCodes.Ldarg_2);
-                ilGenerator.Emit(OpCodes.Castclass, pi.PropertyType);
+                ilGenerator.Emit(OpCodes.Castclass, vpi.PropertyType);
 
-                ilGenerator.Emit(OpCodes.Callvirt, pi.GetSetMethod());
+                ilGenerator.Emit(OpCodes.Callvirt, vpi.GetSetMethod());
 
                 ilGenerator.Emit(OpCodes.Ret);
             }
         }
-
-        // TODO IValueHolder
 
         private static readonly Dictionary<Type, Action<ILGenerator>> LdcDictionary = new Dictionary<Type, Action<ILGenerator>>
         {
