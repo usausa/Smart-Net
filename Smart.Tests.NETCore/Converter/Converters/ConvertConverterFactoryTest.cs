@@ -27,40 +27,40 @@
         public void ConvertStringToBoolFalse()
         {
             var converter = new MatchingObjectConverter();
-            Assert.Equal(converter.Convert<bool>("false"), false);
-            Assert.Equal(converter.FindMatchngFactory()?.GetType(), typeof(ConvertConverterFactory));
+            Assert.False(converter.Convert<bool>("false"));
+            Assert.Equal(typeof(ConvertConverterFactory), converter.FindMatchngFactory()?.GetType());
         }
 
         [Fact]
         public void ConvertStringToBoolTrue()
         {
             var converter = new MatchingObjectConverter();
-            Assert.Equal(converter.Convert<bool>("true"), true);
-            Assert.Equal(converter.FindMatchngFactory()?.GetType(), typeof(ConvertConverterFactory));
+            Assert.True(converter.Convert<bool>("true"));
+            Assert.Equal(typeof(ConvertConverterFactory), converter.FindMatchngFactory()?.GetType());
         }
 
         [Fact]
         public void ConvertStringToByte()
         {
             var converter = new MatchingObjectConverter();
-            Assert.Equal(converter.Convert<byte>("1"), 1);
-            Assert.Equal(converter.FindMatchngFactory()?.GetType(), typeof(ConvertConverterFactory));
+            Assert.Equal(1, converter.Convert<byte>("1"));
+            Assert.Equal(typeof(ConvertConverterFactory), converter.FindMatchngFactory()?.GetType());
         }
 
         [Fact]
         public void ConvertStringToChar()
         {
             var converter = new MatchingObjectConverter();
-            Assert.Equal(converter.Convert<char>("1"), '1');
-            Assert.Equal(converter.FindMatchngFactory()?.GetType(), typeof(ConvertConverterFactory));
+            Assert.Equal('1', converter.Convert<char>("1"));
+            Assert.Equal(typeof(ConvertConverterFactory), converter.FindMatchngFactory()?.GetType());
         }
 
         [Fact]
         public void ConvertStringToInt()
         {
             var converter = new MatchingObjectConverter();
-            Assert.Equal(converter.Convert<int>("1"), 1);
-            Assert.Equal(converter.FindMatchngFactory()?.GetType(), typeof(ConvertConverterFactory));
+            Assert.Equal(1, converter.Convert<int>("1"));
+            Assert.Equal(typeof(ConvertConverterFactory), converter.FindMatchngFactory()?.GetType());
         }
     }
 }

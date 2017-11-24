@@ -15,7 +15,7 @@
             var converter = new MatchingObjectConverter();
             var source = new DeliverdType();
             Assert.Equal(converter.Convert<BaseType>(source), source);
-            Assert.Equal(converter.FindMatchngFactory()?.GetType(), typeof(AssignableConverterFactory));
+            Assert.Equal(typeof(AssignableConverterFactory), converter.FindMatchngFactory()?.GetType());
         }
 
         [Fact]

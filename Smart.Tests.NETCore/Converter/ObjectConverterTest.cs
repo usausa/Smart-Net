@@ -13,16 +13,16 @@
         public void ConvertMatchNullToDefault()
         {
             var converter = new MatchingObjectConverter();
-            Assert.Equal(converter.Convert<int>(null), 0);
-            Assert.Equal(converter.FindMatchngFactory(), null);
+            Assert.Equal(0, converter.Convert<int>(null));
+            Assert.Null(converter.FindMatchngFactory());
         }
 
         [Fact]
         public void ConvertMatchSame()
         {
             var converter = new MatchingObjectConverter();
-            Assert.Equal(converter.Convert<int>(0), 0);
-            Assert.Equal(converter.FindMatchngFactory(), null);
+            Assert.Equal(0, converter.Convert<int>(0));
+            Assert.Null(converter.FindMatchngFactory());
         }
 
         [Fact]

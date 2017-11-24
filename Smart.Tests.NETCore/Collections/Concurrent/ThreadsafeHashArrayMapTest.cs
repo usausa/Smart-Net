@@ -25,7 +25,7 @@
             Assert.Equal(0, map.Count);
             Assert.False(map.TryGetValue(1, out string _));
             Assert.False(map.ContainsKey(1));
-            Assert.Equal(null, map.GetValueOrDefault(1));
+            Assert.Null(map.GetValueOrDefault(1));
 
             // Add
             Assert.Equal("1", map.AddIfNotExist(1, "1"));

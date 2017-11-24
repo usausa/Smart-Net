@@ -36,7 +36,7 @@
             {
                 var services = container.GetAll<ICalcService>();
 
-                Assert.Equal(services.Count(), 2);
+                Assert.Equal(2, services.Count());
             }
         }
 
@@ -51,7 +51,7 @@
             {
                 var services = (IEnumerable<ICalcService>)container.GetService(typeof(IEnumerable<ICalcService>));
 
-                Assert.Equal(services.Count(), 2);
+                Assert.Equal(2, services.Count());
             }
         }
 
@@ -108,7 +108,7 @@
                 obj = container.Get<DisposableObject>();
             }
 
-            Assert.Equal(obj.Disposed, 1);
+            Assert.Equal(1, obj.Disposed);
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Justification = "Ignore")]
@@ -124,7 +124,7 @@
                 obj = container.Get<DisposableObject>();
             }
 
-            Assert.Equal(obj.Disposed, 1);
+            Assert.Equal(1, obj.Disposed);
         }
 
         [Fact]
@@ -139,7 +139,7 @@
             {
                 var obj = container.Get<ArrayParameterObject>();
 
-                Assert.Equal(obj.CalcServices.Length, 2);
+                Assert.Equal(2, obj.CalcServices.Length);
             }
         }
 
@@ -153,7 +153,7 @@
             {
                 var obj = container.Get<MultiConstructorObject>();
 
-                Assert.Equal(obj.Arguments, 0);
+                Assert.Equal(0, obj.Arguments);
                 Assert.Null(obj.CalcService);
             }
         }
@@ -169,7 +169,7 @@
             {
                 var obj = container.Get<MultiConstructorObject>();
 
-                Assert.Equal(obj.Arguments, 1);
+                Assert.Equal(1, obj.Arguments);
                 Assert.NotNull(obj.CalcService);
             }
         }

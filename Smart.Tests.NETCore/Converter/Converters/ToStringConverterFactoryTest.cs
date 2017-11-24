@@ -13,8 +13,8 @@
         public void ConvertToString()
         {
             var converter = new MatchingObjectConverter();
-            Assert.Equal(converter.Convert<string>(new StructType { Value1 = 1, Value2 = 2 }), "(1, 2)");
-            Assert.Equal(converter.FindMatchngFactory()?.GetType(), typeof(ToStringConverterFactory));
+            Assert.Equal("(1, 2)", converter.Convert<string>(new StructType { Value1 = 1, Value2 = 2 }));
+            Assert.Equal(typeof(ToStringConverterFactory), converter.FindMatchngFactory()?.GetType());
         }
     }
 }
