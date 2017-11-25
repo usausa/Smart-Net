@@ -108,10 +108,10 @@
 
                 var t2 = new Thread(() =>
                 {
-                    Assert.False(map.ContainsKey(1));
-
                     evThreadStarted.Signal();
                     evTyread1Completed.Wait();
+
+                    Assert.True(map.ContainsKey(1));
 
                     var ret = map.AddIfNotExist(1, key => "t2");
 
