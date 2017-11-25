@@ -291,6 +291,11 @@
 
             var type = typeBuilder.CreateTypeInfo().AsType();
 
+            if (isValueProperty)
+            {
+                return (IAccessor)Activator.CreateInstance(type, pi, vpi.DeclaringType);
+            }
+
             return (IAccessor)Activator.CreateInstance(type, pi);
         }
 
