@@ -278,7 +278,7 @@
             // Property
             DefineAccessorPropertySource(typeBuilder, sourceField);
             DefineAccessorPropertyName(typeBuilder, sourceField);
-            DefineAccessorPropertyType(typeBuilder, typeField != null ? typeField : sourceField, typeField == null);
+            DefineAccessorPropertyType(typeBuilder, typeField != null ? typeField : sourceField, !isValueProperty);
             DefineAccessorPropertyAccessibility(typeBuilder, vpi.CanRead, nameof(IAccessor.CanRead));
             DefineAccessorPropertyAccessibility(typeBuilder, vpi.CanWrite, nameof(IAccessor.CanWrite));
 
@@ -293,7 +293,7 @@
 
             if (isValueProperty)
             {
-                return (IAccessor)Activator.CreateInstance(type, pi, vpi.DeclaringType);
+                return (IAccessor)Activator.CreateInstance(type, pi, vpi.PropertyType);
             }
 
             return (IAccessor)Activator.CreateInstance(type, pi);
