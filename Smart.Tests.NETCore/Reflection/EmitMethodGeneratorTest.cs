@@ -105,6 +105,19 @@
         //--------------------------------------------------------------------------------
 
         [Fact]
+        public void AccessReadOnlyProperty()
+        {
+            var pi = typeof(Data2).GetProperty(nameof(Data2.StringValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data2.StringValue), accessor.Name);
+            Assert.Equal(pi.PropertyType, accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.False(accessor.CanWrite);
+        }
+
+        [Fact]
         public void AccessClassProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StringValue));
@@ -126,7 +139,7 @@
         }
 
         [Fact]
-        public void AccessValueTypeProperty()
+        public void AccessValueTypePropertyInt()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.IntValue));
             var accessor = EmitMethodGenerator.CreateAccessor(pi);
@@ -144,6 +157,48 @@
 
             accessor.SetValue(data, null);
             Assert.Equal(0, accessor.GetValue(data));
+        }
+
+        [Fact]
+        public void AccessValueTypePropertyBool()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.BoolValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.BoolValue), accessor.Name);
+            Assert.Equal(pi.PropertyType, accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            var data = new Data();
+
+            accessor.SetValue(data, true);
+            Assert.True((bool)accessor.GetValue(data));
+
+            accessor.SetValue(data, null);
+            Assert.False((bool)accessor.GetValue(data));
+        }
+
+        [Fact]
+        public void AccessValueTypePropertyByte()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.ByteValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.ByteValue), accessor.Name);
+            Assert.Equal(pi.PropertyType, accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            var data = new Data();
+
+            accessor.SetValue(data, (byte)1);   // TODO
+            Assert.Equal((byte)1, accessor.GetValue(data));
+
+            accessor.SetValue(data, null);
+            Assert.Equal((byte)0, accessor.GetValue(data));
         }
 
         [Fact]
@@ -186,6 +241,98 @@
 
             accessor.SetValue(data, null);
             Assert.Equal(0, accessor.GetValue(data));
+        }
+
+        [Fact]
+        public void AccessEnumProperty()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.EnumValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.EnumValue), accessor.Name);
+            Assert.Equal(pi.PropertyType, accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            var data = new Data();
+
+            accessor.SetValue(data, MyEnum.One);
+            Assert.Equal(MyEnum.One, accessor.GetValue(data));
+
+            accessor.SetValue(data, null);
+            Assert.Equal(default(MyEnum), accessor.GetValue(data));
+        }
+
+        [Fact]
+        public void AccessValueHolderEnumProperty()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.NotificationEnumValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.NotificationEnumValue), accessor.Name);
+            Assert.Equal(typeof(MyEnum), accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            var data = new Data();
+
+            accessor.SetValue(data, MyEnum.One);
+            Assert.Equal(MyEnum.One, accessor.GetValue(data));
+
+            accessor.SetValue(data, null);
+            Assert.Equal(default(MyEnum), accessor.GetValue(data));
+        }
+
+        [Fact]
+        public void AccessStructProperty()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.StructValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.StructValue), accessor.Name);
+            Assert.Equal(pi.PropertyType, accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            var data = new Data();
+
+            accessor.SetValue(data, new MyStruct { X = 1, Y = 2 });
+            var structValue = (MyStruct)accessor.GetValue(data);
+            Assert.Equal(1, structValue.X);
+            Assert.Equal(2, structValue.Y);
+
+            accessor.SetValue(data, null);
+            structValue = (MyStruct)accessor.GetValue(data);
+            Assert.Equal(0, structValue.X);
+            Assert.Equal(0, structValue.Y);
+        }
+
+        [Fact]
+        public void AccessValueHolderStructProperty()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.NotificationStructValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.NotificationStructValue), accessor.Name);
+            Assert.Equal(typeof(MyStruct), accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            var data = new Data();
+
+            accessor.SetValue(data, new MyStruct { X = 1, Y = 2 });
+            var structValue = (MyStruct)accessor.GetValue(data);
+            Assert.Equal(1, structValue.X);
+            Assert.Equal(2, structValue.Y);
+
+            accessor.SetValue(data, null);
+            structValue = (MyStruct)accessor.GetValue(data);
+            Assert.Equal(0, structValue.X);
+            Assert.Equal(0, structValue.Y);
         }
     }
 }
