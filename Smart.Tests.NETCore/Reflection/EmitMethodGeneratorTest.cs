@@ -194,11 +194,137 @@
 
             var data = new Data();
 
-            accessor.SetValue(data, (byte)1);   // TODO
+            accessor.SetValue(data, (byte)1);
             Assert.Equal((byte)1, accessor.GetValue(data));
 
             accessor.SetValue(data, null);
             Assert.Equal((byte)0, accessor.GetValue(data));
+        }
+
+        [Fact]
+        public void AccessValueTypePropertyChar()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.CharValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.CharValue), accessor.Name);
+            Assert.Equal(pi.PropertyType, accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            var data = new Data();
+
+            accessor.SetValue(data, (char)1);
+            Assert.Equal((char)1, accessor.GetValue(data));
+
+            accessor.SetValue(data, null);
+            Assert.Equal((char)0, accessor.GetValue(data));
+        }
+
+        [Fact]
+        public void AccessValueTypePropertyShort()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.ShortValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.ShortValue), accessor.Name);
+            Assert.Equal(pi.PropertyType, accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            var data = new Data();
+
+            accessor.SetValue(data, (short)1);
+            Assert.Equal((short)1, accessor.GetValue(data));
+
+            accessor.SetValue(data, null);
+            Assert.Equal((short)0, accessor.GetValue(data));
+        }
+
+        [Fact]
+        public void AccessValueTypePropertyLong()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.LongValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.LongValue), accessor.Name);
+            Assert.Equal(pi.PropertyType, accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            var data = new Data();
+
+            accessor.SetValue(data, 1L);
+            Assert.Equal(1L, accessor.GetValue(data));
+
+            accessor.SetValue(data, null);
+            Assert.Equal(0L, accessor.GetValue(data));
+        }
+
+        [Fact]
+        public void AccessValueTypePropertyFloat()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.FloatValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.FloatValue), accessor.Name);
+            Assert.Equal(pi.PropertyType, accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            var data = new Data();
+
+            accessor.SetValue(data, 1f);
+            Assert.Equal(1f, accessor.GetValue(data));
+
+            accessor.SetValue(data, null);
+            Assert.Equal(0f, accessor.GetValue(data));
+        }
+
+        [Fact]
+        public void AccessValueTypePropertyDouble()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.DoubleValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.DoubleValue), accessor.Name);
+            Assert.Equal(pi.PropertyType, accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            var data = new Data();
+
+            accessor.SetValue(data, 1d);
+            Assert.Equal(1d, accessor.GetValue(data));
+
+            accessor.SetValue(data, null);
+            Assert.Equal(0d, accessor.GetValue(data));
+        }
+
+        [Fact]
+        public void AccessValueTypePropertyIntPtr()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.IntPtrValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.IntPtrValue), accessor.Name);
+            Assert.Equal(pi.PropertyType, accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            var data = new Data();
+
+            accessor.SetValue(data, (IntPtr)1);
+            Assert.Equal((IntPtr)1, accessor.GetValue(data));
+
+            accessor.SetValue(data, null);
+            Assert.Equal(IntPtr.Zero, accessor.GetValue(data));
         }
 
         [Fact]
