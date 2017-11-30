@@ -27,8 +27,6 @@
 
         private IActivator emitActivator;
 
-        private IActivator expressionActivator;
-
         private IActivator reflectionActivator;
 
         [GlobalSetup]
@@ -37,7 +35,6 @@
             var ctor = typeof(Class0).GetConstructor(Type.EmptyTypes);
             newActivator = new NewActivator();
             emitActivator = EmitMethodGenerator.CreateActivator(ctor);
-            expressionActivator = new DelegateActivator(ctor, ExpressionMethodGenerator.CreateActivator(ctor));
             reflectionActivator = ReflectionTypeMetadataFactory.Default.CreateActivator(ctor);
         }
 
@@ -57,12 +54,6 @@
         public object Emit()
         {
             return emitActivator.Create(null);
-        }
-
-        [Benchmark]
-        public object Expression()
-        {
-            return expressionActivator.Create(null);
         }
 
         [Benchmark]

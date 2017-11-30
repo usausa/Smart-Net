@@ -228,9 +228,19 @@
         ///
         /// </summary>
         /// <param name="pi"></param>
+        /// <returns></returns>
+        public static IAccessor CreateAccessor(PropertyInfo pi)
+        {
+            return CreateAccessor(pi, true);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="pi"></param>
         /// <param name="extension"></param>
         /// <returns></returns>
-        public static IAccessor CreateAccessor(PropertyInfo pi, bool extension = true)
+        public static IAccessor CreateAccessor(PropertyInfo pi, bool extension)
         {
             if (pi == null)
             {
