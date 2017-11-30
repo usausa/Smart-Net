@@ -1,17 +1,16 @@
 ﻿namespace Smart.Reflection
 {
-    using System;
     using System.Reflection;
 
     /// <summary>
     ///
     /// </summary>
-    public sealed class CodeGenerateTypeMetadataFactory : IActivatorFactory, IAccessorFactory
+    public sealed class EmitTypeMetadataFactory : IActivatorFactory, IAccessorFactory
     {
         /// <summary>
         ///
         /// </summary>
-        public static CodeGenerateTypeMetadataFactory Default { get; } = new CodeGenerateTypeMetadataFactory();
+        public static EmitTypeMetadataFactory Default { get; } = new EmitTypeMetadataFactory();
 
         /// <summary>
         ///

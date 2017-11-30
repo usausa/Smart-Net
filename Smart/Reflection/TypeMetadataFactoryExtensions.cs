@@ -4,8 +4,8 @@
     {
         public static void ConfigurePerformance(this TypeMetadataFactory factory)
         {
-            factory.AccessorFactory = CodeGenerateTypeMetadataFactory.Default;
-            factory.AccessorFactory = CodeGenerateTypeMetadataFactory.Default;
+            factory.AccessorFactory = EmitTypeMetadataFactory.Default;
+            factory.AccessorFactory = EmitTypeMetadataFactory.Default;
         }
 
         public static void ConfigureSafe(this TypeMetadataFactory factory)

@@ -20,9 +20,8 @@
         {
             if (ReflectionHelper.IsCodegenAllowed)
             {
-                // TODO
-                ActivatorFactory = CodeGenerateTypeMetadataFactory.Default;
-                AccessorFactory = CodeGenerateTypeMetadataFactory.Default;
+                ActivatorFactory = EmitTypeMetadataFactory.Default;
+                AccessorFactory = EmitTypeMetadataFactory.Default;
             }
             else
             {
