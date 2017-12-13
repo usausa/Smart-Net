@@ -53,6 +53,24 @@
             public MyStruct StructValue { get; set; }
 
             public IValueHolder<MyStruct> NotificationStructValue { get; } = new NotificationValue<MyStruct>();
+
+            // static
+
+            public static int StaticIntValue { get; set; }
+
+            public static string StaticStringValue { get; set; }
+
+            public static IValueHolder<int> StaticNotificationIntValue { get; } = new NotificationValue<int>();
+
+            public static IValueHolder<string> StaticNotificationStringValue { get; } = new NotificationValue<string>();
+
+            public static MyEnum StaticEnumValue { get; set; }
+
+            public static IValueHolder<MyEnum> StaticNotificationEnumValue { get; } = new NotificationValue<MyEnum>();
+
+            public static MyStruct StaticStructValue { get; set; }
+
+            public static IValueHolder<MyStruct> StaticNotificationStructValue { get; } = new NotificationValue<MyStruct>();
         }
 
         public class Data2
@@ -457,6 +475,168 @@
 
             accessor.SetValue(data, null);
             structValue = (MyStruct)accessor.GetValue(data);
+            Assert.Equal(0, structValue.X);
+            Assert.Equal(0, structValue.Y);
+        }
+
+        // static
+
+        [Fact]
+        public void AccessStaticClassProperty()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.StaticStringValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.StaticStringValue), accessor.Name);
+            Assert.Equal(pi.PropertyType, accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            accessor.SetValue(null, "abc");
+            Assert.Equal("abc", accessor.GetValue(null));
+
+            accessor.SetValue(null, null);
+            Assert.Null(accessor.GetValue(null));
+        }
+
+        [Fact]
+        public void AccessStaticValueTypePropertyInt()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.StaticIntValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.StaticIntValue), accessor.Name);
+            Assert.Equal(pi.PropertyType, accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            accessor.SetValue(null, 1);
+            Assert.Equal(1, accessor.GetValue(null));
+
+            accessor.SetValue(null, null);
+            Assert.Equal(0, accessor.GetValue(null));
+        }
+
+        [Fact]
+        public void AccessStaticValueHolderClassProperty()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.StaticNotificationStringValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.StaticNotificationStringValue), accessor.Name);
+            Assert.Equal(typeof(string), accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            accessor.SetValue(null, "abc");
+            Assert.Equal("abc", accessor.GetValue(null));
+
+            accessor.SetValue(null, null);
+            Assert.Null(accessor.GetValue(null));
+        }
+
+        [Fact]
+        public void AccessStaticValueHolderValueTypeProperty()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.StaticNotificationIntValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.StaticNotificationIntValue), accessor.Name);
+            Assert.Equal(typeof(int), accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            accessor.SetValue(null, 1);
+            Assert.Equal(1, accessor.GetValue(null));
+
+            accessor.SetValue(null, null);
+            Assert.Equal(0, accessor.GetValue(null));
+        }
+
+        [Fact]
+        public void AccessStaticEnumProperty()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.StaticEnumValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.StaticEnumValue), accessor.Name);
+            Assert.Equal(pi.PropertyType, accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            accessor.SetValue(null, MyEnum.One);
+            Assert.Equal(MyEnum.One, accessor.GetValue(null));
+
+            accessor.SetValue(null, null);
+            Assert.Equal(default(MyEnum), accessor.GetValue(null));
+        }
+
+        [Fact]
+        public void AccessStaticValueHolderEnumProperty()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.StaticNotificationEnumValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.StaticNotificationEnumValue), accessor.Name);
+            Assert.Equal(typeof(MyEnum), accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            accessor.SetValue(null, MyEnum.One);
+            Assert.Equal(MyEnum.One, accessor.GetValue(null));
+
+            accessor.SetValue(null, null);
+            Assert.Equal(default(MyEnum), accessor.GetValue(null));
+        }
+
+        [Fact]
+        public void AccessStaticStructProperty()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.StaticStructValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.StaticStructValue), accessor.Name);
+            Assert.Equal(pi.PropertyType, accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            accessor.SetValue(null, new MyStruct { X = 1, Y = 2 });
+            var structValue = (MyStruct)accessor.GetValue(null);
+            Assert.Equal(1, structValue.X);
+            Assert.Equal(2, structValue.Y);
+
+            accessor.SetValue(null, null);
+            structValue = (MyStruct)accessor.GetValue(null);
+            Assert.Equal(0, structValue.X);
+            Assert.Equal(0, structValue.Y);
+        }
+
+        [Fact]
+        public void AccessStaticValueHolderStructProperty()
+        {
+            var pi = typeof(Data).GetProperty(nameof(Data.StaticNotificationStructValue));
+            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+
+            Assert.Equal(pi, accessor.Source);
+            Assert.Equal(nameof(Data.StaticNotificationStructValue), accessor.Name);
+            Assert.Equal(typeof(MyStruct), accessor.Type);
+            Assert.True(accessor.CanRead);
+            Assert.True(accessor.CanWrite);
+
+            accessor.SetValue(null, new MyStruct { X = 1, Y = 2 });
+            var structValue = (MyStruct)accessor.GetValue(null);
+            Assert.Equal(1, structValue.X);
+            Assert.Equal(2, structValue.Y);
+
+            accessor.SetValue(null, null);
+            structValue = (MyStruct)accessor.GetValue(null);
             Assert.Equal(0, structValue.X);
             Assert.Equal(0, structValue.Y);
         }
