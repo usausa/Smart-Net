@@ -74,7 +74,7 @@
 
         private static readonly Dictionary<PropertyInfo, IAccessor> AccessorCache = new Dictionary<PropertyInfo, IAccessor>();
 
-        private static readonly Dictionary<PropertyInfo, IAccessor> HolderAccessorCache = new Dictionary<PropertyInfo, IAccessor>();
+        private static readonly Dictionary<PropertyInfo, IAccessor> ExtensionAccessorCache = new Dictionary<PropertyInfo, IAccessor>();
 
         private static AssemblyBuilder assemblyBuilder;
 
@@ -247,13 +247,12 @@
                 throw new ArgumentNullException(nameof(pi));
             }
 
-            var holderType = !extension ? null : AccessorHelper.FindValueHolderType(pi);
-
             lock (Sync)
             {
-                var cache = holderType == null ? AccessorCache : HolderAccessorCache;
+                var cache = extension ? ExtensionAccessorCache : AccessorCache;
                 if (!cache.TryGetValue(pi, out var accessor))
                 {
+                    var holderType = extension ? AccessorHelper.FindValueHolderType(pi) : null;
                     accessor = CreateAccessorInternal(pi, holderType);
                     cache[pi] = accessor;
                 }
