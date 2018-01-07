@@ -34,7 +34,7 @@
         {
             var ctor = typeof(Class0).GetConstructor(Type.EmptyTypes);
             newActivator = new NewActivator();
-            emitActivator = EmitMethodGenerator.CreateActivator(ctor);
+            emitActivator = EmitTypeMetadataFactory.Default.CreateActivator(ctor);
             reflectionActivator = ReflectionTypeMetadataFactory.Default.CreateActivator(ctor);
         }
 

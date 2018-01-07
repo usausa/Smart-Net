@@ -6,7 +6,7 @@
 
     using Xunit;
 
-    public class EmitMethodGeneratorTest
+    public class EmitTypeMetadataFactoryTest
     {
         public enum MyEnum
         {
@@ -94,7 +94,7 @@
         public void ActivateByDefaultConstructor()
         {
             var ctor = typeof(Data).GetConstructor(Type.EmptyTypes);
-            var activator = EmitMethodGenerator.CreateActivator(ctor);
+            var activator = EmitTypeMetadataFactory.Default.CreateActivator(ctor);
 
             Assert.Equal(ctor, activator.Source);
 
@@ -108,7 +108,7 @@
         public void ActivateWithArguments()
         {
             var ctor = typeof(Data2).GetConstructor(new[] { typeof(int), typeof(string) });
-            var activator = EmitMethodGenerator.CreateActivator(ctor);
+            var activator = EmitTypeMetadataFactory.Default.CreateActivator(ctor);
 
             Assert.Equal(ctor, activator.Source);
 
@@ -126,7 +126,7 @@
         public void AccessReadOnlyProperty()
         {
             var pi = typeof(Data2).GetProperty(nameof(Data2.StringValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data2.StringValue), accessor.Name);
@@ -139,7 +139,7 @@
         public void AccessClassProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StringValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.StringValue), accessor.Name);
@@ -160,7 +160,7 @@
         public void AccessValueTypePropertyInt()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.IntValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.IntValue), accessor.Name);
@@ -181,7 +181,7 @@
         public void AccessValueTypePropertyBool()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.BoolValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.BoolValue), accessor.Name);
@@ -202,7 +202,7 @@
         public void AccessValueTypePropertyByte()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.ByteValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.ByteValue), accessor.Name);
@@ -223,7 +223,7 @@
         public void AccessValueTypePropertyChar()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.CharValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.CharValue), accessor.Name);
@@ -244,7 +244,7 @@
         public void AccessValueTypePropertyShort()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.ShortValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.ShortValue), accessor.Name);
@@ -265,7 +265,7 @@
         public void AccessValueTypePropertyLong()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.LongValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.LongValue), accessor.Name);
@@ -286,7 +286,7 @@
         public void AccessValueTypePropertyFloat()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.FloatValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.FloatValue), accessor.Name);
@@ -307,7 +307,7 @@
         public void AccessValueTypePropertyDouble()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.DoubleValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.DoubleValue), accessor.Name);
@@ -328,7 +328,7 @@
         public void AccessValueTypePropertyIntPtr()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.IntPtrValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.IntPtrValue), accessor.Name);
@@ -349,7 +349,7 @@
         public void AccessValueHolderClassProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.NotificationStringValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.NotificationStringValue), accessor.Name);
@@ -370,7 +370,7 @@
         public void AccessValueHolderValueTypeProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.NotificationIntValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.NotificationIntValue), accessor.Name);
@@ -391,7 +391,7 @@
         public void AccessEnumProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.EnumValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.EnumValue), accessor.Name);
@@ -412,7 +412,7 @@
         public void AccessValueHolderEnumProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.NotificationEnumValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.NotificationEnumValue), accessor.Name);
@@ -433,7 +433,7 @@
         public void AccessStructProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StructValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.StructValue), accessor.Name);
@@ -458,7 +458,7 @@
         public void AccessValueHolderStructProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.NotificationStructValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.NotificationStructValue), accessor.Name);
@@ -485,7 +485,7 @@
         public void AccessStaticClassProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StaticStringValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.StaticStringValue), accessor.Name);
@@ -504,7 +504,7 @@
         public void AccessStaticValueTypePropertyInt()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StaticIntValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.StaticIntValue), accessor.Name);
@@ -523,7 +523,7 @@
         public void AccessStaticValueHolderClassProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StaticNotificationStringValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.StaticNotificationStringValue), accessor.Name);
@@ -542,7 +542,7 @@
         public void AccessStaticValueHolderValueTypeProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StaticNotificationIntValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.StaticNotificationIntValue), accessor.Name);
@@ -561,7 +561,7 @@
         public void AccessStaticEnumProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StaticEnumValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.StaticEnumValue), accessor.Name);
@@ -580,7 +580,7 @@
         public void AccessStaticValueHolderEnumProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StaticNotificationEnumValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.StaticNotificationEnumValue), accessor.Name);
@@ -599,7 +599,7 @@
         public void AccessStaticStructProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StaticStructValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.StaticStructValue), accessor.Name);
@@ -622,7 +622,7 @@
         public void AccessStaticValueHolderStructProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StaticNotificationStructValue));
-            var accessor = EmitMethodGenerator.CreateAccessor(pi);
+            var accessor = EmitTypeMetadataFactory.Default.CreateAccessor(pi);
 
             Assert.Equal(pi, accessor.Source);
             Assert.Equal(nameof(Data.StaticNotificationStructValue), accessor.Name);

@@ -13,6 +13,8 @@
 
         public IAccessorFactory AccessorFactory { get; set; }
 
+        public IArrayOperatorFactory ArrayOperatorFactory { get; set; }
+
         /// <summary>
         ///
         /// </summary>
@@ -22,11 +24,13 @@
             {
                 ActivatorFactory = EmitTypeMetadataFactory.Default;
                 AccessorFactory = EmitTypeMetadataFactory.Default;
+                ArrayOperatorFactory = EmitTypeMetadataFactory.Default;
             }
             else
             {
                 ActivatorFactory = ReflectionTypeMetadataFactory.Default;
                 AccessorFactory = ReflectionTypeMetadataFactory.Default;
+                ArrayOperatorFactory = ReflectionTypeMetadataFactory.Default;
             }
         }
 

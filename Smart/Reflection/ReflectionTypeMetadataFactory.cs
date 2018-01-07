@@ -1,11 +1,12 @@
 ﻿namespace Smart.Reflection
 {
+    using System;
     using System.Reflection;
 
     /// <summary>
     ///
     /// </summary>
-    public sealed class ReflectionTypeMetadataFactory : IActivatorFactory, IAccessorFactory
+    public sealed class ReflectionTypeMetadataFactory : IActivatorFactory, IAccessorFactory, IArrayOperatorFactory
     {
         /// <summary>
         ///
@@ -50,6 +51,16 @@
 
             var vpi = AccessorHelper.GetValueTypeProperty(holderInterface);
             return new ReflectionValueHolderAccessor(pi, vpi);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public IArrayOperator CreateOperator(Type type)
+        {
+            return new ReflectionArrayOperator(type);
         }
     }
 }
