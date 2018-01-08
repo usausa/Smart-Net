@@ -24,6 +24,8 @@
 
         private static readonly Type StringType = typeof(string);
 
+        private static readonly Type ArrayType = typeof(Array);
+
         private static readonly Type CtorType = typeof(ConstructorInfo);
 
         private static readonly Type TypeType = typeof(Type);
@@ -66,6 +68,24 @@
 
         private static readonly Type[] AccessorSetValueArgumentTypes = { typeof(object), typeof(object) };
 
+        // ArrayOperator
+
+        private static readonly Type ArrayOperatorType = typeof(IAccessor);
+
+        private static readonly MethodInfo ArrayOperatorCreateMethodInfo = typeof(IArrayOperator).GetMethod(nameof(IArrayOperator.Create));
+
+        private static readonly MethodInfo ArrayOperatorGetValueMethodInfo = typeof(IArrayOperator).GetMethod(nameof(IArrayOperator.GetValue));
+
+        private static readonly MethodInfo ArrayOperatorSetValueMethodInfo = typeof(IArrayOperator).GetMethod(nameof(IArrayOperator.SetValue));
+
+        private static readonly Type[] ArrayOperatorConstructorArgumentTypes = { typeof(Type) };
+
+        private static readonly Type[] ArrayOperatorCreateArgumentTypes = { typeof(int) };
+
+        private static readonly Type[] ArrayOperatorGetValueArgumentTypes = { typeof(Array), typeof(int) };
+
+        private static readonly Type[] ArrayOperatorSetValueArgumentTypes = { typeof(Array), typeof(int), typeof(object) };
+
         // Member
 
         private readonly object sync = new object();
@@ -75,6 +95,8 @@
         private readonly Dictionary<PropertyInfo, IAccessor> accessorCache = new Dictionary<PropertyInfo, IAccessor>();
 
         private readonly Dictionary<PropertyInfo, IAccessor> extensionAccessorCache = new Dictionary<PropertyInfo, IAccessor>();
+
+        private readonly Dictionary<Type, IArrayOperator> arrayOperatorCache = new Dictionary<Type, IArrayOperator>();
 
         private readonly string assemblyName;
 
@@ -603,9 +625,171 @@
         // ArrayOperator
         //--------------------------------------------------------------------------------
 
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public IArrayOperator CreateOperator(Type type)
         {
-            throw new NotImplementedException();
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            lock (sync)
+            {
+                if (!arrayOperatorCache.TryGetValue(type, out var arrayOperator))
+                {
+                    arrayOperator = CreateOperatorInternal(type);
+                    arrayOperatorCache[type] = arrayOperator;
+                }
+
+                return arrayOperator;
+            }
+        }
+
+        private IArrayOperator CreateOperatorInternal(Type type)
+        {
+            var arrayType = type.MakeArrayType();
+
+            var typeBuilder = moduleBuilder.DefineType(
+                $"{type.FullName}_ArrayOperator",
+                TypeAttributes.Public | TypeAttributes.AutoLayout | TypeAttributes.AnsiClass | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit);
+
+            typeBuilder.AddInterfaceImplementation(ArrayOperatorType);
+
+            var typeField = typeBuilder.DefineField(
+                "type",
+                TypeType,
+                FieldAttributes.Private | FieldAttributes.InitOnly);
+
+            // Property
+            DefineArrayOperatorPropertyType(typeBuilder, typeField);
+
+            // Constructor
+            DefineArrayOperatorConstructor(typeBuilder, typeField);
+
+            // Method
+            DefineArrayOperatorMethodCreate(typeBuilder, type);
+            DefineArrayOperatorMethodGetValue(typeBuilder, type, arrayType);
+            DefineArrayOperatorMethodSetValue(typeBuilder, type, arrayType);
+
+            var typeInfo = typeBuilder.CreateTypeInfo();
+
+            return (IArrayOperator)Activator.CreateInstance(typeInfo.AsType(), type);
+        }
+
+        private static void DefineArrayOperatorPropertyType(TypeBuilder typeBuilder, FieldBuilder typeField)
+        {
+            var typeProperty = typeBuilder.DefineProperty(
+                "Type",
+                PropertyAttributes.None,
+                CtorType,
+                null);
+            var getTypeProperty = typeBuilder.DefineMethod(
+                "get_Type",
+                MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.SpecialName | MethodAttributes.Virtual | MethodAttributes.Final,
+                CtorType,
+                Type.EmptyTypes);
+            typeProperty.SetGetMethod(getTypeProperty);
+
+            var ilGenerator = getTypeProperty.GetILGenerator();
+
+            ilGenerator.Emit(OpCodes.Ldarg_0);
+            ilGenerator.Emit(OpCodes.Ldfld, typeField);
+
+            ilGenerator.Emit(OpCodes.Ret);
+        }
+
+        private static void DefineArrayOperatorConstructor(TypeBuilder typeBuilder, FieldBuilder typeField)
+        {
+            var ctor = typeBuilder.DefineConstructor(
+                MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.SpecialName | MethodAttributes.RTSpecialName,
+                CallingConventions.Standard,
+                ArrayOperatorConstructorArgumentTypes);
+
+            var ilGenerator = ctor.GetILGenerator();
+
+            ilGenerator.Emit(OpCodes.Ldarg_0);
+            ilGenerator.Emit(OpCodes.Call, ObjectCotor);
+
+            ilGenerator.Emit(OpCodes.Ldarg_0);
+            ilGenerator.Emit(OpCodes.Ldarg_1);
+            ilGenerator.Emit(OpCodes.Stfld, typeField);
+
+            ilGenerator.Emit(OpCodes.Ret);
+        }
+
+        private static void DefineArrayOperatorMethodCreate(TypeBuilder typeBuilder, Type type)
+        {
+            var method = typeBuilder.DefineMethod(
+                nameof(IArrayOperator.Create),
+                MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.Final,
+                ArrayType,
+                ArrayOperatorCreateArgumentTypes);
+            typeBuilder.DefineMethodOverride(method, ArrayOperatorCreateMethodInfo);
+
+            var ilGenerator = method.GetILGenerator();
+
+            ilGenerator.Emit(OpCodes.Ldarg_1);
+
+            ilGenerator.Emit(OpCodes.Newarr, type);
+
+            ilGenerator.Emit(OpCodes.Ret);
+        }
+
+        private static void DefineArrayOperatorMethodGetValue(TypeBuilder typeBuilder, Type type, Type arrayType)
+        {
+            var method = typeBuilder.DefineMethod(
+                nameof(IArrayOperator.GetValue),
+                MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.Final,
+                ObjectType,
+                ArrayOperatorGetValueArgumentTypes);
+            typeBuilder.DefineMethodOverride(method, ArrayOperatorGetValueMethodInfo);
+
+            var ilGenerator = method.GetILGenerator();
+
+            ilGenerator.Emit(OpCodes.Ldarg_1);
+            ilGenerator.Emit(OpCodes.Castclass, arrayType);
+
+            ilGenerator.Emit(OpCodes.Ldarg_2);
+
+            ilGenerator.EmitLdelem(type);
+
+            if (type.IsValueType)
+            {
+                ilGenerator.Emit(OpCodes.Box, type);
+            }
+
+            ilGenerator.Emit(OpCodes.Ret);
+        }
+
+        private static void DefineArrayOperatorMethodSetValue(TypeBuilder typeBuilder, Type type, Type arrayType)
+        {
+            var method = typeBuilder.DefineMethod(
+                nameof(IArrayOperator.SetValue),
+                MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.Final,
+                VoidType,
+                ArrayOperatorSetValueArgumentTypes);
+            typeBuilder.DefineMethodOverride(method, ArrayOperatorSetValueMethodInfo);
+
+            var ilGenerator = method.GetILGenerator();
+
+            ilGenerator.Emit(OpCodes.Ldarg_1);
+            ilGenerator.Emit(OpCodes.Castclass, arrayType);
+
+            ilGenerator.Emit(OpCodes.Ldarg_2);
+
+            ilGenerator.Emit(OpCodes.Ldarg_3);
+            if (type.IsValueType)
+            {
+                ilGenerator.Emit(OpCodes.Unbox_Any, type);
+            }
+
+            ilGenerator.EmitStelem(type);
+
+            ilGenerator.Emit(OpCodes.Ret);
         }
     }
 }
