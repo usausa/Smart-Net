@@ -4,7 +4,7 @@
 
     public interface IArrayOperator
     {
-        Type Source { get; }
+        Type Type { get; }
 
         Array Create(int length);
 

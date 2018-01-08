@@ -58,7 +58,7 @@
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public IArrayOperator CreateOperator(Type type)
+        public IArrayOperator CreateArrayOperator(Type type)
         {
             return new ReflectionArrayOperator(type);
         }

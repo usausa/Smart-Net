@@ -4,16 +4,16 @@
 
     public class ReflectionArrayOperator : IArrayOperator
     {
-        public Type Source { get; }
+        public Type Type { get; }
 
-        public ReflectionArrayOperator(Type source)
+        public ReflectionArrayOperator(Type type)
         {
-            Source = source;
+            Type = type;
         }
 
         public Array Create(int length)
         {
-            return Array.CreateInstance(Source, length);
+            return Array.CreateInstance(Type, length);
         }
 
         public object GetValue(Array array, int index)

@@ -1,11 +1,12 @@
 ﻿namespace Smart.Reflection
 {
+    using System;
     using System.Reflection;
 
     /// <summary>
     ///
     /// </summary>
-    public sealed class TypeMetadataFactory : IActivatorFactory, IAccessorFactory
+    public sealed class TypeMetadataFactory : IActivatorFactory, IAccessorFactory, IArrayOperatorFactory
     {
         public static TypeMetadataFactory Default { get; } = new TypeMetadataFactory();
 
@@ -63,6 +64,16 @@
         public IAccessor CreateAccessor(PropertyInfo pi, bool extension)
         {
             return AccessorFactory.CreateAccessor(pi, extension);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public IArrayOperator CreateArrayOperator(Type type)
+        {
+            return ArrayOperatorFactory.CreateArrayOperator(type);
         }
     }
 }

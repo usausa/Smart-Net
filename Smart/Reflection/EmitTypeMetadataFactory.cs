@@ -70,7 +70,7 @@
 
         // ArrayOperator
 
-        private static readonly Type ArrayOperatorType = typeof(IAccessor);
+        private static readonly Type ArrayOperatorType = typeof(IArrayOperator);
 
         private static readonly MethodInfo ArrayOperatorCreateMethodInfo = typeof(IArrayOperator).GetMethod(nameof(IArrayOperator.Create));
 
@@ -630,7 +630,7 @@
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public IArrayOperator CreateOperator(Type type)
+        public IArrayOperator CreateArrayOperator(Type type)
         {
             if (type == null)
             {
@@ -653,7 +653,7 @@
         {
             var arrayType = type.MakeArrayType();
 
-            var typeBuilder = moduleBuilder.DefineType(
+            var typeBuilder = ModuleBuilder.DefineType(
                 $"{type.FullName}_ArrayOperator",
                 TypeAttributes.Public | TypeAttributes.AutoLayout | TypeAttributes.AnsiClass | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit);
 
@@ -685,12 +685,12 @@
             var typeProperty = typeBuilder.DefineProperty(
                 "Type",
                 PropertyAttributes.None,
-                CtorType,
+                TypeType,
                 null);
             var getTypeProperty = typeBuilder.DefineMethod(
                 "get_Type",
                 MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.SpecialName | MethodAttributes.Virtual | MethodAttributes.Final,
-                CtorType,
+                TypeType,
                 Type.EmptyTypes);
             typeProperty.SetGetMethod(getTypeProperty);
 

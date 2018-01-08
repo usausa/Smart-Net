@@ -7,6 +7,6 @@
     /// </summary>
     public interface IArrayOperatorFactory
     {
-        IArrayOperator CreateOperator(Type type);
+        IArrayOperator CreateArrayOperator(Type type);
     }
 }
