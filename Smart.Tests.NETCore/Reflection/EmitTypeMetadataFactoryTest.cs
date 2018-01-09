@@ -101,7 +101,7 @@
 
             Assert.Equal(ctor, activator.Source);
 
-            var obj = activator.Create();
+            var obj = activator.Create(null);
 
             Assert.NotNull(obj);
             Assert.Equal(typeof(Data), obj.GetType());
@@ -115,7 +115,7 @@
 
             Assert.Equal(ctor, activator.Source);
 
-            var obj = (Data2)activator.Create(1, "abc");
+            var obj = (Data2)activator.Create(new object[] { 1, "abc" });
 
             Assert.Equal(1, obj.IntValue);
             Assert.Equal("abc", obj.StringValue);
@@ -651,171 +651,171 @@
         [Fact]
         public void ArrayOperationBool()
         {
-            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArrayOperator(typeof(bool));
+            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArray(typeof(bool));
 
             var array = arrayOperator.Create(2);
-            arrayOperator.SetValue(array, 1, true);
-            Assert.True((bool)arrayOperator.GetValue(array, 1));
+            array.SetValue(true, 1);
+            Assert.True((bool)array.GetValue(1));
         }
 
         [Fact]
         public void ArrayOperationByte()
         {
-            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArrayOperator(typeof(byte));
+            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArray(typeof(byte));
 
             var array = arrayOperator.Create(2);
-            arrayOperator.SetValue(array, 1, (byte)1);
-            Assert.Equal((byte)1, (byte)arrayOperator.GetValue(array, 1));
+            array.SetValue((byte)1, 1);
+            Assert.Equal((byte)1, (byte)array.GetValue(1));
         }
 
         [Fact]
         public void ArrayOperationChar()
         {
-            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArrayOperator(typeof(char));
+            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArray(typeof(char));
 
             var array = arrayOperator.Create(2);
-            arrayOperator.SetValue(array, 1, (char)1);
-            Assert.Equal((char)1, (char)arrayOperator.GetValue(array, 1));
+            array.SetValue((char)1, 1);
+            Assert.Equal((char)1, (char)array.GetValue(1));
         }
 
         [Fact]
         public void ArrayOperationShort()
         {
-            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArrayOperator(typeof(short));
+            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArray(typeof(short));
 
             var array = arrayOperator.Create(2);
-            arrayOperator.SetValue(array, 1, (short)1);
-            Assert.Equal((short)1, (short)arrayOperator.GetValue(array, 1));
+            array.SetValue((short)1, 1);
+            Assert.Equal((short)1, (short)array.GetValue(1));
         }
 
         [Fact]
         public void ArrayOperationInt()
         {
-            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArrayOperator(typeof(int));
+            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArray(typeof(int));
 
             var array = arrayOperator.Create(2);
-            arrayOperator.SetValue(array, 1, 1);
-            Assert.Equal(1, (int)arrayOperator.GetValue(array, 1));
+            array.SetValue(1, 1);
+            Assert.Equal(1, (int)array.GetValue(1));
         }
 
         [Fact]
         public void ArrayOperationSByte()
         {
-            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArrayOperator(typeof(sbyte));
+            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArray(typeof(sbyte));
 
             var array = arrayOperator.Create(2);
-            arrayOperator.SetValue(array, 1, (sbyte)1);
-            Assert.Equal((sbyte)1, (sbyte)arrayOperator.GetValue(array, 1));
+            array.SetValue((sbyte)1, 1);
+            Assert.Equal((sbyte)1, (sbyte)array.GetValue(1));
         }
 
         [Fact]
         public void ArrayOperationUShort()
         {
-            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArrayOperator(typeof(ushort));
+            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArray(typeof(ushort));
 
             var array = arrayOperator.Create(2);
-            arrayOperator.SetValue(array, 1, (ushort)1);
-            Assert.Equal((ushort)1, (ushort)arrayOperator.GetValue(array, 1));
+            array.SetValue((ushort)1, 1);
+            Assert.Equal((ushort)1, (ushort)array.GetValue(1));
         }
 
         [Fact]
         public void ArrayOperationUInt()
         {
-            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArrayOperator(typeof(uint));
+            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArray(typeof(uint));
 
             var array = arrayOperator.Create(2);
-            arrayOperator.SetValue(array, 1, (uint)1);
-            Assert.Equal((uint)1, (uint)arrayOperator.GetValue(array, 1));
+            array.SetValue((uint)1, 1);
+            Assert.Equal((uint)1, (uint)array.GetValue(1));
         }
 
         [Fact]
         public void ArrayOperationLong()
         {
-            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArrayOperator(typeof(long));
+            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArray(typeof(long));
 
             var array = arrayOperator.Create(2);
-            arrayOperator.SetValue(array, 1, 1L);
-            Assert.Equal(1L, (long)arrayOperator.GetValue(array, 1));
+            array.SetValue(1L, 1);
+            Assert.Equal(1L, (long)array.GetValue(1));
         }
 
         [Fact]
         public void ArrayOperationULong()
         {
-            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArrayOperator(typeof(ulong));
+            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArray(typeof(ulong));
 
             var array = arrayOperator.Create(2);
-            arrayOperator.SetValue(array, 1, 1UL);
-            Assert.Equal(1UL, (ulong)arrayOperator.GetValue(array, 1));
+            array.SetValue(1UL, 1);
+            Assert.Equal(1UL, (ulong)array.GetValue(1));
         }
 
         [Fact]
         public void ArrayOperationFloat()
         {
-            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArrayOperator(typeof(float));
+            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArray(typeof(float));
 
             var array = arrayOperator.Create(2);
-            arrayOperator.SetValue(array, 1, 1F);
-            Assert.Equal(1F, (float)arrayOperator.GetValue(array, 1));
+            array.SetValue(1F, 1);
+            Assert.Equal(1F, (float)array.GetValue(1));
         }
 
         [Fact]
         public void ArrayOperationDouble()
         {
-            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArrayOperator(typeof(double));
+            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArray(typeof(double));
 
             var array = arrayOperator.Create(2);
-            arrayOperator.SetValue(array, 1, 1D);
-            Assert.Equal(1D, (double)arrayOperator.GetValue(array, 1));
+            array.SetValue(1D, 1);
+            Assert.Equal(1D, (double)array.GetValue(1));
         }
 
         [Fact]
         public void ArrayOperationIntPtr()
         {
-            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArrayOperator(typeof(IntPtr));
+            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArray(typeof(IntPtr));
 
             var array = arrayOperator.Create(2);
-            arrayOperator.SetValue(array, 1, (IntPtr)1);
-            Assert.Equal((IntPtr)1, (IntPtr)arrayOperator.GetValue(array, 1));
+            array.SetValue((IntPtr)1, 1);
+            Assert.Equal((IntPtr)1, (IntPtr)array.GetValue(1));
         }
 
         [Fact]
         public void ArrayOperationUIntPtr()
         {
-            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArrayOperator(typeof(UIntPtr));
+            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArray(typeof(UIntPtr));
 
             var array = arrayOperator.Create(2);
-            arrayOperator.SetValue(array, 1, (UIntPtr)1);
-            Assert.Equal((UIntPtr)1, (UIntPtr)arrayOperator.GetValue(array, 1));
+            array.SetValue((UIntPtr)1, 1);
+            Assert.Equal((UIntPtr)1, (UIntPtr)array.GetValue(1));
         }
 
         [Fact]
         public void ArrayOperationString()
         {
-            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArrayOperator(typeof(string));
+            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArray(typeof(string));
 
             var array = arrayOperator.Create(2);
-            arrayOperator.SetValue(array, 1, "1");
-            Assert.Equal("1", (string)arrayOperator.GetValue(array, 1));
+            array.SetValue("1", 1);
+            Assert.Equal("1", (string)array.GetValue(1));
         }
 
         [Fact]
         public void ArrayOperationEnum()
         {
-            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArrayOperator(typeof(MyEnum));
+            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArray(typeof(MyEnum));
 
             var array = arrayOperator.Create(2);
-            arrayOperator.SetValue(array, 1, MyEnum.One);
-            Assert.Equal(MyEnum.One, (MyEnum)arrayOperator.GetValue(array, 1));
+            array.SetValue(MyEnum.One, 1);
+            Assert.Equal(MyEnum.One, (MyEnum)array.GetValue(1));
         }
 
         [Fact]
         public void ArrayOperationStruct()
         {
-            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArrayOperator(typeof(MyStruct));
+            var arrayOperator = EmitTypeMetadataFactory.Default.CreateArray(typeof(MyStruct));
 
             var array = arrayOperator.Create(2);
-            arrayOperator.SetValue(array, 1, new MyStruct { X = 1, Y = 2 });
-            var structValue = (MyStruct)arrayOperator.GetValue(array, 1);
+            array.SetValue(new MyStruct { X = 1, Y = 2 }, 1);
+            var structValue = (MyStruct)array.GetValue(1);
             Assert.Equal(1, structValue.X);
             Assert.Equal(2, structValue.Y);
         }

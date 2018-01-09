@@ -3,64 +3,81 @@
     using System;
     using System.Reflection;
 
-    /// <summary>
-    ///
-    /// </summary>
-    public sealed class ReflectionTypeMetadataFactory : IActivatorFactory, IAccessorFactory, IArrayOperatorFactory
+    using Smart.ComponentModel;
+
+    public class ReflectionTypeMetadataFactory : IActivatorFactory, IAccessorFactory, IArrayFactory
     {
-        /// <summary>
-        ///
-        /// </summary>
         public static ReflectionTypeMetadataFactory Default { get; } = new ReflectionTypeMetadataFactory();
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="ci"></param>
-        /// <returns></returns>
-        public IActivator CreateActivator(ConstructorInfo ci)
+        public ActivatorMetadata CreateActivator(ConstructorInfo ci)
         {
-            return ci.GetParameters().Length == 0
-                ? (IActivator)new ReflectionActivatorActivator(ci)
-                : new ReflectionConstructorActivator(ci);
+            if (ci == null)
+            {
+                throw new ArgumentNullException(nameof(ci));
+            }
+
+            if (ci.GetParameters().Length == 0)
+            {
+                return new ActivatorMetadata(ci, args => Activator.CreateInstance(ci.DeclaringType));
+            }
+
+            return new ActivatorMetadata(ci, ci.Invoke);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="pi"></param>
-        /// <returns></returns>
-        public IAccessor CreateAccessor(PropertyInfo pi)
+        public AccessorMetadata CreateAccessor(PropertyInfo pi)
         {
             return CreateAccessor(pi, true);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="pi"></param>
-        /// <param name="extension"></param>
-        /// <returns></returns>
-        public IAccessor CreateAccessor(PropertyInfo pi, bool extension)
+        public AccessorMetadata CreateAccessor(PropertyInfo pi, bool extension)
         {
-            var holderInterface = !extension ? null : AccessorHelper.FindValueHolderType(pi);
-            if (holderInterface == null)
+            if (pi == null)
             {
-                return new ReflectionAccessor(pi);
+                throw new ArgumentNullException(nameof(pi));
             }
 
-            var vpi = AccessorHelper.GetValueTypeProperty(holderInterface);
-            return new ReflectionValueHolderAccessor(pi, vpi);
+            var holderInterface = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
+            if (holderInterface == null)
+            {
+                return new AccessorMetadata(
+                    pi,
+                    pi.Name,
+                    pi.PropertyType,
+                    pi.CanRead,
+                    pi.CanWrite,
+                    pi.GetValue,
+                    pi.SetValue);
+            }
+
+            var vpi = ValueHolderHelper.GetValueTypeProperty(holderInterface);
+            return new AccessorMetadata(
+                pi,
+                pi.Name,
+                vpi.PropertyType,
+                vpi.CanRead,
+                vpi.CanWrite,
+                obj =>
+                {
+                    var holder = vpi.GetValue(obj, null);
+                    return pi.GetValue(holder, null);
+                },
+                (obj, value) =>
+                {
+                    var holder = vpi.GetValue(obj, null);
+                    pi.SetValue(holder, value, null);
+                });
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        public IArrayOperator CreateArrayOperator(Type type)
+        public ArrayMetadata CreateArray(Type type)
         {
-            return new ReflectionArrayOperator(type);
+            if (type == null)
+            {
+                throw new ArgumentNullException(nameof(type));
+            }
+
+            return new ArrayMetadata(
+                type,
+                length => Array.CreateInstance(type, length));
         }
     }
 }

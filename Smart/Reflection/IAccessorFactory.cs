@@ -12,7 +12,7 @@
         /// </summary>
         /// <param name="pi"></param>
         /// <returns></returns>
-        IAccessor CreateAccessor(PropertyInfo pi);
+        AccessorMetadata CreateAccessor(PropertyInfo pi);
 
         /// <summary>
         ///
@@ -20,6 +20,6 @@
         /// <param name="pi"></param>
         /// <param name="extension"></param>
         /// <returns></returns>
-        IAccessor CreateAccessor(PropertyInfo pi, bool extension);
+        AccessorMetadata CreateAccessor(PropertyInfo pi, bool extension);
     }
 }

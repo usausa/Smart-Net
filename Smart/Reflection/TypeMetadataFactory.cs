@@ -6,7 +6,7 @@
     /// <summary>
     ///
     /// </summary>
-    public sealed class TypeMetadataFactory : IActivatorFactory, IAccessorFactory, IArrayOperatorFactory
+    public class TypeMetadataFactory : IActivatorFactory, IAccessorFactory, IArrayFactory
     {
         public static TypeMetadataFactory Default { get; } = new TypeMetadataFactory();
 
@@ -14,7 +14,7 @@
 
         public IAccessorFactory AccessorFactory { get; set; }
 
-        public IArrayOperatorFactory ArrayOperatorFactory { get; set; }
+        public IArrayFactory ArrayOperatorFactory { get; set; }
 
         /// <summary>
         ///
@@ -35,12 +35,7 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="ci"></param>
-        /// <returns></returns>
-        public IActivator CreateActivator(ConstructorInfo ci)
+        public ActivatorMetadata CreateActivator(ConstructorInfo ci)
         {
             return ActivatorFactory.CreateActivator(ci);
         }
@@ -50,7 +45,7 @@
         /// </summary>
         /// <param name="pi"></param>
         /// <returns></returns>
-        public IAccessor CreateAccessor(PropertyInfo pi)
+        public AccessorMetadata CreateAccessor(PropertyInfo pi)
         {
             return AccessorFactory.CreateAccessor(pi);
         }
@@ -61,7 +56,7 @@
         /// <param name="pi"></param>
         /// <param name="extension"></param>
         /// <returns></returns>
-        public IAccessor CreateAccessor(PropertyInfo pi, bool extension)
+        public AccessorMetadata CreateAccessor(PropertyInfo pi, bool extension)
         {
             return AccessorFactory.CreateAccessor(pi, extension);
         }
@@ -71,9 +66,9 @@
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
-        public IArrayOperator CreateArrayOperator(Type type)
+        public ArrayMetadata CreateArray(Type type)
         {
-            return ArrayOperatorFactory.CreateArrayOperator(type);
+            return ArrayOperatorFactory.CreateArray(type);
         }
     }
 }
