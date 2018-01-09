@@ -9,15 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Reflection\Obsolute\**" />
-    <EmbeddedResource Remove="Reflection\Obsolute\**" />
-    <None Remove="Reflection\Obsolute\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="1.1.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
+    <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
     <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />
   </ItemGroup>
 

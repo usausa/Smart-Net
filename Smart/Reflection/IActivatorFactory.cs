@@ -12,6 +12,6 @@
         /// </summary>
         /// <param name="ci"></param>
         /// <returns></returns>
-        ActivatorMetadata CreateActivator(ConstructorInfo ci);
+        IActivator CreateActivator(ConstructorInfo ci);
     }
 }

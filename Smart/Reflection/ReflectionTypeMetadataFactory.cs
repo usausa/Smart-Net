@@ -3,81 +3,64 @@
     using System;
     using System.Reflection;
 
-    using Smart.ComponentModel;
-
-    public class ReflectionTypeMetadataFactory : IActivatorFactory, IAccessorFactory, IArrayFactory
+    /// <summary>
+    ///
+    /// </summary>
+    public sealed class ReflectionTypeMetadataFactory : IActivatorFactory, IAccessorFactory, IArrayOperatorFactory
     {
+        /// <summary>
+        ///
+        /// </summary>
         public static ReflectionTypeMetadataFactory Default { get; } = new ReflectionTypeMetadataFactory();
 
-        public ActivatorMetadata CreateActivator(ConstructorInfo ci)
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="ci"></param>
+        /// <returns></returns>
+        public IActivator CreateActivator(ConstructorInfo ci)
         {
-            if (ci == null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
-            if (ci.GetParameters().Length == 0)
-            {
-                return new ActivatorMetadata(ci, args => Activator.CreateInstance(ci.DeclaringType));
-            }
-
-            return new ActivatorMetadata(ci, ci.Invoke);
+            return ci.GetParameters().Length == 0
+                ? (IActivator)new ReflectionActivatorActivator(ci)
+                : new ReflectionConstructorActivator(ci);
         }
 
-        public AccessorMetadata CreateAccessor(PropertyInfo pi)
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="pi"></param>
+        /// <returns></returns>
+        public IAccessor CreateAccessor(PropertyInfo pi)
         {
             return CreateAccessor(pi, true);
         }
 
-        public AccessorMetadata CreateAccessor(PropertyInfo pi, bool extension)
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="pi"></param>
+        /// <param name="extension"></param>
+        /// <returns></returns>
+        public IAccessor CreateAccessor(PropertyInfo pi, bool extension)
         {
-            if (pi == null)
-            {
-                throw new ArgumentNullException(nameof(pi));
-            }
-
-            var holderInterface = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
+            var holderInterface = !extension ? null : AccessorHelper.FindValueHolderType(pi);
             if (holderInterface == null)
             {
-                return new AccessorMetadata(
-                    pi,
-                    pi.Name,
-                    pi.PropertyType,
-                    pi.CanRead,
-                    pi.CanWrite,
-                    pi.GetValue,
-                    pi.SetValue);
+                return new ReflectionAccessor(pi);
             }
 
-            var vpi = ValueHolderHelper.GetValueTypeProperty(holderInterface);
-            return new AccessorMetadata(
-                pi,
-                pi.Name,
-                vpi.PropertyType,
-                vpi.CanRead,
-                vpi.CanWrite,
-                obj =>
-                {
-                    var holder = vpi.GetValue(obj, null);
-                    return pi.GetValue(holder, null);
-                },
-                (obj, value) =>
-                {
-                    var holder = vpi.GetValue(obj, null);
-                    pi.SetValue(holder, value, null);
-                });
+            var vpi = AccessorHelper.GetValueTypeProperty(holderInterface);
+            return new ReflectionValueHolderAccessor(pi, vpi);
         }
 
-        public ArrayMetadata CreateArray(Type type)
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public IArrayOperator CreateArrayOperator(Type type)
         {
-            if (type == null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
-
-            return new ArrayMetadata(
-                type,
-                length => Array.CreateInstance(type, length));
+            return new ReflectionArrayOperator(type);
         }
     }
 }

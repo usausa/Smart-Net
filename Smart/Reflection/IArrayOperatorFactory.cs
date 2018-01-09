@@ -5,8 +5,8 @@
     /// <summary>
     ///
     /// </summary>
-    public interface IArrayFactory
+    public interface IArrayOperatorFactory
     {
-        ArrayMetadata CreateArray(Type type);
+        IArrayOperator CreateArrayOperator(Type type);
     }
 }
