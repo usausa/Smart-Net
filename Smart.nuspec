@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Usa.Smart.Core</id>
-    <version>1.1.1</version>
+    <version>1.2.0-beta1</version>
     <title>Smart.Core .NET</title>
     <authors>machi_pon</authors>
     <owners>machi_pon</owners>
@@ -13,17 +13,22 @@
     <copyright></copyright>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <dependencies>
-      <dependency id="NETStandard.Library" version="2.0.0" />
-      <dependency id="System.ComponentModel" version="4.3.0" />
-      <dependency id="System.Reflection.Emit" version="4.3.0" />
-      <dependency id="System.Reflection.Emit.Lightweight" version="4.3.0" />
+      <group>
+      </group>
+      <group targetFramework="netstandard2.0">
+        <dependency id="System.ComponentModel" version="4.3.0" />
+        <dependency id="System.Reflection.Emit" version="4.3.0" />
+        <dependency id="System.Reflection.Emit.Lightweight" version="4.3.0" />
+      </group>
+      <group targetFramework="net462">
+      </group>
     </dependencies>
     <tags>smart</tags>
   </metadata>
   <files>
-    <!-- .NET Standard -->
+    <!-- netstandard2.0 -->
     <file src="Smart\bin\Release\netstandard2.0\Smart.dll" target="lib\netstandard2.0" />
-    <!--<file src="Smart\bin\Release\netstandard2.0\Smart.pdb" target="lib\netstandard2.0" />-->
-    <!--<file src="Smart\bin\Release\netstandard2.0\Smart.xml" target="lib\netstandard2.0" />-->
+    <!-- net462 -->
+    <file src="Smart\bin\Release\net462\Smart.dll" target="lib\net462" />
   </files>
 </package>
