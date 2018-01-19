@@ -2,7 +2,6 @@
 {
     using System;
     using System.Globalization;
-    using System.Reflection;
 
     /// <summary>
     ///
@@ -38,7 +37,7 @@
                 }
 
                 // Assignable
-                if (typePair.SourceType.GetTypeInfo().IsAssignableFrom(Enum.GetUnderlyingType(targetEnumType).GetTypeInfo()))
+                if (typePair.SourceType.IsAssignableFrom(Enum.GetUnderlyingType(targetEnumType)))
                 {
                     return (tp, s) => Enum.ToObject(targetEnumType, s);
                 }
@@ -51,7 +50,7 @@
                 // Enum to !Enum
 
                 // Aasignable
-                if (typePair.TargetType.GetTypeInfo().IsAssignableFrom(Enum.GetUnderlyingType(sourceEnumType).GetTypeInfo()))
+                if (typePair.TargetType.IsAssignableFrom(Enum.GetUnderlyingType(sourceEnumType)))
                 {
                     var targetType = typePair.TargetType.IsNullableType() ? Nullable.GetUnderlyingType(typePair.TargetType) : typePair.TargetType;
                     return (tp, s) => Convert.ChangeType(s, targetType, CultureInfo.CurrentCulture);

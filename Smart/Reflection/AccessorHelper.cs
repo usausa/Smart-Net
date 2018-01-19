@@ -20,13 +20,13 @@
         /// <returns></returns>
         public static Type FindValueHolderType(PropertyInfo pi)
         {
-            if (pi.PropertyType.GetTypeInfo().IsGenericType && (pi.PropertyType.GetGenericTypeDefinition() == ValueHolderType))
+            if (pi.PropertyType.IsGenericType && (pi.PropertyType.GetGenericTypeDefinition() == ValueHolderType))
             {
                 return pi.PropertyType;
             }
 
-            return pi.PropertyType.GetTypeInfo().GetInterfaces()
-                .FirstOrDefault(i => i.GetTypeInfo().IsGenericType && i.GetGenericTypeDefinition() == ValueHolderType);
+            return pi.PropertyType.GetInterfaces()
+                .FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == ValueHolderType);
         }
 
         /// <summary>

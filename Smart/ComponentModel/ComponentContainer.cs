@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using System.Reflection;
 
     /// <summary>
     ///
@@ -190,7 +189,7 @@
                 throw new ArgumentNullException(nameof(serviceType));
             }
 
-            if (serviceType.GetTypeInfo().IsGenericType && serviceType.GetGenericTypeDefinition() == EnumerableType)
+            if (serviceType.IsGenericType && serviceType.GetGenericTypeDefinition() == EnumerableType)
             {
                 return ConvertArray(serviceType.GenericTypeArguments[0], GetAll(serviceType.GenericTypeArguments[0]));
             }
@@ -233,7 +232,7 @@
         /// <returns></returns>
         private object CreateInstance(Type type)
         {
-            foreach (var ci in type.GetTypeInfo().DeclaredConstructors.OrderByDescending(c => c.GetParameters().Length))
+            foreach (var ci in type.GetConstructors().OrderByDescending(c => c.GetParameters().Length))
             {
                 if (ci.GetParameters().Length == 0)
                 {
@@ -285,7 +284,7 @@
                 return type.GetElementType();
             }
 
-            if (type.GetTypeInfo().IsGenericType)
+            if (type.IsGenericType)
             {
                 var genericType = type.GetGenericTypeDefinition();
                 if ((genericType == EnumerableType) || (genericType == CollectionType) || (genericType == ListType))

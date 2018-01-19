@@ -52,7 +52,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static object GetDefaultValue(this Type type)
         {
-            if (type.GetTypeInfo().IsValueType && !type.IsNullableType())
+            if (type.IsValueType && !type.IsNullableType())
             {
                 if (DefaultValues.TryGetValue(type, out object value))
                 {
@@ -73,7 +73,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool IsNullableType(this Type type)
         {
-            return type.GetTypeInfo().IsGenericType && (type.GetGenericTypeDefinition() == NullableType);
+            return type.IsGenericType && (type.GetGenericTypeDefinition() == NullableType);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool IsStruct(this Type type)
         {
-            return type.GetTypeInfo().IsValueType && !type.GetTypeInfo().IsEnum && !type.GetTypeInfo().IsPrimitive && !type.IsNullableType();
+            return type.IsValueType && !type.IsEnum && !type.IsPrimitive && !type.IsNullableType();
         }
 
         /// <summary>
@@ -95,12 +95,12 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static bool IsAnonymous(this Type type)
         {
-            return type.GetTypeInfo().IsDefined(CompilerGeneratedAttributeType, false) &&
-                type.GetTypeInfo().IsGenericType &&
+            return type.IsDefined(CompilerGeneratedAttributeType, false) &&
+                type.IsGenericType &&
                 type.Name.Contains("AnonymousType") &&
                 (type.Name.StartsWith("<>", StringComparison.Ordinal) || type.Name.StartsWith("VB$", StringComparison.Ordinal)) &&
-                ((type.GetTypeInfo().Attributes & TypeAttributes.NotPublic) == TypeAttributes.NotPublic) &&
-                ((type.GetTypeInfo().Attributes & TypeAttributes.Sealed) == TypeAttributes.Sealed);
+                ((type.Attributes & TypeAttributes.NotPublic) == TypeAttributes.NotPublic) &&
+                ((type.Attributes & TypeAttributes.Sealed) == TypeAttributes.Sealed);
         }
 
         /// <summary>
@@ -116,18 +116,18 @@
                 return type.GetElementType();
             }
 
-            if (type.GetTypeInfo().IsGenericType && type.GetGenericTypeDefinition() == GenericEnumerableType)
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == GenericEnumerableType)
             {
                 return type.GenericTypeArguments[0];
             }
 
-            var enumerableType = type.GetTypeInfo().ImplementedInterfaces.FirstOrDefault(t => t.GetTypeInfo().IsGenericType && t.GetGenericTypeDefinition() == GenericEnumerableType);
+            var enumerableType = type.GetInterfaces().FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == GenericEnumerableType);
             if (enumerableType != null)
             {
                 return enumerableType.GenericTypeArguments[0];
             }
 
-            if (EnumerableType.GetTypeInfo().IsAssignableFrom(type.GetTypeInfo()))
+            if (EnumerableType.IsAssignableFrom(type.GetTypeInfo()))
             {
                 return ObjectType;
             }
@@ -143,7 +143,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static Type GetEnumType(this Type type)
         {
-            if (type.GetTypeInfo().IsEnum)
+            if (type.IsEnum)
             {
                 return type;
             }
@@ -151,7 +151,7 @@
             if (type.IsNullableType())
             {
                 var genericType = Nullable.GetUnderlyingType(type);
-                return genericType.GetTypeInfo().IsEnum ? genericType : null;
+                return genericType.IsEnum ? genericType : null;
             }
 
             return null;
@@ -165,7 +165,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static Type GetValueHolderType(this Type type)
         {
-            return type.GetTypeInfo().ImplementedInterfaces.FirstOrDefault(it => it.GetTypeInfo().IsGenericType && it.GetGenericTypeDefinition() == ValueHolderType);
+            return type.GetInterfaces().FirstOrDefault(it => it.IsGenericType && it.GetGenericTypeDefinition() == ValueHolderType);
         }
 
         /// <summary>

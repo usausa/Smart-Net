@@ -40,11 +40,11 @@
         {
             var targetType = typePair.TargetType.IsNullableType() ? Nullable.GetUnderlyingType(typePair.TargetType) : typePair.TargetType;
 
-            var sourceTypeMethod = typePair.SourceType.GetTypeInfo()
-                .DeclaredMethods
+            var sourceTypeMethod = typePair.SourceType
+                .GetMethods()
                 .FirstOrDefault(mi => mi.IsPublic && mi.IsStatic && mi.Name == "op_Implicit" && mi.ReturnType == targetType);
-            return sourceTypeMethod ?? targetType.GetTypeInfo()
-                .DeclaredMethods
+            return sourceTypeMethod ?? targetType
+                .GetMethods()
                 .FirstOrDefault(mi => mi.IsPublic && mi.IsStatic && mi.Name == "op_Implicit" && mi.GetParameters().Length == 1 && mi.GetParameters()[0].ParameterType == typePair.SourceType);
         }
 
