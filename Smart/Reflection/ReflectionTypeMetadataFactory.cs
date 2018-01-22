@@ -9,17 +9,30 @@
     /// </summary>
     public sealed class ReflectionTypeMetadataFactory : IActivatorFactory, IAccessorFactory, IArrayOperatorFactory
     {
-        private static readonly Dictionary<int, Func<ConstructorInfo, object>> SupportedActiavators = new Dictionary<int, Func<ConstructorInfo, object>>
+        private class ActivatorInfo
         {
-            { 0, ci => new ReflectionConstructorActivator(ci) },
-            { 1, ci => new ReflectionActivatorActivator1(ci) },
-            { 2, ci => new ReflectionActivatorActivator2(ci) },
-            { 3, ci => new ReflectionActivatorActivator3(ci) },
-            { 4, ci => new ReflectionActivatorActivator4(ci) },
-            { 5, ci => new ReflectionActivatorActivator5(ci) },
-            { 6, ci => new ReflectionActivatorActivator6(ci) },
-            { 7, ci => new ReflectionActivatorActivator7(ci) },
-            { 8, ci => new ReflectionActivatorActivator8(ci) },
+            public Type Type { get; }
+
+            public Func<ConstructorInfo, object> Factory { get; }
+
+            public ActivatorInfo(Type type, Func<ConstructorInfo, object> factory)
+            {
+                Type = type;
+                Factory = factory;
+            }
+        }
+
+        private static readonly Dictionary<int, ActivatorInfo> SupportedActiavators = new Dictionary<int, ActivatorInfo>
+        {
+            { 0, new ActivatorInfo(typeof(IActivator0), ci => new ReflectionConstructorActivator(ci)) },
+            { 1, new ActivatorInfo(typeof(IActivator1), ci => new ReflectionActivatorActivator1(ci)) },
+            { 2, new ActivatorInfo(typeof(IActivator2), ci => new ReflectionActivatorActivator2(ci)) },
+            { 3, new ActivatorInfo(typeof(IActivator3), ci => new ReflectionActivatorActivator3(ci)) },
+            { 4, new ActivatorInfo(typeof(IActivator4), ci => new ReflectionActivatorActivator4(ci)) },
+            { 5, new ActivatorInfo(typeof(IActivator5), ci => new ReflectionActivatorActivator5(ci)) },
+            { 6, new ActivatorInfo(typeof(IActivator6), ci => new ReflectionActivatorActivator6(ci)) },
+            { 7, new ActivatorInfo(typeof(IActivator7), ci => new ReflectionActivatorActivator7(ci)) },
+            { 8, new ActivatorInfo(typeof(IActivator8), ci => new ReflectionActivatorActivator8(ci)) },
         };
 
         /// <summary>
@@ -58,20 +71,14 @@
                 throw new ArgumentNullException(nameof(ci));
             }
 
-            if (!SupportedActiavators.TryGetValue(ci.GetParameters().Length, out var factory))
+            if (!SupportedActiavators.TryGetValue(ci.GetParameters().Length, out var activatorInfo) ||
+                (activatorInfo.Type != typeof(TActivator)))
             {
                 throw new ArgumentException(
                     $"Constructor is unmatched for activator. length = [{ci.GetParameters().Length}], type = {typeof(TActivator)}");
             }
 
-            var activator = factory(ci);
-            if (!activator.GetType().IsInstanceOfType(typeof(TActivator)))
-            {
-                throw new ArgumentException(
-                    $"Constructor is unmatched for activator. length = [{ci.GetParameters().Length}], type = {typeof(TActivator)}");
-            }
-
-            return (TActivator)activator;
+            return (TActivator)activatorInfo.Factory(ci);
         }
 
         /// <summary>

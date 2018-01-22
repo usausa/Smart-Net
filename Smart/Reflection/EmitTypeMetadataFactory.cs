@@ -16,7 +16,7 @@
 
         private const string ModuleName = "SmartDynamicActivatorModule";
 
-        private class ActivatorInfo
+        private sealed class ActivatorInfo
         {
             public Type Type { get; }
 
