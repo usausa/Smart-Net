@@ -141,6 +141,40 @@
         ///
         /// </summary>
         /// <param name="il"></param>
+        /// <param name="i"></param>
+        public static void EmitLdarg(this ILGenerator il, int i)
+        {
+            switch (i)
+            {
+                case 0:
+                    il.Emit(OpCodes.Ldarg_0);
+                    break;
+                case 1:
+                    il.Emit(OpCodes.Ldarg_1);
+                    break;
+                case 2:
+                    il.Emit(OpCodes.Ldarg_2);
+                    break;
+                case 3:
+                    il.Emit(OpCodes.Ldarg_3);
+                    break;
+                default:
+                    if (i <= 255)
+                    {
+                        il.Emit(OpCodes.Ldarg_S, (sbyte)i);
+                    }
+                    else
+                    {
+                        il.Emit(OpCodes.Ldarg, i);
+                    }
+                    break;
+            }
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="il"></param>
         /// <param name="type"></param>
         public static void EmitTypeConversion(this ILGenerator il, Type type)
         {

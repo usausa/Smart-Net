@@ -16,6 +16,39 @@
 
         private const string ModuleName = "SmartDynamicActivatorModule";
 
+        private class ActivatorInfo
+        {
+            public Type Type { get; }
+
+            public MethodInfo CreateMethodInfo { get; }
+
+            public Type[] CreateArgumentTypes { get; }
+
+            public ActivatorInfo(Type type, int length)
+            {
+                Type = type;
+                CreateMethodInfo = type.GetMethod("Create");
+                CreateArgumentTypes = new Type[length];
+                for (var i = 0; i < length; i++)
+                {
+                    CreateArgumentTypes[i] = typeof(object);
+                }
+            }
+        }
+
+        private static readonly Dictionary<int, ActivatorInfo> SupportedActiavators = new Dictionary<int, ActivatorInfo>
+        {
+            { 0, new ActivatorInfo(typeof(IActivator0), 0) },
+            { 1, new ActivatorInfo(typeof(IActivator1), 1) },
+            { 2, new ActivatorInfo(typeof(IActivator2), 2) },
+            { 3, new ActivatorInfo(typeof(IActivator3), 3) },
+            { 4, new ActivatorInfo(typeof(IActivator4), 4) },
+            { 5, new ActivatorInfo(typeof(IActivator5), 5) },
+            { 6, new ActivatorInfo(typeof(IActivator6), 6) },
+            { 7, new ActivatorInfo(typeof(IActivator7), 7) },
+            { 8, new ActivatorInfo(typeof(IActivator8), 8) }
+        };
+
         private static readonly Type ObjectType = typeof(object);
 
         private static readonly Type VoidType = typeof(void);
@@ -161,7 +194,7 @@
             {
                 if (!activatorCache.TryGetValue(ci, out var activator))
                 {
-                    activator = CreateActivatorInternal(ci);
+                    activator = CreateActivatorInternal(ci, null);
                     activatorCache[ci] = activator;
                 }
 
@@ -169,13 +202,44 @@
             }
         }
 
-        private IActivator CreateActivatorInternal(ConstructorInfo ci)
+        public TActivator CreateActivator<TActivator>(ConstructorInfo ci)
+            where TActivator : IActivator
+        {
+            if (ci == null)
+            {
+                throw new ArgumentNullException(nameof(ci));
+            }
+
+            if (!SupportedActiavators.TryGetValue(ci.GetParameters().Length, out var activatorInfo) ||
+                activatorInfo.Type != typeof(TActivator))
+            {
+                throw new ArgumentException(
+                    $"Constructor is unmatched for activator. length = [{ci.GetParameters().Length}], type = {typeof(TActivator)}");
+            }
+
+            lock (sync)
+            {
+                if (!activatorCache.TryGetValue(ci, out var activator))
+                {
+                    activator = CreateActivatorInternal(ci, activatorInfo);
+                    activatorCache[ci] = activator;
+                }
+
+                return (TActivator)activator;
+            }
+        }
+
+        private IActivator CreateActivatorInternal(ConstructorInfo ci, ActivatorInfo activatorInfo)
         {
             var typeBuilder = ModuleBuilder.DefineType(
                 $"{ci.DeclaringType.FullName}_DynamicActivator{Array.IndexOf(ci.DeclaringType.GetConstructors(), ci)}",
                 TypeAttributes.Public | TypeAttributes.AutoLayout | TypeAttributes.AnsiClass | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit);
 
             typeBuilder.AddInterfaceImplementation(ActivatorType);
+            if (activatorInfo != null)
+            {
+                typeBuilder.AddInterfaceImplementation(activatorInfo.Type);
+            }
 
             // Field
             var sourceField = typeBuilder.DefineField(
@@ -191,6 +255,10 @@
 
             // Method
             DefineActivatorMethodCreate(typeBuilder, ci);
+            if (activatorInfo != null)
+            {
+                DefineActivatorMethodCreate(typeBuilder, ci, activatorInfo);
+            }
 
             var typeInfo = typeBuilder.CreateTypeInfo();
 
@@ -254,6 +322,34 @@
                 ilGenerator.Emit(OpCodes.Ldarg_1);
                 ilGenerator.EmitLdcI4(i);
                 ilGenerator.Emit(OpCodes.Ldelem_Ref);
+                ilGenerator.EmitTypeConversion(ci.GetParameters()[i].ParameterType);
+            }
+
+            ilGenerator.Emit(OpCodes.Newobj, ci);
+
+            ilGenerator.Emit(OpCodes.Ret);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="typeBuilder"></param>
+        /// <param name="ci"></param>
+        /// <param name="activatorInfo"></param>
+        private static void DefineActivatorMethodCreate(TypeBuilder typeBuilder, ConstructorInfo ci, ActivatorInfo activatorInfo)
+        {
+            var method = typeBuilder.DefineMethod(
+                "Create",
+                MethodAttributes.Public | MethodAttributes.HideBySig | MethodAttributes.NewSlot | MethodAttributes.Virtual | MethodAttributes.Final,
+                ObjectType,
+                activatorInfo.CreateArgumentTypes);
+            typeBuilder.DefineMethodOverride(method, activatorInfo.CreateMethodInfo);
+
+            var ilGenerator = method.GetILGenerator();
+
+            for (var i = 0; i < ci.GetParameters().Length; i++)
+            {
+                ilGenerator.EmitLdarg(i + 1);
                 ilGenerator.EmitTypeConversion(ci.GetParameters()[i].ParameterType);
             }
 

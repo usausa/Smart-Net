@@ -48,6 +48,18 @@
         /// <summary>
         ///
         /// </summary>
+        /// <typeparam name="TActivator"></typeparam>
+        /// <param name="ci"></param>
+        /// <returns></returns>
+        public TActivator CreateActivator<TActivator>(ConstructorInfo ci)
+            where TActivator : IActivator
+        {
+            return ActivatorFactory.CreateActivator<TActivator>(ci);
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
         /// <param name="pi"></param>
         /// <returns></returns>
         public IAccessor CreateAccessor(PropertyInfo pi)
