@@ -13,13 +13,31 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Reflection\EmitTypeMetadataFactory.cs" />
+    <Compile Remove="Reflection\IAccessor.cs" />
+    <Compile Remove="Reflection\IAccessorFactory.cs" />
+    <Compile Remove="Reflection\IActivator.cs" />
+    <Compile Remove="Reflection\IActivatorFactory.cs" />
+    <Compile Remove="Reflection\IArrayOperator.cs" />
+    <Compile Remove="Reflection\IArrayOperatorFactory.cs" />
+    <Compile Remove="Reflection\ReflectionAccessor.cs" />
+    <Compile Remove="Reflection\ReflectionArrayOperator.cs" />
+    <Compile Remove="Reflection\ReflectionConstructorActivator.cs" />
+    <Compile Remove="Reflection\ReflectionHelper.cs" />
+    <Compile Remove="Reflection\ReflectionNoArgumentsActivatorActivator.cs" />
+    <Compile Remove="Reflection\ReflectionTypeMetadataFactory.cs" />
+    <Compile Remove="Reflection\ReflectionValueHolderAccessor.cs" />
+    <Compile Remove="Reflection\TypeMetadataFactory.cs" />
+    <Compile Remove="Reflection\TypeMetadataFactoryExtensions.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="2.6.0" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.0.2" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
-    <PackageReference Include="System.Reflection.Emit" Version="4.3.0" />
     <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />
   </ItemGroup>
 

@@ -232,7 +232,7 @@
         private IActivator CreateActivatorInternal(ConstructorInfo ci, ActivatorInfo activatorInfo)
         {
             var typeBuilder = ModuleBuilder.DefineType(
-                $"{ci.DeclaringType.FullName}_DynamicActivator{Array.IndexOf(ci.DeclaringType.GetConstructors(), ci)}",
+                $"{ci.DeclaringType.Namespace}.{ci.DeclaringType.Name}_DynamicActivator{Array.IndexOf(ci.DeclaringType.GetConstructors(), ci)}",
                 TypeAttributes.Public | TypeAttributes.AutoLayout | TypeAttributes.AnsiClass | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit);
 
             typeBuilder.AddInterfaceImplementation(ActivatorType);
@@ -405,7 +405,7 @@
             var vpi = isValueProperty ? AccessorHelper.GetValueTypeProperty(holderType) : pi;
 
             var typeBuilder = ModuleBuilder.DefineType(
-                $"{pi.DeclaringType.FullName}_{pi.Name}_DynamicAccsessor",
+                $"{pi.DeclaringType.Namespace}.{pi.DeclaringType.Name}_{pi.Name}_DynamicAccsessor",
                 TypeAttributes.Public | TypeAttributes.AutoLayout | TypeAttributes.AnsiClass | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit);
 
             typeBuilder.AddInterfaceImplementation(AccessorType);
@@ -750,7 +750,7 @@
             var arrayType = type.MakeArrayType();
 
             var typeBuilder = ModuleBuilder.DefineType(
-                $"{type.FullName}_ArrayOperator",
+                $"{type.Namespace}.{type.Name}_ArrayOperator",
                 TypeAttributes.Public | TypeAttributes.AutoLayout | TypeAttributes.AnsiClass | TypeAttributes.Sealed | TypeAttributes.BeforeFieldInit);
 
             typeBuilder.AddInterfaceImplementation(ArrayOperatorType);

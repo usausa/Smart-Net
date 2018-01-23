@@ -1,65 +1,65 @@
-﻿namespace Benchmark.Reflection
-{
-    using System;
-    using System.Reflection;
+﻿//namespace Benchmark.Reflection
+//{
+//    using System;
+//    using System.Reflection;
 
-    using BenchmarkDotNet.Attributes;
+//    using BenchmarkDotNet.Attributes;
 
-    using Smart.Reflection;
+//    using Smart.Reflection;
 
-    /// <summary>
-    ///
-    /// </summary>
-    [Config(typeof(BenchmarkConfig))]
-    public class ActivatorBenchmark
-    {
-        public sealed class NewActivator : IActivator
-        {
-            public ConstructorInfo Source { get; } = typeof(Class0).GetConstructor(Type.EmptyTypes);
+//    /// <summary>
+//    ///
+//    /// </summary>
+//    [Config(typeof(BenchmarkConfig))]
+//    public class ActivatorBenchmark
+//    {
+//        public sealed class NewActivator : IActivator
+//        {
+//            public ConstructorInfo Source { get; } = typeof(Class0).GetConstructor(Type.EmptyTypes);
 
-            public object Create(params object[] arguments)
-            {
-                return new Class0();
-            }
-        }
+//            public object Create(params object[] arguments)
+//            {
+//                return new Class0();
+//            }
+//        }
 
-        private IActivator newActivator;
+//        private IActivator newActivator;
 
-        private IActivator emitActivator;
+//        private IActivator emitActivator;
 
-        private IActivator reflectionActivator;
+//        private IActivator reflectionActivator;
 
-        [GlobalSetup]
-        public void Setup()
-        {
-            var ctor = typeof(Class0).GetConstructor(Type.EmptyTypes);
-            newActivator = new NewActivator();
-            emitActivator = EmitTypeMetadataFactory.Default.CreateActivator(ctor);
-            reflectionActivator = ReflectionTypeMetadataFactory.Default.CreateActivator(ctor);
-        }
+//        [GlobalSetup]
+//        public void Setup()
+//        {
+//            var ctor = typeof(Class0).GetConstructor(Type.EmptyTypes);
+//            newActivator = new NewActivator();
+//            emitActivator = EmitTypeMetadataFactory.Default.CreateActivator(ctor);
+//            reflectionActivator = ReflectionTypeMetadataFactory.Default.CreateActivator(ctor);
+//        }
 
-        [Benchmark(Baseline = true)]
-        public object NewRaw()
-        {
-            return new Class0();
-        }
+//        [Benchmark(Baseline = true)]
+//        public object NewRaw()
+//        {
+//            return new Class0();
+//        }
 
-        [Benchmark]
-        public object NewWithActivator()
-        {
-            return newActivator.Create(null);
-        }
+//        [Benchmark]
+//        public object NewWithActivator()
+//        {
+//            return newActivator.Create(null);
+//        }
 
-        [Benchmark]
-        public object Emit()
-        {
-            return emitActivator.Create(null);
-        }
+//        [Benchmark]
+//        public object Emit()
+//        {
+//            return emitActivator.Create(null);
+//        }
 
-        [Benchmark]
-        public object Reflection()
-        {
-            return reflectionActivator.Create(null);
-        }
-    }
-}
+//        [Benchmark]
+//        public object Reflection()
+//        {
+//            return reflectionActivator.Create(null);
+//        }
+//    }
+//}
