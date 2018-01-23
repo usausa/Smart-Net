@@ -15,9 +15,7 @@
   <ItemGroup>
     <Compile Remove="Reflection\EmitTypeMetadataFactory.cs" />
     <Compile Remove="Reflection\IAccessor.cs" />
-    <Compile Remove="Reflection\IAccessorFactory.cs" />
     <Compile Remove="Reflection\IActivator.cs" />
-    <Compile Remove="Reflection\IActivatorFactory.cs" />
     <Compile Remove="Reflection\IArrayOperator.cs" />
     <Compile Remove="Reflection\IArrayOperatorFactory.cs" />
     <Compile Remove="Reflection\ReflectionAccessor.cs" />

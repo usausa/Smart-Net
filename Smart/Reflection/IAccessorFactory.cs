@@ -1,25 +1,16 @@
 ﻿namespace Smart.Reflection
 {
+    using System;
     using System.Reflection;
 
-    /// <summary>
-    ///
-    /// </summary>
     public interface IAccessorFactory
     {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="pi"></param>
-        /// <returns></returns>
-        IAccessor CreateAccessor(PropertyInfo pi);
+        Action<object, object> CreateGetter(PropertyInfo pi);
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="pi"></param>
-        /// <param name="extension"></param>
-        /// <returns></returns>
-        IAccessor CreateAccessor(PropertyInfo pi, bool extension);
+        Action<object, object> CreateGetter(PropertyInfo pi, bool extension);
+
+        Action<object, object> CreateSetter(PropertyInfo pi);
+
+        Action<object, object> CreateSetter(PropertyInfo pi, bool extension);
     }
 }
