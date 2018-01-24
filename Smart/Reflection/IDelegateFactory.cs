@@ -40,5 +40,7 @@
         Action<object, object> CreateSetter(PropertyInfo pi);
 
         Action<object, object> CreateSetter(PropertyInfo pi, bool extension);
+
+        Type GetExtendedPropertyType(PropertyInfo pi);
     }
 }

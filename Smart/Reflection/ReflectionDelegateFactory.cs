@@ -239,5 +239,12 @@
                 vpi.SetValue(holder, value, null);
             };
         }
+
+        public Type GetExtendedPropertyType(PropertyInfo pi)
+        {
+            var holderType = ValueHolderHelper.FindValueHolderType(pi);
+            var tpi = holderType != null ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
+            return tpi.PropertyType;
+        }
     }
 }

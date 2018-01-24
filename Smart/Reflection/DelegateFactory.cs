@@ -101,5 +101,10 @@
         {
             return Factory.CreateSetter(pi, extension);
         }
+
+        public Type GetExtendedPropertyType(PropertyInfo pi)
+        {
+            return Factory.GetExtendedPropertyType(pi);
+        }
     }
 }

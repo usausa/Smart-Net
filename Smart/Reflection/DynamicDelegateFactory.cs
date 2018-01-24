@@ -396,14 +396,14 @@
         {
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
             var isValueProperty = holderType != null;
-            var vpi = isValueProperty ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
+            var tpi = isValueProperty ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
 
             if (isValueProperty && !pi.CanRead)
             {
                 throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
             }
 
-            if (!vpi.CanRead)
+            if (!tpi.CanRead)
             {
                 return null;
             }
@@ -421,11 +421,11 @@
 
             if (isValueProperty)
             {
-                il.Emit(OpCodes.Callvirt, vpi.GetGetMethod());
+                il.Emit(OpCodes.Callvirt, tpi.GetGetMethod());
             }
-            if (vpi.PropertyType.IsValueType)
+            if (tpi.PropertyType.IsValueType)
             {
-                il.Emit(OpCodes.Box, vpi.PropertyType);
+                il.Emit(OpCodes.Box, tpi.PropertyType);
             }
 
             il.Emit(OpCodes.Ret);
@@ -462,14 +462,14 @@
         {
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
             var isValueProperty = holderType != null;
-            var vpi = isValueProperty ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
+            var tpi = isValueProperty ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
 
             if (isValueProperty && !pi.CanRead)
             {
                 throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
             }
 
-            if (!vpi.CanWrite)
+            if (!tpi.CanWrite)
             {
                 return null;
             }
@@ -479,7 +479,7 @@
             var dynamic = new DynamicMethod(string.Empty, VoidType, SetterParameterTypes, true);
             var il = dynamic.GetILGenerator();
 
-            if (vpi.PropertyType.IsValueType)
+            if (tpi.PropertyType.IsValueType)
             {
                 var hasValue = il.DefineLabel();
 
@@ -498,20 +498,20 @@
                     il.Emit(pi.GetGetMethod().IsStatic ? OpCodes.Call : OpCodes.Callvirt, pi.GetGetMethod());
                 }
 
-                var type = vpi.PropertyType.IsEnum ? vpi.PropertyType.GetEnumUnderlyingType() : vpi.PropertyType;
+                var type = tpi.PropertyType.IsEnum ? tpi.PropertyType.GetEnumUnderlyingType() : tpi.PropertyType;
                 if (LdcDictionary.TryGetValue(type, out var action))
                 {
                     action(il);
                 }
                 else
                 {
-                    var local = il.DeclareLocal(vpi.PropertyType);
+                    var local = il.DeclareLocal(tpi.PropertyType);
                     il.Emit(OpCodes.Ldloca_S, local);
-                    il.Emit(OpCodes.Initobj, vpi.PropertyType);
+                    il.Emit(OpCodes.Initobj, tpi.PropertyType);
                     il.Emit(OpCodes.Ldloc_0);
                 }
 
-                il.Emit(vpi.GetSetMethod().IsStatic ? OpCodes.Call : OpCodes.Callvirt, vpi.GetSetMethod());
+                il.Emit(tpi.GetSetMethod().IsStatic ? OpCodes.Call : OpCodes.Callvirt, tpi.GetSetMethod());
 
                 il.Emit(OpCodes.Ret);
 
@@ -530,9 +530,9 @@
                 }
 
                 il.Emit(OpCodes.Ldarg_2);
-                il.Emit(OpCodes.Unbox_Any, vpi.PropertyType);
+                il.Emit(OpCodes.Unbox_Any, tpi.PropertyType);
 
-                il.Emit(vpi.GetSetMethod().IsStatic ? OpCodes.Call : OpCodes.Callvirt, vpi.GetSetMethod());
+                il.Emit(tpi.GetSetMethod().IsStatic ? OpCodes.Call : OpCodes.Callvirt, tpi.GetSetMethod());
 
                 il.Emit(OpCodes.Ret);
             }
@@ -550,9 +550,9 @@
                 }
 
                 il.Emit(OpCodes.Ldarg_2);
-                il.Emit(OpCodes.Castclass, vpi.PropertyType);
+                il.Emit(OpCodes.Castclass, tpi.PropertyType);
 
-                il.Emit(vpi.GetSetMethod().IsStatic ? OpCodes.Call : OpCodes.Callvirt, vpi.GetSetMethod());
+                il.Emit(tpi.GetSetMethod().IsStatic ? OpCodes.Call : OpCodes.Callvirt, tpi.GetSetMethod());
 
                 il.Emit(OpCodes.Ret);
             }
@@ -577,5 +577,12 @@
             { typeof(IntPtr), il => il.Emit(OpCodes.Ldc_I4_0) },    // Simplicity
             { typeof(UIntPtr), il => il.Emit(OpCodes.Ldc_I4_0) },   // Simplicity
         };
+
+        public Type GetExtendedPropertyType(PropertyInfo pi)
+        {
+            var holderType = ValueHolderHelper.FindValueHolderType(pi);
+            var tpi = holderType != null ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
+            return tpi.PropertyType;
+        }
     }
 }
