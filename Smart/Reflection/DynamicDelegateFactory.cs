@@ -16,11 +16,13 @@
 
         private static readonly Type ObjectArrayType = typeof(object[]);
 
-        private static readonly Type ArrayType = typeof(object);
+        private static readonly Type Int32Type = typeof(int);
+
+        private static readonly Type ArrayType = typeof(Array);
 
         // ArrayAllocator
 
-        private static readonly Type[] ArrayAllocatorParameterTypes = { ObjectType, typeof(int) };
+        private static readonly Type[] ArrayAllocatorParameterTypes = { ObjectType, Int32Type };
 
         private static readonly Type ArrayAllocatorType = typeof(Func<int, Array>);
 
@@ -215,7 +217,7 @@
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
             var isValueProperty = holderType != null;
             var vpi = isValueProperty ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
-            if (vpi.CanRead)
+            if (!vpi.CanRead)
             {
                 return null;
             }
@@ -260,7 +262,7 @@
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
             var isValueProperty = holderType != null;
             var vpi = isValueProperty ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
-            if (vpi.CanWrite)
+            if (!vpi.CanWrite)
             {
                 return null;
             }
@@ -276,7 +278,7 @@
                 il.Emit(OpCodes.Brtrue_S, hasValue);
 
                 // null
-                if (!pi.GetGetMethod().IsStatic)
+                if (!pi.GetSetMethod().IsStatic)
                 {
                     il.Emit(OpCodes.Ldarg_1);
                     il.Emit(OpCodes.Castclass, pi.DeclaringType);
@@ -307,7 +309,7 @@
                 // not null
                 il.MarkLabel(hasValue);
 
-                if (!pi.GetGetMethod().IsStatic)
+                if (!pi.GetSetMethod().IsStatic)
                 {
                     il.Emit(OpCodes.Ldarg_1);
                     il.Emit(OpCodes.Castclass, pi.DeclaringType);
@@ -327,7 +329,7 @@
             }
             else
             {
-                if (!pi.GetGetMethod().IsStatic)
+                if (!pi.GetSetMethod().IsStatic)
                 {
                     il.Emit(OpCodes.Ldarg_1);
                     il.Emit(OpCodes.Castclass, pi.DeclaringType);
