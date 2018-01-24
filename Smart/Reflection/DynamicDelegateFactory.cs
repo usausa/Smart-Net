@@ -138,7 +138,7 @@
                 throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
             }
 
-            var dynamic = new DynamicMethod(string.Empty, ObjectType, Factory0ParameterTypes, true);
+            var dynamic = new DynamicMethod(string.Empty, ObjectType, parameterTypes, true);
             var il = dynamic.GetILGenerator();
 
             for (var i = 0; i < ci.GetParameters().Length; i++)
