@@ -1,65 +1,200 @@
-﻿//namespace Benchmark.Reflection
-//{
-//    using System;
-//    using System.Reflection;
+﻿namespace Benchmark.Reflection
+{
+    using System;
+    using System.Linq;
 
-//    using BenchmarkDotNet.Attributes;
+    using BenchmarkDotNet.Attributes;
 
-//    using Smart.Reflection;
+    using Smart.Reflection;
 
-//    /// <summary>
-//    ///
-//    /// </summary>
-//    [Config(typeof(BenchmarkConfig))]
-//    public class ActivatorBenchmark
-//    {
-//        public sealed class NewActivator : IActivator
-//        {
-//            public ConstructorInfo Source { get; } = typeof(Class0).GetConstructor(Type.EmptyTypes);
+    /// <summary>
+    ///
+    /// </summary>
+    [Config(typeof(BenchmarkConfig))]
+    public class ActivatorBenchmark
+    {
+        private static readonly object[] Parameter1 = { "x" };
 
-//            public object Create(params object[] arguments)
-//            {
-//                return new Class0();
-//            }
-//        }
+        private static readonly object[] Parameter8 = { "x", "x", "x", "x", "x", "x", "x", "x" };
 
-//        private IActivator newActivator;
+        private Func<object[], object> newFactory0;
+        private Func<object[], object> dynamicFactory0A;
+        private Func<object[], object> reflectionFactory0A;
+        private Func<object> dynamicFactory0B;
+        private Func<object> reflectionFactory0B;
 
-//        private IActivator emitActivator;
+        private Func<object[], object> newFactory1;
+        private Func<object[], object> dynamicFactory1A;
+        private Func<object[], object> reflectionFactory1A;
+        private Func<object, object> dynamicFactory1B;
+        private Func<object, object> reflectionFactory1B;
 
-//        private IActivator reflectionActivator;
+        private Func<object[], object> newFactory8;
+        private Func<object[], object> dynamicFactory8A;
+        private Func<object[], object> reflectionFactory8A;
+        private Func<object, object, object, object, object, object, object, object, object> dynamicFactory8B;
+        private Func<object, object, object, object, object, object, object, object, object> reflectionFactory8B;
 
-//        [GlobalSetup]
-//        public void Setup()
-//        {
-//            var ctor = typeof(Class0).GetConstructor(Type.EmptyTypes);
-//            newActivator = new NewActivator();
-//            emitActivator = EmitTypeMetadataFactory.Default.CreateActivator(ctor);
-//            reflectionActivator = ReflectionTypeMetadataFactory.Default.CreateActivator(ctor);
-//        }
+        [GlobalSetup]
+        public void Setup()
+        {
+            var ctor0 = typeof(Data0).GetConstructors().First();
+            var ctor1 = typeof(Data1).GetConstructors().First();
+            var ctor8 = typeof(Data8).GetConstructors().First();
 
-//        [Benchmark(Baseline = true)]
-//        public object NewRaw()
-//        {
-//            return new Class0();
-//        }
+            newFactory0 = args => new Data0();
+            dynamicFactory0A = DynamicDelegateFactory.Default.CreateFactory(ctor0);
+            reflectionFactory0A = ReflectionDelegateFactory.Default.CreateFactory(ctor0);
+            dynamicFactory0B = DynamicDelegateFactory.Default.CreateFactory0(ctor0);
+            reflectionFactory0B = ReflectionDelegateFactory.Default.CreateFactory0(ctor0);
 
-//        [Benchmark]
-//        public object NewWithActivator()
-//        {
-//            return newActivator.Create(null);
-//        }
+            newFactory1 = args => new Data1((string)args[0]);
+            dynamicFactory1A = DynamicDelegateFactory.Default.CreateFactory(ctor1);
+            reflectionFactory1A = ReflectionDelegateFactory.Default.CreateFactory(ctor1);
+            dynamicFactory1B = DynamicDelegateFactory.Default.CreateFactory1(ctor1);
+            reflectionFactory1B = ReflectionDelegateFactory.Default.CreateFactory1(ctor1);
 
-//        [Benchmark]
-//        public object Emit()
-//        {
-//            return emitActivator.Create(null);
-//        }
+            newFactory8 = args => new Data8((string)args[0], (string)args[1], (string)args[2], (string)args[3], (string)args[4], (string)args[5], (string)args[6], (string)args[7]);
+            dynamicFactory8A = DynamicDelegateFactory.Default.CreateFactory(ctor8);
+            reflectionFactory8A = ReflectionDelegateFactory.Default.CreateFactory(ctor8);
+            dynamicFactory8B = DynamicDelegateFactory.Default.CreateFactory8(ctor8);
+            reflectionFactory8B = ReflectionDelegateFactory.Default.CreateFactory8(ctor8);
+        }
 
-//        [Benchmark]
-//        public object Reflection()
-//        {
-//            return reflectionActivator.Create(null);
-//        }
-//    }
-//}
+        // 0
+
+        [Benchmark]
+        public object New()
+        {
+            return newFactory0(null);
+        }
+
+        [Benchmark]
+        public object Dynamic0A()
+        {
+            return dynamicFactory0A(null);
+        }
+
+        [Benchmark]
+        public object Dynamic0B()
+        {
+            return dynamicFactory0B();
+        }
+
+        [Benchmark]
+        public object Reflection0A()
+        {
+            return reflectionFactory0A(null);
+        }
+
+        [Benchmark]
+        public object Reflection0B()
+        {
+            return reflectionFactory0B();
+        }
+
+        // 1
+
+        [Benchmark]
+        public object New1()
+        {
+            return newFactory1(Parameter1);
+        }
+
+        [Benchmark]
+        public object Dynamic1A()
+        {
+            return dynamicFactory1A(Parameter1);
+        }
+
+        [Benchmark]
+        public object Dynamic1B()
+        {
+            return dynamicFactory1B("x");
+        }
+
+        [Benchmark]
+        public object Reflection1A()
+        {
+            return reflectionFactory1A(Parameter1);
+        }
+
+        [Benchmark]
+        public object Reflection1B()
+        {
+            return reflectionFactory1B("x");
+        }
+
+        // 8
+
+        [Benchmark]
+        public object New8()
+        {
+            return newFactory8(Parameter8);
+        }
+
+        [Benchmark]
+        public object Dynamic8A()
+        {
+            return dynamicFactory8A(Parameter8);
+        }
+
+        [Benchmark]
+        public object Dynamic8B()
+        {
+            return dynamicFactory8B("x", "x", "x", "x", "x", "x", "x", "x");
+        }
+
+        [Benchmark]
+        public object Reflection8A()
+        {
+            return reflectionFactory8A(Parameter8);
+        }
+
+        [Benchmark]
+        public object Reflection8B()
+        {
+            return reflectionFactory8B("x", "x", "x", "x", "x", "x", "x", "x");
+        }
+
+        // Data
+
+        public class Data0
+        {
+        }
+
+        public class Data1
+        {
+            public string P1 { get; }
+
+            public Data1(string p1)
+            {
+                P1 = p1;
+            }
+        }
+
+        public class Data8
+        {
+            public string P1 { get; }
+            public string P2 { get; }
+            public string P3 { get; }
+            public string P4 { get; }
+            public string P5 { get; }
+            public string P6 { get; }
+            public string P7 { get; }
+            public string P8 { get; }
+
+            public Data8(string p1, string p2, string p3, string p4, string p5, string p6, string p7, string p8)
+            {
+                P1 = p1;
+                P2 = p2;
+                P3 = p3;
+                P4 = p4;
+                P5 = p5;
+                P6 = p6;
+                P7 = p7;
+                P8 = p8;
+            }
+        }
+    }
+}
