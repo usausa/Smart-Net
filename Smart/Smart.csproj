@@ -21,12 +21,15 @@
     <Compile Remove="Reflection\ReflectionAccessor.cs" />
     <Compile Remove="Reflection\ReflectionArrayOperator.cs" />
     <Compile Remove="Reflection\ReflectionConstructorActivator.cs" />
-    <Compile Remove="Reflection\ReflectionHelper.cs" />
     <Compile Remove="Reflection\ReflectionNoArgumentsActivatorActivator.cs" />
     <Compile Remove="Reflection\ReflectionTypeMetadataFactory.cs" />
     <Compile Remove="Reflection\ReflectionValueHolderAccessor.cs" />
     <Compile Remove="Reflection\TypeMetadataFactory.cs" />
     <Compile Remove="Reflection\TypeMetadataFactoryExtensions.cs" />
+    <Compile Remove="Reflection\_EmitTypeMetadataFactory.cs" />
+    <Compile Remove="Reflection\_ReflectionTypeMetadataFactory.cs" />
+    <Compile Remove="Reflection\_TypeMetadataFactory.cs" />
+    <Compile Remove="Reflection\_TypeMetadataFactoryExtensions.cs" />
   </ItemGroup>
 
   <ItemGroup>

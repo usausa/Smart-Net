@@ -1,15 +1,13 @@
-﻿namespace Smart.Reflection
+﻿namespace Smart.ComponentModel
 {
     using System;
     using System.Linq;
     using System.Reflection;
 
-    using Smart.ComponentModel;
-
     /// <summary>
     ///
     /// </summary>
-    public static class AccessorHelper
+    public static class ValueHolderHelper
     {
         private static readonly Type ValueHolderType = typeof(IValueHolder<>);
 
