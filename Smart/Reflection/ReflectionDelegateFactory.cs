@@ -183,14 +183,24 @@
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
             if (holderType == null)
             {
+                if (!pi.CanRead)
+                {
+                    return null;
+                }
+
                 return pi.GetValue;
+            }
+
+            if (!pi.CanRead)
+            {
+                throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
             }
 
             var vpi = ValueHolderHelper.GetValueTypeProperty(holderType);
             return obj =>
             {
-                var holder = vpi.GetValue(obj, null);
-                return pi.GetValue(holder, null);
+                var holder = pi.GetValue(obj, null);
+                return vpi.GetValue(holder, null);
             };
         }
 
@@ -209,14 +219,24 @@
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
             if (holderType == null)
             {
+                if (!pi.CanWrite)
+                {
+                    return null;
+                }
+
                 return pi.SetValue;
+            }
+
+            if (!pi.CanRead)
+            {
+                throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
             }
 
             var vpi = ValueHolderHelper.GetValueTypeProperty(holderType);
             return (obj, value) =>
             {
-                var holder = vpi.GetValue(obj, null);
-                pi.SetValue(holder, null);
+                var holder = pi.GetValue(obj, null);
+                vpi.SetValue(holder, value, null);
             };
         }
     }
