@@ -78,6 +78,22 @@
 
         private static readonly Type SetterType = typeof(Action<object, object>);
 
+        // Cache
+
+        private readonly Dictionary<Type, Func<int, Array>> arrayAllocatorCache = new Dictionary<Type, Func<int, Array>>();
+
+        private readonly Dictionary<ConstructorInfo, Func<object[], object>> factoryCache = new Dictionary<ConstructorInfo, Func<object[], object>>();
+
+        private readonly Dictionary<ConstructorInfo, Delegate> factoryDelegateCache = new Dictionary<ConstructorInfo, Delegate>();
+
+        private readonly Dictionary<PropertyInfo, Func<object, object>> getterCache = new Dictionary<PropertyInfo, Func<object, object>>();
+
+        private readonly Dictionary<PropertyInfo, Func<object, object>> extensionGetterCache = new Dictionary<PropertyInfo, Func<object, object>>();
+
+        private readonly Dictionary<PropertyInfo, Action<object, object>> setterCache = new Dictionary<PropertyInfo, Action<object, object>>();
+
+        private readonly Dictionary<PropertyInfo, Action<object, object>> extensionSetterCache = new Dictionary<PropertyInfo, Action<object, object>>();
+
         // Property
 
         public static DynamicDelegateFactory Default { get; } = new DynamicDelegateFactory();
@@ -91,6 +107,20 @@
                 throw new ArgumentNullException(nameof(type));
             }
 
+            lock (arrayAllocatorCache)
+            {
+                if (!arrayAllocatorCache.TryGetValue(type, out var allocator))
+                {
+                    allocator = CreateArrayAllocatorInternal(type);
+                    arrayAllocatorCache[type] = allocator;
+                }
+
+                return allocator;
+            }
+        }
+
+        private Func<int, Array> CreateArrayAllocatorInternal(Type type)
+        {
             var dynamic = new DynamicMethod(string.Empty, ArrayType, ArrayAllocatorParameterTypes, true);
             var il = dynamic.GetILGenerator();
 
@@ -110,6 +140,20 @@
                 throw new ArgumentNullException(nameof(ci));
             }
 
+            lock (factoryCache)
+            {
+                if (!factoryCache.TryGetValue(ci, out var factory))
+                {
+                    factory = CreateFactoryInternal(ci);
+                    factoryCache[ci] = factory;
+                }
+
+                return factory;
+            }
+        }
+
+        private Func<object[], object> CreateFactoryInternal(ConstructorInfo ci)
+        {
             var dynamic = new DynamicMethod(string.Empty, ObjectType, FactoryParameterTypes, true);
             var il = dynamic.GetILGenerator();
 
@@ -130,11 +174,6 @@
 
         private static Delegate CreateFactoryInternal(ConstructorInfo ci, Type[] parameterTypes, Type delegateType)
         {
-            if (ci == null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             if (ci.GetParameters().Length != parameterTypes.Length - 1)
             {
                 throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
@@ -157,47 +196,173 @@
 
         public Func<object> CreateFactory0(ConstructorInfo ci)
         {
-            return (Func<object>)CreateFactoryInternal(ci, Factory0ParameterTypes, Factory0Type);
+            if (ci == null)
+            {
+                throw new ArgumentNullException(nameof(ci));
+            }
+
+            lock (factoryDelegateCache)
+            {
+                if (!factoryDelegateCache.TryGetValue(ci, out var func))
+                {
+                    func = CreateFactoryInternal(ci, Factory0ParameterTypes, Factory0Type);
+                    factoryDelegateCache[ci] = func;
+                }
+
+                return (Func<object>)func;
+            }
         }
 
         public Func<object, object> CreateFactory1(ConstructorInfo ci)
         {
-            return (Func<object, object>)CreateFactoryInternal(ci, Factory1ParameterTypes, Factory1Type);
+            if (ci == null)
+            {
+                throw new ArgumentNullException(nameof(ci));
+            }
+
+            lock (factoryDelegateCache)
+            {
+                if (!factoryDelegateCache.TryGetValue(ci, out var func))
+                {
+                    func = CreateFactoryInternal(ci, Factory1ParameterTypes, Factory1Type);
+                    factoryDelegateCache[ci] = func;
+                }
+
+                return (Func<object, object>)func;
+            }
         }
 
         public Func<object, object, object> CreateFactory2(ConstructorInfo ci)
         {
-            return (Func<object, object, object>)CreateFactoryInternal(ci, Factory2ParameterTypes, Factory2Type);
+            if (ci == null)
+            {
+                throw new ArgumentNullException(nameof(ci));
+            }
+
+            lock (factoryDelegateCache)
+            {
+                if (!factoryDelegateCache.TryGetValue(ci, out var func))
+                {
+                    func = CreateFactoryInternal(ci, Factory2ParameterTypes, Factory2Type);
+                    factoryDelegateCache[ci] = func;
+                }
+
+                return (Func<object, object, object>)func;
+            }
         }
 
         public Func<object, object, object, object> CreateFactory3(ConstructorInfo ci)
         {
-            return (Func<object, object, object, object>)CreateFactoryInternal(ci, Factory3ParameterTypes, Factory3Type);
+            if (ci == null)
+            {
+                throw new ArgumentNullException(nameof(ci));
+            }
+
+            lock (factoryDelegateCache)
+            {
+                if (!factoryDelegateCache.TryGetValue(ci, out var func))
+                {
+                    func = CreateFactoryInternal(ci, Factory3ParameterTypes, Factory3Type);
+                    factoryDelegateCache[ci] = func;
+                }
+
+                return (Func<object, object, object, object>)func;
+            }
         }
 
         public Func<object, object, object, object, object> CreateFactory4(ConstructorInfo ci)
         {
-            return (Func<object, object, object, object, object>)CreateFactoryInternal(ci, Factory4ParameterTypes, Factory4Type);
+            if (ci == null)
+            {
+                throw new ArgumentNullException(nameof(ci));
+            }
+
+            lock (factoryDelegateCache)
+            {
+                if (!factoryDelegateCache.TryGetValue(ci, out var func))
+                {
+                    func = CreateFactoryInternal(ci, Factory4ParameterTypes, Factory4Type);
+                    factoryDelegateCache[ci] = func;
+                }
+
+                return (Func<object, object, object, object, object>)func;
+            }
         }
 
         public Func<object, object, object, object, object, object> CreateFactory5(ConstructorInfo ci)
         {
-            return (Func<object, object, object, object, object, object>)CreateFactoryInternal(ci, Factory5ParameterTypes, Factory5Type);
+            if (ci == null)
+            {
+                throw new ArgumentNullException(nameof(ci));
+            }
+
+            lock (factoryDelegateCache)
+            {
+                if (!factoryDelegateCache.TryGetValue(ci, out var func))
+                {
+                    func = CreateFactoryInternal(ci, Factory5ParameterTypes, Factory5Type);
+                    factoryDelegateCache[ci] = func;
+                }
+
+                return (Func<object, object, object, object, object, object>)func;
+            }
         }
 
         public Func<object, object, object, object, object, object, object> CreateFactory6(ConstructorInfo ci)
         {
-            return (Func<object, object, object, object, object, object, object>)CreateFactoryInternal(ci, Factory6ParameterTypes, Factory6Type);
+            if (ci == null)
+            {
+                throw new ArgumentNullException(nameof(ci));
+            }
+
+            lock (factoryDelegateCache)
+            {
+                if (!factoryDelegateCache.TryGetValue(ci, out var func))
+                {
+                    func = CreateFactoryInternal(ci, Factory6ParameterTypes, Factory6Type);
+                    factoryDelegateCache[ci] = func;
+                }
+
+                return (Func<object, object, object, object, object, object, object>)func;
+            }
         }
 
         public Func<object, object, object, object, object, object, object, object> CreateFactory7(ConstructorInfo ci)
         {
-            return (Func<object, object, object, object, object, object, object, object>)CreateFactoryInternal(ci, Factory7ParameterTypes, Factory7Type);
+            if (ci == null)
+            {
+                throw new ArgumentNullException(nameof(ci));
+            }
+
+            lock (factoryDelegateCache)
+            {
+                if (!factoryDelegateCache.TryGetValue(ci, out var func))
+                {
+                    func = CreateFactoryInternal(ci, Factory7ParameterTypes, Factory7Type);
+                    factoryDelegateCache[ci] = func;
+                }
+
+                return (Func<object, object, object, object, object, object, object, object>)func;
+            }
         }
 
         public Func<object, object, object, object, object, object, object, object, object> CreateFactory8(ConstructorInfo ci)
         {
-            return (Func<object, object, object, object, object, object, object, object, object>)CreateFactoryInternal(ci, Factory8ParameterTypes, Factory8Type);
+            if (ci == null)
+            {
+                throw new ArgumentNullException(nameof(ci));
+            }
+
+            lock (factoryDelegateCache)
+            {
+                if (!factoryDelegateCache.TryGetValue(ci, out var func))
+                {
+                    func = CreateFactoryInternal(ci, Factory8ParameterTypes, Factory8Type);
+                    factoryDelegateCache[ci] = func;
+                }
+
+                return (Func<object, object, object, object, object, object, object, object, object>)func;
+            }
         }
 
         // Accessor
@@ -214,6 +379,21 @@
                 throw new ArgumentNullException(nameof(pi));
             }
 
+            var cache = extension ? extensionGetterCache : getterCache;
+            lock (cache)
+            {
+                if (!cache.TryGetValue(pi, out var getter))
+                {
+                    getter = CreateGetterInternal(pi, extension);
+                    cache[pi] = getter;
+                }
+
+                return getter;
+            }
+        }
+
+        private Func<object, object> CreateGetterInternal(PropertyInfo pi, bool extension)
+        {
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
             var isValueProperty = holderType != null;
             var vpi = isValueProperty ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
@@ -265,6 +445,21 @@
                 throw new ArgumentNullException(nameof(pi));
             }
 
+            var cache = extension ? extensionSetterCache : setterCache;
+            lock (cache)
+            {
+                if (!cache.TryGetValue(pi, out var setter))
+                {
+                    setter = CreateSetterInternal(pi, extension);
+                    cache[pi] = setter;
+                }
+
+                return setter;
+            }
+        }
+
+        private Action<object, object> CreateSetterInternal(PropertyInfo pi, bool extension)
+        {
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
             var isValueProperty = holderType != null;
             var vpi = isValueProperty ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
