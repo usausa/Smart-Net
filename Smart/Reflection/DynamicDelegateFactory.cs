@@ -217,6 +217,12 @@
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
             var isValueProperty = holderType != null;
             var vpi = isValueProperty ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
+
+            if (isValueProperty && !pi.CanRead)
+            {
+                throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
+            }
+
             if (!vpi.CanRead)
             {
                 return null;
@@ -262,10 +268,18 @@
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
             var isValueProperty = holderType != null;
             var vpi = isValueProperty ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
+
+            if (isValueProperty && !pi.CanRead)
+            {
+                throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
+            }
+
             if (!vpi.CanWrite)
             {
                 return null;
             }
+
+            var isStatic = isValueProperty ? pi.GetGetMethod().IsStatic : pi.GetSetMethod().IsStatic;
 
             var dynamic = new DynamicMethod(string.Empty, VoidType, SetterParameterTypes, true);
             var il = dynamic.GetILGenerator();
@@ -278,7 +292,7 @@
                 il.Emit(OpCodes.Brtrue_S, hasValue);
 
                 // null
-                if (!pi.GetSetMethod().IsStatic)
+                if (!isStatic)
                 {
                     il.Emit(OpCodes.Ldarg_1);
                     il.Emit(OpCodes.Castclass, pi.DeclaringType);
@@ -309,7 +323,7 @@
                 // not null
                 il.MarkLabel(hasValue);
 
-                if (!pi.GetSetMethod().IsStatic)
+                if (!isStatic)
                 {
                     il.Emit(OpCodes.Ldarg_1);
                     il.Emit(OpCodes.Castclass, pi.DeclaringType);
@@ -329,7 +343,7 @@
             }
             else
             {
-                if (!pi.GetSetMethod().IsStatic)
+                if (!isStatic)
                 {
                     il.Emit(OpCodes.Ldarg_1);
                     il.Emit(OpCodes.Castclass, pi.DeclaringType);
