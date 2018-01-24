@@ -53,6 +53,11 @@
                 throw new ArgumentNullException(nameof(ci));
             }
 
+            if (ci.GetParameters().Length != 1)
+            {
+                throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
+            }
+
             return p1 => ci.Invoke(new[] { p1 });
         }
 
@@ -61,6 +66,11 @@
             if (ci == null)
             {
                 throw new ArgumentNullException(nameof(ci));
+            }
+
+            if (ci.GetParameters().Length != 2)
+            {
+                throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
             }
 
             return (p1, p2) => ci.Invoke(new[] { p1, p2 });
@@ -73,6 +83,11 @@
                 throw new ArgumentNullException(nameof(ci));
             }
 
+            if (ci.GetParameters().Length != 3)
+            {
+                throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
+            }
+
             return (p1, p2, p3) => ci.Invoke(new[] { p1, p2, p3 });
         }
 
@@ -81,6 +96,11 @@
             if (ci == null)
             {
                 throw new ArgumentNullException(nameof(ci));
+            }
+
+            if (ci.GetParameters().Length != 4)
+            {
+                throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
             }
 
             return (p1, p2, p3, p4) => ci.Invoke(new[] { p1, p2, p3, p4 });
@@ -93,6 +113,11 @@
                 throw new ArgumentNullException(nameof(ci));
             }
 
+            if (ci.GetParameters().Length != 5)
+            {
+                throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
+            }
+
             return (p1, p2, p3, p4, p5) => ci.Invoke(new[] { p1, p2, p3, p4, p5 });
         }
 
@@ -101,6 +126,11 @@
             if (ci == null)
             {
                 throw new ArgumentNullException(nameof(ci));
+            }
+
+            if (ci.GetParameters().Length != 6)
+            {
+                throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
             }
 
             return (p1, p2, p3, p4, p5, p6) => ci.Invoke(new[] { p1, p2, p3, p4, p5, p6 });
@@ -113,6 +143,11 @@
                 throw new ArgumentNullException(nameof(ci));
             }
 
+            if (ci.GetParameters().Length != 7)
+            {
+                throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
+            }
+
             return (p1, p2, p3, p4, p5, p6, p7) => ci.Invoke(new[] { p1, p2, p3, p4, p5, p6, p7 });
         }
 
@@ -121,6 +156,11 @@
             if (ci == null)
             {
                 throw new ArgumentNullException(nameof(ci));
+            }
+
+            if (ci.GetParameters().Length != 8)
+            {
+                throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
             }
 
             return (p1, p2, p3, p4, p5, p6, p7, p8) => ci.Invoke(new[] { p1, p2, p3, p4, p5, p6, p7, p8 });
@@ -140,13 +180,13 @@
                 throw new ArgumentNullException(nameof(pi));
             }
 
-            var holderInterface = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
-            if (holderInterface == null)
+            var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
+            if (holderType == null)
             {
                 return pi.GetValue;
             }
 
-            var vpi = ValueHolderHelper.GetValueTypeProperty(holderInterface);
+            var vpi = ValueHolderHelper.GetValueTypeProperty(holderType);
             return obj =>
             {
                 var holder = vpi.GetValue(obj, null);
@@ -166,13 +206,13 @@
                 throw new ArgumentNullException(nameof(pi));
             }
 
-            var holderInterface = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
-            if (holderInterface == null)
+            var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
+            if (holderType == null)
             {
                 return pi.SetValue;
             }
 
-            var vpi = ValueHolderHelper.GetValueTypeProperty(holderInterface);
+            var vpi = ValueHolderHelper.GetValueTypeProperty(holderType);
             return (obj, value) =>
             {
                 var holder = vpi.GetValue(obj, null);
