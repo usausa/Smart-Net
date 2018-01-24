@@ -2,12 +2,12 @@
 {
     using Xunit;
 
-    public class DelegateFactoryArrayTest
+    public class DynamicDelegateFactoryArrayTest
     {
         [Fact]
         public void ArrayAlocator()
         {
-            var func = DelegateFactory.Default.CreateArrayAllocator(typeof(Data));
+            var func = DynamicDelegateFactory.Default.CreateArrayAllocator(typeof(Data));
 
             var array = func(2);
 
@@ -17,7 +17,7 @@
         [Fact]
         public void ArrayAlocatorForInternal()
         {
-            var func = DelegateFactory.Default.CreateArrayAllocator(typeof(InternalData));
+            var func = DynamicDelegateFactory.Default.CreateArrayAllocator(typeof(InternalData));
 
             var array = func(2);
 

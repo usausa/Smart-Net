@@ -4,7 +4,7 @@
 
     using Xunit;
 
-    public class DelegateFactoryAccessorTest
+    public class DynamicDelegateFactoryAccessorTest
     {
         //--------------------------------------------------------------------------------
         // Non static
@@ -16,10 +16,10 @@
             var piWrite = typeof(ReadWriteOnlyData).GetProperty(nameof(ReadWriteOnlyData.WriteOnly));
             var piRead = typeof(ReadWriteOnlyData).GetProperty(nameof(ReadWriteOnlyData.ReadOnly));
 
-            var getterWrite = DelegateFactory.Default.CreateGetter(piWrite);
-            var setterWrite = DelegateFactory.Default.CreateSetter(piWrite);
-            var getterRead = DelegateFactory.Default.CreateGetter(piRead);
-            var setterRead = DelegateFactory.Default.CreateSetter(piRead);
+            var getterWrite = DynamicDelegateFactory.Default.CreateGetter(piWrite);
+            var setterWrite = DynamicDelegateFactory.Default.CreateSetter(piWrite);
+            var getterRead = DynamicDelegateFactory.Default.CreateGetter(piRead);
+            var setterRead = DynamicDelegateFactory.Default.CreateSetter(piRead);
 
             Assert.Null(getterWrite);
             Assert.NotNull(setterWrite);
@@ -31,8 +31,8 @@
         public void AccessClassProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StringValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             var data = new Data();
 
@@ -47,8 +47,8 @@
         public void AccessValueTypePropertyInt()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.IntValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             var data = new Data();
 
@@ -63,8 +63,8 @@
         public void AccessValueTypePropertyBool()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.BoolValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             var data = new Data();
 
@@ -79,8 +79,8 @@
         public void AccessValueTypePropertyByte()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.ByteValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             var data = new Data();
 
@@ -95,8 +95,8 @@
         public void AccessValueTypePropertyChar()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.CharValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             var data = new Data();
 
@@ -111,8 +111,8 @@
         public void AccessValueTypePropertyShort()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.ShortValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             var data = new Data();
 
@@ -127,8 +127,8 @@
         public void AccessValueTypePropertyLong()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.LongValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             var data = new Data();
 
@@ -143,8 +143,8 @@
         public void AccessValueTypePropertyFloat()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.FloatValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             var data = new Data();
 
@@ -159,8 +159,8 @@
         public void AccessValueTypePropertyDouble()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.DoubleValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             var data = new Data();
 
@@ -175,8 +175,8 @@
         public void AccessValueTypePropertyIntPtr()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.IntPtrValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             var data = new Data();
 
@@ -191,8 +191,8 @@
         public void AccessEnumProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.EnumValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             var data = new Data();
 
@@ -207,8 +207,8 @@
         public void AccessStructProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StructValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             var data = new Data();
 
@@ -231,8 +231,8 @@
         public void AccessValueHolderClassProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.NotificationStringValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             var data = new Data();
 
@@ -247,8 +247,8 @@
         public void AccessValueHolderValueTypeProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.NotificationIntValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             var data = new Data();
 
@@ -263,8 +263,8 @@
         public void AccessValueHolderEnumProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.NotificationEnumValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             var data = new Data();
 
@@ -279,8 +279,8 @@
         public void AccessValueHolderStructProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.NotificationStructValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             var data = new Data();
 
@@ -303,8 +303,8 @@
         public void AccessStaticClassProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StaticStringValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             setter(null, "abc");
             Assert.Equal("abc", getter(null));
@@ -317,8 +317,8 @@
         public void AccessStaticValueTypePropertyInt()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StaticIntValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             setter(null, 1);
             Assert.Equal(1, getter(null));
@@ -331,8 +331,8 @@
         public void AccessStaticEnumProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StaticEnumValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             setter(null, MyEnum.One);
             Assert.Equal(MyEnum.One, getter(null));
@@ -345,8 +345,8 @@
         public void AccessStaticStructProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StaticStructValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             setter(null, new MyStruct { X = 1, Y = 2 });
             var structValue = (MyStruct)getter(null);
@@ -367,8 +367,8 @@
         public void AccessStaticValueHolderClassProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StaticNotificationStringValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             setter(null, "abc");
             Assert.Equal("abc", getter(null));
@@ -381,8 +381,8 @@
         public void AccessStaticValueHolderValueTypeProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StaticNotificationIntValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             setter(null, 1);
             Assert.Equal(1, getter(null));
@@ -395,8 +395,8 @@
         public void AccessStaticValueHolderEnumProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StaticNotificationEnumValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             setter(null, MyEnum.One);
             Assert.Equal(MyEnum.One, getter(null));
@@ -409,8 +409,8 @@
         public void AccessStaticValueHolderStructProperty()
         {
             var pi = typeof(Data).GetProperty(nameof(Data.StaticNotificationStructValue));
-            var getter = DelegateFactory.Default.CreateGetter(pi);
-            var setter = DelegateFactory.Default.CreateSetter(pi);
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
 
             setter(null, new MyStruct { X = 1, Y = 2 });
             var structValue = (MyStruct)getter(null);
