@@ -1,6 +1,7 @@
 ﻿namespace Smart.Reflection
 {
     using System;
+    using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Reflection;
     using System.Reflection.Emit;
@@ -80,19 +81,19 @@
 
         // Cache
 
-        private readonly Dictionary<Type, Func<int, Array>> arrayAllocatorCache = new Dictionary<Type, Func<int, Array>>();
+        private readonly ConcurrentDictionary<Type, Func<int, Array>> arrayAllocatorCache = new ConcurrentDictionary<Type, Func<int, Array>>();
 
-        private readonly Dictionary<ConstructorInfo, Func<object[], object>> factoryCache = new Dictionary<ConstructorInfo, Func<object[], object>>();
+        private readonly ConcurrentDictionary<ConstructorInfo, Func<object[], object>> factoryCache = new ConcurrentDictionary<ConstructorInfo, Func<object[], object>>();
 
-        private readonly Dictionary<ConstructorInfo, Delegate> factoryDelegateCache = new Dictionary<ConstructorInfo, Delegate>();
+        private readonly ConcurrentDictionary<ConstructorInfo, Delegate> factoryDelegateCache = new ConcurrentDictionary<ConstructorInfo, Delegate>();
 
-        private readonly Dictionary<PropertyInfo, Func<object, object>> getterCache = new Dictionary<PropertyInfo, Func<object, object>>();
+        private readonly ConcurrentDictionary<PropertyInfo, Func<object, object>> getterCache = new ConcurrentDictionary<PropertyInfo, Func<object, object>>();
 
-        private readonly Dictionary<PropertyInfo, Func<object, object>> extensionGetterCache = new Dictionary<PropertyInfo, Func<object, object>>();
+        private readonly ConcurrentDictionary<PropertyInfo, Func<object, object>> extensionGetterCache = new ConcurrentDictionary<PropertyInfo, Func<object, object>>();
 
-        private readonly Dictionary<PropertyInfo, Action<object, object>> setterCache = new Dictionary<PropertyInfo, Action<object, object>>();
+        private readonly ConcurrentDictionary<PropertyInfo, Action<object, object>> setterCache = new ConcurrentDictionary<PropertyInfo, Action<object, object>>();
 
-        private readonly Dictionary<PropertyInfo, Action<object, object>> extensionSetterCache = new Dictionary<PropertyInfo, Action<object, object>>();
+        private readonly ConcurrentDictionary<PropertyInfo, Action<object, object>> extensionSetterCache = new ConcurrentDictionary<PropertyInfo, Action<object, object>>();
 
         // Property
 
@@ -107,16 +108,7 @@
                 throw new ArgumentNullException(nameof(type));
             }
 
-            lock (arrayAllocatorCache)
-            {
-                if (!arrayAllocatorCache.TryGetValue(type, out var allocator))
-                {
-                    allocator = CreateArrayAllocatorInternal(type);
-                    arrayAllocatorCache[type] = allocator;
-                }
-
-                return allocator;
-            }
+            return arrayAllocatorCache.GetOrAdd(type, CreateArrayAllocatorInternal);
         }
 
         private Func<int, Array> CreateArrayAllocatorInternal(Type type)
@@ -140,16 +132,7 @@
                 throw new ArgumentNullException(nameof(ci));
             }
 
-            lock (factoryCache)
-            {
-                if (!factoryCache.TryGetValue(ci, out var factory))
-                {
-                    factory = CreateFactoryInternal(ci);
-                    factoryCache[ci] = factory;
-                }
-
-                return factory;
-            }
+            return factoryCache.GetOrAdd(ci, CreateFactoryInternal);
         }
 
         private Func<object[], object> CreateFactoryInternal(ConstructorInfo ci)
@@ -201,16 +184,8 @@
                 throw new ArgumentNullException(nameof(ci));
             }
 
-            lock (factoryDelegateCache)
-            {
-                if (!factoryDelegateCache.TryGetValue(ci, out var func))
-                {
-                    func = CreateFactoryInternal(ci, Factory0ParameterTypes, Factory0Type);
-                    factoryDelegateCache[ci] = func;
-                }
-
-                return (Func<object>)func;
-            }
+            return (Func<object>)factoryDelegateCache
+                .GetOrAdd(ci, x => CreateFactoryInternal(x, Factory0ParameterTypes, Factory0Type));
         }
 
         public Func<object, object> CreateFactory1(ConstructorInfo ci)
@@ -220,16 +195,8 @@
                 throw new ArgumentNullException(nameof(ci));
             }
 
-            lock (factoryDelegateCache)
-            {
-                if (!factoryDelegateCache.TryGetValue(ci, out var func))
-                {
-                    func = CreateFactoryInternal(ci, Factory1ParameterTypes, Factory1Type);
-                    factoryDelegateCache[ci] = func;
-                }
-
-                return (Func<object, object>)func;
-            }
+            return (Func<object, object>)factoryDelegateCache
+                .GetOrAdd(ci, x => CreateFactoryInternal(x, Factory1ParameterTypes, Factory1Type));
         }
 
         public Func<object, object, object> CreateFactory2(ConstructorInfo ci)
@@ -239,16 +206,8 @@
                 throw new ArgumentNullException(nameof(ci));
             }
 
-            lock (factoryDelegateCache)
-            {
-                if (!factoryDelegateCache.TryGetValue(ci, out var func))
-                {
-                    func = CreateFactoryInternal(ci, Factory2ParameterTypes, Factory2Type);
-                    factoryDelegateCache[ci] = func;
-                }
-
-                return (Func<object, object, object>)func;
-            }
+            return (Func<object, object, object>)factoryDelegateCache
+                .GetOrAdd(ci, x => CreateFactoryInternal(x, Factory2ParameterTypes, Factory2Type));
         }
 
         public Func<object, object, object, object> CreateFactory3(ConstructorInfo ci)
@@ -258,16 +217,8 @@
                 throw new ArgumentNullException(nameof(ci));
             }
 
-            lock (factoryDelegateCache)
-            {
-                if (!factoryDelegateCache.TryGetValue(ci, out var func))
-                {
-                    func = CreateFactoryInternal(ci, Factory3ParameterTypes, Factory3Type);
-                    factoryDelegateCache[ci] = func;
-                }
-
-                return (Func<object, object, object, object>)func;
-            }
+            return (Func<object, object, object, object>)factoryDelegateCache
+                .GetOrAdd(ci, x => CreateFactoryInternal(x, Factory3ParameterTypes, Factory3Type));
         }
 
         public Func<object, object, object, object, object> CreateFactory4(ConstructorInfo ci)
@@ -277,16 +228,8 @@
                 throw new ArgumentNullException(nameof(ci));
             }
 
-            lock (factoryDelegateCache)
-            {
-                if (!factoryDelegateCache.TryGetValue(ci, out var func))
-                {
-                    func = CreateFactoryInternal(ci, Factory4ParameterTypes, Factory4Type);
-                    factoryDelegateCache[ci] = func;
-                }
-
-                return (Func<object, object, object, object, object>)func;
-            }
+            return (Func<object, object, object, object, object>)factoryDelegateCache
+                .GetOrAdd(ci, x => CreateFactoryInternal(x, Factory4ParameterTypes, Factory4Type));
         }
 
         public Func<object, object, object, object, object, object> CreateFactory5(ConstructorInfo ci)
@@ -296,16 +239,8 @@
                 throw new ArgumentNullException(nameof(ci));
             }
 
-            lock (factoryDelegateCache)
-            {
-                if (!factoryDelegateCache.TryGetValue(ci, out var func))
-                {
-                    func = CreateFactoryInternal(ci, Factory5ParameterTypes, Factory5Type);
-                    factoryDelegateCache[ci] = func;
-                }
-
-                return (Func<object, object, object, object, object, object>)func;
-            }
+            return (Func<object, object, object, object, object, object>)factoryDelegateCache
+                .GetOrAdd(ci, x => CreateFactoryInternal(x, Factory5ParameterTypes, Factory5Type));
         }
 
         public Func<object, object, object, object, object, object, object> CreateFactory6(ConstructorInfo ci)
@@ -315,16 +250,8 @@
                 throw new ArgumentNullException(nameof(ci));
             }
 
-            lock (factoryDelegateCache)
-            {
-                if (!factoryDelegateCache.TryGetValue(ci, out var func))
-                {
-                    func = CreateFactoryInternal(ci, Factory6ParameterTypes, Factory6Type);
-                    factoryDelegateCache[ci] = func;
-                }
-
-                return (Func<object, object, object, object, object, object, object>)func;
-            }
+            return (Func<object, object, object, object, object, object, object>)factoryDelegateCache
+                .GetOrAdd(ci, x => CreateFactoryInternal(x, Factory6ParameterTypes, Factory6Type));
         }
 
         public Func<object, object, object, object, object, object, object, object> CreateFactory7(ConstructorInfo ci)
@@ -334,16 +261,8 @@
                 throw new ArgumentNullException(nameof(ci));
             }
 
-            lock (factoryDelegateCache)
-            {
-                if (!factoryDelegateCache.TryGetValue(ci, out var func))
-                {
-                    func = CreateFactoryInternal(ci, Factory7ParameterTypes, Factory7Type);
-                    factoryDelegateCache[ci] = func;
-                }
-
-                return (Func<object, object, object, object, object, object, object, object>)func;
-            }
+            return (Func<object, object, object, object, object, object, object, object>)factoryDelegateCache
+                .GetOrAdd(ci, x => CreateFactoryInternal(x, Factory7ParameterTypes, Factory7Type));
         }
 
         public Func<object, object, object, object, object, object, object, object, object> CreateFactory8(ConstructorInfo ci)
@@ -353,16 +272,8 @@
                 throw new ArgumentNullException(nameof(ci));
             }
 
-            lock (factoryDelegateCache)
-            {
-                if (!factoryDelegateCache.TryGetValue(ci, out var func))
-                {
-                    func = CreateFactoryInternal(ci, Factory8ParameterTypes, Factory8Type);
-                    factoryDelegateCache[ci] = func;
-                }
-
-                return (Func<object, object, object, object, object, object, object, object, object>)func;
-            }
+            return (Func<object, object, object, object, object, object, object, object, object>)factoryDelegateCache
+                .GetOrAdd(ci, x => CreateFactoryInternal(x, Factory8ParameterTypes, Factory8Type));
         }
 
         // Accessor
@@ -379,17 +290,9 @@
                 throw new ArgumentNullException(nameof(pi));
             }
 
-            var cache = extension ? extensionGetterCache : getterCache;
-            lock (cache)
-            {
-                if (!cache.TryGetValue(pi, out var getter))
-                {
-                    getter = CreateGetterInternal(pi, extension);
-                    cache[pi] = getter;
-                }
-
-                return getter;
-            }
+            return extension
+                ? extensionGetterCache.GetOrAdd(pi, x => CreateGetterInternal(x, true))
+                : getterCache.GetOrAdd(pi, x => CreateGetterInternal(x, false));
         }
 
         private Func<object, object> CreateGetterInternal(PropertyInfo pi, bool extension)
@@ -445,17 +348,9 @@
                 throw new ArgumentNullException(nameof(pi));
             }
 
-            var cache = extension ? extensionSetterCache : setterCache;
-            lock (cache)
-            {
-                if (!cache.TryGetValue(pi, out var setter))
-                {
-                    setter = CreateSetterInternal(pi, extension);
-                    cache[pi] = setter;
-                }
-
-                return setter;
-            }
+            return extension
+                ? extensionSetterCache.GetOrAdd(pi, x => CreateSetterInternal(x, true))
+                : setterCache.GetOrAdd(pi, x => CreateSetterInternal(x, false));
         }
 
         private Action<object, object> CreateSetterInternal(PropertyInfo pi, bool extension)
