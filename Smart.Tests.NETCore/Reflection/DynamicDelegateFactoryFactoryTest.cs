@@ -26,11 +26,11 @@
         }
 
         [Fact]
-        public void FactoryData9()
+        public void FactoryData17()
         {
-            var factory = DynamicDelegateFactory.Default.CreateFactory(typeof(Data9).GetConstructors().First());
+            var factory = DynamicDelegateFactory.Default.CreateFactory(typeof(Data17).GetConstructors().First());
 
-            var data = (Data9)factory(new object[] { 1, "2", 3, "4", 5, "6", 7, "8", 9 });
+            var data = (Data17)factory(new object[] { 1, "2", 3, "4", 5, "6", 7, "8", 9, "10", 11, "12", 13, "14", 15, "16", 17 });
             Assert.NotNull(data);
             Assert.Equal(1, data.Param1);
             Assert.Equal("2", data.Param2);
@@ -41,6 +41,14 @@
             Assert.Equal(7, data.Param7);
             Assert.Equal("8", data.Param8);
             Assert.Equal(9, data.Param9);
+            Assert.Equal("10", data.Param10);
+            Assert.Equal(11, data.Param11);
+            Assert.Equal("12", data.Param12);
+            Assert.Equal(13, data.Param13);
+            Assert.Equal("14", data.Param14);
+            Assert.Equal(15, data.Param15);
+            Assert.Equal("16", data.Param16);
+            Assert.Equal(17, data.Param17);
         }
 
         [Fact]
@@ -158,6 +166,178 @@
             Assert.Equal("6", data.Param6);
             Assert.Equal(7, data.Param7);
             Assert.Equal("8", data.Param8);
+        }
+
+        [Fact]
+        public void Factory9()
+        {
+            var factory = DynamicDelegateFactory.Default.CreateFactory9(typeof(Data9).GetConstructors().First());
+
+            var data = (Data9)factory(1, "2", 3, "4", 5, "6", 7, "8", 9);
+            Assert.NotNull(data);
+            Assert.Equal(1, data.Param1);
+            Assert.Equal("2", data.Param2);
+            Assert.Equal(3, data.Param3);
+            Assert.Equal("4", data.Param4);
+            Assert.Equal(5, data.Param5);
+            Assert.Equal("6", data.Param6);
+            Assert.Equal(7, data.Param7);
+            Assert.Equal("8", data.Param8);
+            Assert.Equal(9, data.Param9);
+        }
+
+        [Fact]
+        public void Factory10()
+        {
+            var factory = DynamicDelegateFactory.Default.CreateFactory10(typeof(Data10).GetConstructors().First());
+
+            var data = (Data10)factory(1, "2", 3, "4", 5, "6", 7, "8", 9, "10");
+            Assert.NotNull(data);
+            Assert.Equal(1, data.Param1);
+            Assert.Equal("2", data.Param2);
+            Assert.Equal(3, data.Param3);
+            Assert.Equal("4", data.Param4);
+            Assert.Equal(5, data.Param5);
+            Assert.Equal("6", data.Param6);
+            Assert.Equal(7, data.Param7);
+            Assert.Equal("8", data.Param8);
+            Assert.Equal(9, data.Param9);
+            Assert.Equal("10", data.Param10);
+        }
+
+        [Fact]
+        public void Factory11()
+        {
+            var factory = DynamicDelegateFactory.Default.CreateFactory11(typeof(Data11).GetConstructors().First());
+
+            var data = (Data11)factory(1, "2", 3, "4", 5, "6", 7, "8", 9, "10", 11);
+            Assert.NotNull(data);
+            Assert.Equal(1, data.Param1);
+            Assert.Equal("2", data.Param2);
+            Assert.Equal(3, data.Param3);
+            Assert.Equal("4", data.Param4);
+            Assert.Equal(5, data.Param5);
+            Assert.Equal("6", data.Param6);
+            Assert.Equal(7, data.Param7);
+            Assert.Equal("8", data.Param8);
+            Assert.Equal(9, data.Param9);
+            Assert.Equal("10", data.Param10);
+            Assert.Equal(11, data.Param11);
+        }
+
+        [Fact]
+        public void Factory12()
+        {
+            var factory = DynamicDelegateFactory.Default.CreateFactory12(typeof(Data12).GetConstructors().First());
+
+            var data = (Data12)factory(1, "2", 3, "4", 5, "6", 7, "8", 9, "10", 11, "12");
+            Assert.NotNull(data);
+            Assert.Equal(1, data.Param1);
+            Assert.Equal("2", data.Param2);
+            Assert.Equal(3, data.Param3);
+            Assert.Equal("4", data.Param4);
+            Assert.Equal(5, data.Param5);
+            Assert.Equal("6", data.Param6);
+            Assert.Equal(7, data.Param7);
+            Assert.Equal("8", data.Param8);
+            Assert.Equal(9, data.Param9);
+            Assert.Equal("10", data.Param10);
+            Assert.Equal(11, data.Param11);
+            Assert.Equal("12", data.Param12);
+        }
+
+        [Fact]
+        public void Factory13()
+        {
+            var factory = DynamicDelegateFactory.Default.CreateFactory13(typeof(Data13).GetConstructors().First());
+
+            var data = (Data13)factory(1, "2", 3, "4", 5, "6", 7, "8", 9, "10", 11, "12", 13);
+            Assert.NotNull(data);
+            Assert.Equal(1, data.Param1);
+            Assert.Equal("2", data.Param2);
+            Assert.Equal(3, data.Param3);
+            Assert.Equal("4", data.Param4);
+            Assert.Equal(5, data.Param5);
+            Assert.Equal("6", data.Param6);
+            Assert.Equal(7, data.Param7);
+            Assert.Equal("8", data.Param8);
+            Assert.Equal(9, data.Param9);
+            Assert.Equal("10", data.Param10);
+            Assert.Equal(11, data.Param11);
+            Assert.Equal("12", data.Param12);
+            Assert.Equal(13, data.Param13);
+        }
+
+        [Fact]
+        public void Factory14()
+        {
+            var factory = DynamicDelegateFactory.Default.CreateFactory14(typeof(Data14).GetConstructors().First());
+
+            var data = (Data14)factory(1, "2", 3, "4", 5, "6", 7, "8", 9, "10", 11, "12", 13, "14");
+            Assert.NotNull(data);
+            Assert.Equal(1, data.Param1);
+            Assert.Equal("2", data.Param2);
+            Assert.Equal(3, data.Param3);
+            Assert.Equal("4", data.Param4);
+            Assert.Equal(5, data.Param5);
+            Assert.Equal("6", data.Param6);
+            Assert.Equal(7, data.Param7);
+            Assert.Equal("8", data.Param8);
+            Assert.Equal(9, data.Param9);
+            Assert.Equal("10", data.Param10);
+            Assert.Equal(11, data.Param11);
+            Assert.Equal("12", data.Param12);
+            Assert.Equal(13, data.Param13);
+            Assert.Equal("14", data.Param14);
+        }
+
+        [Fact]
+        public void Factory15()
+        {
+            var factory = DynamicDelegateFactory.Default.CreateFactory15(typeof(Data15).GetConstructors().First());
+
+            var data = (Data15)factory(1, "2", 3, "4", 5, "6", 7, "8", 9, "10", 11, "12", 13, "14", 15);
+            Assert.NotNull(data);
+            Assert.Equal(1, data.Param1);
+            Assert.Equal("2", data.Param2);
+            Assert.Equal(3, data.Param3);
+            Assert.Equal("4", data.Param4);
+            Assert.Equal(5, data.Param5);
+            Assert.Equal("6", data.Param6);
+            Assert.Equal(7, data.Param7);
+            Assert.Equal("8", data.Param8);
+            Assert.Equal(9, data.Param9);
+            Assert.Equal("10", data.Param10);
+            Assert.Equal(11, data.Param11);
+            Assert.Equal("12", data.Param12);
+            Assert.Equal(13, data.Param13);
+            Assert.Equal("14", data.Param14);
+            Assert.Equal(15, data.Param15);
+        }
+
+        [Fact]
+        public void Factory16()
+        {
+            var factory = DynamicDelegateFactory.Default.CreateFactory16(typeof(Data16).GetConstructors().First());
+
+            var data = (Data16)factory(1, "2", 3, "4", 5, "6", 7, "8", 9, "10", 11, "12", 13, "14", 15, "16");
+            Assert.NotNull(data);
+            Assert.Equal(1, data.Param1);
+            Assert.Equal("2", data.Param2);
+            Assert.Equal(3, data.Param3);
+            Assert.Equal("4", data.Param4);
+            Assert.Equal(5, data.Param5);
+            Assert.Equal("6", data.Param6);
+            Assert.Equal(7, data.Param7);
+            Assert.Equal("8", data.Param8);
+            Assert.Equal(9, data.Param9);
+            Assert.Equal("10", data.Param10);
+            Assert.Equal(11, data.Param11);
+            Assert.Equal("12", data.Param12);
+            Assert.Equal(13, data.Param13);
+            Assert.Equal("14", data.Param14);
+            Assert.Equal(15, data.Param15);
+            Assert.Equal("16", data.Param16);
         }
     }
 }

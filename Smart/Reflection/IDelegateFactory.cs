@@ -31,6 +31,22 @@
 
         Func<object, object, object, object, object, object, object, object, object> CreateFactory8(ConstructorInfo ci);
 
+        Func<object, object, object, object, object, object, object, object, object, object> CreateFactory9(ConstructorInfo ci);
+
+        Func<object, object, object, object, object, object, object, object, object, object, object> CreateFactory10(ConstructorInfo ci);
+
+        Func<object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory11(ConstructorInfo ci);
+
+        Func<object, object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory12(ConstructorInfo ci);
+
+        Func<object, object, object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory13(ConstructorInfo ci);
+
+        Func<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory14(ConstructorInfo ci);
+
+        Func<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory15(ConstructorInfo ci);
+
+        Func<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory16(ConstructorInfo ci);
+
         // Accessor
 
         Func<object, object> CreateGetter(PropertyInfo pi);
