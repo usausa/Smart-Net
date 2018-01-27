@@ -42,4 +42,41 @@
     <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Reflection\DelegateFactory.Generate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DelegateFactory.Generate.cs</LastGenOutput>
+    </None>
+    <None Update="Reflection\DynamicDelegateFactory.Generate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>DynamicDelegateFactory.Generate.cs</LastGenOutput>
+    </None>
+    <None Update="Reflection\ReflectionDelegateFactory.Generate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ReflectionDelegateFactory.Generate.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Reflection\DelegateFactory.Generate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DelegateFactory.Generate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Reflection\DynamicDelegateFactory.Generate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DynamicDelegateFactory.Generate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Reflection\ReflectionDelegateFactory.Generate.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ReflectionDelegateFactory.Generate.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>
