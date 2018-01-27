@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Usa.Smart.Core</id>
-    <version>1.4.0-beta3</version>
+    <version>1.5.0</version>
     <title>Smart.Core .NET</title>
     <authors>machi_pon</authors>
     <owners>machi_pon</owners>
@@ -17,7 +17,6 @@
       </group>
       <group targetFramework="netstandard2.0">
         <dependency id="System.ComponentModel" version="4.3.0" />
-        <dependency id="System.Reflection.Emit" version="4.3.0" />
         <dependency id="System.Reflection.Emit.Lightweight" version="4.3.0" />
       </group>
       <group targetFramework="net462">
