@@ -356,7 +356,7 @@
             {
                 var nodes = pairs
                     .GroupBy(x => x.Key, (key, g) => g.First(), keyComparer)
-                    .Where(x => !TryGetValueInternal(x.Key, out TValue _))
+                    .Where(x => !TryGetValueInternal(x.Key, out var _))
                     .Select(x => new Node(x.Key, x.Value))
                     .ToList();
 
@@ -381,9 +381,9 @@
             {
                 var nodes = keys
                     .Distinct(keyComparer)
-                    .Where(x => !TryGetValueInternal(x, out TValue _))
+                    .Where(x => !TryGetValueInternal(x, out var _))
                     .Select(x => new KeyValuePair<TKey, TValue>(x, valueFactory(x)))
-                    .Where(x => !TryGetValueInternal(x.Key, out TValue _))
+                    .Where(x => !TryGetValueInternal(x.Key, out var _))
                     .Select(x => new Node(x.Key, x.Value))
                     .ToList();
 
@@ -447,7 +447,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool ContainsKey(TKey key)
         {
-            return TryGetValue(key, out TValue _);
+            return TryGetValue(key, out var _);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
