@@ -19,7 +19,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
-            return dictionary.TryGetValue(key, out TValue value) ? value : default;
+            return dictionary.TryGetValue(key, out var value) ? value : default;
         }
 
         /// <summary>
@@ -34,7 +34,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static TValue GetOr<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue)
         {
-            return dictionary.TryGetValue(key, out TValue value) ? value : defaultValue;
+            return dictionary.TryGetValue(key, out var value) ? value : defaultValue;
         }
 
         /// <summary>
@@ -54,7 +54,7 @@
                 throw new ArgumentNullException(nameof(valueFactory));
             }
 
-            return dictionary.TryGetValue(key, out TValue value) ? value : valueFactory();
+            return dictionary.TryGetValue(key, out var value) ? value : valueFactory();
         }
 
         /// <summary>
@@ -69,7 +69,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
         {
-            if (dictionary.TryGetValue(key, out TValue ret))
+            if (dictionary.TryGetValue(key, out var ret))
             {
                 return ret;
             }
@@ -97,7 +97,7 @@
                 throw new ArgumentNullException(nameof(valueFactory));
             }
 
-            if (dictionary.TryGetValue(key, out TValue ret))
+            if (dictionary.TryGetValue(key, out var ret))
             {
                 return ret;
             }
