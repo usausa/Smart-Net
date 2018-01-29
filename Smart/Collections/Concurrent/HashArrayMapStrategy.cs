@@ -39,7 +39,7 @@
 
         public int CalculateRequestSize(IHashArrayMapResizeContext context)
         {
-            return (int)Math.Ceiling((context.Count + context.Growth) * factor);
+            return Math.Max(initialSize, (int)Math.Ceiling((context.Count + context.Growth) * factor));
         }
     }
 }

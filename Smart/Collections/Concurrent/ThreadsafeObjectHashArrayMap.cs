@@ -285,7 +285,7 @@
             lock (sync)
             {
                 // Double checked locking
-                if (TryGetValueInternal(table, key, out TValue currentValue))
+                if (TryGetValueInternal(table, key, out var currentValue))
                 {
                     return currentValue;
                 }
@@ -310,13 +310,20 @@
             lock (sync)
             {
                 // Double checked locking
-                if (TryGetValueInternal(table, key, out TValue currentValue))
+                if (TryGetValueInternal(table, key, out var currentValue))
+                {
+                    return currentValue;
+                }
+
+                var value = valueFactory(key);
+
+                // Check if added by recursive
+                if (TryGetValueInternal(table, key, out currentValue))
                 {
                     return currentValue;
                 }
 
                 // Rebuild
-                var value = valueFactory(key);
                 var newTable = CreateAddTable(table, new Node(key, value));
                 Interlocked.MemoryBarrier();
                 table = newTable;
@@ -362,7 +369,9 @@
                 var nodes = keys
                     .Distinct()
                     .Where(x => !TryGetValueInternal(table, x, out TValue _))
-                    .Select(x => new Node(x, valueFactory(x)))
+                    .Select(x => new KeyValuePair<TKey, TValue>(x, valueFactory(x)))
+                    .Where(x => !TryGetValueInternal(table, x.Key, out TValue _))
+                    .Select(x => new Node(x.Key, x.Value))
                     .ToList();
 
                 // Rebuild
@@ -413,7 +422,7 @@
         {
             get
             {
-                if (!TryGetValue(key, out TValue value))
+                if (!TryGetValue(key, out var value))
                 {
                     throw new KeyNotFoundException();
                 }
@@ -431,7 +440,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public TValue GetValueOrDefault(TKey key, TValue defaultValue = default)
         {
-            return TryGetValue(key, out TValue value) ? value : defaultValue;
+            return TryGetValue(key, out var value) ? value : defaultValue;
         }
 
         //--------------------------------------------------------------------------------
