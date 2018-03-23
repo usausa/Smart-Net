@@ -41,7 +41,8 @@
             { typeof(UIntPtr), UIntPtr.Zero },
             { typeof(char), '\0' },
             { typeof(double), 0.0 },
-            { typeof(float), 0.0f }
+            { typeof(float), 0.0f },
+            { typeof(decimal), 0m }
         };
 
         /// <summary>
