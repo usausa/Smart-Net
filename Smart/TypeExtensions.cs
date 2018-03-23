@@ -29,10 +29,10 @@
         private static readonly Dictionary<Type, object> DefaultValues = new Dictionary<Type, object>
         {
             { typeof(bool), false },
-            { typeof(byte), 0 },
-            { typeof(sbyte), 0 },
-            { typeof(short), 0 },
-            { typeof(ushort), 0 },
+            { typeof(byte), (byte)0 },
+            { typeof(sbyte), (sbyte)0 },
+            { typeof(short), (short)0 },
+            { typeof(ushort), (ushort)0 },
             { typeof(int), 0 },
             { typeof(uint), 0U },
             { typeof(long), 0L },
