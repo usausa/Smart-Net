@@ -34,7 +34,7 @@
         /// <returns></returns>
         public static T[] Fill<T>(this T[] array, int offset, int length, T value)
         {
-            if ((length <= 0) || (array == null))
+            if ((array.Length == 0) || (length <= 0))
             {
                 return array;
             }
@@ -42,7 +42,7 @@
             array[offset] = value;
 
             int copy;
-            for (copy = 1; copy <= length / 2; copy <<= 1)
+            for (copy = 1; copy <= length >> 1; copy <<= 1)
             {
                 Array.Copy(array, offset, array, offset + copy, copy);
             }
@@ -71,22 +71,26 @@
         /// <param name="length"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static byte[] Fill(this byte[] array, int offset, int length, byte value)
+        public static unsafe byte[] Fill(this byte[] array, int offset, int length, byte value)
         {
-            if ((length <= 0) || (array == null))
+            if ((array.Length == 0) || (length <= 0))
             {
                 return array;
             }
 
-            array[offset] = value;
-
-            int copy;
-            for (copy = 1; copy <= length / 2; copy <<= 1)
+            fixed (byte* ptr = &array[offset])
             {
-                Buffer.BlockCopy(array, offset, array, offset + copy, copy);
-            }
+                *ptr = value;
 
-            Buffer.BlockCopy(array, offset, array, offset + copy, length - copy);
+                int copy;
+                for (copy = 1; copy <= length >> 1; copy <<= 1)
+                {
+                    Buffer.MemoryCopy(ptr, ptr + copy, copy, copy);
+                }
+
+                var remain = length - copy;
+                Buffer.MemoryCopy(ptr, ptr + copy, remain, remain);
+            }
 
             return array;
         }
@@ -112,7 +116,7 @@
         /// <returns></returns>
         public static short[] Fill(this short[] array, int offset, int length, short value)
         {
-            if ((length <= 0) || (array == null))
+            if ((array.Length == 0) || (length <= 0))
             {
                 return array;
             }
@@ -120,7 +124,7 @@
             array[offset] = value;
 
             int copy;
-            for (copy = 1; copy <= length / 2; copy <<= 1)
+            for (copy = 1; copy <= length >> 1; copy <<= 1)
             {
                 Array.Copy(array, offset, array, offset + copy, copy);
             }
@@ -151,7 +155,7 @@
         /// <returns></returns>
         public static int[] Fill(this int[] array, int offset, int length, int value)
         {
-            if ((length <= 0) || (array == null))
+            if ((array.Length == 0) || (length <= 0))
             {
                 return array;
             }
@@ -159,7 +163,7 @@
             array[offset] = value;
 
             int copy;
-            for (copy = 1; copy <= length / 2; copy <<= 1)
+            for (copy = 1; copy <= length >> 1; copy <<= 1)
             {
                 Array.Copy(array, offset, array, offset + copy, copy);
             }
@@ -190,7 +194,7 @@
         /// <returns></returns>
         public static long[] Fill(this long[] array, int offset, int length, long value)
         {
-            if ((length <= 0) || (array == null))
+            if ((array.Length == 0) || (length <= 0))
             {
                 return array;
             }
@@ -198,7 +202,7 @@
             array[offset] = value;
 
             int copy;
-            for (copy = 1; copy <= length / 2; copy <<= 1)
+            for (copy = 1; copy <= length >> 1; copy <<= 1)
             {
                 Array.Copy(array, offset, array, offset + copy, copy);
             }
@@ -229,7 +233,7 @@
         /// <returns></returns>
         public static float[] Fill(this float[] array, int offset, int length, float value)
         {
-            if ((length <= 0) || (array == null))
+            if ((array.Length == 0) || (length <= 0))
             {
                 return array;
             }
@@ -237,7 +241,7 @@
             array[offset] = value;
 
             int copy;
-            for (copy = 1; copy <= length / 2; copy <<= 1)
+            for (copy = 1; copy <= length >> 1; copy <<= 1)
             {
                 Array.Copy(array, offset, array, offset + copy, copy);
             }
@@ -268,7 +272,7 @@
         /// <returns></returns>
         public static double[] Fill(this double[] array, int offset, int length, double value)
         {
-            if ((length <= 0) || (array == null))
+            if ((array.Length == 0) || (length <= 0))
             {
                 return array;
             }
@@ -276,7 +280,7 @@
             array[offset] = value;
 
             int copy;
-            for (copy = 1; copy <= length / 2; copy <<= 1)
+            for (copy = 1; copy <= length >> 1; copy <<= 1)
             {
                 Array.Copy(array, offset, array, offset + copy, copy);
             }
@@ -307,7 +311,7 @@
         /// <returns></returns>
         public static bool[] Fill(this bool[] array, int offset, int length, bool value)
         {
-            if ((length <= 0) || (array == null))
+            if ((array.Length == 0) || (length <= 0))
             {
                 return array;
             }
@@ -315,7 +319,7 @@
             array[offset] = value;
 
             int copy;
-            for (copy = 1; copy <= length / 2; copy <<= 1)
+            for (copy = 1; copy <= length >> 1; copy <<= 1)
             {
                 Array.Copy(array, offset, array, offset + copy, copy);
             }
@@ -346,7 +350,7 @@
         /// <returns></returns>
         public static char[] Fill(this char[] array, int offset, int length, char value)
         {
-            if ((length <= 0) || (array == null))
+            if ((array.Length == 0) || (length <= 0))
             {
                 return array;
             }
@@ -354,7 +358,7 @@
             array[offset] = value;
 
             int copy;
-            for (copy = 1; copy <= length / 2; copy <<= 1)
+            for (copy = 1; copy <= length >> 1; copy <<= 1)
             {
                 Array.Copy(array, offset, array, offset + copy, copy);
             }

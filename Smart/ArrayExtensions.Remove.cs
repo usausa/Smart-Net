@@ -7,6 +7,10 @@
     /// </summary>
     public static partial class ArrayExtensions
     {
+        //--------------------------------------------------------------------------------
+        // RemoveAt
+        //--------------------------------------------------------------------------------
+
         /// <summary>
         ///
         /// </summary>
@@ -29,7 +33,7 @@
         /// <returns></returns>
         public static T[] RemoveRange<T>(this T[] array, int start, int length)
         {
-            if ((array == null) || (array.Length == 0) || (length <= 0) || (start < 0) || start >= array.Length)
+            if ((array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
                 return array;
             }
@@ -69,9 +73,9 @@
         /// <param name="start"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        public static byte[] RemoveRange(this byte[] array, int start, int length)
+        public static unsafe byte[] RemoveRange(this byte[] array, int start, int length)
         {
-            if ((array == null) || (array.Length == 0) || (length <= 0) || (start < 0) || start >= array.Length)
+            if ((array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
                 return array;
             }
@@ -80,14 +84,18 @@
             var remainLength = reaminStart > array.Length ? 0 : array.Length - reaminStart;
             var result = new byte[start + remainLength];
 
-            if (start > 0)
+            fixed (byte* pSrc = &array[0])
+            fixed (byte* pDst = &result[0])
             {
-                Buffer.BlockCopy(array, 0, result, 0, start);
-            }
+                if (start > 0)
+                {
+                    Buffer.MemoryCopy(pSrc, pDst, start, start);
+                }
 
-            if (remainLength > 0)
-            {
-                Buffer.BlockCopy(array, reaminStart, result, start, remainLength);
+                if (remainLength > 0)
+                {
+                    Buffer.MemoryCopy(pSrc + reaminStart, pDst + start, remainLength, remainLength);
+                }
             }
 
             return result;
@@ -113,7 +121,7 @@
         /// <returns></returns>
         public static short[] RemoveRange(this short[] array, int start, int length)
         {
-            if ((array == null) || (array.Length == 0) || (length <= 0) || (start < 0) || start >= array.Length)
+            if ((array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
                 return array;
             }
@@ -155,7 +163,7 @@
         /// <returns></returns>
         public static int[] RemoveRange(this int[] array, int start, int length)
         {
-            if ((array == null) || (array.Length == 0) || (length <= 0) || (start < 0) || start >= array.Length)
+            if ((array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
                 return array;
             }
@@ -197,7 +205,7 @@
         /// <returns></returns>
         public static long[] RemoveRange(this long[] array, int start, int length)
         {
-            if ((array == null) || (array.Length == 0) || (length <= 0) || (start < 0) || start >= array.Length)
+            if ((array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
                 return array;
             }
@@ -239,7 +247,7 @@
         /// <returns></returns>
         public static float[] RemoveRange(this float[] array, int start, int length)
         {
-            if ((array == null) || (array.Length == 0) || (length <= 0) || (start < 0) || start >= array.Length)
+            if ((array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
                 return array;
             }
@@ -281,7 +289,7 @@
         /// <returns></returns>
         public static double[] RemoveRange(this double[] array, int start, int length)
         {
-            if ((array == null) || (array.Length == 0) || (length <= 0) || (start < 0) || start >= array.Length)
+            if ((array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
                 return array;
             }
@@ -323,7 +331,7 @@
         /// <returns></returns>
         public static bool[] RemoveRange(this bool[] array, int start, int length)
         {
-            if ((array == null) || (array.Length == 0) || (length <= 0) || (start < 0) || start >= array.Length)
+            if ((array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
                 return array;
             }
@@ -365,7 +373,7 @@
         /// <returns></returns>
         public static char[] RemoveRange(this char[] array, int start, int length)
         {
-            if ((array == null) || (array.Length == 0) || (length <= 0) || (start < 0) || start >= array.Length)
+            if ((array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
                 return array;
             }

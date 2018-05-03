@@ -7,6 +7,10 @@
     /// </summary>
     public static partial class ArrayExtensions
     {
+        //--------------------------------------------------------------------------------
+        // SubArray
+        //--------------------------------------------------------------------------------
+
         /// <summary>
         ///
         /// </summary>
@@ -27,10 +31,10 @@
                 return Empty<T>.Array;
             }
 
-            var fixedLength = array.Length - offset < length ? array.Length - offset : length;
-            var result = new T[fixedLength];
+            FixLength(ref length, array.Length - offset);
+            var result = new T[length];
 
-            Array.Copy(array, offset, result, 0, fixedLength);
+            Array.Copy(array, offset, result, 0, length);
 
             return result;
         }
@@ -42,7 +46,7 @@
         /// <param name="offset"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        public static byte[] SubArray(this byte[] array, int offset, int length)
+        public static unsafe byte[] SubArray(this byte[] array, int offset, int length)
         {
             if (array == null)
             {
@@ -54,10 +58,14 @@
                 return Empty<byte>.Array;
             }
 
-            var fixedLength = array.Length - offset < length ? array.Length - offset : length;
-            var result = new byte[fixedLength];
+            FixLength(ref length, array.Length - offset);
+            var result = new byte[length];
 
-            Buffer.BlockCopy(array, offset, result, 0, fixedLength);
+            fixed (byte* pSrc = &array[offset])
+            fixed (byte* pDst = &result[0])
+            {
+                Buffer.MemoryCopy(pSrc, pDst, length, length);
+            }
 
             return result;
         }
@@ -81,10 +89,10 @@
                 return Empty<short>.Array;
             }
 
-            var fixedLength = array.Length - offset < length ? array.Length - offset : length;
-            var result = new short[fixedLength];
+            FixLength(ref length, array.Length - offset);
+            var result = new short[length];
 
-            Array.Copy(array, offset, result, 0, fixedLength);
+            Array.Copy(array, offset, result, 0, length);
 
             return result;
         }
@@ -108,10 +116,10 @@
                 return Empty<int>.Array;
             }
 
-            var fixedLength = array.Length - offset < length ? array.Length - offset : length;
-            var result = new int[fixedLength];
+            FixLength(ref length, array.Length - offset);
+            var result = new int[length];
 
-            Array.Copy(array, offset, result, 0, fixedLength);
+            Array.Copy(array, offset, result, 0, length);
 
             return result;
         }
@@ -135,10 +143,10 @@
                 return Empty<long>.Array;
             }
 
-            var fixedLength = array.Length - offset < length ? array.Length - offset : length;
-            var result = new long[fixedLength];
+            FixLength(ref length, array.Length - offset);
+            var result = new long[length];
 
-            Array.Copy(array, offset, result, 0, fixedLength);
+            Array.Copy(array, offset, result, 0, length);
 
             return result;
         }
@@ -162,10 +170,10 @@
                 return Empty<float>.Array;
             }
 
-            var fixedLength = array.Length - offset < length ? array.Length - offset : length;
-            var result = new float[fixedLength];
+            FixLength(ref length, array.Length - offset);
+            var result = new float[length];
 
-            Array.Copy(array, offset, result, 0, fixedLength);
+            Array.Copy(array, offset, result, 0, length);
 
             return result;
         }
@@ -189,10 +197,10 @@
                 return Empty<double>.Array;
             }
 
-            var fixedLength = array.Length - offset < length ? array.Length - offset : length;
-            var result = new double[fixedLength];
+            FixLength(ref length, array.Length - offset);
+            var result = new double[length];
 
-            Array.Copy(array, offset, result, 0, fixedLength);
+            Array.Copy(array, offset, result, 0, length);
 
             return result;
         }
@@ -216,10 +224,10 @@
                 return Empty<bool>.Array;
             }
 
-            var fixedLength = array.Length - offset < length ? array.Length - offset : length;
-            var result = new bool[fixedLength];
+            FixLength(ref length, array.Length - offset);
+            var result = new bool[length];
 
-            Array.Copy(array, offset, result, 0, fixedLength);
+            Array.Copy(array, offset, result, 0, length);
 
             return result;
         }
@@ -243,10 +251,10 @@
                 return Empty<char>.Array;
             }
 
-            var fixedLength = array.Length - offset < length ? array.Length - offset : length;
-            var result = new char[fixedLength];
+            FixLength(ref length, array.Length - offset);
+            var result = new char[length];
 
-            Array.Copy(array, offset, result, 0, fixedLength);
+            Array.Copy(array, offset, result, 0, length);
 
             return result;
         }
