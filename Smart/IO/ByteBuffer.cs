@@ -140,16 +140,10 @@
         /// <param name="offset"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        public static unsafe ByteBuffer CopyOf(byte[] array, int offset, int length)
+        public static ByteBuffer CopyOf(byte[] array, int offset, int length)
         {
             var copy = new byte[length];
-
-            fixed (byte* pSrc = &array[offset])
-            fixed (byte* pDst = &copy[0])
-            {
-                Buffer.MemoryCopy(pSrc, pDst, length, length);
-            }
-
+            Bytes.FastCopy(array, offset, copy, 0, length);
             return new ByteBuffer(copy, 0, length);
         }
 

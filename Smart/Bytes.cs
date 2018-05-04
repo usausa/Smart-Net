@@ -1,6 +1,7 @@
 ﻿namespace Smart
 {
     using System;
+    using System.Runtime.CompilerServices;
 
     /// <summary>
     ///
@@ -33,6 +34,27 @@
             }
 
             return bytes;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="src"></param>
+        /// <param name="srcOffset"></param>
+        /// <param name="dst"></param>
+        /// <param name="dstOffset"></param>
+        /// <param name="length"></param>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static unsafe void FastCopy(byte[] src, int srcOffset, byte[] dst, int dstOffset, int length)
+        {
+            if (length > 0)
+            {
+                fixed (byte* pSource = &src[srcOffset])
+                fixed (byte* pDestination = &dst[dstOffset])
+                {
+                    Buffer.MemoryCopy(pSource, pDestination, length, length);
+                }
+            }
         }
     }
 }

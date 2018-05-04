@@ -73,7 +73,7 @@
         /// <param name="start"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        public static unsafe byte[] RemoveRange(this byte[] array, int start, int length)
+        public static byte[] RemoveRange(this byte[] array, int start, int length)
         {
             if ((array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
@@ -84,18 +84,14 @@
             var remainLength = reaminStart > array.Length ? 0 : array.Length - reaminStart;
             var result = new byte[start + remainLength];
 
-            fixed (byte* pSrc = &array[0])
-            fixed (byte* pDst = &result[0])
+            if (start > 0)
             {
-                if (start > 0)
-                {
-                    Buffer.MemoryCopy(pSrc, pDst, start, start);
-                }
+                Bytes.FastCopy(array, 0, result, 0, start);
+            }
 
-                if (remainLength > 0)
-                {
-                    Buffer.MemoryCopy(pSrc + reaminStart, pDst + start, remainLength, remainLength);
-                }
+            if (remainLength > 0)
+            {
+                Bytes.FastCopy(array, reaminStart, result, start, remainLength);
             }
 
             return result;

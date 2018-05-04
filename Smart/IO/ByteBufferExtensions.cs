@@ -1,6 +1,5 @@
 ﻿namespace Smart.IO
 {
-    using System;
     using System.Runtime.CompilerServices;
 
     /// <summary>
@@ -20,42 +19,23 @@
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe ByteBuffer PutBytes(this ByteBuffer buffer, int index, byte[] value)
+        public static ByteBuffer PutBytes(this ByteBuffer buffer, int index, byte[] value)
         {
-            var length = value.Length;
-
-            fixed (byte* pSrc = &value[0])
-            fixed (byte* pDst = &buffer.Array[index])
-            {
-                Buffer.MemoryCopy(pSrc, pDst, length, length);
-            }
-
+            Bytes.FastCopy(value, 0, buffer.Array, index, value.Length);
             return buffer;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe ByteBuffer PutBytes(this ByteBuffer buffer, int index, byte[] value, int offset, int length)
+        public static ByteBuffer PutBytes(this ByteBuffer buffer, int index, byte[] value, int offset, int length)
         {
-            fixed (byte* pSrc = &value[offset])
-            fixed (byte* pDst = &buffer.Array[index])
-            {
-                Buffer.MemoryCopy(pSrc, pDst, length, length);
-            }
-
+            Bytes.FastCopy(value, offset, buffer.Array, index, length);
             return buffer;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe ByteBuffer PutBytes(this ByteBuffer buffer, int index, ByteBuffer value)
+        public static ByteBuffer PutBytes(this ByteBuffer buffer, int index, ByteBuffer value)
         {
-            var length = value.Remaining;
-
-            fixed (byte* pSrc = &value.Array[value.Position])
-            fixed (byte* pDst = &buffer.Array[index])
-            {
-                Buffer.MemoryCopy(pSrc, pDst, length, length);
-            }
-
+            Bytes.FastCopy(value.Array, value.Position, buffer.Array, index, value.Remaining);
             return buffer;
         }
 
@@ -129,27 +109,17 @@
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe byte[] GetBytes(this ByteBuffer buffer, int index, int length)
+        public static byte[] GetBytes(this ByteBuffer buffer, int index, int length)
         {
             var bytes = new byte[length];
-
-            fixed (byte* pSrc = &buffer.Array[index])
-            fixed (byte* pDst = &bytes[0])
-            {
-                Buffer.MemoryCopy(pSrc, pDst, length, length);
-            }
-
+            Bytes.FastCopy(buffer.Array, index, bytes, 0, length);
             return bytes;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe void GetBytes(this ByteBuffer buffer, int index, byte[] destination, int offset, int length)
+        public static void GetBytes(this ByteBuffer buffer, int index, byte[] destination, int offset, int length)
         {
-            fixed (byte* pSrc = &buffer.Array[index])
-            fixed (byte* pDst = &destination[offset])
-            {
-                Buffer.MemoryCopy(pSrc, pDst, length, length);
-            }
+            Bytes.FastCopy(buffer.Array, index, destination, offset, length);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -218,42 +188,23 @@
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe ByteBuffer PutBytes(this ByteBuffer buffer, byte[] value)
+        public static ByteBuffer PutBytes(this ByteBuffer buffer, byte[] value)
         {
-            var length = value.Length;
-
-            fixed (byte* pSrc = &value[0])
-            fixed (byte* pDst = &buffer.Array[buffer.Position])
-            {
-                Buffer.MemoryCopy(pSrc, pDst, length, length);
-            }
-
+            Bytes.FastCopy(value, 0, buffer.Array, buffer.Position, value.Length);
             return buffer;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe ByteBuffer PutBytes(this ByteBuffer buffer, byte[] value, int offset, int length)
+        public static ByteBuffer PutBytes(this ByteBuffer buffer, byte[] value, int offset, int length)
         {
-            fixed (byte* pSrc = &value[offset])
-            fixed (byte* pDst = &buffer.Array[buffer.Position])
-            {
-                Buffer.MemoryCopy(pSrc, pDst, length, length);
-            }
-
+            Bytes.FastCopy(value, offset, buffer.Array, buffer.Position, length);
             return buffer;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe ByteBuffer PutBytes(this ByteBuffer buffer, ByteBuffer value)
+        public static ByteBuffer PutBytes(this ByteBuffer buffer, ByteBuffer value)
         {
-            var length = value.Remaining;
-
-            fixed (byte* pSrc = &value.Array[value.Position])
-            fixed (byte* pDst = &buffer.Array[buffer.Position])
-            {
-                Buffer.MemoryCopy(pSrc, pDst, length, length);
-            }
-
+            Bytes.FastCopy(value.Array, value.Position, buffer.Array, buffer.Position, value.Remaining);
             return buffer;
         }
 
@@ -327,27 +278,17 @@
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe byte[] GetBytes(this ByteBuffer buffer, int length)
+        public static byte[] GetBytes(this ByteBuffer buffer, int length)
         {
             var bytes = new byte[length];
-
-            fixed (byte* pSrc = &buffer.Array[buffer.Position])
-            fixed (byte* pDst = &bytes[0])
-            {
-                Buffer.MemoryCopy(pSrc, pDst, length, length);
-            }
-
+            Bytes.FastCopy(buffer.Array, buffer.Position, bytes, 0, length);
             return bytes;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe void GetBytes(this ByteBuffer buffer, byte[] destination, int offset, int length)
+        public static void GetBytes(this ByteBuffer buffer, byte[] destination, int offset, int length)
         {
-            fixed (byte* pSrc = &buffer.Array[buffer.Position])
-            fixed (byte* pDst = &destination[offset])
-            {
-                Buffer.MemoryCopy(pSrc, pDst, length, length);
-            }
+            Bytes.FastCopy(buffer.Array, buffer.Position, destination, offset, length);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -417,45 +358,26 @@
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe ByteBuffer PutBytesStep(this ByteBuffer buffer, byte[] value)
+        public static ByteBuffer PutBytesStep(this ByteBuffer buffer, byte[] value)
         {
-            var length = value.Length;
+            Bytes.FastCopy(value, 0, buffer.Array, buffer.Position, value.Length);
+            buffer.Position += value.Length;
+            return buffer;
+        }
 
-            fixed (byte* pSrc = &value[0])
-            fixed (byte* pDst = &buffer.Array[buffer.Position])
-            {
-                Buffer.MemoryCopy(pSrc, pDst, length, length);
-            }
-
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ByteBuffer PutBytesStep(this ByteBuffer buffer, byte[] value, int offset, int length)
+        {
+            Bytes.FastCopy(value, offset, buffer.Array, buffer.Position, length);
             buffer.Position += length;
             return buffer;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe ByteBuffer PutBytesStep(this ByteBuffer buffer, byte[] value, int offset, int length)
+        public static ByteBuffer PutBytesStep(this ByteBuffer buffer, ByteBuffer value)
         {
-            fixed (byte* pSrc = &value[offset])
-            fixed (byte* pDst = &buffer.Array[buffer.Position])
-            {
-                Buffer.MemoryCopy(pSrc, pDst, length, length);
-            }
-
-            buffer.Position += length;
-            return buffer;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe ByteBuffer PutBytesStep(this ByteBuffer buffer, ByteBuffer value)
-        {
-            var length = value.Remaining;
-
-            fixed (byte* pSrc = &value.Array[value.Position])
-            fixed (byte* pDst = &buffer.Array[buffer.Position])
-            {
-                Buffer.MemoryCopy(pSrc, pDst, length, length);
-            }
-
-            buffer.Position += length;
+            Bytes.FastCopy(value.Array, value.Position, buffer.Array, buffer.Position, value.Remaining);
+            buffer.Position += value.Remaining;
             return buffer;
         }
 
@@ -540,29 +462,18 @@
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe byte[] GetBytesStep(this ByteBuffer buffer, int length)
+        public static byte[] GetBytesStep(this ByteBuffer buffer, int length)
         {
             var bytes = new byte[length];
-
-            fixed (byte* pSrc = &buffer.Array[buffer.Position])
-            fixed (byte* pDst = &bytes[0])
-            {
-                Buffer.MemoryCopy(pSrc, pDst, length, length);
-            }
-
+            Bytes.FastCopy(buffer.Array, buffer.Position, bytes, 0, length);
             buffer.Position += length;
             return bytes;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static unsafe void GetBytesStep(this ByteBuffer buffer, byte[] destination, int offset, int length)
+        public static void GetBytesStep(this ByteBuffer buffer, byte[] destination, int offset, int length)
         {
-            fixed (byte* pSrc = &buffer.Array[buffer.Position])
-            fixed (byte* pDst = &destination[offset])
-            {
-                Buffer.MemoryCopy(pSrc, pDst, length, length);
-            }
-
+            Bytes.FastCopy(buffer.Array, buffer.Position, destination, offset, length);
             buffer.Position += length;
         }
 

@@ -71,26 +71,22 @@
         /// <param name="length"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public static unsafe byte[] Fill(this byte[] array, int offset, int length, byte value)
+        public static byte[] Fill(this byte[] array, int offset, int length, byte value)
         {
             if ((array.Length == 0) || (length <= 0))
             {
                 return array;
             }
 
-            fixed (byte* ptr = &array[offset])
+            array[offset] = value;
+
+            int copy;
+            for (copy = 1; copy <= length >> 1; copy <<= 1)
             {
-                *ptr = value;
-
-                int copy;
-                for (copy = 1; copy <= length >> 1; copy <<= 1)
-                {
-                    Buffer.MemoryCopy(ptr, ptr + copy, copy, copy);
-                }
-
-                var remain = length - copy;
-                Buffer.MemoryCopy(ptr, ptr + copy, remain, remain);
+                Bytes.FastCopy(array, offset, array, offset + copy, copy);
             }
+
+            Bytes.FastCopy(array, offset, array, offset + copy, length - copy);
 
             return array;
         }

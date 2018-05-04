@@ -46,7 +46,7 @@
         /// <param name="offset"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        public static unsafe byte[] SubArray(this byte[] array, int offset, int length)
+        public static byte[] SubArray(this byte[] array, int offset, int length)
         {
             if (array == null)
             {
@@ -61,11 +61,7 @@
             FixLength(ref length, array.Length - offset);
             var result = new byte[length];
 
-            fixed (byte* pSrc = &array[offset])
-            fixed (byte* pDst = &result[0])
-            {
-                Buffer.MemoryCopy(pSrc, pDst, length, length);
-            }
+            Bytes.FastCopy(array, offset, result, 0, length);
 
             return result;
         }

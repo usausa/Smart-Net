@@ -67,7 +67,7 @@
         /// <param name="array"></param>
         /// <param name="others"></param>
         /// <returns></returns>
-        public static unsafe byte[] Combine(this byte[] array, params byte[][] others)
+        public static byte[] Combine(this byte[] array, params byte[][] others)
         {
             var length = array?.Length;
             for (var i = 0; i < others.Length; i++)
@@ -84,37 +84,31 @@
                 return null;
             }
 
-            var result = new byte[length.Value];
-            fixed (byte* pDst = &result[0])
+            if (length.Value == 0)
             {
-                var ptr = pDst;
+                return Bytes.Empty;
+            }
 
-                if (array != null)
+            var result = new byte[length.Value];
+
+            int offset;
+            if (array != null)
+            {
+                Bytes.FastCopy(array, 0, result, 0, array.Length);
+                offset = array.Length;
+            }
+            else
+            {
+                offset = 0;
+            }
+
+            for (var i = 0; i < others.Length; i++)
+            {
+                var other = others[i];
+                if (other != null)
                 {
-                    var size = array.Length;
-
-                    fixed (byte* pSrc = &array[0])
-                    {
-                        Buffer.MemoryCopy(pSrc, ptr, size, size);
-                    }
-
-                    ptr += size;
-                }
-
-                for (var i = 0; i < others.Length; i++)
-                {
-                    var other = others[i];
-                    if (other != null)
-                    {
-                        var size = other.Length;
-
-                        fixed (byte* pSrc = &other[0])
-                        {
-                            Buffer.MemoryCopy(pSrc, ptr, size, size);
-                        }
-
-                        ptr += size;
-                    }
+                    Bytes.FastCopy(other, 0, result, offset, other.Length);
+                    offset += other.Length;
                 }
             }
 

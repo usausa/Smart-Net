@@ -62,31 +62,37 @@
     /// </summary>
     internal sealed class LittleEndian : IByteOrder
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void PutShort(byte[] bytes, int index, short value)
         {
             ByteOrder.PutShortLE(bytes, index, value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void PutInt(byte[] bytes, int index, int value)
         {
             ByteOrder.PutIntLE(bytes, index, value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void PutLong(byte[] bytes, int index, long value)
         {
             ByteOrder.PutLongLE(bytes, index, value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short GetShort(byte[] bytes, int index)
         {
             return ByteOrder.GetShortLE(bytes, index);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int GetInt(byte[] bytes, int index)
         {
             return ByteOrder.GetIntLE(bytes, index);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long GetLong(byte[] bytes, int index)
         {
             return ByteOrder.GetLongLE(bytes, index);
@@ -95,31 +101,37 @@
 
     internal sealed class BigEndian : IByteOrder
     {
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void PutShort(byte[] bytes, int index, short value)
         {
             ByteOrder.PutShortBE(bytes, index, value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void PutInt(byte[] bytes, int index, int value)
         {
             ByteOrder.PutIntBE(bytes, index, value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void PutLong(byte[] bytes, int index, long value)
         {
             ByteOrder.PutLongBE(bytes, index, value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public short GetShort(byte[] bytes, int index)
         {
             return ByteOrder.GetShortBE(bytes, index);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public int GetInt(byte[] bytes, int index)
         {
             return ByteOrder.GetIntBE(bytes, index);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public long GetLong(byte[] bytes, int index)
         {
             return ByteOrder.GetLongBE(bytes, index);
