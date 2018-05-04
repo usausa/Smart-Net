@@ -13,5 +13,12 @@ namespace Smart.Reflection
         }
 
 <# } #>
+<# for (var i = 0; i <= 16; i++) { #>
+        public Func<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>, <# } #>T> CreateFactory<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>, <# } #>T>()
+        {
+            return Factory.CreateFactory<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>, <# } #>T>();
+        }
+
+<# } #>
     }
 }

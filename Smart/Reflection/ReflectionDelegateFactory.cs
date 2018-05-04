@@ -52,6 +52,11 @@
             return () => Activator.CreateInstance(ci.DeclaringType);
         }
 
+        public Func<T> CreateFactory<T>()
+        {
+            return Activator.CreateInstance<T>;
+        }
+
         // Accessor
 
         public Func<object, object> CreateGetter(PropertyInfo pi)

@@ -27,5 +27,22 @@ namespace Smart.Reflection
         }
 
 <# } #>
+<# for (var i = 0; i <= 16; i++) { #>
+        public Func<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>, <# } #>T> CreateFactory<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>, <# } #>T>()
+        {
+            var ci = typeof(T).GetConstructor(<# if (i == 0) { #>Type.EmptyTypes<# } else { #>new[] { typeof(TP1)<# for (var j = 1; j < i; j++) { #>, typeof(TP<#= j + 1 #>)<# } #> }<# } #>);
+            if (ci == null)
+            {
+                throw new ArgumentException("Constructor type parameter is invalid.");
+            }
+
+            return (Func<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>, <# } #>T>)CreateFactoryInternal(
+                ci,
+                typeof(T),
+                new[] { typeof(T)<# for (var j = 1; j <= i; j++) { #>, typeof(TP<#= j #>)<# } #> },
+                typeof(Func<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>, <# } #>T>));
+        }
+
+<# } #>
     }
 }

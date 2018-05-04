@@ -147,6 +147,24 @@
             return dynamic.CreateDelegate(delegateType, null);
         }
 
+        // Factory
+
+        private static Delegate CreateFactoryInternal(ConstructorInfo ci, Type returnType, Type[] parameterTypes, Type delegateType)
+        {
+            var dynamic = new DynamicMethod(string.Empty, returnType, parameterTypes, true);
+            var il = dynamic.GetILGenerator();
+
+            for (var i = 0; i < ci.GetParameters().Length; i++)
+            {
+                il.EmitLdarg(i + 1);
+            }
+
+            il.Emit(OpCodes.Newobj, ci);
+            il.Emit(OpCodes.Ret);
+
+            return dynamic.CreateDelegate(delegateType, null);
+        }
+
         // Accessor
 
         public Func<object, object> CreateGetter(PropertyInfo pi)

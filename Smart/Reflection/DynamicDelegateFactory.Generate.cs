@@ -261,5 +261,260 @@ namespace Smart.Reflection
                 .GetOrAdd(ci, x => CreateFactoryInternal(x, Factory16ParameterTypes, Factory16Type));
         }
 
+        public Func<T> CreateFactory<T>()
+        {
+            var ci = typeof(T).GetConstructor(Type.EmptyTypes);
+            if (ci == null)
+            {
+                throw new ArgumentException("Constructor type parameter is invalid.");
+            }
+
+            return (Func<T>)CreateFactoryInternal(
+                ci,
+                typeof(T),
+                new[] { typeof(T) },
+                typeof(Func<T>));
+        }
+
+        public Func<TP1, T> CreateFactory<TP1, T>()
+        {
+            var ci = typeof(T).GetConstructor(new[] { typeof(TP1) });
+            if (ci == null)
+            {
+                throw new ArgumentException("Constructor type parameter is invalid.");
+            }
+
+            return (Func<TP1, T>)CreateFactoryInternal(
+                ci,
+                typeof(T),
+                new[] { typeof(T), typeof(TP1) },
+                typeof(Func<TP1, T>));
+        }
+
+        public Func<TP1, TP2, T> CreateFactory<TP1, TP2, T>()
+        {
+            var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2) });
+            if (ci == null)
+            {
+                throw new ArgumentException("Constructor type parameter is invalid.");
+            }
+
+            return (Func<TP1, TP2, T>)CreateFactoryInternal(
+                ci,
+                typeof(T),
+                new[] { typeof(T), typeof(TP1), typeof(TP2) },
+                typeof(Func<TP1, TP2, T>));
+        }
+
+        public Func<TP1, TP2, TP3, T> CreateFactory<TP1, TP2, TP3, T>()
+        {
+            var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3) });
+            if (ci == null)
+            {
+                throw new ArgumentException("Constructor type parameter is invalid.");
+            }
+
+            return (Func<TP1, TP2, TP3, T>)CreateFactoryInternal(
+                ci,
+                typeof(T),
+                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3) },
+                typeof(Func<TP1, TP2, TP3, T>));
+        }
+
+        public Func<TP1, TP2, TP3, TP4, T> CreateFactory<TP1, TP2, TP3, TP4, T>()
+        {
+            var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4) });
+            if (ci == null)
+            {
+                throw new ArgumentException("Constructor type parameter is invalid.");
+            }
+
+            return (Func<TP1, TP2, TP3, TP4, T>)CreateFactoryInternal(
+                ci,
+                typeof(T),
+                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4) },
+                typeof(Func<TP1, TP2, TP3, TP4, T>));
+        }
+
+        public Func<TP1, TP2, TP3, TP4, TP5, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, T>()
+        {
+            var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5) });
+            if (ci == null)
+            {
+                throw new ArgumentException("Constructor type parameter is invalid.");
+            }
+
+            return (Func<TP1, TP2, TP3, TP4, TP5, T>)CreateFactoryInternal(
+                ci,
+                typeof(T),
+                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5) },
+                typeof(Func<TP1, TP2, TP3, TP4, TP5, T>));
+        }
+
+        public Func<TP1, TP2, TP3, TP4, TP5, TP6, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, T>()
+        {
+            var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6) });
+            if (ci == null)
+            {
+                throw new ArgumentException("Constructor type parameter is invalid.");
+            }
+
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, T>)CreateFactoryInternal(
+                ci,
+                typeof(T),
+                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6) },
+                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, T>));
+        }
+
+        public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, T>()
+        {
+            var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7) });
+            if (ci == null)
+            {
+                throw new ArgumentException("Constructor type parameter is invalid.");
+            }
+
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, T>)CreateFactoryInternal(
+                ci,
+                typeof(T),
+                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7) },
+                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, T>));
+        }
+
+        public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, T>()
+        {
+            var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8) });
+            if (ci == null)
+            {
+                throw new ArgumentException("Constructor type parameter is invalid.");
+            }
+
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, T>)CreateFactoryInternal(
+                ci,
+                typeof(T),
+                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8) },
+                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, T>));
+        }
+
+        public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, T>()
+        {
+            var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9) });
+            if (ci == null)
+            {
+                throw new ArgumentException("Constructor type parameter is invalid.");
+            }
+
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, T>)CreateFactoryInternal(
+                ci,
+                typeof(T),
+                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9) },
+                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, T>));
+        }
+
+        public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, T>()
+        {
+            var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10) });
+            if (ci == null)
+            {
+                throw new ArgumentException("Constructor type parameter is invalid.");
+            }
+
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, T>)CreateFactoryInternal(
+                ci,
+                typeof(T),
+                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10) },
+                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, T>));
+        }
+
+        public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, T>()
+        {
+            var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11) });
+            if (ci == null)
+            {
+                throw new ArgumentException("Constructor type parameter is invalid.");
+            }
+
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, T>)CreateFactoryInternal(
+                ci,
+                typeof(T),
+                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11) },
+                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, T>));
+        }
+
+        public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, T>()
+        {
+            var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12) });
+            if (ci == null)
+            {
+                throw new ArgumentException("Constructor type parameter is invalid.");
+            }
+
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, T>)CreateFactoryInternal(
+                ci,
+                typeof(T),
+                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12) },
+                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, T>));
+        }
+
+        public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, T>()
+        {
+            var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13) });
+            if (ci == null)
+            {
+                throw new ArgumentException("Constructor type parameter is invalid.");
+            }
+
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, T>)CreateFactoryInternal(
+                ci,
+                typeof(T),
+                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13) },
+                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, T>));
+        }
+
+        public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, T>()
+        {
+            var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14) });
+            if (ci == null)
+            {
+                throw new ArgumentException("Constructor type parameter is invalid.");
+            }
+
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, T>)CreateFactoryInternal(
+                ci,
+                typeof(T),
+                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14) },
+                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, T>));
+        }
+
+        public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, T>()
+        {
+            var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), typeof(TP15) });
+            if (ci == null)
+            {
+                throw new ArgumentException("Constructor type parameter is invalid.");
+            }
+
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, T>)CreateFactoryInternal(
+                ci,
+                typeof(T),
+                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), typeof(TP15) },
+                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, T>));
+        }
+
+        public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, T>()
+        {
+            var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), typeof(TP15), typeof(TP16) });
+            if (ci == null)
+            {
+                throw new ArgumentException("Constructor type parameter is invalid.");
+            }
+
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, T>)CreateFactoryInternal(
+                ci,
+                typeof(T),
+                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), typeof(TP15), typeof(TP16) },
+                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, T>));
+        }
+
     }
 }
