@@ -131,6 +131,82 @@
             };
         }
 
+        // Accessor
+
+        public Func<T, TMember> CreateGetter<T, TMember>(PropertyInfo pi)
+        {
+            return CreateGetter<T, TMember>(pi, true);
+        }
+
+        public Func<T, TMember> CreateGetter<T, TMember>(PropertyInfo pi, bool extension)
+        {
+            if (pi == null)
+            {
+                throw new ArgumentNullException(nameof(pi));
+            }
+
+            var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
+            if (holderType == null)
+            {
+                if (!pi.CanRead)
+                {
+                    return null;
+                }
+
+                return obj => (TMember)pi.GetValue(obj, null);
+            }
+
+            if (!pi.CanRead)
+            {
+                throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
+            }
+
+            var vpi = ValueHolderHelper.GetValueTypeProperty(holderType);
+            return obj =>
+            {
+                var holder = pi.GetValue(obj, null);
+                return (TMember)vpi.GetValue(holder, null);
+            };
+        }
+
+        public Action<T, TMember> CreateSetter<T, TMember>(PropertyInfo pi)
+        {
+            return CreateSetter<T, TMember>(pi, true);
+        }
+
+        public Action<T, TMember> CreateSetter<T, TMember>(PropertyInfo pi, bool extension)
+        {
+            if (pi == null)
+            {
+                throw new ArgumentNullException(nameof(pi));
+            }
+
+            var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
+            if (holderType == null)
+            {
+                if (!pi.CanWrite)
+                {
+                    return null;
+                }
+
+                return (obj, value) => pi.SetValue(obj, value, null);
+            }
+
+            if (!pi.CanRead)
+            {
+                throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
+            }
+
+            var vpi = ValueHolderHelper.GetValueTypeProperty(holderType);
+            return (obj, value) =>
+            {
+                var holder = pi.GetValue(obj, null);
+                vpi.SetValue(holder, value, null);
+            };
+        }
+
+        // Etc
+
         public Type GetExtendedPropertyType(PropertyInfo pi)
         {
             var holderType = ValueHolderHelper.FindValueHolderType(pi);

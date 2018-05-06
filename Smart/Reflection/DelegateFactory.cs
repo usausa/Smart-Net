@@ -57,6 +57,30 @@
             return Factory.CreateSetter(pi, extension);
         }
 
+        // Accessor
+
+        public Func<T, TMember> CreateGetter<T, TMember>(PropertyInfo pi)
+        {
+            return Factory.CreateGetter<T, TMember>(pi);
+        }
+
+        public Func<T, TMember> CreateGetter<T, TMember>(PropertyInfo pi, bool extension)
+        {
+            return Factory.CreateGetter<T, TMember>(pi, extension);
+        }
+
+        public Action<T, TMember> CreateSetter<T, TMember>(PropertyInfo pi)
+        {
+            return Factory.CreateSetter<T, TMember>(pi);
+        }
+
+        public Action<T, TMember> CreateSetter<T, TMember>(PropertyInfo pi, bool extension)
+        {
+            return Factory.CreateSetter<T, TMember>(pi, extension);
+        }
+
+        // Etc
+
         public Type GetExtendedPropertyType(PropertyInfo pi)
         {
             return Factory.GetExtendedPropertyType(pi);

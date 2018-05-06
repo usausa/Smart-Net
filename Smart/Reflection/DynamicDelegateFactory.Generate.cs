@@ -269,11 +269,12 @@ namespace Smart.Reflection
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
 
-            return (Func<T>)CreateFactoryInternal(
-                ci,
-                typeof(T),
-                new[] { typeof(T) },
-                typeof(Func<T>));
+            return (Func<T>)typedFactoryCache
+                .GetOrAdd(ci, x=> CreateFactoryInternal(
+                    ci,
+                    typeof(T),
+                    new[] { typeof(T) },
+                    typeof(Func<T>)));
         }
 
         public Func<TP1, T> CreateFactory<TP1, T>()
@@ -284,11 +285,12 @@ namespace Smart.Reflection
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
 
-            return (Func<TP1, T>)CreateFactoryInternal(
-                ci,
-                typeof(T),
-                new[] { typeof(T), typeof(TP1) },
-                typeof(Func<TP1, T>));
+            return (Func<TP1, T>)typedFactoryCache
+                .GetOrAdd(ci, x=> CreateFactoryInternal(
+                    ci,
+                    typeof(T),
+                    new[] { typeof(T), typeof(TP1) },
+                    typeof(Func<TP1, T>)));
         }
 
         public Func<TP1, TP2, T> CreateFactory<TP1, TP2, T>()
@@ -299,11 +301,12 @@ namespace Smart.Reflection
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
 
-            return (Func<TP1, TP2, T>)CreateFactoryInternal(
-                ci,
-                typeof(T),
-                new[] { typeof(T), typeof(TP1), typeof(TP2) },
-                typeof(Func<TP1, TP2, T>));
+            return (Func<TP1, TP2, T>)typedFactoryCache
+                .GetOrAdd(ci, x=> CreateFactoryInternal(
+                    ci,
+                    typeof(T),
+                    new[] { typeof(T), typeof(TP1), typeof(TP2) },
+                    typeof(Func<TP1, TP2, T>)));
         }
 
         public Func<TP1, TP2, TP3, T> CreateFactory<TP1, TP2, TP3, T>()
@@ -314,11 +317,12 @@ namespace Smart.Reflection
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
 
-            return (Func<TP1, TP2, TP3, T>)CreateFactoryInternal(
-                ci,
-                typeof(T),
-                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3) },
-                typeof(Func<TP1, TP2, TP3, T>));
+            return (Func<TP1, TP2, TP3, T>)typedFactoryCache
+                .GetOrAdd(ci, x=> CreateFactoryInternal(
+                    ci,
+                    typeof(T),
+                    new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3) },
+                    typeof(Func<TP1, TP2, TP3, T>)));
         }
 
         public Func<TP1, TP2, TP3, TP4, T> CreateFactory<TP1, TP2, TP3, TP4, T>()
@@ -329,11 +333,12 @@ namespace Smart.Reflection
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
 
-            return (Func<TP1, TP2, TP3, TP4, T>)CreateFactoryInternal(
-                ci,
-                typeof(T),
-                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4) },
-                typeof(Func<TP1, TP2, TP3, TP4, T>));
+            return (Func<TP1, TP2, TP3, TP4, T>)typedFactoryCache
+                .GetOrAdd(ci, x=> CreateFactoryInternal(
+                    ci,
+                    typeof(T),
+                    new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4) },
+                    typeof(Func<TP1, TP2, TP3, TP4, T>)));
         }
 
         public Func<TP1, TP2, TP3, TP4, TP5, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, T>()
@@ -344,11 +349,12 @@ namespace Smart.Reflection
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
 
-            return (Func<TP1, TP2, TP3, TP4, TP5, T>)CreateFactoryInternal(
-                ci,
-                typeof(T),
-                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5) },
-                typeof(Func<TP1, TP2, TP3, TP4, TP5, T>));
+            return (Func<TP1, TP2, TP3, TP4, TP5, T>)typedFactoryCache
+                .GetOrAdd(ci, x=> CreateFactoryInternal(
+                    ci,
+                    typeof(T),
+                    new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5) },
+                    typeof(Func<TP1, TP2, TP3, TP4, TP5, T>)));
         }
 
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, T>()
@@ -359,11 +365,12 @@ namespace Smart.Reflection
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
 
-            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, T>)CreateFactoryInternal(
-                ci,
-                typeof(T),
-                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6) },
-                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, T>));
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, T>)typedFactoryCache
+                .GetOrAdd(ci, x=> CreateFactoryInternal(
+                    ci,
+                    typeof(T),
+                    new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6) },
+                    typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, T>)));
         }
 
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, T>()
@@ -374,11 +381,12 @@ namespace Smart.Reflection
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
 
-            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, T>)CreateFactoryInternal(
-                ci,
-                typeof(T),
-                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7) },
-                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, T>));
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, T>)typedFactoryCache
+                .GetOrAdd(ci, x=> CreateFactoryInternal(
+                    ci,
+                    typeof(T),
+                    new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7) },
+                    typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, T>)));
         }
 
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, T>()
@@ -389,11 +397,12 @@ namespace Smart.Reflection
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
 
-            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, T>)CreateFactoryInternal(
-                ci,
-                typeof(T),
-                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8) },
-                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, T>));
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, T>)typedFactoryCache
+                .GetOrAdd(ci, x=> CreateFactoryInternal(
+                    ci,
+                    typeof(T),
+                    new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8) },
+                    typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, T>)));
         }
 
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, T>()
@@ -404,11 +413,12 @@ namespace Smart.Reflection
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
 
-            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, T>)CreateFactoryInternal(
-                ci,
-                typeof(T),
-                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9) },
-                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, T>));
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, T>)typedFactoryCache
+                .GetOrAdd(ci, x=> CreateFactoryInternal(
+                    ci,
+                    typeof(T),
+                    new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9) },
+                    typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, T>)));
         }
 
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, T>()
@@ -419,11 +429,12 @@ namespace Smart.Reflection
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
 
-            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, T>)CreateFactoryInternal(
-                ci,
-                typeof(T),
-                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10) },
-                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, T>));
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, T>)typedFactoryCache
+                .GetOrAdd(ci, x=> CreateFactoryInternal(
+                    ci,
+                    typeof(T),
+                    new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10) },
+                    typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, T>)));
         }
 
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, T>()
@@ -434,11 +445,12 @@ namespace Smart.Reflection
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
 
-            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, T>)CreateFactoryInternal(
-                ci,
-                typeof(T),
-                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11) },
-                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, T>));
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, T>)typedFactoryCache
+                .GetOrAdd(ci, x=> CreateFactoryInternal(
+                    ci,
+                    typeof(T),
+                    new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11) },
+                    typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, T>)));
         }
 
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, T>()
@@ -449,11 +461,12 @@ namespace Smart.Reflection
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
 
-            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, T>)CreateFactoryInternal(
-                ci,
-                typeof(T),
-                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12) },
-                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, T>));
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, T>)typedFactoryCache
+                .GetOrAdd(ci, x=> CreateFactoryInternal(
+                    ci,
+                    typeof(T),
+                    new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12) },
+                    typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, T>)));
         }
 
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, T>()
@@ -464,11 +477,12 @@ namespace Smart.Reflection
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
 
-            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, T>)CreateFactoryInternal(
-                ci,
-                typeof(T),
-                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13) },
-                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, T>));
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, T>)typedFactoryCache
+                .GetOrAdd(ci, x=> CreateFactoryInternal(
+                    ci,
+                    typeof(T),
+                    new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13) },
+                    typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, T>)));
         }
 
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, T>()
@@ -479,11 +493,12 @@ namespace Smart.Reflection
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
 
-            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, T>)CreateFactoryInternal(
-                ci,
-                typeof(T),
-                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14) },
-                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, T>));
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, T>)typedFactoryCache
+                .GetOrAdd(ci, x=> CreateFactoryInternal(
+                    ci,
+                    typeof(T),
+                    new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14) },
+                    typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, T>)));
         }
 
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, T>()
@@ -494,11 +509,12 @@ namespace Smart.Reflection
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
 
-            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, T>)CreateFactoryInternal(
-                ci,
-                typeof(T),
-                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), typeof(TP15) },
-                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, T>));
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, T>)typedFactoryCache
+                .GetOrAdd(ci, x=> CreateFactoryInternal(
+                    ci,
+                    typeof(T),
+                    new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), typeof(TP15) },
+                    typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, T>)));
         }
 
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, T>()
@@ -509,11 +525,12 @@ namespace Smart.Reflection
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
 
-            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, T>)CreateFactoryInternal(
-                ci,
-                typeof(T),
-                new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), typeof(TP15), typeof(TP16) },
-                typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, T>));
+            return (Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, T>)typedFactoryCache
+                .GetOrAdd(ci, x=> CreateFactoryInternal(
+                    ci,
+                    typeof(T),
+                    new[] { typeof(T), typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), typeof(TP15), typeof(TP16) },
+                    typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, T>)));
         }
 
     }

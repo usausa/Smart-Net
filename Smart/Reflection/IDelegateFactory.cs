@@ -11,8 +11,6 @@
 
         // Factory
 
-        // Factory
-
         Func<object[], object> CreateFactory(ConstructorInfo ci);
 
         Func<object> CreateFactory0(ConstructorInfo ci);
@@ -48,6 +46,8 @@
         Func<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory15(ConstructorInfo ci);
 
         Func<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory16(ConstructorInfo ci);
+
+        // Factory
 
         Func<T> CreateFactory<T>();
 
@@ -92,6 +92,18 @@
         Action<object, object> CreateSetter(PropertyInfo pi);
 
         Action<object, object> CreateSetter(PropertyInfo pi, bool extension);
+
+        // Accessor
+
+        Func<T, TMember> CreateGetter<T, TMember>(PropertyInfo pi);
+
+        Func<T, TMember> CreateGetter<T, TMember>(PropertyInfo pi, bool extension);
+
+        Action<T, TMember> CreateSetter<T, TMember>(PropertyInfo pi);
+
+        Action<T, TMember> CreateSetter<T, TMember>(PropertyInfo pi, bool extension);
+
+        // Etc
 
         Type GetExtendedPropertyType(PropertyInfo pi);
     }

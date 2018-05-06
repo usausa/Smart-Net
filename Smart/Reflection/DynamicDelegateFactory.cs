@@ -51,6 +51,8 @@
 
         private readonly ConcurrentDictionary<ConstructorInfo, Delegate> factoryDelegateCache = new ConcurrentDictionary<ConstructorInfo, Delegate>();
 
+        private readonly ConcurrentDictionary<ConstructorInfo, Delegate> typedFactoryCache = new ConcurrentDictionary<ConstructorInfo, Delegate>();
+
         private readonly ConcurrentDictionary<PropertyInfo, Func<object, object>> getterCache = new ConcurrentDictionary<PropertyInfo, Func<object, object>>();
 
         private readonly ConcurrentDictionary<PropertyInfo, Func<object, object>> extensionGetterCache = new ConcurrentDictionary<PropertyInfo, Func<object, object>>();
@@ -58,6 +60,14 @@
         private readonly ConcurrentDictionary<PropertyInfo, Action<object, object>> setterCache = new ConcurrentDictionary<PropertyInfo, Action<object, object>>();
 
         private readonly ConcurrentDictionary<PropertyInfo, Action<object, object>> extensionSetterCache = new ConcurrentDictionary<PropertyInfo, Action<object, object>>();
+
+        private readonly ConcurrentDictionary<PropertyInfo, Delegate> typedGetterCache = new ConcurrentDictionary<PropertyInfo, Delegate>();
+
+        private readonly ConcurrentDictionary<PropertyInfo, Delegate> typedExtensionGetterCache = new ConcurrentDictionary<PropertyInfo, Delegate>();
+
+        private readonly ConcurrentDictionary<PropertyInfo, Delegate> typedSetterCache = new ConcurrentDictionary<PropertyInfo, Delegate>();
+
+        private readonly ConcurrentDictionary<PropertyInfo, Delegate> typedExtensionSetterCache = new ConcurrentDictionary<PropertyInfo, Delegate>();
 
         // Property
 
@@ -361,6 +371,140 @@
             { typeof(IntPtr), il => il.Emit(OpCodes.Ldc_I4_0) },    // Simplicity
             { typeof(UIntPtr), il => il.Emit(OpCodes.Ldc_I4_0) },   // Simplicity
         };
+
+        // Accessor
+
+        public Func<T, TMember> CreateGetter<T, TMember>(PropertyInfo pi)
+        {
+            return CreateGetter<T, TMember>(pi, true);
+        }
+
+        public Func<T, TMember> CreateGetter<T, TMember>(PropertyInfo pi, bool extension)
+        {
+            if (pi == null)
+            {
+                throw new ArgumentNullException(nameof(pi));
+            }
+
+            return (Func<T, TMember>)(extension
+                ? typedExtensionGetterCache.GetOrAdd(pi, x => CreateGetterInternal<T, TMember>(x, true))
+                : typedGetterCache.GetOrAdd(pi, x => CreateGetterInternal<T, TMember>(x, false)));
+        }
+
+        private Delegate CreateGetterInternal<T, TMember>(PropertyInfo pi, bool extension)
+        {
+            var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
+            var isValueProperty = holderType != null;
+            var tpi = isValueProperty ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
+
+            if (pi.DeclaringType != typeof(T))
+            {
+                throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
+            }
+
+            if (tpi.PropertyType != typeof(TMember))
+            {
+                throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
+            }
+
+            if (isValueProperty && !pi.CanRead)
+            {
+                throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
+            }
+
+            if (!tpi.CanRead)
+            {
+                return null;
+            }
+
+            var dynamic = new DynamicMethod(string.Empty, typeof(TMember), new[] { ObjectType, typeof(T) }, true);
+            var il = dynamic.GetILGenerator();
+
+            if (!pi.GetGetMethod().IsStatic)
+            {
+                il.Emit(OpCodes.Ldarg_1);
+            }
+
+            il.Emit(pi.GetGetMethod().IsStatic ? OpCodes.Call : OpCodes.Callvirt, pi.GetGetMethod());
+
+            if (isValueProperty)
+            {
+                il.Emit(OpCodes.Callvirt, tpi.GetGetMethod());
+            }
+
+            il.Emit(OpCodes.Ret);
+
+            return dynamic.CreateDelegate(typeof(Func<T, TMember>), null);
+        }
+
+        public Action<T, TMember> CreateSetter<T, TMember>(PropertyInfo pi)
+        {
+            return CreateSetter<T, TMember>(pi, true);
+        }
+
+        public Action<T, TMember> CreateSetter<T, TMember>(PropertyInfo pi, bool extension)
+        {
+            if (pi == null)
+            {
+                throw new ArgumentNullException(nameof(pi));
+            }
+
+            return (Action<T, TMember>)(extension
+                ? typedExtensionSetterCache.GetOrAdd(pi, x => CreateSetterInternal<T, TMember>(x, true))
+                : typedSetterCache.GetOrAdd(pi, x => CreateSetterInternal<T, TMember>(x, false)));
+        }
+
+        private Delegate CreateSetterInternal<T, TMember>(PropertyInfo pi, bool extension)
+        {
+            var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
+            var isValueProperty = holderType != null;
+            var tpi = isValueProperty ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
+
+            if (pi.DeclaringType != typeof(T))
+            {
+                throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
+            }
+
+            if (tpi.PropertyType != typeof(TMember))
+            {
+                throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
+            }
+
+            if (isValueProperty && !pi.CanRead)
+            {
+                throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
+            }
+
+            if (!tpi.CanWrite)
+            {
+                return null;
+            }
+
+            var isStatic = isValueProperty ? pi.GetGetMethod().IsStatic : pi.GetSetMethod().IsStatic;
+
+            var dynamic = new DynamicMethod(string.Empty, VoidType, new[] { ObjectType, typeof(T), typeof(TMember) }, true);
+            var il = dynamic.GetILGenerator();
+
+            if (!isStatic)
+            {
+                il.Emit(OpCodes.Ldarg_1);
+            }
+
+            if (isValueProperty)
+            {
+                il.Emit(pi.GetGetMethod().IsStatic ? OpCodes.Call : OpCodes.Callvirt, pi.GetGetMethod());
+            }
+
+            il.Emit(OpCodes.Ldarg_2);
+
+            il.Emit(tpi.GetSetMethod().IsStatic ? OpCodes.Call : OpCodes.Callvirt, tpi.GetSetMethod());
+
+            il.Emit(OpCodes.Ret);
+
+            return dynamic.CreateDelegate(typeof(Action<T, TMember>), null);
+        }
+
+        // Etc
 
         public Type GetExtendedPropertyType(PropertyInfo pi)
         {

@@ -36,11 +36,12 @@ namespace Smart.Reflection
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
 
-            return (Func<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>, <# } #>T>)CreateFactoryInternal(
-                ci,
-                typeof(T),
-                new[] { typeof(T)<# for (var j = 1; j <= i; j++) { #>, typeof(TP<#= j #>)<# } #> },
-                typeof(Func<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>, <# } #>T>));
+            return (Func<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>, <# } #>T>)typedFactoryCache
+                .GetOrAdd(ci, x=> CreateFactoryInternal(
+                    ci,
+                    typeof(T),
+                    new[] { typeof(T)<# for (var j = 1; j <= i; j++) { #>, typeof(TP<#= j #>)<# } #> },
+                    typeof(Func<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>, <# } #>T>)));
         }
 
 <# } #>
