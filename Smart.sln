@@ -6,16 +6,8 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smart", "Smart\Smart.csproj", "{01578278-AD89-49FD-AFB8-EC67F5B9D124}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{26248DF1-DFD9-4C90-B64A-0644C148C5D3}"
-	ProjectSection(SolutionItems) = preProject
-		.gitattributes = .gitattributes
-		.gitignore = .gitignore
-		README.md = README.md
-		Smart.nuspec = Smart.nuspec
-		Smart.ruleset = Smart.ruleset
-		Smart.sln.DotSettings = Smart.sln.DotSettings
-	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smart.Tests.NETCore", "Smart.Tests.NETCore\Smart.Tests.NETCore.csproj", "{91AE95D3-C4A0-4418-968F-FBC3E0684AAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smart.Tests", "Smart.Tests\Smart.Tests.csproj", "{91AE95D3-C4A0-4418-968F-FBC3E0684AAE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmark", "Benchmark\Benchmark.csproj", "{ECFBF3F5-EDC4-4D6F-AA06-F39076835AA4}"
 EndProject
@@ -42,6 +34,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {52B63D4F-8BD1-434E-94B0-3A6D17CE9C45}
+		        SolutionGuid = {52B63D4F-8BD1-434E-94B0-3A6D17CE9C45}
+		SolutionGuid = {61D1ED03-42C8-4F1B-9EAA-2D7CA057778E}
 	EndGlobalSection
 EndGlobal
