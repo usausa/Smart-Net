@@ -34,7 +34,7 @@
         /// </summary>
         /// <param name="initialSize"></param>
         /// <param name="factor"></param>
-        public ThreadsafeObjectHashArrayMap(int initialSize = 32, double factor = 1.25)
+        public ThreadsafeObjectHashArrayMap(int initialSize = 64, double factor = 1.5)
             : this(new GrowthHashArrayMapStrategy(initialSize, factor))
         {
         }

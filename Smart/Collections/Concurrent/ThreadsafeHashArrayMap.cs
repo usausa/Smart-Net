@@ -35,7 +35,7 @@
         /// </summary>
         /// <param name="initialSize"></param>
         /// <param name="factor"></param>
-        public ThreadsafeHashArrayMap(int initialSize = 32, double factor = 1.25)
+        public ThreadsafeHashArrayMap(int initialSize = 64, double factor = 1.5)
             : this(EqualityComparer<TKey>.Default, new GrowthHashArrayMapStrategy(initialSize, factor))
         {
         }
@@ -46,7 +46,7 @@
         /// <param name="keyComparer"></param>
         /// <param name="initialSize"></param>
         /// <param name="factor"></param>
-        public ThreadsafeHashArrayMap(IEqualityComparer<TKey> keyComparer, int initialSize = 32, double factor = 1.25)
+        public ThreadsafeHashArrayMap(IEqualityComparer<TKey> keyComparer, int initialSize = 64, double factor = 1.5)
             : this(keyComparer, new GrowthHashArrayMapStrategy(initialSize, factor))
         {
         }
