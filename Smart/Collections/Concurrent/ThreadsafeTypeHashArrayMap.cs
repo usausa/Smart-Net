@@ -211,20 +211,21 @@
         /// <summary>
         ///
         /// </summary>
-        /// <param name="table"></param>
+        /// <param name="targetTable"></param>
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool TryGetValueInternal(Table table, Type key, out TValue value)
+        private static bool TryGetValueInternal(Table targetTable, Type key, out TValue value)
         {
-            var index = key.GetHashCode() & table.HashMask;
-            var array = table.Nodes[index];
+            var index = key.GetHashCode() & targetTable.HashMask;
+            var array = targetTable.Nodes[index];
             for (var i = 0; i < array.Length; i++)
             {
-                if (array[i].Key == key)
+                var node = array[i];
+                if (node.Key == key)
                 {
-                    value = array[i].Value;
+                    value = node.Value;
                     return true;
                 }
             }
@@ -341,7 +342,7 @@
             {
                 var nodes = pairs
                     .GroupBy(x => x.Key, (key, g) => g.First())
-                    .Where(x => !TryGetValueInternal(table, x.Key, out var _))
+                    .Where(x => !TryGetValueInternal(table, x.Key, out _))
                     .Select(x => new Node(x.Key, x.Value))
                     .ToList();
 
@@ -366,9 +367,9 @@
             {
                 var nodes = keys
                     .Distinct()
-                    .Where(x => !TryGetValueInternal(table, x, out var _))
+                    .Where(x => !TryGetValueInternal(table, x, out _))
                     .Select(x => new KeyValuePair<Type, TValue>(x, valueFactory(x)))
-                    .Where(x => !TryGetValueInternal(table, x.Key, out var _))
+                    .Where(x => !TryGetValueInternal(table, x.Key, out _))
                     .Select(x => new Node(x.Key, x.Value))
                     .ToList();
 
@@ -432,7 +433,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool ContainsKey(Type key)
         {
-            return TryGetValue(key, out var _);
+            return TryGetValue(key, out _);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

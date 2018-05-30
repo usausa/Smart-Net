@@ -227,19 +227,21 @@
         /// <summary>
         ///
         /// </summary>
+        /// <param name="targetTable"></param>
         /// <param name="key"></param>
         /// <param name="value"></param>
         /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private bool TryGetValueInternal(TKey key, out TValue value)
+        private bool TryGetValueInternal(Table targetTable, TKey key, out TValue value)
         {
-            var index = key.GetHashCode() & table.HashMask;
-            var array = table.Nodes[index];
+            var index = key.GetHashCode() & targetTable.HashMask;
+            var array = targetTable.Nodes[index];
             for (var i = 0; i < array.Length; i++)
             {
-                if (keyComparer.Equals(array[i].Key, key))
+                var node = array[i];
+                if (keyComparer.Equals(node.Key, key))
                 {
-                    value = array[i].Value;
+                    value = node.Value;
                     return true;
                 }
             }
@@ -284,7 +286,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetValue(TKey key, out TValue value)
         {
-            return TryGetValueInternal(key, out value);
+            return TryGetValueInternal(table, key, out value);
         }
 
         /// <summary>
@@ -298,7 +300,7 @@
             lock (sync)
             {
                 // Double checked locking
-                if (TryGetValueInternal(key, out var currentValue))
+                if (TryGetValueInternal(table, key, out var currentValue))
                 {
                     return currentValue;
                 }
@@ -323,7 +325,7 @@
             lock (sync)
             {
                 // Double checked locking
-                if (TryGetValueInternal(key, out var currentValue))
+                if (TryGetValueInternal(table, key, out var currentValue))
                 {
                     return currentValue;
                 }
@@ -331,7 +333,7 @@
                 var value = valueFactory(key);
 
                 // Check if added by recursive
-                if (TryGetValueInternal(key, out currentValue))
+                if (TryGetValueInternal(table, key, out currentValue))
                 {
                     return currentValue;
                 }
@@ -356,7 +358,7 @@
             {
                 var nodes = pairs
                     .GroupBy(x => x.Key, (key, g) => g.First(), keyComparer)
-                    .Where(x => !TryGetValueInternal(x.Key, out var _))
+                    .Where(x => !TryGetValueInternal(table, x.Key, out _))
                     .Select(x => new Node(x.Key, x.Value))
                     .ToList();
 
@@ -381,9 +383,9 @@
             {
                 var nodes = keys
                     .Distinct(keyComparer)
-                    .Where(x => !TryGetValueInternal(x, out var _))
+                    .Where(x => !TryGetValueInternal(table, x, out _))
                     .Select(x => new KeyValuePair<TKey, TValue>(x, valueFactory(x)))
-                    .Where(x => !TryGetValueInternal(x.Key, out var _))
+                    .Where(x => !TryGetValueInternal(table, x.Key, out _))
                     .Select(x => new Node(x.Key, x.Value))
                     .ToList();
 
@@ -447,7 +449,7 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool ContainsKey(TKey key)
         {
-            return TryGetValue(key, out var _);
+            return TryGetValue(key, out _);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

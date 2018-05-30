@@ -146,7 +146,7 @@
         /// <returns></returns>
         public object TryGet(Type componentType)
         {
-            return TryGet(componentType, out var _);
+            return TryGet(componentType, out _);
         }
 
         /// <summary>
