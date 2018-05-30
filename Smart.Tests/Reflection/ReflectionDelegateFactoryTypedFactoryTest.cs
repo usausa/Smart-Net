@@ -1,7 +1,5 @@
 ﻿namespace Smart.Reflection
 {
-    using System.Linq;
-
     using Xunit;
 
     public class ReflectionDelegateFactoryTypedFactoryTest
