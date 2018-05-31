@@ -5,7 +5,7 @@
     <LangVersion>latest</LangVersion>
     <RootNamespace>Smart</RootNamespace>
     <CodeAnalysisRuleSet>..\Smart.ruleset</CodeAnalysisRuleSet>
-    <Version>1.5.6</Version>
+    <Version>1.5.7</Version>
   </PropertyGroup>
 
   <ItemGroup>
