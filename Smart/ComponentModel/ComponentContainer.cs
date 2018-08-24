@@ -133,7 +133,7 @@
             if (objects.Length == 0)
             {
                 throw new InvalidOperationException(
-                    String.Format(CultureInfo.InvariantCulture, "No such component registerd. component type = {0}", componentType.Name));
+                    String.Format(CultureInfo.InvariantCulture, "No such component registered. component type = {0}", componentType.Name));
             }
 
             return objects[objects.Length - 1];

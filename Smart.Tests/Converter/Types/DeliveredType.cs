@@ -1,6 +1,6 @@
 ﻿namespace Smart.Converter.Types
 {
-    public class DeliverdType : BaseType
+    public class DeliveredType : BaseType
     {
     }
 }

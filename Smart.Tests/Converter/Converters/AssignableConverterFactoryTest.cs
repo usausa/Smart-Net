@@ -13,9 +13,9 @@
         public void ConvertAssignable()
         {
             var converter = new MatchingObjectConverter();
-            var source = new DeliverdType();
+            var source = new DeliveredType();
             Assert.Equal(converter.Convert<BaseType>(source), source);
-            Assert.Equal(typeof(AssignableConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(AssignableConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
@@ -24,7 +24,7 @@
             var converter = new MatchingObjectConverter();
             var source = new BaseType();
             Assert.Throws<ObjectConverterException>(
-                () => converter.Convert<DeliverdType>(source));
+                () => converter.Convert<DeliveredType>(source));
         }
     }
 }

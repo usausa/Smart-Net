@@ -7,7 +7,7 @@
     ///
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public sealed class ChainComparers<T> : IComparer<T>
+    public sealed class ChainComparer<T> : IComparer<T>
     {
         private readonly IComparer<T>[] comparers;
 
@@ -15,7 +15,7 @@
         ///
         /// </summary>
         /// <param name="comparers"></param>
-        public ChainComparers(params IComparer<T>[] comparers)
+        public ChainComparer(params IComparer<T>[] comparers)
         {
             this.comparers = comparers;
         }

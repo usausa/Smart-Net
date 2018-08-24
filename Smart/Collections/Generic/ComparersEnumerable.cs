@@ -3,7 +3,7 @@
     /// <summary>
     ///
     /// </summary>
-    public static partial class ComparersEnumerable
+    public static partial class ComparerEnumerable
     {
     }
 }

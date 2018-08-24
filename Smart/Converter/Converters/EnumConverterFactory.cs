@@ -49,7 +49,7 @@
             {
                 // Enum to !Enum
 
-                // Aasignable
+                // Assignable
                 if (typePair.TargetType.IsAssignableFrom(Enum.GetUnderlyingType(sourceEnumType)))
                 {
                     var targetType = typePair.TargetType.IsNullableType() ? Nullable.GetUnderlyingType(typePair.TargetType) : typePair.TargetType;

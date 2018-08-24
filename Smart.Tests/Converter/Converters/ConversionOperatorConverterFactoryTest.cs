@@ -14,7 +14,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(1, converter.Convert<int>(new ImplicitType { Value = 1 }));
-            Assert.Equal(typeof(ConversionOperatorConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(ConversionOperatorConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
@@ -22,7 +22,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(1, converter.Convert<int?>(new ImplicitType { Value = 1 }));
-            Assert.Equal(typeof(ConversionOperatorConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(ConversionOperatorConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
@@ -30,7 +30,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(1, converter.Convert<ImplicitType>(1).Value);
-            Assert.Equal(typeof(ConversionOperatorConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(ConversionOperatorConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
@@ -38,7 +38,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(1, converter.Convert<ImplicitType?>(1)?.Value);
-            Assert.Equal(typeof(ConversionOperatorConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(ConversionOperatorConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
@@ -46,7 +46,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(1, converter.Convert<int>(new ExplicitType { Value = 1 }));
-            Assert.Equal(typeof(ConversionOperatorConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(ConversionOperatorConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
@@ -54,7 +54,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(1, converter.Convert<int?>(new ExplicitType { Value = 1 }));
-            Assert.Equal(typeof(ConversionOperatorConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(ConversionOperatorConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
@@ -62,7 +62,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(1, converter.Convert<ExplicitType>(1).Value);
-            Assert.Equal(typeof(ConversionOperatorConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(ConversionOperatorConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
@@ -70,7 +70,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(1, converter.Convert<ExplicitType?>(1)?.Value);
-            Assert.Equal(typeof(ConversionOperatorConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(ConversionOperatorConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
     }
 }

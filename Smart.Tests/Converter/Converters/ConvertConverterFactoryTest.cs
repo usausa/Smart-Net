@@ -28,7 +28,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.False(converter.Convert<bool>("false"));
-            Assert.Equal(typeof(ConvertConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(ConvertConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
@@ -36,7 +36,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.True(converter.Convert<bool>("true"));
-            Assert.Equal(typeof(ConvertConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(ConvertConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
@@ -44,7 +44,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(1, converter.Convert<byte>("1"));
-            Assert.Equal(typeof(ConvertConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(ConvertConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
@@ -52,7 +52,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal('1', converter.Convert<char>("1"));
-            Assert.Equal(typeof(ConvertConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(ConvertConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
@@ -60,7 +60,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(1, converter.Convert<int>("1"));
-            Assert.Equal(typeof(ConvertConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(ConvertConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
     }
 }

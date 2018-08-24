@@ -14,7 +14,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal("(1, 2)", converter.Convert<string>(new StructType { Value1 = 1, Value2 = 2 }));
-            Assert.Equal(typeof(ToStringConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(ToStringConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
     }
 }

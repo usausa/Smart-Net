@@ -15,7 +15,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(converter.Convert<FlagsEnum2Type>(FlagsEnum1Type.Value1 | FlagsEnum1Type.Value2), FlagsEnum2Type.Value1 | FlagsEnum2Type.Value2);
-            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", Justification = "Ignore")]
@@ -24,7 +24,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(converter.Convert<FlagsEnum2Type>(FlagsEnum1Type.Value1 | (FlagsEnum1Type)0x08), FlagsEnum2Type.Value1 | FlagsEnum2Type.Value8);
-            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1726:UsePreferredTerms", Justification = "Ignore")]
@@ -33,7 +33,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(converter.Convert<FlagsEnum2Type>(FlagsEnum1Type.Value1 | FlagsEnum1Type.Value4), FlagsEnum2Type.Value1 | (FlagsEnum2Type)0x04);
-            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
@@ -41,7 +41,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(Enum2Type.One, converter.Convert<Enum2Type>(Enum1Type.One));
-            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
@@ -49,7 +49,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(Enum2Type.Minus, converter.Convert<Enum2Type>((Enum1Type)(-1)));
-            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
@@ -57,7 +57,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(converter.Convert<Enum2Type>(Enum1Type.Two), (Enum2Type)2);
-            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
@@ -65,7 +65,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(Enum1Type.One, converter.Convert<Enum1Type>("One"));
-            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
@@ -73,11 +73,11 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(Enum1Type.One, converter.Convert<Enum1Type>(1));
-            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
-        public void ConvertUnassignableToEnum()
+        public void ConvertUnAssignableToEnum()
         {
             var converter = new MatchingObjectConverter();
             Assert.Throws<ObjectConverterException>(
@@ -89,7 +89,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(1, converter.Convert<int>(Enum1Type.One));
-            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
@@ -97,11 +97,11 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(1, converter.Convert<int?>(Enum1Type.One));
-            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchngFactory()?.GetType());
+            Assert.Equal(typeof(EnumConverterFactory), converter.FindMatchingFactory()?.GetType());
         }
 
         [Fact]
-        public void ConvertEnumToUnassignable()
+        public void ConvertEnumToUnAssignable()
         {
             var converter = new MatchingObjectConverter();
             Assert.Throws<ObjectConverterException>(

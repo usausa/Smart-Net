@@ -90,7 +90,7 @@
             var map = new ThreadsafeHashArrayMap<int, string>(1);
 
             using (var evThreadStarted = new CountdownEvent(2))
-            using (var evTyread1Completed = new CountdownEvent(1))
+            using (var evThread1Completed = new CountdownEvent(1))
             {
                 // ReSharper disable AccessToDisposedClosure
                 var t1 = new Thread(() =>
@@ -101,7 +101,7 @@
 
                     var ret = map.AddIfNotExist(1, key => "t1");
 
-                    evTyread1Completed.Signal();
+                    evThread1Completed.Signal();
 
                     Assert.Equal("t1", ret);
                 }) { IsBackground = true };
@@ -109,7 +109,7 @@
                 var t2 = new Thread(() =>
                 {
                     evThreadStarted.Signal();
-                    evTyread1Completed.Wait();
+                    evThread1Completed.Wait();
 
                     Assert.True(map.ContainsKey(1));
 

@@ -150,7 +150,7 @@
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Ignore")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TResult MapOrDefalut<T, TResult>(this T value, Func<T, TResult> func)
+        public static TResult MapOrDefault<T, TResult>(this T value, Func<T, TResult> func)
             where T : class
         {
             return value == null ? default : func(value);
@@ -200,7 +200,7 @@
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Ignore")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TResult MapOrDefalut<T, TResult>(this T? value, Func<T, TResult> func)
+        public static TResult MapOrDefault<T, TResult>(this T? value, Func<T, TResult> func)
             where T : struct
         {
             return value == null ? default : func(value.Value);
@@ -250,7 +250,7 @@
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Ignore")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Task<TResult> MapOrDefalutAsync<T, TResult>(this T value, Func<T, Task<TResult>> func)
+        public static Task<TResult> MapOrDefaultAsync<T, TResult>(this T value, Func<T, Task<TResult>> func)
         {
             return value == null ? Empty<TResult>.Task : func(value);
         }

@@ -14,9 +14,9 @@
         /// <typeparam name="T"></typeparam>
         /// <param name="comparers"></param>
         /// <returns></returns>
-        public static ChainComparers<T> Chain<T>(params IComparer<T>[] comparers)
+        public static ChainComparer<T> Chain<T>(params IComparer<T>[] comparers)
         {
-            return new ChainComparers<T>(comparers);
+            return new ChainComparer<T>(comparers);
         }
 
         /// <summary>

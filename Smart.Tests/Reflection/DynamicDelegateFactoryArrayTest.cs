@@ -5,7 +5,7 @@
     public class DynamicDelegateFactoryArrayTest
     {
         [Fact]
-        public void ArrayAlocator()
+        public void ArrayAllocator()
         {
             var func = DynamicDelegateFactory.Default.CreateArrayAllocator(typeof(Data));
 
@@ -15,7 +15,7 @@
         }
 
         [Fact]
-        public void ArrayAlocatorForInternal()
+        public void ArrayAllocatorForInternal()
         {
             var func = DynamicDelegateFactory.Default.CreateArrayAllocator(typeof(InternalData));
 

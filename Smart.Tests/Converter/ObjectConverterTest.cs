@@ -14,7 +14,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(0, converter.Convert<int>(null));
-            Assert.Null(converter.FindMatchngFactory());
+            Assert.Null(converter.FindMatchingFactory());
         }
 
         [Fact]
@@ -22,7 +22,7 @@
         {
             var converter = new MatchingObjectConverter();
             Assert.Equal(0, converter.Convert<int>(0));
-            Assert.Null(converter.FindMatchngFactory());
+            Assert.Null(converter.FindMatchingFactory());
         }
 
         [Fact]

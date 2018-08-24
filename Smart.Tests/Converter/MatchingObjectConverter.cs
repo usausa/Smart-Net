@@ -21,7 +21,7 @@
             converter.SetFactories(factories.Cast<IConverterFactory>().ToList());
         }
 
-        public IConverterFactory FindMatchngFactory()
+        public IConverterFactory FindMatchingFactory()
         {
             return factories.FirstOrDefault(x => x.Match)?.Factory;
         }

@@ -195,8 +195,8 @@
         /// <param name="method"></param>
         public static void EmitCall(this ILGenerator il, MethodInfo method)
         {
-            var opcode = (method.IsStatic || method.DeclaringType.IsValueType) ? OpCodes.Call : OpCodes.Callvirt;
-            il.Emit(opcode, method);
+            var opCode = (method.IsStatic || method.DeclaringType.IsValueType) ? OpCodes.Call : OpCodes.Callvirt;
+            il.Emit(opCode, method);
         }
     }
 }

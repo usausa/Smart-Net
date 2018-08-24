@@ -38,8 +38,8 @@
                 return array;
             }
 
-            var reaminStart = start + length;
-            var remainLength = reaminStart > array.Length ? 0 : array.Length - reaminStart;
+            var remainStart = start + length;
+            var remainLength = remainStart > array.Length ? 0 : array.Length - remainStart;
             var result = new T[start + remainLength];
 
             if (start > 0)
@@ -49,7 +49,7 @@
 
             if (remainLength > 0)
             {
-                Array.Copy(array, reaminStart, result, start, remainLength);
+                Array.Copy(array, remainStart, result, start, remainLength);
             }
 
             return result;
@@ -80,8 +80,8 @@
                 return array;
             }
 
-            var reaminStart = start + length;
-            var remainLength = reaminStart > array.Length ? 0 : array.Length - reaminStart;
+            var remainStart = start + length;
+            var remainLength = remainStart > array.Length ? 0 : array.Length - remainStart;
             var result = new byte[start + remainLength];
 
             if (start > 0)
@@ -91,7 +91,7 @@
 
             if (remainLength > 0)
             {
-                Bytes.FastCopy(array, reaminStart, result, start, remainLength);
+                Bytes.FastCopy(array, remainStart, result, start, remainLength);
             }
 
             return result;
@@ -122,8 +122,8 @@
                 return array;
             }
 
-            var reaminStart = start + length;
-            var remainLength = reaminStart > array.Length ? 0 : array.Length - reaminStart;
+            var remainStart = start + length;
+            var remainLength = remainStart > array.Length ? 0 : array.Length - remainStart;
             var result = new short[start + remainLength];
 
             if (start > 0)
@@ -133,7 +133,7 @@
 
             if (remainLength > 0)
             {
-                Array.Copy(array, reaminStart, result, start, remainLength);
+                Array.Copy(array, remainStart, result, start, remainLength);
             }
 
             return result;
@@ -164,8 +164,8 @@
                 return array;
             }
 
-            var reaminStart = start + length;
-            var remainLength = reaminStart > array.Length ? 0 : array.Length - reaminStart;
+            var remainStart = start + length;
+            var remainLength = remainStart > array.Length ? 0 : array.Length - remainStart;
             var result = new int[start + remainLength];
 
             if (start > 0)
@@ -175,7 +175,7 @@
 
             if (remainLength > 0)
             {
-                Array.Copy(array, reaminStart, result, start, remainLength);
+                Array.Copy(array, remainStart, result, start, remainLength);
             }
 
             return result;
@@ -206,8 +206,8 @@
                 return array;
             }
 
-            var reaminStart = start + length;
-            var remainLength = reaminStart > array.Length ? 0 : array.Length - reaminStart;
+            var remainStart = start + length;
+            var remainLength = remainStart > array.Length ? 0 : array.Length - remainStart;
             var result = new long[start + remainLength];
 
             if (start > 0)
@@ -217,7 +217,7 @@
 
             if (remainLength > 0)
             {
-                Array.Copy(array, reaminStart, result, start, remainLength);
+                Array.Copy(array, remainStart, result, start, remainLength);
             }
 
             return result;
@@ -248,8 +248,8 @@
                 return array;
             }
 
-            var reaminStart = start + length;
-            var remainLength = reaminStart > array.Length ? 0 : array.Length - reaminStart;
+            var remainStart = start + length;
+            var remainLength = remainStart > array.Length ? 0 : array.Length - remainStart;
             var result = new float[start + remainLength];
 
             if (start > 0)
@@ -259,7 +259,7 @@
 
             if (remainLength > 0)
             {
-                Array.Copy(array, reaminStart, result, start, remainLength);
+                Array.Copy(array, remainStart, result, start, remainLength);
             }
 
             return result;
@@ -290,8 +290,8 @@
                 return array;
             }
 
-            var reaminStart = start + length;
-            var remainLength = reaminStart > array.Length ? 0 : array.Length - reaminStart;
+            var remainStart = start + length;
+            var remainLength = remainStart > array.Length ? 0 : array.Length - remainStart;
             var result = new double[start + remainLength];
 
             if (start > 0)
@@ -301,7 +301,7 @@
 
             if (remainLength > 0)
             {
-                Array.Copy(array, reaminStart, result, start, remainLength);
+                Array.Copy(array, remainStart, result, start, remainLength);
             }
 
             return result;
@@ -332,8 +332,8 @@
                 return array;
             }
 
-            var reaminStart = start + length;
-            var remainLength = reaminStart > array.Length ? 0 : array.Length - reaminStart;
+            var remainStart = start + length;
+            var remainLength = remainStart > array.Length ? 0 : array.Length - remainStart;
             var result = new bool[start + remainLength];
 
             if (start > 0)
@@ -343,7 +343,7 @@
 
             if (remainLength > 0)
             {
-                Array.Copy(array, reaminStart, result, start, remainLength);
+                Array.Copy(array, remainStart, result, start, remainLength);
             }
 
             return result;
@@ -374,8 +374,8 @@
                 return array;
             }
 
-            var reaminStart = start + length;
-            var remainLength = reaminStart > array.Length ? 0 : array.Length - reaminStart;
+            var remainStart = start + length;
+            var remainLength = remainStart > array.Length ? 0 : array.Length - remainStart;
             var result = new char[start + remainLength];
 
             if (start > 0)
@@ -385,7 +385,7 @@
 
             if (remainLength > 0)
             {
-                Array.Copy(array, reaminStart, result, start, remainLength);
+                Array.Copy(array, remainStart, result, start, remainLength);
             }
 
             return result;

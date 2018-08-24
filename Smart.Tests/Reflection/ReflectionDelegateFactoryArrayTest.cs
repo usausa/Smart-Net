@@ -5,7 +5,7 @@
     public class ReflectionDelegateFactoryArrayTest
     {
         [Fact]
-        public void ArrayAlocator()
+        public void ArrayAllocator()
         {
             var func = ReflectionDelegateFactory.Default.CreateArrayAllocator(typeof(Data));
 
@@ -15,7 +15,7 @@
         }
 
         [Fact]
-        public void ArrayAlocatorForInternal()
+        public void ArrayAllocatorForInternal()
         {
             var func = ReflectionDelegateFactory.Default.CreateArrayAllocator(typeof(InternalData));
 
