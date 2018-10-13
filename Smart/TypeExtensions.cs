@@ -7,6 +7,7 @@
     using System.Reflection;
     using System.Runtime.CompilerServices;
 
+    using Smart.Collections.Concurrent;
     using Smart.ComponentModel;
 
     /// <summary>
@@ -26,24 +27,26 @@
 
         private static readonly Type ValueHolderType = typeof(IValueHolder<>);
 
-        private static readonly Dictionary<Type, object> DefaultValues = new Dictionary<Type, object>
+        private static readonly ThreadsafeTypeHashArrayMap<object> DefaultValues = new ThreadsafeTypeHashArrayMap<object>();
+
+        static TypeExtensions()
         {
-            { typeof(bool), false },
-            { typeof(byte), (byte)0 },
-            { typeof(sbyte), (sbyte)0 },
-            { typeof(short), (short)0 },
-            { typeof(ushort), (ushort)0 },
-            { typeof(int), 0 },
-            { typeof(uint), 0U },
-            { typeof(long), 0L },
-            { typeof(ulong), 0UL },
-            { typeof(IntPtr), IntPtr.Zero },
-            { typeof(UIntPtr), UIntPtr.Zero },
-            { typeof(char), '\0' },
-            { typeof(double), 0.0 },
-            { typeof(float), 0.0f },
-            { typeof(decimal), 0m }
-        };
+            DefaultValues.AddIfNotExist(typeof(bool), default(bool));
+            DefaultValues.AddIfNotExist(typeof(byte), default(byte));
+            DefaultValues.AddIfNotExist(typeof(sbyte), default(sbyte));
+            DefaultValues.AddIfNotExist(typeof(short), default(short));
+            DefaultValues.AddIfNotExist(typeof(ushort), default(ushort));
+            DefaultValues.AddIfNotExist(typeof(int), default(int));
+            DefaultValues.AddIfNotExist(typeof(uint), default(uint));
+            DefaultValues.AddIfNotExist(typeof(long), default(long));
+            DefaultValues.AddIfNotExist(typeof(ulong), default(ulong));
+            DefaultValues.AddIfNotExist(typeof(IntPtr), default(IntPtr));
+            DefaultValues.AddIfNotExist(typeof(UIntPtr), default(UIntPtr));
+            DefaultValues.AddIfNotExist(typeof(char), default(char));
+            DefaultValues.AddIfNotExist(typeof(double), default(double));
+            DefaultValues.AddIfNotExist(typeof(float), default(float));
+            DefaultValues.AddIfNotExist(typeof(decimal), default(decimal));
+        }
 
         /// <summary>
         ///
@@ -51,16 +54,17 @@
         /// <param name="type"></param>
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static object GetDefaultValue(this Type type)
         {
             if (type.IsValueType && !type.IsNullableType())
             {
-                if (DefaultValues.TryGetValue(type, out var value))
+                if (DefaultValues.TryGetValue(type, out object value))
                 {
                     return value;
                 }
 
-                return Activator.CreateInstance(type);
+                return DefaultValues.AddIfNotExist(type, Activator.CreateInstance);
             }
 
             return null;
@@ -72,6 +76,7 @@
         /// <param name="type"></param>
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNullableType(this Type type)
         {
             return type.IsGenericType && (type.GetGenericTypeDefinition() == NullableType);
@@ -83,6 +88,7 @@
         /// <param name="type"></param>
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsStruct(this Type type)
         {
             return type.IsValueType && !type.IsEnum && !type.IsPrimitive && !type.IsNullableType();
@@ -110,6 +116,7 @@
         /// <param name="type"></param>
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Type GetCollectionElementType(this Type type)
         {
             if (type.HasElementType)
@@ -142,6 +149,7 @@
         /// <param name="type"></param>
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Type GetEnumType(this Type type)
         {
             if (type.IsEnum)
@@ -164,6 +172,7 @@
         /// <param name="type"></param>
         /// <returns></returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Type GetValueHolderType(this Type type)
         {
             return type.GetInterfaces().FirstOrDefault(it => it.IsGenericType && it.GetGenericTypeDefinition() == ValueHolderType);
@@ -174,6 +183,7 @@
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static PropertyInfo GetValueHolderProperty(this Type type)
         {
             return type.GetValueHolderType()?.GetRuntimeProperty("Value");
