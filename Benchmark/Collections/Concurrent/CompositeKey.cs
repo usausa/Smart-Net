@@ -18,6 +18,8 @@
 
         public override bool Equals(object obj) => obj is CompositeKey other && Equals(other);
 
+#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
         public override int GetHashCode() => (Type, Name).GetHashCode();
+#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
     }
 }
