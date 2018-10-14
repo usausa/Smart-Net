@@ -29,6 +29,10 @@
 
         private static readonly ThreadsafeTypeHashArrayMap<object> DefaultValues = new ThreadsafeTypeHashArrayMap<object>();
 
+        private static readonly Func<Type, object> NullFactory = t => null;
+
+        private static readonly Func<Type, object> ValueFactory = Activator.CreateInstance;
+
         static TypeExtensions()
         {
             DefaultValues.AddIfNotExist(typeof(bool), default(bool));
@@ -57,14 +61,19 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static object GetDefaultValue(this Type type)
         {
-            if (type.IsValueType && !type.IsNullableType())
+            if (type.IsValueType)
             {
                 if (DefaultValues.TryGetValue(type, out object value))
                 {
                     return value;
                 }
 
-                return DefaultValues.AddIfNotExist(type, Activator.CreateInstance);
+                if (type.IsNullableType())
+                {
+                    return DefaultValues.AddIfNotExist(type, NullFactory);
+                }
+
+                return DefaultValues.AddIfNotExist(type, ValueFactory);
             }
 
             return null;
