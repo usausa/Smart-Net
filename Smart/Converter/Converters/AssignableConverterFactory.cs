@@ -2,21 +2,13 @@
 {
     using System;
 
-    /// <summary>
-    ///
-    /// </summary>
     public sealed class AssignableConverterFactory : IConverterFactory
     {
-        private static readonly Func<TypePair, object, object> Converter = (typePair, source) => source;
+        private static readonly Func<object, object> Converter = source => source;
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="typePair"></param>
-        /// <returns></returns>
-        public Func<TypePair, object, object> GetConverter(TypePair typePair)
+        public Func<object, object> GetConverter(IObjectConverter context, Type sourceType, Type targetType)
         {
-            return typePair.TargetType.IsAssignableFrom(typePair.SourceType) ? Converter : null;
+            return targetType.IsAssignableFrom(sourceType) ? Converter : null;
         }
     }
 }
