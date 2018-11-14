@@ -2,23 +2,13 @@
 {
     using System;
 
-    /// <summary>
-    ///
-    /// </summary>
     public sealed class ToStringConverterFactory : IConverterFactory
     {
-        private static readonly Type StringType = typeof(string);
+        private static readonly Func<object, object> Converter = source => source.ToString();
 
-        private static readonly Func<TypePair, object, object> Converter = (typePair, source) => source.ToString();
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="typePair"></param>
-        /// <returns></returns>
-        public Func<TypePair, object, object> GetConverter(TypePair typePair)
+        public Func<object, object> GetConverter(IObjectConverter context, Type sourceType, Type targetType)
         {
-            return typePair.TargetType == StringType ? Converter : null;
+            return targetType == typeof(string) ? Converter : null;
         }
     }
 }

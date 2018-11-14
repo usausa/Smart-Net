@@ -1,10 +1,9 @@
 ﻿namespace Smart.Converter
 {
     using System;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.Globalization;
     using System.Linq;
+    using System.Runtime.CompilerServices;
 
     using Smart.Converter.Converters;
 
@@ -13,89 +12,136 @@
     /// </summary>
     public sealed class ObjectConverter : IObjectConverter
     {
-        /// <summary>
-        ///
-        /// </summary>
         public static ObjectConverter Default { get; } = new ObjectConverter();
 
-        private readonly ConcurrentDictionary<TypePair, Func<TypePair, object, object>> converterCache = new ConcurrentDictionary<TypePair, Func<TypePair, object, object>>();
+        private readonly TypePairHashArray converterCache = new TypePairHashArray();
 
-        private IList<IConverterFactory> factories;
+        private IConverterFactory[] factories;
 
-        /// <summary>
-        ///
-        /// </summary>
         public ObjectConverter()
         {
-            ResetFactories();
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="list"></param>
-        public void SetFactories(IList<IConverterFactory> list)
-        {
-            factories = list;
-            converterCache.Clear();
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        public void ResetFactories()
-        {
             factories = DefaultObjectFactories.Create();
+        }
+
+        public ObjectConverter(IEnumerable<IConverterFactory> converterFactories)
+        {
+            factories = converterFactories.ToArray();
+        }
+
+        public void SetFactories(IEnumerable<IConverterFactory> converterFactories)
+        {
+            factories = converterFactories.ToArray();
             converterCache.Clear();
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="value"></param>
-        /// <returns></returns>
+        public void Reset()
+        {
+            converterCache.Clear();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private Func<object, object> FindConverter(Type sourceType, Type targetType)
+        {
+            for (var i = 0; i < factories.Length; i++)
+            {
+                var converter = factories[i].GetConverter(this, sourceType, targetType);
+                if (converter != null)
+                {
+                    return converter;
+                }
+            }
+
+            return null;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private Func<object, object> GetConverter(Type sourceType, Type targetType)
+        {
+            if (!converterCache.TryGetValue(sourceType, targetType, out var converter))
+            {
+                converter = converterCache.AddIfNotExist(sourceType, targetType, FindConverter);
+            }
+
+            return converter;
+        }
+
+        public bool CanConvert<T>(object value)
+        {
+            return CanConvert(value, typeof(T));
+        }
+
+        public bool CanConvert(object value, Type targetType)
+        {
+            if (value == null)
+            {
+                return true;
+            }
+
+            var sourceType = value.GetType();
+            if (sourceType == (targetType.IsNullableType() ? Nullable.GetUnderlyingType(targetType) : targetType))
+            {
+                return true;
+            }
+
+            return GetConverter(sourceType, targetType) != null;
+        }
+
+        public bool CanConvert(Type sourceType, Type targetType)
+        {
+            return GetConverter(sourceType.IsNullableType() ? Nullable.GetUnderlyingType(sourceType) : sourceType, targetType) != null;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T Convert<T>(object value)
         {
             return (T)Convert(value, typeof(T));
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="value"></param>
-        /// <param name="targetType"></param>
-        /// <returns></returns>
         public object Convert(object value, Type targetType)
         {
-            try
+            // Specialized null
+            if (value == null)
             {
-                if (value == null)
-                {
-                    return targetType.GetDefaultValue();
-                }
-
-                var sourceType = value.GetType();
-                if (sourceType == (targetType.IsNullableType() ? Nullable.GetUnderlyingType(targetType) : targetType))
-                {
-                    return value;
-                }
-
-                var typePair = new TypePair(sourceType, targetType);
-                var converter = converterCache.GetOrAdd(
-                    typePair,
-                    tp => factories.Select(f => f.GetConverter(tp)).FirstOrDefault(c => c != null));
-                if (converter == null)
-                {
-                    throw new ObjectConverterException(String.Format(CultureInfo.InvariantCulture, "Type {0} can't convert to {1}", value.GetType().ToString(), targetType));
-                }
-
-                return converter(typePair, value);
+                return targetType.GetDefaultValue();
             }
-            catch (Exception ex)
+
+            // Specialized same type for performance (Nullable is excluded because operation is slow)
+            var sourceType = value.GetType();
+            if (sourceType == (targetType.IsNullableType() ? Nullable.GetUnderlyingType(targetType) : targetType))
             {
-                throw new ObjectConverterException("Unknown exception.", ex);
+                return value;
             }
+
+            var converter = GetConverter(sourceType, targetType);
+            if (converter == null)
+            {
+                throw new ObjectConverterException($"Type {sourceType} can't convert to {targetType}");
+            }
+
+            return converter(value);
+        }
+
+        public Func<object, object> CreateConverter(Type sourceType, Type targetType)
+        {
+            var converter = GetConverter(sourceType.IsNullableType() ? Nullable.GetUnderlyingType(sourceType) : sourceType, targetType);
+            if (converter == null)
+            {
+                return null;
+            }
+
+            return CreateConverter(
+                targetType.GetDefaultValue(),
+                targetType.IsNullableType() ? Nullable.GetUnderlyingType(targetType) : targetType,
+                converter);
+        }
+
+        private static Func<object, object> CreateConverter(object defaultValue, Type targetType, Func<object, object> converter)
+        {
+            return value => value == null
+                ? defaultValue
+                : value.GetType() == targetType
+                    ? value
+                    : converter(value);
         }
     }
 }
