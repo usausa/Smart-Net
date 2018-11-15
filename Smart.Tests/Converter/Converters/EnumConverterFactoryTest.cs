@@ -18,6 +18,46 @@
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
+        [Fact]
+        public void UndefinedEnumToEnum()
+        {
+            var converter = new TestObjectConverter();
+            Assert.Equal(Enum2Type.Minus, converter.Convert((Enum1Type)(-1), typeof(Enum2Type)));
+            Assert.True(converter.UsedOnly<EnumConverterFactory>());
+        }
+
+        [Fact]
+        public void EnumToUndefinedEnum()
+        {
+            var converter = new TestObjectConverter();
+            Assert.Equal((Enum2Type)2, converter.Convert(Enum1Type.Two, typeof(Enum2Type)));
+            Assert.True(converter.UsedOnly<EnumConverterFactory>());
+        }
+
+        [Fact]
+        public void FlagsEnumToFlagsEnum()
+        {
+            var converter = new TestObjectConverter();
+            Assert.Equal(FlagsEnum2Type.Value1 | FlagsEnum2Type.Value2, converter.Convert(FlagsEnum1Type.Value1 | FlagsEnum1Type.Value2, typeof(FlagsEnum2Type)));
+            Assert.True(converter.UsedOnly<EnumConverterFactory>());
+        }
+
+        [Fact]
+        public void UndefinedFlagsEnumToFlagsEnum()
+        {
+            var converter = new TestObjectConverter();
+            Assert.Equal(FlagsEnum2Type.Value1 | FlagsEnum2Type.Value8, converter.Convert(FlagsEnum1Type.Value1 | (FlagsEnum1Type)0x08, typeof(FlagsEnum2Type)));
+            Assert.True(converter.UsedOnly<EnumConverterFactory>());
+        }
+
+        [Fact]
+        public void FlagsEnumToUndefinedFlagsEnum()
+        {
+            var converter = new TestObjectConverter();
+            Assert.Equal(FlagsEnum2Type.Value1 | (FlagsEnum2Type)0x04, converter.Convert(FlagsEnum1Type.Value1 | FlagsEnum1Type.Value4, typeof(FlagsEnum2Type)));
+            Assert.True(converter.UsedOnly<EnumConverterFactory>());
+        }
+
         //--------------------------------------------------------------------------------
         // NotEnumToEnum
         //--------------------------------------------------------------------------------
