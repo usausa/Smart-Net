@@ -14,7 +14,7 @@
         public void EnumToEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(TestEnum2.Zero, converter.Convert(TestEnum.Zero, typeof(TestEnum2)));
+            Assert.Equal(Enum2Type.Zero, converter.Convert(Enum1Type.Zero, typeof(Enum2Type)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -26,8 +26,8 @@
         public void ByteToEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(TestEnum.Zero, converter.Convert((byte)0, typeof(TestEnum)));
-            Assert.Equal(TestEnum.One, converter.Convert((byte)1, typeof(TestEnum)));
+            Assert.Equal(Enum1Type.Zero, converter.Convert((byte)0, typeof(Enum1Type)));
+            Assert.Equal(Enum1Type.One, converter.Convert((byte)1, typeof(Enum1Type)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -35,8 +35,8 @@
         public void ByteToNullableEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(TestEnum.Zero, converter.Convert((byte)0, typeof(TestEnum?)));
-            Assert.Equal(TestEnum.One, converter.Convert((byte)1, typeof(TestEnum?)));
+            Assert.Equal(Enum1Type.Zero, converter.Convert((byte)0, typeof(Enum1Type?)));
+            Assert.Equal(Enum1Type.One, converter.Convert((byte)1, typeof(Enum1Type?)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -44,8 +44,8 @@
         public void SByteToEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(TestEnum.Zero, converter.Convert((sbyte)0, typeof(TestEnum)));
-            Assert.Equal(TestEnum.One, converter.Convert((sbyte)1, typeof(TestEnum)));
+            Assert.Equal(Enum1Type.Zero, converter.Convert((sbyte)0, typeof(Enum1Type)));
+            Assert.Equal(Enum1Type.One, converter.Convert((sbyte)1, typeof(Enum1Type)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -53,8 +53,8 @@
         public void SByteToNullableEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(TestEnum.Zero, converter.Convert((sbyte)0, typeof(TestEnum?)));
-            Assert.Equal(TestEnum.One, converter.Convert((sbyte)1, typeof(TestEnum?)));
+            Assert.Equal(Enum1Type.Zero, converter.Convert((sbyte)0, typeof(Enum1Type?)));
+            Assert.Equal(Enum1Type.One, converter.Convert((sbyte)1, typeof(Enum1Type?)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -62,8 +62,8 @@
         public void ShortToEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(TestEnum.Zero, converter.Convert((short)0, typeof(TestEnum)));
-            Assert.Equal(TestEnum.One, converter.Convert((short)1, typeof(TestEnum)));
+            Assert.Equal(Enum1Type.Zero, converter.Convert((short)0, typeof(Enum1Type)));
+            Assert.Equal(Enum1Type.One, converter.Convert((short)1, typeof(Enum1Type)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -71,8 +71,8 @@
         public void ShortToNullableEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(TestEnum.Zero, converter.Convert((short)0, typeof(TestEnum?)));
-            Assert.Equal(TestEnum.One, converter.Convert((short)1, typeof(TestEnum?)));
+            Assert.Equal(Enum1Type.Zero, converter.Convert((short)0, typeof(Enum1Type?)));
+            Assert.Equal(Enum1Type.One, converter.Convert((short)1, typeof(Enum1Type?)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -80,8 +80,8 @@
         public void UShortToEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(TestEnum.Zero, converter.Convert((ushort)0, typeof(TestEnum)));
-            Assert.Equal(TestEnum.One, converter.Convert((ushort)1, typeof(TestEnum)));
+            Assert.Equal(Enum1Type.Zero, converter.Convert((ushort)0, typeof(Enum1Type)));
+            Assert.Equal(Enum1Type.One, converter.Convert((ushort)1, typeof(Enum1Type)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -89,8 +89,8 @@
         public void UShortToNullableEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(TestEnum.Zero, converter.Convert((ushort)0, typeof(TestEnum?)));
-            Assert.Equal(TestEnum.One, converter.Convert((ushort)1, typeof(TestEnum?)));
+            Assert.Equal(Enum1Type.Zero, converter.Convert((ushort)0, typeof(Enum1Type?)));
+            Assert.Equal(Enum1Type.One, converter.Convert((ushort)1, typeof(Enum1Type?)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -98,8 +98,8 @@
         public void IntToEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(TestEnum.Zero, converter.Convert(0, typeof(TestEnum)));
-            Assert.Equal(TestEnum.One, converter.Convert(1, typeof(TestEnum)));
+            Assert.Equal(Enum1Type.Zero, converter.Convert(0, typeof(Enum1Type)));
+            Assert.Equal(Enum1Type.One, converter.Convert(1, typeof(Enum1Type)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -107,8 +107,8 @@
         public void IntToNullableEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(TestEnum.Zero, converter.Convert(0, typeof(TestEnum?)));
-            Assert.Equal(TestEnum.One, converter.Convert(1, typeof(TestEnum?)));
+            Assert.Equal(Enum1Type.Zero, converter.Convert(0, typeof(Enum1Type?)));
+            Assert.Equal(Enum1Type.One, converter.Convert(1, typeof(Enum1Type?)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -116,8 +116,8 @@
         public void UIntToEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(TestEnum.Zero, converter.Convert(0U, typeof(TestEnum)));
-            Assert.Equal(TestEnum.One, converter.Convert(1U, typeof(TestEnum)));
+            Assert.Equal(Enum1Type.Zero, converter.Convert(0U, typeof(Enum1Type)));
+            Assert.Equal(Enum1Type.One, converter.Convert(1U, typeof(Enum1Type)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -125,8 +125,8 @@
         public void UIntToNullableEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(TestEnum.Zero, converter.Convert(0U, typeof(TestEnum?)));
-            Assert.Equal(TestEnum.One, converter.Convert(1U, typeof(TestEnum?)));
+            Assert.Equal(Enum1Type.Zero, converter.Convert(0U, typeof(Enum1Type?)));
+            Assert.Equal(Enum1Type.One, converter.Convert(1U, typeof(Enum1Type?)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -134,8 +134,8 @@
         public void CharToEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(TestEnum.Zero, converter.Convert((char)0, typeof(TestEnum)));
-            Assert.Equal(TestEnum.One, converter.Convert((char)1, typeof(TestEnum)));
+            Assert.Equal(Enum1Type.Zero, converter.Convert((char)0, typeof(Enum1Type)));
+            Assert.Equal(Enum1Type.One, converter.Convert((char)1, typeof(Enum1Type)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -143,8 +143,8 @@
         public void CharToNullableEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(TestEnum.Zero, converter.Convert((char)0, typeof(TestEnum?)));
-            Assert.Equal(TestEnum.One, converter.Convert((char)1, typeof(TestEnum?)));
+            Assert.Equal(Enum1Type.Zero, converter.Convert((char)0, typeof(Enum1Type?)));
+            Assert.Equal(Enum1Type.One, converter.Convert((char)1, typeof(Enum1Type?)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -152,10 +152,10 @@
         public void StringToEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(TestEnum.Zero, converter.Convert("Zero", typeof(TestEnum)));
-            Assert.Equal(TestEnum.One, converter.Convert("One", typeof(TestEnum)));
-            Assert.Equal(TestEnum.Zero, converter.Convert("0", typeof(TestEnum)));
-            Assert.Equal(TestEnum.One, converter.Convert("1", typeof(TestEnum)));
+            Assert.Equal(Enum1Type.Zero, converter.Convert("Zero", typeof(Enum1Type)));
+            Assert.Equal(Enum1Type.One, converter.Convert("One", typeof(Enum1Type)));
+            Assert.Equal(Enum1Type.Zero, converter.Convert("0", typeof(Enum1Type)));
+            Assert.Equal(Enum1Type.One, converter.Convert("1", typeof(Enum1Type)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -163,7 +163,7 @@
         public void CanNotConvertToEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.False(converter.CanConvert(typeof(TestStruct), typeof(TestEnum)));
+            Assert.False(converter.CanConvert(typeof(StructType), typeof(Enum1Type)));
         }
 
         //--------------------------------------------------------------------------------
@@ -174,8 +174,8 @@
         public void EnumToByte()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal((byte)0, converter.Convert(TestEnum.Zero, typeof(byte)));
-            Assert.Equal((byte)1, converter.Convert(TestEnum.One, typeof(byte)));
+            Assert.Equal((byte)0, converter.Convert(Enum1Type.Zero, typeof(byte)));
+            Assert.Equal((byte)1, converter.Convert(Enum1Type.One, typeof(byte)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -183,8 +183,8 @@
         public void EnumToNullableByte()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal((byte)0, converter.Convert(TestEnum.Zero, typeof(byte?)));
-            Assert.Equal((byte)1, converter.Convert(TestEnum.One, typeof(byte?)));
+            Assert.Equal((byte)0, converter.Convert(Enum1Type.Zero, typeof(byte?)));
+            Assert.Equal((byte)1, converter.Convert(Enum1Type.One, typeof(byte?)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -192,8 +192,8 @@
         public void EnumToSByte()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal((sbyte)0, converter.Convert(TestEnum.Zero, typeof(sbyte)));
-            Assert.Equal((sbyte)1, converter.Convert(TestEnum.One, typeof(sbyte)));
+            Assert.Equal((sbyte)0, converter.Convert(Enum1Type.Zero, typeof(sbyte)));
+            Assert.Equal((sbyte)1, converter.Convert(Enum1Type.One, typeof(sbyte)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -201,8 +201,8 @@
         public void EnumToNullableSByte()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal((sbyte)0, converter.Convert(TestEnum.Zero, typeof(sbyte?)));
-            Assert.Equal((sbyte)1, converter.Convert(TestEnum.One, typeof(sbyte?)));
+            Assert.Equal((sbyte)0, converter.Convert(Enum1Type.Zero, typeof(sbyte?)));
+            Assert.Equal((sbyte)1, converter.Convert(Enum1Type.One, typeof(sbyte?)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -210,8 +210,8 @@
         public void EnumToShort()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal((short)0, converter.Convert(TestEnum.Zero, typeof(short)));
-            Assert.Equal((short)1, converter.Convert(TestEnum.One, typeof(short)));
+            Assert.Equal((short)0, converter.Convert(Enum1Type.Zero, typeof(short)));
+            Assert.Equal((short)1, converter.Convert(Enum1Type.One, typeof(short)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -219,8 +219,8 @@
         public void EnumToNullableShort()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal((short)0, converter.Convert(TestEnum.Zero, typeof(short?)));
-            Assert.Equal((short)1, converter.Convert(TestEnum.One, typeof(short?)));
+            Assert.Equal((short)0, converter.Convert(Enum1Type.Zero, typeof(short?)));
+            Assert.Equal((short)1, converter.Convert(Enum1Type.One, typeof(short?)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -228,8 +228,8 @@
         public void EnumToUShort()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal((ushort)0, converter.Convert(TestEnum.Zero, typeof(ushort)));
-            Assert.Equal((ushort)1, converter.Convert(TestEnum.One, typeof(ushort)));
+            Assert.Equal((ushort)0, converter.Convert(Enum1Type.Zero, typeof(ushort)));
+            Assert.Equal((ushort)1, converter.Convert(Enum1Type.One, typeof(ushort)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -237,8 +237,8 @@
         public void EnumToNullableUShort()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal((ushort)0, converter.Convert(TestEnum.Zero, typeof(ushort?)));
-            Assert.Equal((ushort)1, converter.Convert(TestEnum.One, typeof(ushort?)));
+            Assert.Equal((ushort)0, converter.Convert(Enum1Type.Zero, typeof(ushort?)));
+            Assert.Equal((ushort)1, converter.Convert(Enum1Type.One, typeof(ushort?)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -246,8 +246,8 @@
         public void EnumToInt()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(0, converter.Convert(TestEnum.Zero, typeof(int)));
-            Assert.Equal(1, converter.Convert(TestEnum.One, typeof(int)));
+            Assert.Equal(0, converter.Convert(Enum1Type.Zero, typeof(int)));
+            Assert.Equal(1, converter.Convert(Enum1Type.One, typeof(int)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -255,8 +255,8 @@
         public void EnumToNullableInt()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(0, converter.Convert(TestEnum.Zero, typeof(int?)));
-            Assert.Equal(1, converter.Convert(TestEnum.One, typeof(int?)));
+            Assert.Equal(0, converter.Convert(Enum1Type.Zero, typeof(int?)));
+            Assert.Equal(1, converter.Convert(Enum1Type.One, typeof(int?)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -264,8 +264,8 @@
         public void EnumToLong()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(0L, converter.Convert(TestEnum.Zero, typeof(long)));
-            Assert.Equal(1L, converter.Convert(TestEnum.One, typeof(long)));
+            Assert.Equal(0L, converter.Convert(Enum1Type.Zero, typeof(long)));
+            Assert.Equal(1L, converter.Convert(Enum1Type.One, typeof(long)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -273,8 +273,8 @@
         public void EnumToNullableLong()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(0L, converter.Convert(TestEnum.Zero, typeof(long?)));
-            Assert.Equal(1L, converter.Convert(TestEnum.One, typeof(long?)));
+            Assert.Equal(0L, converter.Convert(Enum1Type.Zero, typeof(long?)));
+            Assert.Equal(1L, converter.Convert(Enum1Type.One, typeof(long?)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -282,8 +282,8 @@
         public void EnumToULong()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(0UL, converter.Convert(TestEnum.Zero, typeof(ulong)));
-            Assert.Equal(1UL, converter.Convert(TestEnum.One, typeof(ulong)));
+            Assert.Equal(0UL, converter.Convert(Enum1Type.Zero, typeof(ulong)));
+            Assert.Equal(1UL, converter.Convert(Enum1Type.One, typeof(ulong)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -291,8 +291,8 @@
         public void EnumToNullableULong()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(0UL, converter.Convert(TestEnum.Zero, typeof(ulong?)));
-            Assert.Equal(1UL, converter.Convert(TestEnum.One, typeof(ulong?)));
+            Assert.Equal(0UL, converter.Convert(Enum1Type.Zero, typeof(ulong?)));
+            Assert.Equal(1UL, converter.Convert(Enum1Type.One, typeof(ulong?)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -300,8 +300,8 @@
         public void EnumToChar()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal((char)0, converter.Convert(TestEnum.Zero, typeof(char)));
-            Assert.Equal((char)1, converter.Convert(TestEnum.One, typeof(char)));
+            Assert.Equal((char)0, converter.Convert(Enum1Type.Zero, typeof(char)));
+            Assert.Equal((char)1, converter.Convert(Enum1Type.One, typeof(char)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -309,8 +309,8 @@
         public void EnumToNullableChar()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal((char)0, converter.Convert(TestEnum.Zero, typeof(char?)));
-            Assert.Equal((char)1, converter.Convert(TestEnum.One, typeof(char?)));
+            Assert.Equal((char)0, converter.Convert(Enum1Type.Zero, typeof(char?)));
+            Assert.Equal((char)1, converter.Convert(Enum1Type.One, typeof(char?)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -318,8 +318,8 @@
         public void EnumToiString()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal("Zero", converter.Convert(TestEnum.Zero, typeof(string)));
-            Assert.Equal("One", converter.Convert(TestEnum.One, typeof(string)));
+            Assert.Equal("Zero", converter.Convert(Enum1Type.Zero, typeof(string)));
+            Assert.Equal("One", converter.Convert(Enum1Type.One, typeof(string)));
             Assert.True(converter.UsedOnly<EnumConverterFactory>());
         }
 
@@ -327,7 +327,7 @@
         public void CanNotConvertFromEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.False(converter.CanConvert(typeof(TestEnum), typeof(TestStruct)));
+            Assert.False(converter.CanConvert(typeof(Enum1Type), typeof(StructType)));
         }
     }
 }

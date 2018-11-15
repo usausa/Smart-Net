@@ -74,7 +74,7 @@
         public void DateTimeCanNotCovert()
         {
             var converter = new TestObjectConverter();
-            Assert.False(converter.CanConvert(typeof(DateTime), typeof(TestStruct)));
+            Assert.False(converter.CanConvert(typeof(DateTime), typeof(StructType)));
         }
 
         //--------------------------------------------------------------------------------
@@ -201,7 +201,7 @@
         public void DateTimeOffsetCanNotCovert()
         {
             var converter = new TestObjectConverter();
-            Assert.False(converter.CanConvert(typeof(DateTimeOffset), typeof(TestStruct)));
+            Assert.False(converter.CanConvert(typeof(DateTimeOffset), typeof(StructType)));
         }
 
         //--------------------------------------------------------------------------------
@@ -311,7 +311,7 @@
         public void TimeSpanCanNotCovert()
         {
             var converter = new TestObjectConverter();
-            Assert.False(converter.CanConvert(typeof(TimeSpan), typeof(TestStruct)));
+            Assert.False(converter.CanConvert(typeof(TimeSpan), typeof(StructType)));
         }
 
         //--------------------------------------------------------------------------------

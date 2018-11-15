@@ -1,13 +1,13 @@
 ﻿namespace Smart.Converter.Types
 {
-    public enum TestEnum
+    public enum Enum1Type
     {
         Zero,
         One,
         Two
     }
 
-    public enum TestEnum2
+    public enum Enum2Type
     {
         Zero,
         One,

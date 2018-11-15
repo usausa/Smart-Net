@@ -264,7 +264,7 @@
         public void NullToEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(default(TestEnum), converter.Convert(null, typeof(TestEnum)));
+            Assert.Equal(default(Enum1Type), converter.Convert(null, typeof(Enum1Type)));
             Assert.True(converter.NotUsed());
         }
 
@@ -272,7 +272,7 @@
         public void NullToNullableEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Null(converter.Convert(null, typeof(TestEnum?)));
+            Assert.Null(converter.Convert(null, typeof(Enum1Type?)));
             Assert.True(converter.NotUsed());
         }
 
@@ -280,7 +280,7 @@
         public void NullToStruct()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(default(TestStruct), converter.Convert(null, typeof(TestStruct)));
+            Assert.Equal(default(StructType), converter.Convert(null, typeof(StructType)));
             Assert.True(converter.NotUsed());
         }
 
@@ -288,7 +288,7 @@
         public void NullToNullableStruct()
         {
             var converter = new TestObjectConverter();
-            Assert.Null(converter.Convert(null, typeof(TestStruct?)));
+            Assert.Null(converter.Convert(null, typeof(StructType?)));
             Assert.True(converter.NotUsed());
         }
 
@@ -575,7 +575,7 @@
         public void EnumToEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(TestEnum.One, converter.Convert(TestEnum.One, typeof(TestEnum)));
+            Assert.Equal(Enum1Type.One, converter.Convert(Enum1Type.One, typeof(Enum1Type)));
             Assert.True(converter.NotUsed());
         }
 
@@ -583,7 +583,7 @@
         public void EnumToNullableEnum()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal(TestEnum.One, converter.Convert(TestEnum.One, typeof(TestEnum?)));
+            Assert.Equal(Enum1Type.One, converter.Convert(Enum1Type.One, typeof(Enum1Type?)));
             Assert.True(converter.NotUsed());
         }
 
@@ -591,8 +591,8 @@
         public void StructToStruct()
         {
             var converter = new TestObjectConverter();
-            var source = new TestStruct { X = 1, Y = 2 };
-            var target = (TestStruct)converter.Convert(source, typeof(TestStruct));
+            var source = new StructType { X = 1, Y = 2 };
+            var target = (StructType)converter.Convert(source, typeof(StructType));
             Assert.Equal(1, target.X);
             Assert.Equal(2, target.Y);
             Assert.True(converter.NotUsed());
@@ -602,8 +602,8 @@
         public void StructToNullableStruct()
         {
             var converter = new TestObjectConverter();
-            var source = new TestStruct { X = 1, Y = 2 };
-            var target = (TestStruct)converter.Convert(source, typeof(TestStruct?));
+            var source = new StructType { X = 1, Y = 2 };
+            var target = (StructType)converter.Convert(source, typeof(StructType?));
             Assert.Equal(1, target.X);
             Assert.Equal(2, target.Y);
             Assert.True(converter.NotUsed());

@@ -3,8 +3,6 @@
     using System.Collections.Concurrent;
     using System.Linq;
 
-    using Smart.Converter.Types;
-
     using Xunit;
 
     public class EnumerableConverterFactoryToConcurrentQueueTest

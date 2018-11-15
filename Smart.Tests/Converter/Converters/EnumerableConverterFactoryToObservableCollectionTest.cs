@@ -3,8 +3,6 @@
     using System.Collections.ObjectModel;
     using System.Linq;
 
-    using Smart.Converter.Types;
-
     using Xunit;
 
     public class EnumerableConverterFactoryToObservableCollectionTest

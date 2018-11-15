@@ -10,8 +10,8 @@
         public void Assignable()
         {
             var converter = new TestObjectConverter();
-            var instance = new TestDeliveredClass();
-            Assert.Same(instance, converter.Convert(instance, typeof(TestBaseClass)));
+            var instance = new DeliveredType();
+            Assert.Same(instance, converter.Convert(instance, typeof(BaseType)));
             Assert.True(converter.UsedOnly<AssignableConverterFactory>());
         }
 
@@ -19,7 +19,7 @@
         public void NotAssignable()
         {
             var converter = new TestObjectConverter();
-            Assert.Throws<ObjectConverterException>(() => converter.Convert(new TestBaseClass(), typeof(TestDeliveredClass)));
+            Assert.Throws<ObjectConverterException>(() => converter.Convert(new BaseType(), typeof(DeliveredType)));
         }
     }
 }

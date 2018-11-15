@@ -1,6 +1,6 @@
 ﻿namespace Smart.Converter.Types
 {
-    public struct TestStruct
+    public struct StructType
     {
         public int X { get; set; }
 

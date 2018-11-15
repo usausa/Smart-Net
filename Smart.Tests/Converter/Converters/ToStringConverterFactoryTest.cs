@@ -111,7 +111,7 @@
         public void StructToString()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal("(1,2)", converter.Convert(new TestStruct { X = 1, Y = 2 }, typeof(string)));
+            Assert.Equal("(1,2)", converter.Convert(new StructType { X = 1, Y = 2 }, typeof(string)));
             Assert.True(converter.UsedOnly<ToStringConverterFactory>());
         }
     }
