@@ -3,8 +3,8 @@
     using System;
     using System.Collections.Generic;
 
-    public static class EnumHelper<T>
-        where T : struct
+    public static class Enums<T>
+        where T : struct, Enum
     {
         private static readonly Type EnumType = typeof(T);
 
@@ -12,7 +12,7 @@
 
         private static readonly Dictionary<string, T> NameToValues;
 
-        static EnumHelper()
+        static Enums()
         {
             var values = (T[])Enum.GetValues(typeof(T));
             var names = Enum.GetNames(typeof(T));

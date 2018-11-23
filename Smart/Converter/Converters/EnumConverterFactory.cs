@@ -158,20 +158,20 @@
         }
 
         private sealed class EnumToStringConverter<T> : IConverter
-            where T : struct
+            where T : struct, Enum
         {
             public object Convert(object source)
             {
-                return EnumHelper<T>.GetName((T)source);
+                return Enums<T>.GetName((T)source);
             }
         }
 
         private sealed class StringToEnumConverter<T> : IConverter
-            where T : struct
+            where T : struct, Enum
         {
             public object Convert(object source)
             {
-                return EnumHelper<T>.TryParseValue((string)source, out var value) ? value : default;
+                return Enums<T>.TryParseValue((string)source, out var value) ? value : default;
             }
         }
     }
