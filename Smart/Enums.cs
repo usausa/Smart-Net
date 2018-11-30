@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
 
     public static class Enums<T>
         where T : struct, Enum
@@ -12,10 +13,21 @@
 
         private static readonly Dictionary<string, T> NameToValues;
 
+        public static ReadOnlyCollection<T> Values { get; }
+
+        public static ReadOnlyCollection<string> Names { get; }
+
+        public static Type UnderlyingType { get; }
+
         static Enums()
         {
+            var type = typeof(T);
             var values = (T[])Enum.GetValues(typeof(T));
             var names = Enum.GetNames(typeof(T));
+
+            UnderlyingType = Enum.GetUnderlyingType(type);
+            Values = new ReadOnlyCollection<T>(values);
+            Names = new ReadOnlyCollection<string>(names);
 
             ValueToNames = new Dictionary<T, string>(values.Length);
             NameToValues = new Dictionary<string, T>(values.Length);
