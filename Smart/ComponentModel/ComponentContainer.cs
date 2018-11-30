@@ -18,9 +18,9 @@
 
         private static readonly object[] EmptyResult = new object[0];
 
-        private readonly IDictionary<Type, object[]> cache = new Dictionary<Type, object[]>();
+        private readonly Dictionary<Type, object[]> cache = new Dictionary<Type, object[]>();
 
-        private readonly IDictionary<Type, ComponentEntry[]> mappings;
+        private readonly Dictionary<Type, ComponentEntry[]> mappings;
 
         /// <summary>
         ///
@@ -33,7 +33,7 @@
                 throw new ArgumentNullException(nameof(config));
             }
 
-            mappings = config.ToMappings();
+            mappings = new Dictionary<Type, ComponentEntry[]>(config.ToMappings());
         }
 
         /// <summary>
