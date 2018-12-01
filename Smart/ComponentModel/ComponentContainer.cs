@@ -33,7 +33,7 @@
                 throw new ArgumentNullException(nameof(config));
             }
 
-            mappings = new Dictionary<Type, ComponentEntry[]>(config.ToMappings());
+            mappings = config.ToMappings();
         }
 
         /// <summary>

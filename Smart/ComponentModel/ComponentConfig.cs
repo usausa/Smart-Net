@@ -183,7 +183,7 @@
         ///
         /// </summary>
         /// <returns></returns>
-        public IDictionary<Type, ComponentEntry[]> ToMappings()
+        public Dictionary<Type, ComponentEntry[]> ToMappings()
         {
             return mappings.ToDictionary(x => x.Key, x => x.Value.ToArray());
         }
