@@ -20,7 +20,20 @@
         /// <returns></returns>
         public static int IndexOf<T>(this T[] array, Func<T, bool> predicate)
         {
-            return IndexOf(array, 0, array?.Length ?? 0, predicate);
+            if (array == null)
+            {
+                return -1;
+            }
+
+            for (var i = 0; i < array.Length; i++)
+            {
+                if (predicate(array[i]))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
         }
 
         /// <summary>
@@ -39,8 +52,9 @@
                 return -1;
             }
 
-            var end = offset + length > array.Length ? array.Length : offset + length;
-            for (var i = offset; i < end; i++)
+            var end = offset + length;
+            var limit = end > array.Length ? array.Length : end;
+            for (var i = offset; i < limit; i++)
             {
                 if (predicate(array[i]))
                 {

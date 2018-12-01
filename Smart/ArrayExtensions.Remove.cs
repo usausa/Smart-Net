@@ -33,7 +33,7 @@
         /// <returns></returns>
         public static T[] RemoveRange<T>(this T[] array, int start, int length)
         {
-            if ((array.Length == 0) || (length <= 0) || (start >= array.Length))
+            if ((array == null) || (array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
                 return array;
             }

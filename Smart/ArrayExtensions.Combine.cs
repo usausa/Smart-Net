@@ -20,22 +20,27 @@
         /// <returns></returns>
         public static T[] Combine<T>(this T[] array, params T[][] others)
         {
-            var length = array?.Length;
+            if (others == null)
+            {
+                return array;
+            }
+
+            var length = array?.Length ?? 0;
             for (var i = 0; i < others.Length; i++)
             {
                 var other = others[i];
                 if (other != null)
                 {
-                    length = (length ?? 0) + other.Length;
+                    length = length + other.Length;
                 }
             }
 
-            if (!length.HasValue)
+            if (length == 0)
             {
-                return null;
+                return array;
             }
 
-            var result = new T[length.Value];
+            var result = new T[length];
 
             int offset;
             if (array != null)
@@ -69,27 +74,27 @@
         /// <returns></returns>
         public static byte[] Combine(this byte[] array, params byte[][] others)
         {
-            var length = array?.Length;
+            if (others == null)
+            {
+                return array;
+            }
+
+            var length = array?.Length ?? 0;
             for (var i = 0; i < others.Length; i++)
             {
                 var other = others[i];
                 if (other != null)
                 {
-                    length = (length ?? 0) + other.Length;
+                    length = length + other.Length;
                 }
             }
 
-            if (!length.HasValue)
+            if (length == 0)
             {
-                return null;
+                return array;
             }
 
-            if (length.Value == 0)
-            {
-                return Bytes.Empty;
-            }
-
-            var result = new byte[length.Value];
+            var result = new byte[length];
 
             int offset;
             if (array != null)
@@ -123,22 +128,27 @@
         /// <returns></returns>
         public static short[] Combine(this short[] array, params short[][] others)
         {
-            var length = array?.Length;
+            if (others == null)
+            {
+                return array;
+            }
+
+            var length = array?.Length ?? 0;
             for (var i = 0; i < others.Length; i++)
             {
                 var other = others[i];
                 if (other != null)
                 {
-                    length = (length ?? 0) + other.Length;
+                    length = length + other.Length;
                 }
             }
 
-            if (!length.HasValue)
+            if (length == 0)
             {
-                return null;
+                return array;
             }
 
-            var result = new short[length.Value];
+            var result = new short[length];
 
             int offset;
             if (array != null)
@@ -172,22 +182,27 @@
         /// <returns></returns>
         public static int[] Combine(this int[] array, params int[][] others)
         {
-            var length = array?.Length;
+            if (others == null)
+            {
+                return array;
+            }
+
+            var length = array?.Length ?? 0;
             for (var i = 0; i < others.Length; i++)
             {
                 var other = others[i];
                 if (other != null)
                 {
-                    length = (length ?? 0) + other.Length;
+                    length = length + other.Length;
                 }
             }
 
-            if (!length.HasValue)
+            if (length == 0)
             {
-                return null;
+                return array;
             }
 
-            var result = new int[length.Value];
+            var result = new int[length];
 
             int offset;
             if (array != null)
@@ -221,22 +236,27 @@
         /// <returns></returns>
         public static long[] Combine(this long[] array, params long[][] others)
         {
-            var length = array?.Length;
+            if (others == null)
+            {
+                return array;
+            }
+
+            var length = array?.Length ?? 0;
             for (var i = 0; i < others.Length; i++)
             {
                 var other = others[i];
                 if (other != null)
                 {
-                    length = (length ?? 0) + other.Length;
+                    length = length + other.Length;
                 }
             }
 
-            if (!length.HasValue)
+            if (length == 0)
             {
-                return null;
+                return array;
             }
 
-            var result = new long[length.Value];
+            var result = new long[length];
 
             int offset;
             if (array != null)
@@ -270,22 +290,27 @@
         /// <returns></returns>
         public static float[] Combine(this float[] array, params float[][] others)
         {
-            var length = array?.Length;
+            if (others == null)
+            {
+                return array;
+            }
+
+            var length = array?.Length ?? 0;
             for (var i = 0; i < others.Length; i++)
             {
                 var other = others[i];
                 if (other != null)
                 {
-                    length = (length ?? 0) + other.Length;
+                    length = length + other.Length;
                 }
             }
 
-            if (!length.HasValue)
+            if (length == 0)
             {
-                return null;
+                return array;
             }
 
-            var result = new float[length.Value];
+            var result = new float[length];
 
             int offset;
             if (array != null)
@@ -319,22 +344,27 @@
         /// <returns></returns>
         public static double[] Combine(this double[] array, params double[][] others)
         {
-            var length = array?.Length;
+            if (others == null)
+            {
+                return array;
+            }
+
+            var length = array?.Length ?? 0;
             for (var i = 0; i < others.Length; i++)
             {
                 var other = others[i];
                 if (other != null)
                 {
-                    length = (length ?? 0) + other.Length;
+                    length = length + other.Length;
                 }
             }
 
-            if (!length.HasValue)
+            if (length == 0)
             {
-                return null;
+                return array;
             }
 
-            var result = new double[length.Value];
+            var result = new double[length];
 
             int offset;
             if (array != null)
@@ -368,22 +398,27 @@
         /// <returns></returns>
         public static bool[] Combine(this bool[] array, params bool[][] others)
         {
-            var length = array?.Length;
+            if (others == null)
+            {
+                return array;
+            }
+
+            var length = array?.Length ?? 0;
             for (var i = 0; i < others.Length; i++)
             {
                 var other = others[i];
                 if (other != null)
                 {
-                    length = (length ?? 0) + other.Length;
+                    length = length + other.Length;
                 }
             }
 
-            if (!length.HasValue)
+            if (length == 0)
             {
-                return null;
+                return array;
             }
 
-            var result = new bool[length.Value];
+            var result = new bool[length];
 
             int offset;
             if (array != null)
@@ -417,22 +452,27 @@
         /// <returns></returns>
         public static char[] Combine(this char[] array, params char[][] others)
         {
-            var length = array?.Length;
+            if (others == null)
+            {
+                return array;
+            }
+
+            var length = array?.Length ?? 0;
             for (var i = 0; i < others.Length; i++)
             {
                 var other = others[i];
                 if (other != null)
                 {
-                    length = (length ?? 0) + other.Length;
+                    length = length + other.Length;
                 }
             }
 
-            if (!length.HasValue)
+            if (length == 0)
             {
-                return null;
+                return array;
             }
 
-            var result = new char[length.Value];
+            var result = new char[length];
 
             int offset;
             if (array != null)
