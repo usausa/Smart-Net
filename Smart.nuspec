@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
-  <metadata>
+  <metadata minClientVersion="2.12">
     <id>Usa.Smart.Core</id>
     <version>1.6.0</version>
     <title>Smart.Core .NET</title>
@@ -10,6 +10,7 @@
     <releaseNotes></releaseNotes>
     <summary>Smart fundation library for .NET</summary>
     <projectUrl>https://github.com/usausa/Smart-Net</projectUrl>
+	<repository type="git" url="https://github.com/usausa/Smart-Net" />
     <copyright></copyright>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <dependencies>
