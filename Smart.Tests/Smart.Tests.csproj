@@ -2,10 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <LangVersion>latest</LangVersion>
     <RootNamespace>Smart</RootNamespace>
     <CodeAnalysisRuleSet>..\Smart.ruleset</CodeAnalysisRuleSet>
-    <Version>1.6.0</Version>
   </PropertyGroup>
 
   <ItemGroup>

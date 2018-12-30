@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
 		README.md = README.md
 		Smart.nuspec = Smart.nuspec
 		Smart.ruleset = Smart.ruleset
@@ -43,7 +45,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		        SolutionGuid = {52B63D4F-8BD1-434E-94B0-3A6D17CE9C45}
 		SolutionGuid = {61D1ED03-42C8-4F1B-9EAA-2D7CA057778E}
+		        SolutionGuid = {52B63D4F-8BD1-434E-94B0-3A6D17CE9C45}
 	EndGlobalSection
 EndGlobal
