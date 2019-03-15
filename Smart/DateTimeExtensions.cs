@@ -1,4 +1,4 @@
-﻿namespace Smart
+namespace Smart
 {
     using System;
 
@@ -60,16 +60,6 @@
         public static DateTime OfTime(this DateTime date, int hour, int minute, int second)
         {
             return new DateTime(date.Year, date.Month, date.Day, hour, minute, second);
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static int ToUnixTime(this DateTime value)
-        {
-            return UnixEpoch.ToUnixTime(value);
         }
     }
 }
