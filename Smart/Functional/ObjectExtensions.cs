@@ -1,4 +1,4 @@
-﻿namespace Smart.Functional
+namespace Smart.Functional
 {
     using System;
     using System.Collections.Generic;
@@ -153,7 +153,7 @@
         public static TResult MapOrDefault<T, TResult>(this T value, Func<T, TResult> func)
             where T : class
         {
-            return value == null ? default : func(value);
+            return value is null ? default : func(value);
         }
 
         /// <summary>
@@ -170,7 +170,7 @@
         public static TResult MapOr<T, TResult>(this T value, Func<T, TResult> func, TResult defaultValue)
             where T : class
         {
-            return value == null ? defaultValue : func(value);
+            return value is null ? defaultValue : func(value);
         }
 
         /// <summary>
@@ -187,7 +187,7 @@
         public static TResult MapOr<T, TResult>(this T value, Func<T, TResult> func, Func<TResult> defaultValueFactory)
             where T : class
         {
-            return value == null ? defaultValueFactory() : func(value);
+            return value is null ? defaultValueFactory() : func(value);
         }
 
         /// <summary>
@@ -203,7 +203,7 @@
         public static TResult MapOrDefault<T, TResult>(this T? value, Func<T, TResult> func)
             where T : struct
         {
-            return value == null ? default : func(value.Value);
+            return value is null ? default : func(value.Value);
         }
 
         /// <summary>
@@ -220,7 +220,7 @@
         public static TResult MapOr<T, TResult>(this T? value, Func<T, TResult> func, TResult defaultValue)
             where T : struct
         {
-            return value == null ? defaultValue : func(value.Value);
+            return value is null ? defaultValue : func(value.Value);
         }
 
         /// <summary>
@@ -237,7 +237,7 @@
         public static TResult MapOr<T, TResult>(this T? value, Func<T, TResult> func, Func<TResult> defaultValueFactory)
             where T : struct
         {
-            return value == null ? defaultValueFactory() : func(value.Value);
+            return value is null ? defaultValueFactory() : func(value.Value);
         }
 
         /// <summary>
@@ -298,10 +298,12 @@
         public static void IfNotNull<T>(this T value, Action<T> action)
             where T : class
         {
-            if (value != null)
+            if (value is null)
             {
-                action(value);
+                return;
             }
+
+            action(value);
         }
 
         /// <summary>
@@ -315,10 +317,12 @@
         public static void IfNotNull<T>(this T? value, Action<T> action)
             where T : struct
         {
-            if (value != null)
+            if (value is null)
             {
-                action(value.Value);
+                return;
             }
+
+            action(value.Value);
         }
 
         /// <summary>
@@ -332,7 +336,7 @@
         public static IEnumerable<T> FlatOrEmpty<T>(this T value)
             where T : class
         {
-            return value == null ? Enumerable.Empty<T>() : FromSingleValue(value);
+            return value is null ? Enumerable.Empty<T>() : FromSingleValue(value);
         }
 
         /// <summary>
@@ -346,7 +350,7 @@
         public static IEnumerable<T> FlatOrEmpty<T>(this T? value)
             where T : struct
         {
-            return value == null ? Enumerable.Empty<T>() : FromSingleValue(value.Value);
+            return value is null ? Enumerable.Empty<T>() : FromSingleValue(value.Value);
         }
 
         /// <summary>

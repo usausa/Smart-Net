@@ -49,7 +49,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static TValue GetOr<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
         {
-            if (valueFactory == null)
+            if (valueFactory is null)
             {
                 throw new ArgumentNullException(nameof(valueFactory));
             }
@@ -92,7 +92,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
         {
-            if (valueFactory == null)
+            if (valueFactory is null)
             {
                 throw new ArgumentNullException(nameof(valueFactory));
             }
@@ -132,7 +132,7 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static void CopyTo<TKey, TValue>(this IDictionary<TKey, TValue> src, IDictionary<TKey, TValue> dst, bool replace)
         {
-            if (dst == null)
+            if (dst is null)
             {
                 throw new ArgumentNullException(nameof(dst));
             }

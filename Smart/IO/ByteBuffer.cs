@@ -89,7 +89,7 @@
         /// <param name="array"></param>
         public ByteBuffer(byte[] array)
         {
-            if (array == null)
+            if (array is null)
             {
                 throw new ArgumentNullException(nameof(array));
             }
@@ -107,7 +107,7 @@
         /// <param name="length"></param>
         public ByteBuffer(byte[] array, int offset, int length)
         {
-            if (array == null)
+            if (array is null)
             {
                 throw new ArgumentNullException(nameof(array));
             }
@@ -125,7 +125,7 @@
         /// <returns></returns>
         public static ByteBuffer CopyOf(ByteBuffer array)
         {
-            if (array == null)
+            if (array is null)
             {
                 throw new ArgumentNullException(nameof(array));
             }

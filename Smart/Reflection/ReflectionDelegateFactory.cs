@@ -1,4 +1,4 @@
-﻿namespace Smart.Reflection
+namespace Smart.Reflection
 {
     using System;
     using System.Reflection;
@@ -19,7 +19,7 @@
 
         public Func<int, Array> CreateArrayAllocator(Type type)
         {
-            if (type == null)
+            if (type is null)
             {
                 throw new ArgumentNullException(nameof(type));
             }
@@ -31,7 +31,7 @@
 
         public Func<object[], object> CreateFactory(ConstructorInfo ci)
         {
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentNullException(nameof(ci));
             }
@@ -43,7 +43,7 @@
 
         public Func<object> CreateFactory0(ConstructorInfo ci)
         {
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentNullException(nameof(ci));
             }
@@ -66,13 +66,13 @@
 
         public Func<object, object> CreateGetter(PropertyInfo pi, bool extension)
         {
-            if (pi == null)
+            if (pi is null)
             {
                 throw new ArgumentNullException(nameof(pi));
             }
 
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
-            if (holderType == null)
+            if (holderType is null)
             {
                 if (!pi.CanRead)
                 {
@@ -102,13 +102,13 @@
 
         public Action<object, object> CreateSetter(PropertyInfo pi, bool extension)
         {
-            if (pi == null)
+            if (pi is null)
             {
                 throw new ArgumentNullException(nameof(pi));
             }
 
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
-            if (holderType == null)
+            if (holderType is null)
             {
                 if (!pi.CanWrite)
                 {
@@ -140,13 +140,13 @@
 
         public Func<T, TMember> CreateGetter<T, TMember>(PropertyInfo pi, bool extension)
         {
-            if (pi == null)
+            if (pi is null)
             {
                 throw new ArgumentNullException(nameof(pi));
             }
 
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
-            if (holderType == null)
+            if (holderType is null)
             {
                 if (!pi.CanRead)
                 {
@@ -176,13 +176,13 @@
 
         public Action<T, TMember> CreateSetter<T, TMember>(PropertyInfo pi, bool extension)
         {
-            if (pi == null)
+            if (pi is null)
             {
                 throw new ArgumentNullException(nameof(pi));
             }
 
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
-            if (holderType == null)
+            if (holderType is null)
             {
                 if (!pi.CanWrite)
                 {
@@ -210,7 +210,7 @@
         public Type GetExtendedPropertyType(PropertyInfo pi)
         {
             var holderType = ValueHolderHelper.FindValueHolderType(pi);
-            var tpi = holderType != null ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
+            var tpi = holderType is null ? pi : ValueHolderHelper.GetValueTypeProperty(holderType);
             return tpi.PropertyType;
         }
     }

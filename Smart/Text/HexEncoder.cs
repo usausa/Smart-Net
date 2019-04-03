@@ -16,7 +16,7 @@
         /// <returns></returns>
         public static string ToHex(byte[] bytes)
         {
-            if (bytes == null)
+            if (bytes is null)
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
@@ -32,7 +32,7 @@
         /// <returns></returns>
         public static string ToHex(byte[] bytes, int lineSize)
         {
-            if (bytes == null)
+            if (bytes is null)
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
@@ -49,7 +49,7 @@
         /// <returns></returns>
         public static string ToHex(byte[] bytes, int lineSize, string lineSeparator)
         {
-            if (bytes == null)
+            if (bytes is null)
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
@@ -65,7 +65,7 @@
         /// <returns></returns>
         public static string ToHex(byte[] bytes, string separator)
         {
-            if (bytes == null)
+            if (bytes is null)
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
@@ -82,7 +82,7 @@
         /// <returns></returns>
         public static string ToHex(byte[] bytes, string separator, int lineSize)
         {
-            if (bytes == null)
+            if (bytes is null)
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
@@ -100,7 +100,7 @@
         /// <returns></returns>
         public static string ToHex(byte[] bytes, string separator, int lineSize, string lineSeparator)
         {
-            if (bytes == null)
+            if (bytes is null)
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
@@ -117,7 +117,7 @@
         /// <returns></returns>
         public static string ToHex(byte[] bytes, string prefix, string separator)
         {
-            if (bytes == null)
+            if (bytes is null)
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
@@ -135,7 +135,7 @@
         /// <returns></returns>
         public static string ToHex(byte[] bytes, string prefix, string separator, int lineSize)
         {
-            if (bytes == null)
+            if (bytes is null)
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
@@ -154,7 +154,7 @@
         /// <returns></returns>
         public static string ToHex(byte[] bytes, string prefix, string separator, int lineSize, string lineSeparator)
         {
-            if (bytes == null)
+            if (bytes is null)
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
@@ -171,7 +171,7 @@
         /// <returns></returns>
         public static string ToHex(byte[] bytes, int start, int length)
         {
-            if (bytes == null)
+            if (bytes is null)
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
@@ -189,7 +189,7 @@
         /// <returns></returns>
         public static string ToHex(byte[] bytes, int start, int length, int lineSize)
         {
-            if (bytes == null)
+            if (bytes is null)
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
@@ -208,7 +208,7 @@
         /// <returns></returns>
         public static string ToHex(byte[] bytes, int start, int length, int lineSize, string lineSeparator)
         {
-            if (bytes == null)
+            if (bytes is null)
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
@@ -226,7 +226,7 @@
         /// <returns></returns>
         public static string ToHex(byte[] bytes, int start, int length, string separator)
         {
-            if (bytes == null)
+            if (bytes is null)
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
@@ -245,7 +245,7 @@
         /// <returns></returns>
         public static string ToHex(byte[] bytes, int start, int length, string separator, int lineSize)
         {
-            if (bytes == null)
+            if (bytes is null)
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
@@ -265,7 +265,7 @@
         /// <returns></returns>
         public static string ToHex(byte[] bytes, int start, int length, string separator, int lineSize, string lineSeparator)
         {
-            if (bytes == null)
+            if (bytes is null)
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
@@ -284,7 +284,7 @@
         /// <returns></returns>
         public static string ToHex(byte[] bytes, int start, int length, string prefix, string separator)
         {
-            if (bytes == null)
+            if (bytes is null)
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
@@ -304,7 +304,7 @@
         /// <returns></returns>
         public static string ToHex(byte[] bytes, int start, int length, string prefix, string separator, int lineSize)
         {
-            if (bytes == null)
+            if (bytes is null)
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
@@ -325,7 +325,7 @@
         /// <returns></returns>
         public static string ToHex(byte[] bytes, int start, int length, string prefix, string separator, int lineSize, string lineSeparator)
         {
-            if (bytes == null)
+            if (bytes is null)
             {
                 throw new ArgumentNullException(nameof(bytes));
             }
@@ -414,7 +414,7 @@
         /// <returns></returns>
         public static byte[] ToBytes(string text)
         {
-            if (text == null)
+            if (text is null)
             {
                 throw new ArgumentNullException(nameof(text));
             }

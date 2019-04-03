@@ -33,7 +33,7 @@
         /// <returns></returns>
         public static T[] RemoveRange<T>(this T[] array, int start, int length)
         {
-            if ((array == null) || (array.Length == 0) || (length <= 0) || (start >= array.Length))
+            if ((array is null) || (array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
                 return array;
             }
@@ -75,7 +75,7 @@
         /// <returns></returns>
         public static byte[] RemoveRange(this byte[] array, int start, int length)
         {
-            if ((array == null) || (array.Length == 0) || (length <= 0) || (start >= array.Length))
+            if ((array is null) || (array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
                 return array;
             }
@@ -117,7 +117,7 @@
         /// <returns></returns>
         public static short[] RemoveRange(this short[] array, int start, int length)
         {
-            if ((array == null) || (array.Length == 0) || (length <= 0) || (start >= array.Length))
+            if ((array is null) || (array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
                 return array;
             }
@@ -159,7 +159,7 @@
         /// <returns></returns>
         public static int[] RemoveRange(this int[] array, int start, int length)
         {
-            if ((array == null) || (array.Length == 0) || (length <= 0) || (start >= array.Length))
+            if ((array is null) || (array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
                 return array;
             }
@@ -201,7 +201,7 @@
         /// <returns></returns>
         public static long[] RemoveRange(this long[] array, int start, int length)
         {
-            if ((array == null) || (array.Length == 0) || (length <= 0) || (start >= array.Length))
+            if ((array is null) || (array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
                 return array;
             }
@@ -243,7 +243,7 @@
         /// <returns></returns>
         public static float[] RemoveRange(this float[] array, int start, int length)
         {
-            if ((array == null) || (array.Length == 0) || (length <= 0) || (start >= array.Length))
+            if ((array is null) || (array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
                 return array;
             }
@@ -285,7 +285,7 @@
         /// <returns></returns>
         public static double[] RemoveRange(this double[] array, int start, int length)
         {
-            if ((array == null) || (array.Length == 0) || (length <= 0) || (start >= array.Length))
+            if ((array is null) || (array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
                 return array;
             }
@@ -327,7 +327,7 @@
         /// <returns></returns>
         public static bool[] RemoveRange(this bool[] array, int start, int length)
         {
-            if ((array == null) || (array.Length == 0) || (length <= 0) || (start >= array.Length))
+            if ((array is null) || (array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
                 return array;
             }
@@ -369,7 +369,7 @@
         /// <returns></returns>
         public static char[] RemoveRange(this char[] array, int start, int length)
         {
-            if ((array == null) || (array.Length == 0) || (length <= 0) || (start >= array.Length))
+            if ((array is null) || (array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
                 return array;
             }

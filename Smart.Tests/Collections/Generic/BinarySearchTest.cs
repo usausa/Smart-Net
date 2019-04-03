@@ -13,7 +13,7 @@
     {
         private static void AssertIndex(IList<int> expects, IList<int> actuals)
         {
-            if (actuals == null)
+            if (actuals is null)
             {
                 throw new ArgumentNullException(nameof(actuals));
             }

@@ -17,7 +17,7 @@
         /// <param name="comparer"></param>
         public DelegateComparer(Func<T, T, int> comparer)
         {
-            if (comparer == null)
+            if (comparer is null)
             {
                 throw new ArgumentNullException(nameof(comparer));
             }

@@ -1,4 +1,4 @@
-﻿namespace Smart.Collections.Generic
+namespace Smart.Collections.Generic
 {
     using System;
     using System.Collections.Generic;
@@ -17,7 +17,7 @@
         /// <returns></returns>
         public static bool IsNullOrEmpty<T>(this ICollection<T> source)
         {
-            return (source == null) || (source.Count == 0);
+            return (source is null) || (source.Count == 0);
         }
 
         /// <summary>
@@ -29,12 +29,14 @@
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static void AddRange<T>(this ICollection<T> source, IEnumerable<T> collection)
         {
-            if (collection != null)
+            if (collection is null)
             {
-                foreach (var item in collection)
-                {
-                    source.Add(item);
-                }
+                return;
+            }
+
+            foreach (var item in collection)
+            {
+                source.Add(item);
             }
         }
 

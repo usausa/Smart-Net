@@ -20,7 +20,7 @@
         /// <param name="original"></param>
         public ReverseComparer(IComparer<T> original)
         {
-            if (original == null)
+            if (original is null)
             {
                 throw new ArgumentNullException(nameof(original));
             }

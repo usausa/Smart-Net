@@ -66,12 +66,12 @@
         /// <param name="implementType"></param>
         public void Add(Type componentType, Type implementType)
         {
-            if (componentType == null)
+            if (componentType is null)
             {
                 throw new ArgumentNullException(nameof(componentType));
             }
 
-            if (implementType == null)
+            if (implementType is null)
             {
                 throw new ArgumentNullException(nameof(implementType));
             }
@@ -97,12 +97,12 @@
         /// <param name="constant"></param>
         public void Add(Type componentType, object constant)
         {
-            if (componentType == null)
+            if (componentType is null)
             {
                 throw new ArgumentNullException(nameof(componentType));
             }
 
-            if (constant == null)
+            if (constant is null)
             {
                 throw new ArgumentNullException(nameof(constant));
             }

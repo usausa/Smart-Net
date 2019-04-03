@@ -21,7 +21,7 @@
         /// <returns></returns>
         public static byte[] FromHex(string hex)
         {
-            if (hex == null)
+            if (hex is null)
             {
                 throw new ArgumentNullException(nameof(hex));
             }

@@ -30,7 +30,7 @@
         /// <param name="comparer"></param>
         public ProjectionComparer(Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
         {
-            if (keySelector == null)
+            if (keySelector is null)
             {
                 throw new ArgumentNullException(nameof(keySelector));
             }

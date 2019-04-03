@@ -20,7 +20,7 @@
         /// <returns></returns>
         public static int IndexOf<T>(this T[] array, Func<T, bool> predicate)
         {
-            if (array == null)
+            if (array is null)
             {
                 return -1;
             }
@@ -47,7 +47,7 @@
         /// <returns></returns>
         public static int IndexOf<T>(this T[] array, int offset, int length, Func<T, bool> predicate)
         {
-            if (array == null)
+            if (array is null)
             {
                 return -1;
             }

@@ -33,12 +33,12 @@
         /// <returns></returns>
         public static IEnumerable<T> Materialize<T>(this IEnumerable<T> source, bool nullToEmpty)
         {
-            if (nullToEmpty && source == null)
+            if (nullToEmpty && source is null)
             {
                 return Enumerable.Empty<T>();
             }
 
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }

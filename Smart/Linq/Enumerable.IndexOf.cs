@@ -21,12 +21,12 @@
         /// <returns></returns>
         public static int IndexOf<T>(this IEnumerable<T> source, Func<T, bool> predicate)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            if (predicate == null)
+            if (predicate is null)
             {
                 throw new ArgumentNullException(nameof(predicate));
             }
@@ -54,12 +54,12 @@
         /// <returns></returns>
         public static int IndexOf<T>(this T[] source, Func<T, bool> predicate)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            if (predicate == null)
+            if (predicate is null)
             {
                 throw new ArgumentNullException(nameof(predicate));
             }
@@ -84,12 +84,12 @@
         /// <returns></returns>
         public static int LastIndexOf<T>(this T[] source, Func<T, bool> predicate)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            if (predicate == null)
+            if (predicate is null)
             {
                 throw new ArgumentNullException(nameof(predicate));
             }
@@ -114,12 +114,12 @@
         /// <returns></returns>
         public static int IndexOf<T>(this IList<T> source, Func<T, bool> predicate)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            if (predicate == null)
+            if (predicate is null)
             {
                 throw new ArgumentNullException(nameof(predicate));
             }
@@ -144,12 +144,12 @@
         /// <returns></returns>
         public static int LastIndexOf<T>(this IList<T> source, Func<T, bool> predicate)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            if (predicate == null)
+            if (predicate is null)
             {
                 throw new ArgumentNullException(nameof(predicate));
             }

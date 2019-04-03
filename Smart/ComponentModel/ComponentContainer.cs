@@ -1,4 +1,4 @@
-﻿namespace Smart.ComponentModel
+namespace Smart.ComponentModel
 {
     using System;
     using System.Collections.Generic;
@@ -28,7 +28,7 @@
         /// <param name="config"></param>
         public ComponentContainer(IComponentConfig config)
         {
-            if (config == null)
+            if (config is null)
             {
                 throw new ArgumentNullException(nameof(config));
             }
@@ -124,7 +124,7 @@
         /// <returns></returns>
         public object Get(Type componentType)
         {
-            if (componentType == null)
+            if (componentType is null)
             {
                 throw new ArgumentNullException(nameof(componentType));
             }
@@ -157,7 +157,7 @@
         /// <returns></returns>
         public object TryGet(Type componentType, out bool result)
         {
-            if (componentType == null)
+            if (componentType is null)
             {
                 throw new ArgumentNullException(nameof(componentType));
             }
@@ -184,7 +184,7 @@
         /// <returns></returns>
         public object GetService(Type serviceType)
         {
-            if (serviceType == null)
+            if (serviceType is null)
             {
                 throw new ArgumentNullException(nameof(serviceType));
             }
@@ -245,13 +245,13 @@
                 {
                     var pi = ci.GetParameters()[i];
                     var elementType = GetElementType(pi.ParameterType);
-                    if (elementType != null)
+                    if (elementType is null)
                     {
-                        arguments[i] = ConvertArray(elementType, GetAll(elementType));
+                        arguments[i] = TryGet(pi.ParameterType, out match);
                     }
                     else
                     {
-                        arguments[i] = TryGet(pi.ParameterType, out match);
+                        arguments[i] = ConvertArray(elementType, GetAll(elementType));
                     }
 
                     if (!match)

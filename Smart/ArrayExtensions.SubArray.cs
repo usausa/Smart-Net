@@ -21,7 +21,7 @@
         /// <returns></returns>
         public static T[] SubArray<T>(this T[] array, int offset, int length)
         {
-            if (array == null)
+            if (array is null)
             {
                 return null;
             }
@@ -48,7 +48,7 @@
         /// <returns></returns>
         public static byte[] SubArray(this byte[] array, int offset, int length)
         {
-            if (array == null)
+            if (array is null)
             {
                 return null;
             }
@@ -75,7 +75,7 @@
         /// <returns></returns>
         public static short[] SubArray(this short[] array, int offset, int length)
         {
-            if (array == null)
+            if (array is null)
             {
                 return null;
             }
@@ -102,7 +102,7 @@
         /// <returns></returns>
         public static int[] SubArray(this int[] array, int offset, int length)
         {
-            if (array == null)
+            if (array is null)
             {
                 return null;
             }
@@ -129,7 +129,7 @@
         /// <returns></returns>
         public static long[] SubArray(this long[] array, int offset, int length)
         {
-            if (array == null)
+            if (array is null)
             {
                 return null;
             }
@@ -156,7 +156,7 @@
         /// <returns></returns>
         public static float[] SubArray(this float[] array, int offset, int length)
         {
-            if (array == null)
+            if (array is null)
             {
                 return null;
             }
@@ -183,7 +183,7 @@
         /// <returns></returns>
         public static double[] SubArray(this double[] array, int offset, int length)
         {
-            if (array == null)
+            if (array is null)
             {
                 return null;
             }
@@ -210,7 +210,7 @@
         /// <returns></returns>
         public static bool[] SubArray(this bool[] array, int offset, int length)
         {
-            if (array == null)
+            if (array is null)
             {
                 return null;
             }
@@ -237,7 +237,7 @@
         /// <returns></returns>
         public static char[] SubArray(this char[] array, int offset, int length)
         {
-            if (array == null)
+            if (array is null)
             {
                 return null;
             }

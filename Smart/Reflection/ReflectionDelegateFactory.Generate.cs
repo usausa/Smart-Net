@@ -8,7 +8,7 @@ namespace Smart.Reflection
     {
         public Func<object, object> CreateFactory1(ConstructorInfo ci)
         {
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentNullException(nameof(ci));
             }
@@ -23,7 +23,7 @@ namespace Smart.Reflection
 
         public Func<object, object, object> CreateFactory2(ConstructorInfo ci)
         {
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentNullException(nameof(ci));
             }
@@ -38,7 +38,7 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object> CreateFactory3(ConstructorInfo ci)
         {
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentNullException(nameof(ci));
             }
@@ -53,7 +53,7 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object> CreateFactory4(ConstructorInfo ci)
         {
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentNullException(nameof(ci));
             }
@@ -68,7 +68,7 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object> CreateFactory5(ConstructorInfo ci)
         {
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentNullException(nameof(ci));
             }
@@ -83,7 +83,7 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object> CreateFactory6(ConstructorInfo ci)
         {
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentNullException(nameof(ci));
             }
@@ -98,7 +98,7 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object> CreateFactory7(ConstructorInfo ci)
         {
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentNullException(nameof(ci));
             }
@@ -113,7 +113,7 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object, object> CreateFactory8(ConstructorInfo ci)
         {
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentNullException(nameof(ci));
             }
@@ -128,7 +128,7 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object, object, object> CreateFactory9(ConstructorInfo ci)
         {
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentNullException(nameof(ci));
             }
@@ -143,7 +143,7 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object, object, object, object> CreateFactory10(ConstructorInfo ci)
         {
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentNullException(nameof(ci));
             }
@@ -158,7 +158,7 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory11(ConstructorInfo ci)
         {
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentNullException(nameof(ci));
             }
@@ -173,7 +173,7 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory12(ConstructorInfo ci)
         {
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentNullException(nameof(ci));
             }
@@ -188,7 +188,7 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory13(ConstructorInfo ci)
         {
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentNullException(nameof(ci));
             }
@@ -203,7 +203,7 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory14(ConstructorInfo ci)
         {
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentNullException(nameof(ci));
             }
@@ -218,7 +218,7 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory15(ConstructorInfo ci)
         {
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentNullException(nameof(ci));
             }
@@ -233,7 +233,7 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory16(ConstructorInfo ci)
         {
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentNullException(nameof(ci));
             }
@@ -249,7 +249,7 @@ namespace Smart.Reflection
         public Func<TP1, T> CreateFactory<TP1, T>()
         {
             var ci = typeof(T).GetConstructor(new[] { typeof(TP1) });
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
@@ -260,7 +260,7 @@ namespace Smart.Reflection
         public Func<TP1, TP2, T> CreateFactory<TP1, TP2, T>()
         {
             var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2) });
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
@@ -271,7 +271,7 @@ namespace Smart.Reflection
         public Func<TP1, TP2, TP3, T> CreateFactory<TP1, TP2, TP3, T>()
         {
             var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3) });
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
@@ -282,7 +282,7 @@ namespace Smart.Reflection
         public Func<TP1, TP2, TP3, TP4, T> CreateFactory<TP1, TP2, TP3, TP4, T>()
         {
             var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4) });
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
@@ -293,7 +293,7 @@ namespace Smart.Reflection
         public Func<TP1, TP2, TP3, TP4, TP5, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, T>()
         {
             var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5) });
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
@@ -304,7 +304,7 @@ namespace Smart.Reflection
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, T>()
         {
             var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6) });
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
@@ -315,7 +315,7 @@ namespace Smart.Reflection
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, T>()
         {
             var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7) });
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
@@ -326,7 +326,7 @@ namespace Smart.Reflection
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, T>()
         {
             var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8) });
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
@@ -337,7 +337,7 @@ namespace Smart.Reflection
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, T>()
         {
             var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9) });
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
@@ -348,7 +348,7 @@ namespace Smart.Reflection
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, T>()
         {
             var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10) });
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
@@ -359,7 +359,7 @@ namespace Smart.Reflection
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, T>()
         {
             var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11) });
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
@@ -370,7 +370,7 @@ namespace Smart.Reflection
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, T>()
         {
             var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12) });
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
@@ -381,7 +381,7 @@ namespace Smart.Reflection
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, T>()
         {
             var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13) });
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
@@ -392,7 +392,7 @@ namespace Smart.Reflection
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, T>()
         {
             var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14) });
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
@@ -403,7 +403,7 @@ namespace Smart.Reflection
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, T>()
         {
             var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), typeof(TP15) });
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
@@ -414,7 +414,7 @@ namespace Smart.Reflection
         public Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, T>()
         {
             var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), typeof(TP15), typeof(TP16) });
-            if (ci == null)
+            if (ci is null)
             {
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }

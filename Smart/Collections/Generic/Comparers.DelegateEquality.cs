@@ -20,12 +20,12 @@
         /// <param name="getHashCode"></param>
         public DelegateEqualityComparer(Func<T, T, bool> equals, Func<T, int> getHashCode)
         {
-            if (equals == null)
+            if (equals is null)
             {
                 throw new ArgumentNullException(nameof(equals));
             }
 
-            if (getHashCode == null)
+            if (getHashCode is null)
             {
                 throw new ArgumentNullException(nameof(getHashCode));
             }

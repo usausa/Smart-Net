@@ -111,7 +111,7 @@
         /// <returns></returns>
         private static Node[] AddNode(Node[] nodes, Node addNode)
         {
-            if (nodes == null)
+            if (nodes is null)
             {
                 return new[] { addNode };
             }
@@ -150,7 +150,7 @@
         {
             for (var i = 0; i < nodes.Length; i++)
             {
-                if (nodes[i] == null)
+                if (nodes[i] is null)
                 {
                     nodes[i] = EmptyNodes;
                 }

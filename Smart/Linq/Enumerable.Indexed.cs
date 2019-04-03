@@ -69,7 +69,7 @@
         /// <returns></returns>
         public static IEnumerable<Indexed<T>> Indexed<T>(this T[] source)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
@@ -137,7 +137,7 @@
         /// <returns></returns>
         public static IEnumerable<Indexed<T>> Indexed<T>(this IList<T> source)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
@@ -205,7 +205,7 @@
         /// <returns></returns>
         public static IEnumerable<Indexed<T>> Indexed<T>(this IEnumerable<T> source)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }

@@ -21,12 +21,12 @@
         /// <returns></returns>
         public static int Count<TSource>(this TSource[] source, Func<TSource, bool> predicate)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            if (predicate == null)
+            if (predicate is null)
             {
                 throw new ArgumentNullException(nameof(predicate));
             }
@@ -52,12 +52,12 @@
         /// <returns></returns>
         public static int Count<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            if (predicate == null)
+            if (predicate is null)
             {
                 throw new ArgumentNullException(nameof(predicate));
             }
@@ -87,12 +87,12 @@
         /// <returns></returns>
         public static bool Any<TSource>(this TSource[] source, Func<TSource, bool> predicate)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            if (predicate == null)
+            if (predicate is null)
             {
                 throw new ArgumentNullException(nameof(predicate));
             }
@@ -117,12 +117,12 @@
         /// <returns></returns>
         public static bool Any<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            if (predicate == null)
+            if (predicate is null)
             {
                 throw new ArgumentNullException(nameof(predicate));
             }
@@ -151,12 +151,12 @@
         /// <returns></returns>
         public static bool All<TSource>(this TSource[] source, Func<TSource, bool> predicate)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            if (predicate == null)
+            if (predicate is null)
             {
                 throw new ArgumentNullException(nameof(predicate));
             }
@@ -181,12 +181,12 @@
         /// <returns></returns>
         public static bool All<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
         {
-            if (source == null)
+            if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
             }
 
-            if (predicate == null)
+            if (predicate is null)
             {
                 throw new ArgumentNullException(nameof(predicate));
             }

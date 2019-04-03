@@ -17,7 +17,7 @@
         /// <param name="comparison"></param>
         public ComparisonComparer(Comparison<T> comparison)
         {
-            if (comparison == null)
+            if (comparison is null)
             {
                 throw new ArgumentNullException(nameof(comparison));
             }
