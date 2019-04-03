@@ -1,4 +1,4 @@
-namespace Smart.Collections.Generic
+﻿namespace Smart.Collections.Generic
 {
     using System;
     using System.Collections.Generic;

@@ -1,4 +1,4 @@
-namespace Smart.Functional
+﻿namespace Smart.Functional
 {
     using System;
     using System.Collections.Generic;
