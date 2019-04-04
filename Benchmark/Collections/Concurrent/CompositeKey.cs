@@ -14,12 +14,15 @@
             Name = name;
         }
 
-        public bool Equals(CompositeKey other) => Type == other.Type && Name == other.Name;
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.SpacingRules", "SA1008:OpeningParenthesisMustBeSpacedCorrectly", Justification = "Ignore")]
+        public override int GetHashCode() => (Type, Name).GetHashCode();
 
         public override bool Equals(object obj) => obj is CompositeKey other && Equals(other);
 
-#pragma warning disable SA1008 // Opening parenthesis must be spaced correctly
-        public override int GetHashCode() => (Type, Name).GetHashCode();
-#pragma warning restore SA1008 // Opening parenthesis must be spaced correctly
+        public bool Equals(CompositeKey other) => Type == other.Type && Name == other.Name;
+
+        public static bool operator ==(CompositeKey x, CompositeKey y) => x.Equals(y);
+
+        public static bool operator !=(CompositeKey x, CompositeKey y) => !x.Equals(y);
     }
 }

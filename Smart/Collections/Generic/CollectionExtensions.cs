@@ -4,29 +4,13 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    /// <summary>
-    ///
-    /// </summary>
     public static class CollectionExtensions
     {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
         public static bool IsNullOrEmpty<T>(this ICollection<T> source)
         {
             return (source is null) || (source.Count == 0);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="collection"></param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static void AddRange<T>(this ICollection<T> source, IEnumerable<T> collection)
         {
             if (collection is null)
@@ -40,13 +24,6 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="predicate"></param>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static void RemoveWhere<T>(this ICollection<T> source, Predicate<T> predicate)
         {
             var deleteItems = source.Where(x => predicate(x)).ToList();

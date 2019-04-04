@@ -16,7 +16,7 @@
 
         private static readonly Type ListType = typeof(IList<>);
 
-        private static readonly object[] EmptyResult = new object[0];
+        private static readonly object[] EmptyResult = Array.Empty<object>();
 
         private readonly Dictionary<Type, object[]> cache = new Dictionary<Type, object[]>();
 

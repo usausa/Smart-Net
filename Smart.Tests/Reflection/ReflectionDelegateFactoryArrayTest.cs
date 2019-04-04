@@ -7,11 +7,11 @@
         [Fact]
         public void ArrayAllocator()
         {
-            var func = ReflectionDelegateFactory.Default.CreateArrayAllocator(typeof(Data));
+            var func = ReflectionDelegateFactory.Default.CreateArrayAllocator(typeof(MemberData));
 
             var array = func(2);
 
-            Assert.Equal(typeof(Data[]), array.GetType());
+            Assert.Equal(typeof(MemberData[]), array.GetType());
         }
 
         [Fact]

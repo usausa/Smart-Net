@@ -10,7 +10,6 @@
         // Append
         //--------------------------------------------------------------------------------
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static StringBuilder AppendIf(this StringBuilder sb, bool condition, Func<object> valueFactory)
         {
             if (condition)
@@ -22,7 +21,6 @@
             return sb;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static StringBuilder AppendLineIf(this StringBuilder sb, bool condition)
         {
             if (condition)
@@ -33,7 +31,6 @@
             return sb;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static StringBuilder AppendLineIf(this StringBuilder sb, bool condition, Func<string> valueFactory)
         {
             if (condition)

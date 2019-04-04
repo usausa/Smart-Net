@@ -1,6 +1,7 @@
 ﻿namespace Smart.Text
 {
     using System;
+    using System.Globalization;
     using System.Text;
 
     /// <summary>
@@ -52,12 +53,12 @@
                 {
                     if (toUpper)
                     {
-                        sb.Append(Char.ToUpper(c));
+                        sb.Append(Char.ToUpper(c, CultureInfo.CurrentCulture));
                         toUpper = false;
                     }
                     else
                     {
-                        sb.Append(Char.ToLower(c));
+                        sb.Append(Char.ToLower(c, CultureInfo.CurrentCulture));
                     }
                 }
             }
@@ -96,7 +97,7 @@
                     sb.Append("_");
                 }
 
-                sb.Append(toUpper ? Char.ToUpper(c) : Char.ToLower(c));
+                sb.Append(toUpper ? Char.ToUpper(c, CultureInfo.CurrentCulture) : Char.ToLower(c, CultureInfo.CurrentCulture));
             }
 
             return sb.ToString();

@@ -8,6 +8,8 @@
     /// </summary>
     public static class ReflectionHelper
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Ignore")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1806:DoNotIgnoreMethodResults", Justification = "Ignore")]
         static ReflectionHelper()
         {
             try
@@ -20,7 +22,7 @@
                     true);
                 IsCodegenAllowed = true;
             }
-            catch (Exception)
+            catch
             {
                 IsCodegenAllowed = false;
             }

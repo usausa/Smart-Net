@@ -28,7 +28,7 @@
 
             if (offset >= array.Length)
             {
-                return Empty<T>.Array;
+                return Array.Empty<T>();
             }
 
             FixLength(ref length, array.Length - offset);
@@ -55,7 +55,7 @@
 
             if (offset >= array.Length)
             {
-                return Empty<byte>.Array;
+                return Array.Empty<byte>();
             }
 
             FixLength(ref length, array.Length - offset);
@@ -82,7 +82,7 @@
 
             if (offset >= array.Length)
             {
-                return Empty<short>.Array;
+                return Array.Empty<short>();
             }
 
             FixLength(ref length, array.Length - offset);
@@ -109,7 +109,7 @@
 
             if (offset >= array.Length)
             {
-                return Empty<int>.Array;
+                return Array.Empty<int>();
             }
 
             FixLength(ref length, array.Length - offset);
@@ -136,7 +136,7 @@
 
             if (offset >= array.Length)
             {
-                return Empty<long>.Array;
+                return Array.Empty<long>();
             }
 
             FixLength(ref length, array.Length - offset);
@@ -163,7 +163,7 @@
 
             if (offset >= array.Length)
             {
-                return Empty<float>.Array;
+                return Array.Empty<float>();
             }
 
             FixLength(ref length, array.Length - offset);
@@ -190,7 +190,7 @@
 
             if (offset >= array.Length)
             {
-                return Empty<double>.Array;
+                return Array.Empty<double>();
             }
 
             FixLength(ref length, array.Length - offset);
@@ -217,7 +217,7 @@
 
             if (offset >= array.Length)
             {
-                return Empty<bool>.Array;
+                return Array.Empty<bool>();
             }
 
             FixLength(ref length, array.Length - offset);
@@ -244,7 +244,7 @@
 
             if (offset >= array.Length)
             {
-                return Empty<char>.Array;
+                return Array.Empty<char>();
             }
 
             FixLength(ref length, array.Length - offset);

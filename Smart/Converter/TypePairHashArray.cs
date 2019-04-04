@@ -12,7 +12,7 @@
 
         private const double Factor = 2;
 
-        private static readonly Node[] EmptyNodes = new Node[0];
+        private static readonly Node[] EmptyNodes = Array.Empty<Node>();
 
         private readonly object sync = new object();
 
@@ -52,7 +52,7 @@
             return size + 1;
         }
 
-        private Table CreateInitialTable()
+        private static Table CreateInitialTable()
         {
             var mask = InitialSize - 1;
             var nodes = new Node[InitialSize][];
@@ -103,7 +103,7 @@
             }
         }
 
-        private Table CreateAddTable(Table oldTable, Node node)
+        private static Table CreateAddTable(Table oldTable, Node node)
         {
             var requestSize = Math.Max(InitialSize, (int)Math.Ceiling((oldTable.Count + 1) * Factor));
 

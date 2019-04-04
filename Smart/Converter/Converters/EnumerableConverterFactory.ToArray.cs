@@ -6,6 +6,7 @@
 
     using Smart.Collections.Generic;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1034:NestedTypesShouldNotBeVisible", Justification = "Ignore")]
     public sealed partial class EnumerableConverterFactory
     {
         private sealed class SameTypeArrayProvider : IEnumerableConverterProvider

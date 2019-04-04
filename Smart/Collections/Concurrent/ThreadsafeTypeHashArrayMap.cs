@@ -15,7 +15,7 @@
     [DebuggerDisplay("Count = {" + nameof(Count) + "}")]
     public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePair<Type, TValue>>
     {
-        private static readonly Node[] EmptyNodes = new Node[0];
+        private static readonly Node[] EmptyNodes = Array.Empty<Node>();
 
         private readonly object sync = new object();
 
@@ -416,19 +416,6 @@
         //--------------------------------------------------------------------------------
         // Helper
         //--------------------------------------------------------------------------------
-
-        public TValue this[Type key]
-        {
-            get
-            {
-                if (!TryGetValue(key, out var value))
-                {
-                    throw new KeyNotFoundException();
-                }
-
-                return value;
-            }
-        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool ContainsKey(Type key)

@@ -18,7 +18,7 @@
         public int Y { get; set; }
     }
 
-    public class Data
+    public class MemberData
     {
         public string StringValue { get; set; }
 

@@ -5,7 +5,7 @@
     public class ArrayExtensionTest
     {
         [Fact]
-        public static void TestArrayRemoveAt()
+        public void TestArrayRemoveAt()
         {
             Assert.Equal(new[] { 2, 3 }, new[] { 1, 2, 3 }.RemoveAt(0));
             Assert.Equal(new[] { 1, 3 }, new[] { 1, 2, 3 }.RemoveAt(1));
@@ -14,7 +14,7 @@
         }
 
         [Fact]
-        public static void TestArrayRemoveRange()
+        public void TestArrayRemoveRange()
         {
             Assert.Equal(new[] { 3, 4 }, new[] { 1, 2, 3, 4 }.RemoveRange(0, 2));
             Assert.Equal(new[] { 1, 4 }, new[] { 1, 2, 3, 4 }.RemoveRange(1, 2));

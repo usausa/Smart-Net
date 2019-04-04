@@ -32,7 +32,6 @@
 
             Assert.Equal(1, map.Count);
             Assert.True(map.TryGetValue(1, out string _));
-            Assert.Equal("1", map[1]);
             Assert.True(map.ContainsKey(1));
             Assert.Equal("1", map.GetValueOrDefault(1));
 

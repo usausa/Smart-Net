@@ -2,17 +2,8 @@
 {
     using System.IO;
 
-    /// <summary>
-    ///
-    /// </summary>
     public static class StreamExtensions
     {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static byte[] ReadAllBytes(this Stream stream)
         {
             if (stream is MemoryStream memoryStream)
@@ -27,13 +18,6 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="stream"></param>
-        /// <param name="size"></param>
-        /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         public static byte[] ReadBytes(this Stream stream, int size)
         {
             var buffer = new byte[size];

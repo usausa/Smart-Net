@@ -41,6 +41,7 @@
         // ReSharper restore RedundantTypeSpecificationInDefaultExpression
         // ReSharper restore CompareOfFloatsByEqualityOperator
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", Justification = "Ignore")]
         public Func<object, object> GetConverter(IObjectConverter context, Type sourceType, Type targetType)
         {
             if (sourceType == typeof(bool))

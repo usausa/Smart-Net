@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Ignore")]
     public sealed class EnumConverterFactory : IConverterFactory
     {
         private static readonly HashSet<Type> UnderlyingTypes = new HashSet<Type>

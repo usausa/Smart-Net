@@ -2,9 +2,6 @@
 {
     using System;
 
-    /// <summary>
-    ///
-    /// </summary>
     public class ByteBuffer
     {
         // position <= limit <= array.Length
@@ -13,15 +10,9 @@
 
         private int limit;
 
-        /// <summary>
-        ///
-        /// </summary>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "Performance")]
         public byte[] Array { get; }
 
-        /// <summary>
-        ///
-        /// </summary>
         public int Position
         {
             get => position;
@@ -36,9 +27,6 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
         public int Limit
         {
             get => limit;
@@ -57,25 +45,12 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
         public int Capacity { get; }
 
-        /// <summary>
-        ///
-        /// </summary>
         public int Remaining => limit - position;
 
-        /// <summary>
-        ///
-        /// </summary>
         public bool HasRemaining => position < limit;
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="capacity"></param>
         public ByteBuffer(int capacity)
         {
             Array = new byte[capacity];
@@ -83,10 +58,6 @@
             limit = capacity;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
         public ByteBuffer(byte[] array)
         {
             if (array is null)
@@ -99,12 +70,6 @@
             limit = Capacity;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="offset"></param>
-        /// <param name="length"></param>
         public ByteBuffer(byte[] array, int offset, int length)
         {
             if (array is null)
@@ -118,11 +83,6 @@
             limit = length;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <returns></returns>
         public static ByteBuffer CopyOf(ByteBuffer array)
         {
             if (array is null)
@@ -133,13 +93,6 @@
             return CopyOf(array.Array, array.position, array.Remaining);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="offset"></param>
-        /// <param name="length"></param>
-        /// <returns></returns>
         public static ByteBuffer CopyOf(byte[] array, int offset, int length)
         {
             var copy = new byte[length];
@@ -147,10 +100,6 @@
             return new ByteBuffer(copy, 0, length);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
         public ByteBuffer Clear()
         {
             position = 0;
@@ -158,10 +107,6 @@
             return this;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
         public ByteBuffer Flip()
         {
             limit = position;

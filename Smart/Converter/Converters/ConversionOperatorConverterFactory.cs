@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Reflection;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Ignore")]
     public sealed class ConversionOperatorConverterFactory : IConverterFactory
     {
         public Func<object, object> GetConverter(IObjectConverter context, Type sourceType, Type targetType)
@@ -101,6 +102,7 @@
                 this.mi = mi;
             }
 
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Ignore")]
             public Func<object, object> Build()
             {
                 var func = (Func<TSource, TDestination>)Delegate.CreateDelegate(typeof(Func<TSource, TDestination>), mi);
@@ -110,7 +112,7 @@
                     {
                         return func((TSource)source);
                     }
-                    catch (Exception)
+                    catch
                     {
                         return default(TDestination);
                     }

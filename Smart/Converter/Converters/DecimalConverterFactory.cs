@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", Justification = "Ignore")]
     public sealed class DecimalConverterFactory : IConverterFactory
     {
         private static readonly Dictionary<Tuple<Type, Type>, Func<object, object>> Converters = new Dictionary<Tuple<Type, Type>, Func<object, object>>

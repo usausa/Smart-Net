@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", Justification = "Ignore")]
     public sealed class DateTimeConverterFactory : IConverterFactory
     {
         private static readonly Dictionary<Type, Func<object, object>> DateTimeToTickConverter = new Dictionary<Type, Func<object, object>>

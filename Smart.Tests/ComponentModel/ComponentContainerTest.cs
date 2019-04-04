@@ -111,7 +111,6 @@
             Assert.Equal(1, obj.Disposed);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Justification = "Ignore")]
         [Fact]
         public void ComponentAddedConstIsDisposed()
         {
@@ -178,7 +177,6 @@
         {
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1040:AvoidEmptyInterfaces", Justification = "Ignore")]
         protected interface ICalcService
         {
         }
@@ -203,7 +201,6 @@
 
         protected class ArrayParameterObject
         {
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "Ignore")]
             public ICalcService[] CalcServices { get; set; }
 
             public ArrayParameterObject(ICalcService[] calcServices)

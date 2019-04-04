@@ -10,9 +10,6 @@
     using Smart.Collections.Concurrent;
     using Smart.ComponentModel;
 
-    /// <summary>
-    ///
-    /// </summary>
     public static class TypeExtensions
     {
         private static readonly Type NullableType = typeof(Nullable<>);
@@ -52,12 +49,6 @@
             DefaultValues.AddIfNotExist(typeof(decimal), default(decimal));
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static object GetDefaultValue(this Type type)
         {
@@ -79,36 +70,19 @@
             return null;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsNullableType(this Type type)
         {
             return type.IsGenericType && (type.GetGenericTypeDefinition() == NullableType);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsStruct(this Type type)
         {
             return type.IsValueType && !type.IsEnum && !type.IsPrimitive && !type.IsNullableType();
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsAnonymous(this Type type)
         {
             return type.IsDefined(CompilerGeneratedAttributeType, false) &&
@@ -119,12 +93,6 @@
                 ((type.Attributes & TypeAttributes.Sealed) == TypeAttributes.Sealed);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Type GetCollectionElementType(this Type type)
         {
@@ -152,12 +120,6 @@
             return null;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Type GetEnumType(this Type type)
         {
@@ -175,23 +137,12 @@
             return null;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Type GetValueHolderType(this Type type)
         {
             return type.GetInterfaces().FirstOrDefault(it => it.IsGenericType && it.GetGenericTypeDefinition() == ValueHolderType);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static PropertyInfo GetValueHolderProperty(this Type type)
         {
