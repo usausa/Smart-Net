@@ -9,7 +9,7 @@
         /// <summary>
         ///
         /// </summary>
-        public T Item { get;  }
+        public T Item { get; }
 
         /// <summary>
         ///

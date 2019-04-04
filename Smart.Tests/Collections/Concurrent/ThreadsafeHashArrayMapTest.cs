@@ -103,7 +103,10 @@
                     evThread1Completed.Signal();
 
                     Assert.Equal("t1", ret);
-                }) { IsBackground = true };
+                })
+                {
+                    IsBackground = true
+                };
 
                 var t2 = new Thread(() =>
                 {
@@ -116,7 +119,9 @@
 
                     Assert.Equal("t1", ret);
                 })
-                { IsBackground = true };
+                {
+                    IsBackground = true
+                };
 
                 t1.Start();
                 t2.Start();

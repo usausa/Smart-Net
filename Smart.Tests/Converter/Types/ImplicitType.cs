@@ -19,7 +19,7 @@
     {
         public int? Value { get; set; }
 
-        public static implicit operator int?(NullableImplicitType value)
+        public static implicit operator int? (NullableImplicitType value)
         {
             return value.Value;
         }
