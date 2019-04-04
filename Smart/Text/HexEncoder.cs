@@ -4,16 +4,8 @@
     using System.Globalization;
     using System.Text;
 
-    /// <summary>
-    ///
-    /// </summary>
     public static class HexEncoder
     {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <returns></returns>
         public static string ToHex(byte[] bytes)
         {
             if (bytes is null)
@@ -24,12 +16,6 @@
             return ToHexInternal(bytes, 0, bytes.Length, null, null, 0, Environment.NewLine);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="lineSize"></param>
-        /// <returns></returns>
         public static string ToHex(byte[] bytes, int lineSize)
         {
             if (bytes is null)
@@ -40,13 +26,6 @@
             return ToHexInternal(bytes, 0, bytes.Length, null, null, lineSize, Environment.NewLine);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="lineSize"></param>
-        /// <param name="lineSeparator"></param>
-        /// <returns></returns>
         public static string ToHex(byte[] bytes, int lineSize, string lineSeparator)
         {
             if (bytes is null)
@@ -57,12 +36,6 @@
             return ToHexInternal(bytes, 0, bytes.Length, null, null, lineSize, lineSeparator ?? Environment.NewLine);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="separator"></param>
-        /// <returns></returns>
         public static string ToHex(byte[] bytes, string separator)
         {
             if (bytes is null)
@@ -73,13 +46,6 @@
             return ToHexInternal(bytes, 0, bytes.Length, null, separator, 0, Environment.NewLine);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="separator"></param>
-        /// <param name="lineSize"></param>
-        /// <returns></returns>
         public static string ToHex(byte[] bytes, string separator, int lineSize)
         {
             if (bytes is null)
@@ -90,14 +56,6 @@
             return ToHexInternal(bytes, 0, bytes.Length, null, separator, lineSize, Environment.NewLine);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="separator"></param>
-        /// <param name="lineSize"></param>
-        /// <param name="lineSeparator"></param>
-        /// <returns></returns>
         public static string ToHex(byte[] bytes, string separator, int lineSize, string lineSeparator)
         {
             if (bytes is null)
@@ -108,13 +66,6 @@
             return ToHexInternal(bytes, 0, bytes.Length, null, separator, lineSize, lineSeparator ?? Environment.NewLine);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="prefix"></param>
-        /// <param name="separator"></param>
-        /// <returns></returns>
         public static string ToHex(byte[] bytes, string prefix, string separator)
         {
             if (bytes is null)
@@ -125,14 +76,6 @@
             return ToHexInternal(bytes, 0, bytes.Length, prefix, separator, 0, Environment.NewLine);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="prefix"></param>
-        /// <param name="separator"></param>
-        /// <param name="lineSize"></param>
-        /// <returns></returns>
         public static string ToHex(byte[] bytes, string prefix, string separator, int lineSize)
         {
             if (bytes is null)
@@ -143,15 +86,6 @@
             return ToHexInternal(bytes, 0, bytes.Length, prefix, separator, lineSize, Environment.NewLine);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="prefix"></param>
-        /// <param name="separator"></param>
-        /// <param name="lineSize"></param>
-        /// <param name="lineSeparator"></param>
-        /// <returns></returns>
         public static string ToHex(byte[] bytes, string prefix, string separator, int lineSize, string lineSeparator)
         {
             if (bytes is null)
@@ -162,13 +96,6 @@
             return ToHexInternal(bytes, 0, bytes.Length, prefix, separator, lineSize, lineSeparator ?? Environment.NewLine);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="start"></param>
-        /// <param name="length"></param>
-        /// <returns></returns>
         public static string ToHex(byte[] bytes, int start, int length)
         {
             if (bytes is null)
@@ -179,14 +106,6 @@
             return ToHexInternal(bytes, start, length, null, null, 0, Environment.NewLine);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="start"></param>
-        /// <param name="length"></param>
-        /// <param name="lineSize"></param>
-        /// <returns></returns>
         public static string ToHex(byte[] bytes, int start, int length, int lineSize)
         {
             if (bytes is null)
@@ -197,15 +116,6 @@
             return ToHexInternal(bytes, start, length, null, null, lineSize, Environment.NewLine);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="start"></param>
-        /// <param name="length"></param>
-        /// <param name="lineSize"></param>
-        /// <param name="lineSeparator"></param>
-        /// <returns></returns>
         public static string ToHex(byte[] bytes, int start, int length, int lineSize, string lineSeparator)
         {
             if (bytes is null)
@@ -216,14 +126,6 @@
             return ToHexInternal(bytes, start, length, null, null, lineSize, lineSeparator ?? Environment.NewLine);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="start"></param>
-        /// <param name="length"></param>
-        /// <param name="separator"></param>
-        /// <returns></returns>
         public static string ToHex(byte[] bytes, int start, int length, string separator)
         {
             if (bytes is null)
@@ -234,15 +136,6 @@
             return ToHexInternal(bytes, start, length, null, separator, 0, Environment.NewLine);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="start"></param>
-        /// <param name="length"></param>
-        /// <param name="separator"></param>
-        /// <param name="lineSize"></param>
-        /// <returns></returns>
         public static string ToHex(byte[] bytes, int start, int length, string separator, int lineSize)
         {
             if (bytes is null)
@@ -253,16 +146,6 @@
             return ToHexInternal(bytes, start, length, null, separator, lineSize, Environment.NewLine);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="start"></param>
-        /// <param name="length"></param>
-        /// <param name="separator"></param>
-        /// <param name="lineSize"></param>
-        /// <param name="lineSeparator"></param>
-        /// <returns></returns>
         public static string ToHex(byte[] bytes, int start, int length, string separator, int lineSize, string lineSeparator)
         {
             if (bytes is null)
@@ -273,15 +156,6 @@
             return ToHexInternal(bytes, start, length, null, separator, lineSize, lineSeparator ?? Environment.NewLine);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="start"></param>
-        /// <param name="length"></param>
-        /// <param name="prefix"></param>
-        /// <param name="separator"></param>
-        /// <returns></returns>
         public static string ToHex(byte[] bytes, int start, int length, string prefix, string separator)
         {
             if (bytes is null)
@@ -292,16 +166,6 @@
             return ToHexInternal(bytes, start, length, prefix, separator, 0, Environment.NewLine);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="start"></param>
-        /// <param name="length"></param>
-        /// <param name="prefix"></param>
-        /// <param name="separator"></param>
-        /// <param name="lineSize"></param>
-        /// <returns></returns>
         public static string ToHex(byte[] bytes, int start, int length, string prefix, string separator, int lineSize)
         {
             if (bytes is null)
@@ -312,17 +176,6 @@
             return ToHexInternal(bytes, start, length, prefix, separator, lineSize, Environment.NewLine);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="start"></param>
-        /// <param name="length"></param>
-        /// <param name="prefix"></param>
-        /// <param name="separator"></param>
-        /// <param name="lineSize"></param>
-        /// <param name="lineSeparator"></param>
-        /// <returns></returns>
         public static string ToHex(byte[] bytes, int start, int length, string prefix, string separator, int lineSize, string lineSeparator)
         {
             if (bytes is null)
@@ -333,17 +186,6 @@
             return ToHexInternal(bytes, start, length, prefix, separator, lineSize, lineSeparator ?? Environment.NewLine);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="start"></param>
-        /// <param name="length"></param>
-        /// <param name="prefix"></param>
-        /// <param name="separator"></param>
-        /// <param name="lineSize"></param>
-        /// <param name="lineSeparator"></param>
-        /// <returns></returns>
         private static string ToHexInternal(byte[] bytes, int start, int length, string prefix, string separator, int lineSize, string lineSeparator)
         {
             var addPrefix = !String.IsNullOrEmpty(prefix);
@@ -397,21 +239,11 @@
             return sb.ToString();
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="x"></param>
-        /// <returns></returns>
         private static char ToHex(int x)
         {
             return x < 10 ? (char)(x + '0') : (char)(x + 'A' - 10);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="text"></param>
-        /// <returns></returns>
         public static byte[] ToBytes(string text)
         {
             if (text is null)

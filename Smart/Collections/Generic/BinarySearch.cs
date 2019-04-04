@@ -3,9 +3,6 @@
     using System;
     using System.Collections.Generic;
 
-    /// <summary>
-    ///
-    /// </summary>
     public static class BinarySearch
     {
         //--------------------------------------------------------------------------------

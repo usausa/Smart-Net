@@ -7,14 +7,8 @@
     {
         public static IEqualityComparer<T> Default { get; } = new ObjectIEqualityComparer<T>();
 
-        public bool Equals(T x, T y)
-        {
-            return x == y;
-        }
+        public bool Equals(T x, T y) => x == y;
 
-        public int GetHashCode(T obj)
-        {
-            return obj.GetHashCode();
-        }
+        public int GetHashCode(T obj) => obj.GetHashCode();
     }
 }

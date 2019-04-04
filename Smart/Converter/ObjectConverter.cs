@@ -7,9 +7,6 @@
 
     using Smart.Converter.Converters;
 
-    /// <summary>
-    ///
-    /// </summary>
     public sealed class ObjectConverter : IObjectConverter
     {
         public static ObjectConverter Default { get; } = new ObjectConverter();

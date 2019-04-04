@@ -5,9 +5,6 @@
     using System.Reflection;
     using System.Reflection.Emit;
 
-    /// <summary>
-    ///
-    /// </summary>
     public static class ILGeneratorExtensions
     {
         private static readonly Dictionary<Type, OpCode> LdelemDictionary = new Dictionary<Type, OpCode>
@@ -46,11 +43,6 @@
             { typeof(UIntPtr), OpCodes.Stelem_I }
         };
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="il"></param>
-        /// <param name="type"></param>
         public static void EmitLdelem(this ILGenerator il, Type type)
         {
             if (LdelemDictionary.TryGetValue(type, out var opCode))
@@ -67,11 +59,6 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="il"></param>
-        /// <param name="type"></param>
         public static void EmitStelem(this ILGenerator il, Type type)
         {
             if (StelemDictionary.TryGetValue(type, out var opCode))
@@ -88,11 +75,6 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="il"></param>
-        /// <param name="i"></param>
         public static void EmitLdcI4(this ILGenerator il, int i)
         {
             switch (i)
@@ -137,11 +119,6 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="il"></param>
-        /// <param name="i"></param>
         public static void EmitLdarg(this ILGenerator il, int i)
         {
             switch (i)
@@ -171,11 +148,6 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="il"></param>
-        /// <param name="type"></param>
         public static void EmitTypeConversion(this ILGenerator il, Type type)
         {
             if (type.IsValueType)
@@ -188,11 +160,6 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="il"></param>
-        /// <param name="method"></param>
         public static void EmitCall(this ILGenerator il, MethodInfo method)
         {
             var opCode = (method.IsStatic || method.DeclaringType.IsValueType) ? OpCodes.Call : OpCodes.Callvirt;

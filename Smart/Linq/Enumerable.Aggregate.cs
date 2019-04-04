@@ -3,22 +3,13 @@
     using System;
     using System.Collections.Generic;
 
-    /// <summary>
-    ///
-    /// </summary>
     public static partial class EnumerableExtensions
     {
         //--------------------------------------------------------------------------------
         // Count
         //--------------------------------------------------------------------------------
 
-        /// <summary>
-        /// Optimized version for array.
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
+        // Optimized version for array.
         public static int Count<TSource>(this TSource[] source, Func<TSource, bool> predicate)
         {
             if (source is null)
@@ -43,13 +34,7 @@
             return count;
         }
 
-        /// <summary>
-        /// Optimized version for IList.
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
+        // Optimized version for IList.
         public static int Count<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
         {
             if (source is null)
@@ -78,13 +63,7 @@
         // Any
         //--------------------------------------------------------------------------------
 
-        /// <summary>
-        /// Optimized version for array.
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
+        // Optimized version for array.
         public static bool Any<TSource>(this TSource[] source, Func<TSource, bool> predicate)
         {
             if (source is null)
@@ -108,13 +87,7 @@
             return false;
         }
 
-        /// <summary>
-        /// Optimized version for IList.
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
+        // Optimized version for IList.
         public static bool Any<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
         {
             if (source is null)
@@ -142,13 +115,7 @@
         // All
         //--------------------------------------------------------------------------------
 
-        /// <summary>
-        /// Optimized version for array.
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
+        // Optimized version for array.
         public static bool All<TSource>(this TSource[] source, Func<TSource, bool> predicate)
         {
             if (source is null)
@@ -172,13 +139,7 @@
             return true;
         }
 
-        /// <summary>
-        /// Optimized version for IList.
-        /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
+        // Optimized version for IList.
         public static bool All<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
         {
             if (source is null)

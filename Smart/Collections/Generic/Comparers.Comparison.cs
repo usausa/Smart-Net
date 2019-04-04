@@ -3,18 +3,10 @@
     using System;
     using System.Collections.Generic;
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
     public sealed class ComparisonComparer<T> : IComparer<T>
     {
         private readonly Comparison<T> comparison;
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="comparison"></param>
         public ComparisonComparer(Comparison<T> comparison)
         {
             if (comparison is null)
@@ -25,15 +17,6 @@
             this.comparison = comparison;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public int Compare(T x, T y)
-        {
-            return comparison(x, y);
-        }
+        public int Compare(T x, T y) => comparison(x, y);
     }
 }

@@ -6,9 +6,6 @@
 
     using Xunit;
 
-    /// <summary>
-    ///
-    /// </summary>
     public class ComponentContainerTest
     {
         [Fact]

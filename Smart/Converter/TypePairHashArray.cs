@@ -146,9 +146,6 @@
 
         public int Count => table.Count;
 
-        /// <summary>
-        ///
-        /// </summary>
         public void Clear()
         {
             lock (sync)

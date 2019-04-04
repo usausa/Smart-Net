@@ -2,9 +2,6 @@
 {
     using System.Runtime.CompilerServices;
 
-    /// <summary>
-    ///
-    /// </summary>
     public static partial class ArrayExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

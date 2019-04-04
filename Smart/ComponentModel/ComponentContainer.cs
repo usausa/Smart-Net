@@ -5,9 +5,6 @@
     using System.Globalization;
     using System.Linq;
 
-    /// <summary>
-    ///
-    /// </summary>
     public sealed class ComponentContainer : IComponentContainer
     {
         private static readonly Type EnumerableType = typeof(IEnumerable<>);
@@ -22,10 +19,6 @@
 
         private readonly Dictionary<Type, ComponentEntry[]> mappings;
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="config"></param>
         public ComponentContainer(IComponentConfig config)
         {
             if (config is null)
@@ -36,27 +29,17 @@
             mappings = config.ToMappings();
         }
 
-        /// <summary>
-        ///
-        /// </summary>
         ~ComponentContainer()
         {
             Dispose(false);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="disposing"></param>
         private void Dispose(bool disposing)
         {
             if (disposing)
@@ -87,41 +70,12 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public T Get<T>()
-        {
-            return (T)Get(typeof(T));
-        }
+        public T Get<T>() => (T)Get(typeof(T));
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public T TryGet<T>()
-        {
-            return (T)TryGet(typeof(T));
-        }
+        public T TryGet<T>() => (T)TryGet(typeof(T));
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public IEnumerable<T> GetAll<T>()
-        {
-            return GetAll(typeof(T)).Cast<T>();
-        }
+        public IEnumerable<T> GetAll<T>() => GetAll(typeof(T)).Cast<T>();
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="componentType"></param>
-        /// <returns></returns>
         public object Get(Type componentType)
         {
             if (componentType is null)
@@ -139,22 +93,8 @@
             return objects[objects.Length - 1];
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="componentType"></param>
-        /// <returns></returns>
-        public object TryGet(Type componentType)
-        {
-            return TryGet(componentType, out _);
-        }
+        public object TryGet(Type componentType) => TryGet(componentType, out _);
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="componentType"></param>
-        /// <param name="result"></param>
-        /// <returns></returns>
         public object TryGet(Type componentType, out bool result)
         {
             if (componentType is null)
@@ -167,21 +107,11 @@
             return result ? objects[objects.Length - 1] : null;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="componentType"></param>
-        /// <returns></returns>
         public IEnumerable<object> GetAll(Type componentType)
         {
             return ResolveAll(componentType);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="serviceType"></param>
-        /// <returns></returns>
         public object GetService(Type serviceType)
         {
             if (serviceType is null)
@@ -197,11 +127,6 @@
             return TryGet(serviceType);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="componentType"></param>
-        /// <returns></returns>
         private object[] ResolveAll(Type componentType)
         {
             lock (cache)
@@ -225,11 +150,6 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
         private object CreateInstance(Type type)
         {
             foreach (var ci in type.GetConstructors().OrderByDescending(c => c.GetParameters().Length))
@@ -272,11 +192,6 @@
                 String.Format(CultureInfo.InvariantCulture, "Constructor parameter unresolved. implementation type = {0}", type.Name));
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
         private static Type GetElementType(Type type)
         {
             if (type.IsArray)
@@ -296,12 +211,6 @@
             return null;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="elementType"></param>
-        /// <param name="source"></param>
-        /// <returns></returns>
         private static Array ConvertArray(Type elementType, IEnumerable<object> source)
         {
             var sourceArray = source.ToArray();

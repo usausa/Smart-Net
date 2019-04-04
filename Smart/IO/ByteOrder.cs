@@ -3,63 +3,21 @@
     using System;
     using System.Runtime.CompilerServices;
 
-    /// <summary>
-    ///
-    /// </summary>
     public interface IByteOrder
     {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="index"></param>
-        /// <param name="value"></param>
         void PutShort(byte[] bytes, int index, short value);
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="index"></param>
-        /// <param name="value"></param>
         void PutInt(byte[] bytes, int index, int value);
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="index"></param>
-        /// <param name="value"></param>
         void PutLong(byte[] bytes, int index, long value);
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="index"></param>
-        /// <returns></returns>
         short GetShort(byte[] bytes, int index);
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="index"></param>
-        /// <returns></returns>
         int GetInt(byte[] bytes, int index);
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="index"></param>
-        /// <returns></returns>
         long GetLong(byte[] bytes, int index);
     }
 
-    /// <summary>
-    ///
-    /// </summary>
     internal sealed class LittleEndian : IByteOrder
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -138,28 +96,16 @@
         }
     }
 
-    /// <summary>
-    ///
-    /// </summary>
     public static class ByteOrder
     {
         private static readonly IByteOrder Little = new LittleEndian();
 
         private static readonly IByteOrder Big = new BigEndian();
 
-        /// <summary>
-        ///
-        /// </summary>
         public static IByteOrder Default { get; } = BitConverter.IsLittleEndian ? Little : Big;
 
-        /// <summary>
-        ///
-        /// </summary>
         public static IByteOrder LittleEndian { get; } = Little;
 
-        /// <summary>
-        ///
-        /// </summary>
         public static IByteOrder BigEndian { get; } = Big;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

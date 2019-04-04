@@ -3,21 +3,12 @@
     using System;
     using System.Collections.Generic;
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
     public sealed class DelegateEqualityComparer<T> : IEqualityComparer<T>
     {
         private readonly Func<T, T, bool> equals;
 
         private readonly Func<T, int> getHashCode;
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="equals"></param>
-        /// <param name="getHashCode"></param>
         public DelegateEqualityComparer(Func<T, T, bool> equals, Func<T, int> getHashCode)
         {
             if (equals is null)
@@ -34,25 +25,8 @@
             this.getHashCode = getHashCode;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
-        public bool Equals(T x, T y)
-        {
-            return equals(x, y);
-        }
+        public bool Equals(T x, T y) => equals(x, y);
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
-        public int GetHashCode(T obj)
-        {
-            return getHashCode(obj);
-        }
+        public int GetHashCode(T obj) => getHashCode(obj);
     }
 }

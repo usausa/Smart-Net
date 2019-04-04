@@ -2,22 +2,12 @@
 {
     using System;
 
-    /// <summary>
-    ///
-    /// </summary>
     public static partial class ArrayExtensions
     {
         //--------------------------------------------------------------------------------
         // Combine
         //--------------------------------------------------------------------------------
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="array"></param>
-        /// <param name="others"></param>
-        /// <returns></returns>
         public static T[] Combine<T>(this T[] array, params T[][] others)
         {
             if (others is null)
@@ -66,12 +56,6 @@
             return result;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="others"></param>
-        /// <returns></returns>
         public static byte[] Combine(this byte[] array, params byte[][] others)
         {
             if (others is null)
@@ -120,12 +104,6 @@
             return result;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="others"></param>
-        /// <returns></returns>
         public static short[] Combine(this short[] array, params short[][] others)
         {
             if (others is null)
@@ -174,12 +152,6 @@
             return result;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="others"></param>
-        /// <returns></returns>
         public static int[] Combine(this int[] array, params int[][] others)
         {
             if (others is null)
@@ -228,12 +200,6 @@
             return result;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="others"></param>
-        /// <returns></returns>
         public static long[] Combine(this long[] array, params long[][] others)
         {
             if (others is null)
@@ -282,12 +248,6 @@
             return result;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="others"></param>
-        /// <returns></returns>
         public static float[] Combine(this float[] array, params float[][] others)
         {
             if (others is null)
@@ -336,12 +296,6 @@
             return result;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="others"></param>
-        /// <returns></returns>
         public static double[] Combine(this double[] array, params double[][] others)
         {
             if (others is null)
@@ -390,12 +344,6 @@
             return result;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="others"></param>
-        /// <returns></returns>
         public static bool[] Combine(this bool[] array, params bool[][] others)
         {
             if (others is null)
@@ -444,12 +392,6 @@
             return result;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="others"></param>
-        /// <returns></returns>
         public static char[] Combine(this char[] array, params char[][] others)
         {
             if (others is null)

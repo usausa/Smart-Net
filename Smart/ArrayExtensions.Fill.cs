@@ -2,36 +2,14 @@
 {
     using System;
 
-    /// <summary>
-    ///
-    /// </summary>
     public static partial class ArrayExtensions
     {
         //--------------------------------------------------------------------------------
         // Fill
         //--------------------------------------------------------------------------------
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="array"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static T[] Fill<T>(this T[] array, T value)
-        {
-            return Fill(array, 0, array?.Length ?? 0, value);
-        }
+        public static T[] Fill<T>(this T[] array, T value) => Fill(array, 0, array?.Length ?? 0, value);
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="array"></param>
-        /// <param name="offset"></param>
-        /// <param name="length"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static T[] Fill<T>(this T[] array, int offset, int length, T value)
         {
             if ((array.Length == 0) || (length <= 0))
@@ -52,25 +30,8 @@
             return array;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static byte[] Fill(this byte[] array, byte value)
-        {
-            return Fill(array, 0, array?.Length ?? 0, value);
-        }
+        public static byte[] Fill(this byte[] array, byte value) => Fill(array, 0, array?.Length ?? 0, value);
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="offset"></param>
-        /// <param name="length"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static byte[] Fill(this byte[] array, int offset, int length, byte value)
         {
             if ((array.Length == 0) || (length <= 0))
@@ -91,25 +52,8 @@
             return array;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static short[] Fill(this short[] array, short value)
-        {
-            return Fill(array, 0, array?.Length ?? 0, value);
-        }
+        public static short[] Fill(this short[] array, short value) => Fill(array, 0, array?.Length ?? 0, value);
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="offset"></param>
-        /// <param name="length"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static short[] Fill(this short[] array, int offset, int length, short value)
         {
             if ((array.Length == 0) || (length <= 0))
@@ -130,25 +74,8 @@
             return array;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static int[] Fill(this int[] array, int value)
-        {
-            return Fill(array, 0, array?.Length ?? 0, value);
-        }
+        public static int[] Fill(this int[] array, int value) => Fill(array, 0, array?.Length ?? 0, value);
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="offset"></param>
-        /// <param name="length"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static int[] Fill(this int[] array, int offset, int length, int value)
         {
             if ((array.Length == 0) || (length <= 0))
@@ -169,25 +96,8 @@
             return array;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static long[] Fill(this long[] array, long value)
-        {
-            return Fill(array, 0, array?.Length ?? 0, value);
-        }
+        public static long[] Fill(this long[] array, long value) => Fill(array, 0, array?.Length ?? 0, value);
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="offset"></param>
-        /// <param name="length"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static long[] Fill(this long[] array, int offset, int length, long value)
         {
             if ((array.Length == 0) || (length <= 0))
@@ -208,25 +118,8 @@
             return array;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static float[] Fill(this float[] array, float value)
-        {
-            return Fill(array, 0, array?.Length ?? 0, value);
-        }
+        public static float[] Fill(this float[] array, float value) => Fill(array, 0, array?.Length ?? 0, value);
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="offset"></param>
-        /// <param name="length"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static float[] Fill(this float[] array, int offset, int length, float value)
         {
             if ((array.Length == 0) || (length <= 0))
@@ -247,25 +140,8 @@
             return array;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static double[] Fill(this double[] array, double value)
-        {
-            return Fill(array, 0, array?.Length ?? 0, value);
-        }
+        public static double[] Fill(this double[] array, double value) => Fill(array, 0, array?.Length ?? 0, value);
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="offset"></param>
-        /// <param name="length"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static double[] Fill(this double[] array, int offset, int length, double value)
         {
             if ((array.Length == 0) || (length <= 0))
@@ -286,25 +162,8 @@
             return array;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static bool[] Fill(this bool[] array, bool value)
-        {
-            return Fill(array, 0, array?.Length ?? 0, value);
-        }
+        public static bool[] Fill(this bool[] array, bool value) => Fill(array, 0, array?.Length ?? 0, value);
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="offset"></param>
-        /// <param name="length"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static bool[] Fill(this bool[] array, int offset, int length, bool value)
         {
             if ((array.Length == 0) || (length <= 0))
@@ -325,25 +184,8 @@
             return array;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
-        public static char[] Fill(this char[] array, char value)
-        {
-            return Fill(array, 0, array?.Length ?? 0, value);
-        }
+        public static char[] Fill(this char[] array, char value) => Fill(array, 0, array?.Length ?? 0, value);
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="array"></param>
-        /// <param name="offset"></param>
-        /// <param name="length"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public static char[] Fill(this char[] array, int offset, int length, char value)
         {
             if ((array.Length == 0) || (length <= 0))

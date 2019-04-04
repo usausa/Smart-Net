@@ -7,9 +7,6 @@
 
     using Smart.Reflection;
 
-    /// <summary>
-    ///
-    /// </summary>
     [Config(typeof(BenchmarkConfig))]
     public class ActivatorBenchmark
     {

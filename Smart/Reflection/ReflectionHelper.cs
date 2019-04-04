@@ -3,9 +3,6 @@
     using System;
     using System.Reflection.Emit;
 
-    /// <summary>
-    ///
-    /// </summary>
     public static class ReflectionHelper
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Ignore")]
@@ -28,9 +25,6 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
         public static bool IsCodegenAllowed { get; }
     }
 }

@@ -8,10 +8,6 @@
     using System.Runtime.CompilerServices;
     using System.Threading;
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <typeparam name="TValue"></typeparam>
     [DebuggerDisplay("Count = {" + nameof(Count) + "}")]
     public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePair<Type, TValue>>
     {
@@ -27,20 +23,11 @@
         // Constructor
         //--------------------------------------------------------------------------------
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="initialSize"></param>
-        /// <param name="factor"></param>
         public ThreadsafeTypeHashArrayMap(int initialSize = 64, double factor = 1.5)
             : this(new GrowthHashArrayMapStrategy(initialSize, factor))
         {
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="strategy"></param>
         public ThreadsafeTypeHashArrayMap(IHashArrayMapStrategy strategy)
         {
             this.strategy = strategy;
@@ -51,11 +38,6 @@
         // Private
         //--------------------------------------------------------------------------------
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="count"></param>
-        /// <returns></returns>
         private static uint CalculateSize(int count)
         {
             uint size = 0;
@@ -68,11 +50,6 @@
             return size + 1;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="nodes"></param>
-        /// <returns></returns>
         private static int CalculateDepth(Node[][] nodes)
         {
             var depth = 0;
@@ -84,10 +61,6 @@
             return depth;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
         private Table CreateInitialTable()
         {
             var size = CalculateSize(strategy.CalculateInitialSize());
@@ -103,12 +76,6 @@
             return new Table(mask, nodes, 0, 0);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="nodes"></param>
-        /// <param name="addNode"></param>
-        /// <returns></returns>
         private static Node[] AddNode(Node[] nodes, Node addNode)
         {
             if (nodes is null)
@@ -123,12 +90,6 @@
             return newNodes;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="nodes"></param>
-        /// <param name="oldNodes"></param>
-        /// <param name="mask"></param>
         private static void RelocateNodes(Node[][] nodes, Node[][] oldNodes, int mask)
         {
             for (var i = 0; i < oldNodes.Length; i++)
@@ -142,10 +103,6 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="nodes"></param>
         private static void FillEmptyIfNull(Node[][] nodes)
         {
             for (var i = 0; i < nodes.Length; i++)
@@ -157,12 +114,6 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="oldTable"></param>
-        /// <param name="node"></param>
-        /// <returns></returns>
         private Table CreateAddTable(Table oldTable, Node node)
         {
             var requestSize = strategy.CalculateRequestSize(new AddResizeContext(oldTable.Nodes.Length, oldTable.Depth, oldTable.Count, 1));
@@ -181,12 +132,6 @@
             return new Table(mask, newNodes, oldTable.Count + 1, CalculateDepth(newNodes));
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="oldTable"></param>
-        /// <param name="addNodes"></param>
-        /// <returns></returns>
         private Table CreateAddRangeTable(Table oldTable, ICollection<Node> addNodes)
         {
             var requestSize = strategy.CalculateRequestSize(new AddResizeContext(oldTable.Nodes.Length, oldTable.Depth, oldTable.Count, addNodes.Count));
@@ -208,13 +153,6 @@
             return new Table(mask, newNodes, oldTable.Count + addNodes.Count, CalculateDepth(newNodes));
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="targetTable"></param>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool TryGetValueInternal(Table targetTable, Type key, out TValue value)
         {
@@ -238,19 +176,10 @@
         // Public
         //--------------------------------------------------------------------------------
 
-        /// <summary>
-        ///
-        /// </summary>
         public int Count => table.Count;
 
-        /// <summary>
-        ///
-        /// </summary>
         public int Depth => table.Depth;
 
-        /// <summary>
-        ///
-        /// </summary>
         public void Clear()
         {
             lock (sync)
@@ -261,24 +190,12 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetValue(Type key, out TValue value)
         {
             return TryGetValueInternal(table, key, out value);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
         public TValue AddIfNotExist(Type key, TValue value)
         {
             lock (sync)
@@ -298,12 +215,6 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="key"></param>
-        /// <param name="valueFactory"></param>
-        /// <returns></returns>
         public TValue AddIfNotExist(Type key, Func<Type, TValue> valueFactory)
         {
             lock (sync)
@@ -331,11 +242,6 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="pairs"></param>
-        /// <returns></returns>
         public int AddRangeIfNotExist(IEnumerable<KeyValuePair<Type, TValue>> pairs)
         {
             lock (sync)
@@ -355,12 +261,6 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="keys"></param>
-        /// <param name="valueFactory"></param>
-        /// <returns></returns>
         public int AddRangeIfNotExist(IEnumerable<Type> keys, Func<Type, TValue> valueFactory)
         {
             lock (sync)
@@ -386,10 +286,6 @@
         // IEnumerable
         //--------------------------------------------------------------------------------
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
         public IEnumerator<KeyValuePair<Type, TValue>> GetEnumerator()
         {
             var nodes = table.Nodes;
@@ -404,10 +300,6 @@
             }
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();

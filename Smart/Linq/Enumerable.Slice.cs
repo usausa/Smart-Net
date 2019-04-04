@@ -4,9 +4,6 @@
     using System.Collections;
     using System.Collections.Generic;
 
-    /// <summary>
-    ///
-    /// </summary>
     public static partial class EnumerableExtensions
     {
         //--------------------------------------------------------------------------------
@@ -42,10 +39,7 @@
                 return index < end;
             }
 
-            public void Reset()
-            {
-                throw new NotSupportedException();
-            }
+            public void Reset() => throw new NotSupportedException();
         }
 
         private struct SliceArrayEnumerable<T> : IEnumerable<T>
@@ -108,10 +102,7 @@
                 return index < end;
             }
 
-            public void Reset()
-            {
-                throw new NotSupportedException();
-            }
+            public void Reset() => throw new NotSupportedException();
         }
 
         private struct SliceListEnumerable<T> : IEnumerable<T>
@@ -176,10 +167,7 @@
                 return count >= 0 && ie.MoveNext();
             }
 
-            public void Reset()
-            {
-                throw new NotSupportedException();
-            }
+            public void Reset() => throw new NotSupportedException();
         }
 
         private struct SliceEnumerable<T> : IEnumerable<T>
@@ -204,14 +192,6 @@
             private SliceEnumerator<T> GetEnumerator() => new SliceEnumerator<T>(ie.GetEnumerator(), offset, limit);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="offset"></param>
-        /// <param name="limit"></param>
-        /// <returns></returns>
         public static IEnumerable<T> Slice<T>(this IEnumerable<T> source, int offset, int limit)
         {
             if (source is T[] array)

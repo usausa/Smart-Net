@@ -4,37 +4,12 @@
     using System.Globalization;
     using System.Text;
 
-    /// <summary>
-    ///
-    /// </summary>
     public static class Inflector
     {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="word"></param>
-        /// <returns></returns>
-        public static string Pascalize(string word)
-        {
-            return Camelize(word, true);
-        }
+        public static string Pascalize(string word) => Camelize(word, true);
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="word"></param>
-        /// <returns></returns>
-        public static string Camelize(string word)
-        {
-            return Camelize(word, false);
-        }
+        public static string Camelize(string word) => Camelize(word, false);
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="word"></param>
-        /// <param name="toUpper"></param>
-        /// <returns></returns>
         public static string Camelize(string word, bool toUpper)
         {
             if (String.IsNullOrEmpty(word))
@@ -66,22 +41,11 @@
             return sb.ToString();
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="word"></param>
-        /// <returns></returns>
         public static string Underscore(string word)
         {
             return Underscore(word, false);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="word"></param>
-        /// <param name="toUpper"></param>
-        /// <returns></returns>
         public static string Underscore(string word, bool toUpper)
         {
             if (String.IsNullOrEmpty(word))

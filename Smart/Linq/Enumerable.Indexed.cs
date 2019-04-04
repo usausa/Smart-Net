@@ -4,9 +4,6 @@
     using System.Collections;
     using System.Collections.Generic;
 
-    /// <summary>
-    ///
-    /// </summary>
     public static partial class EnumerableExtensions
     {
         //--------------------------------------------------------------------------------
@@ -39,10 +36,7 @@
                 return index < array.Length;
             }
 
-            public void Reset()
-            {
-                throw new NotSupportedException();
-            }
+            public void Reset() => throw new NotSupportedException();
         }
 
         private struct IndexedArrayEnumerable<T> : IEnumerable<Indexed<T>>
@@ -61,12 +55,6 @@
             private IndexedArrayEnumerator<T> GetEnumerator() => new IndexedArrayEnumerator<T>(array);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
         public static IEnumerable<Indexed<T>> Indexed<T>(this T[] source)
         {
             if (source is null)
@@ -107,10 +95,7 @@
                 return index < list.Count;
             }
 
-            public void Reset()
-            {
-                throw new NotSupportedException();
-            }
+            public void Reset() => throw new NotSupportedException();
         }
 
         private struct IndexedListEnumerable<T> : IEnumerable<Indexed<T>>
@@ -129,12 +114,6 @@
             private IndexedListEnumerator<T> GetEnumerator() => new IndexedListEnumerator<T>(list);
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
         public static IEnumerable<Indexed<T>> Indexed<T>(this IList<T> source)
         {
             if (source is null)
@@ -175,10 +154,7 @@
                 return ie.MoveNext();
             }
 
-            public void Reset()
-            {
-                throw new NotSupportedException();
-            }
+            public void Reset() => throw new NotSupportedException();
         }
 
         private struct IndexedEnumerable<T> : IEnumerable<Indexed<T>>
@@ -197,12 +173,6 @@
             private IndexedEnumerator<T> GetEnumerator() => new IndexedEnumerator<T>(ie.GetEnumerator());
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <returns></returns>
         public static IEnumerable<Indexed<T>> Indexed<T>(this IEnumerable<T> source)
         {
             if (source is null)

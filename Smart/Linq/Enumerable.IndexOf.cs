@@ -3,22 +3,12 @@
     using System;
     using System.Collections.Generic;
 
-    /// <summary>
-    ///
-    /// </summary>
     public static partial class EnumerableExtensions
     {
         //--------------------------------------------------------------------------------
         // IndexOf
         //--------------------------------------------------------------------------------
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
         public static int IndexOf<T>(this IEnumerable<T> source, Func<T, bool> predicate)
         {
             if (source is null)
@@ -45,13 +35,7 @@
             return -1;
         }
 
-        /// <summary>
-        /// Optimized version for array.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
+        // Optimized version for array.
         public static int IndexOf<T>(this T[] source, Func<T, bool> predicate)
         {
             if (source is null)
@@ -75,13 +59,6 @@
             return -1;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
         public static int LastIndexOf<T>(this T[] source, Func<T, bool> predicate)
         {
             if (source is null)
@@ -105,13 +82,7 @@
             return -1;
         }
 
-        /// <summary>
-        /// Optimized version for IList.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
+        // Optimized version for IList.
         public static int IndexOf<T>(this IList<T> source, Func<T, bool> predicate)
         {
             if (source is null)
@@ -135,13 +106,7 @@
             return -1;
         }
 
-        /// <summary>
-        /// Optimized version for IList.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="source"></param>
-        /// <param name="predicate"></param>
-        /// <returns></returns>
+        // Optimized version for IList.
         public static int LastIndexOf<T>(this IList<T> source, Func<T, bool> predicate)
         {
             if (source is null)

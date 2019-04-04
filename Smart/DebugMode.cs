@@ -1,13 +1,7 @@
 ﻿namespace Smart
 {
-    /// <summary>
-    ///
-    /// </summary>
     public static class DebugMode
     {
-        /// <summary>
-        ///
-        /// </summary>
         public static bool IsTrue
         {
             get

@@ -1,14 +1,7 @@
 ﻿namespace Smart.Converter.Converters
 {
-    /// <summary>
-    ///
-    /// </summary>
     public static class DefaultObjectFactories
     {
-        /// <summary>
-        ///
-        /// </summary>
-        /// <returns></returns>
         public static IConverterFactory[] Create()
         {
             return new IConverterFactory[]

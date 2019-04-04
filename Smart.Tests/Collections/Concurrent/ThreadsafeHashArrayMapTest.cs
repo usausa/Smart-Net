@@ -6,9 +6,6 @@
 
     using Xunit;
 
-    /// <summary>
-    ///
-    /// </summary>
     public class ThreadsafeHashArrayMapTest
     {
         private static string Factory(int value)

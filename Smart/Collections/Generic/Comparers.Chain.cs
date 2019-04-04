@@ -1,34 +1,28 @@
 ﻿namespace Smart.Collections.Generic
 {
     using System.Collections.Generic;
-    using System.Linq;
 
-    /// <summary>
-    ///
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
     public sealed class ChainComparer<T> : IComparer<T>
     {
         private readonly IComparer<T>[] comparers;
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="comparers"></param>
         public ChainComparer(params IComparer<T>[] comparers)
         {
             this.comparers = comparers;
         }
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <returns></returns>
         public int Compare(T x, T y)
         {
-            return comparers.Select(comparer => comparer.Compare(x, y)).FirstOrDefault(ret => ret != 0);
+            for (var i = 0; i < comparers.Length; i++)
+            {
+                var ret = comparers[i].Compare(x, y);
+                if (ret != 0)
+                {
+                    return ret;
+                }
+            }
+
+            return 0;
         }
     }
 }

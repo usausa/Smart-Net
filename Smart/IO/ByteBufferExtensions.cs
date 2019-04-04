@@ -2,9 +2,6 @@
 {
     using System.Runtime.CompilerServices;
 
-    /// <summary>
-    ///
-    /// </summary>
     public static class ByteBufferExtensions
     {
         //--------------------------------------------------------------------------------

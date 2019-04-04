@@ -8,9 +8,6 @@
 
     using Smart.Collections.Concurrent;
 
-    /// <summary>
-    ///
-    /// </summary>
     [Config(typeof(BenchmarkConfig))]
     public class DictionaryBenchmark
     {

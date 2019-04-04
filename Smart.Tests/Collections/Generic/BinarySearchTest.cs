@@ -6,9 +6,6 @@
 
     using Xunit;
 
-    /// <summary>
-    ///
-    /// </summary>
     public class BinarySearchTest
     {
         private static void AssertIndex(IList<int> expects, IList<int> actuals)
