@@ -1,7 +1,6 @@
-﻿namespace Smart.Reflection
+namespace Smart.Reflection
 {
     using System;
-    using System.Reflection.Emit;
 
     public static class ReflectionHelper
     {
@@ -11,17 +10,16 @@
         {
             try
             {
-                // ReSharper disable once ObjectCreationAsStatement
-                new DynamicMethod(
-                    string.Empty,
-                    typeof(object),
-                    Type.EmptyTypes,
-                    true);
-                IsCodegenAllowed = true;
+                var type = Type.GetType("System.Reflection.Emit.DynamicMethod");
+                if (type != null)
+                {
+                    Activator.CreateInstance(type, string.Empty, typeof(object), Type.EmptyTypes, true);
+                    IsCodegenAllowed = true;
+                }
             }
             catch
             {
-                IsCodegenAllowed = false;
+                // Ignore
             }
         }
 
