@@ -1,4 +1,4 @@
-﻿namespace Smart.Reflection
+namespace Smart.Reflection
 {
     using System;
     using System.Collections.Concurrent;
@@ -72,6 +72,8 @@
         // Property
 
         public static DynamicDelegateFactory Default { get; } = new DynamicDelegateFactory();
+
+        public bool IsCodegenRequired => true;
 
         // Constructor
 

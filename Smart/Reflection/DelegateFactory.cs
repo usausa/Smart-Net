@@ -1,4 +1,4 @@
-﻿namespace Smart.Reflection
+namespace Smart.Reflection
 {
     using System;
     using System.Reflection;
@@ -8,6 +8,8 @@
         public static DelegateFactory Default { get; } = new DelegateFactory();
 
         public IDelegateFactory Factory { get; set; }
+
+        public bool IsCodegenRequired => Factory.IsCodegenRequired;
 
         public DelegateFactory()
         {

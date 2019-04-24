@@ -1,10 +1,12 @@
-﻿namespace Smart.Reflection
+namespace Smart.Reflection
 {
     using System;
     using System.Reflection;
 
     public interface IDelegateFactory
     {
+        bool IsCodegenRequired { get; }
+
         // Array
 
         Func<int, Array> CreateArrayAllocator(Type type);

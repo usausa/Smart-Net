@@ -1,4 +1,4 @@
-﻿namespace Smart.Reflection
+namespace Smart.Reflection
 {
     using System;
     using System.Reflection;
@@ -8,6 +8,8 @@
     public sealed partial class ReflectionDelegateFactory : IDelegateFactory
     {
         public static ReflectionDelegateFactory Default { get; } = new ReflectionDelegateFactory();
+
+        public bool IsCodegenRequired => false;
 
         // Constructor
 
