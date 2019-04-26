@@ -97,6 +97,7 @@ namespace Smart.Converter.Converters
             return (Func<object, object>)method.Invoke(null, new object[] { mi });
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Ignore")]
         private static Func<object, object> CreateConverter<TDestination>(MethodInfo mi)
         {
             return source =>
