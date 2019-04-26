@@ -1,4 +1,4 @@
-﻿namespace Smart.Reflection
+namespace Smart.Reflection
 {
     using System.Linq;
 
@@ -6,6 +6,26 @@
 
     public class DynamicDelegateFactoryActivatorTest
     {
+        [Fact]
+        public void FactoryStruct()
+        {
+            var factory = DynamicDelegateFactory.Default.CreateFactory(typeof(StructWithConstructor).GetConstructors().First());
+
+            var data = (StructWithConstructor)factory(new object[] { 1, 2 });
+            Assert.Equal(1, data.X);
+            Assert.Equal(2, data.Y);
+        }
+
+        [Fact]
+        public void FactoryStruct2()
+        {
+            var factory = DynamicDelegateFactory.Default.CreateFactory2(typeof(StructWithConstructor).GetConstructors().First());
+
+            var data = (StructWithConstructor)factory(1, 2);
+            Assert.Equal(1, data.X);
+            Assert.Equal(2, data.Y);
+        }
+
         [Fact]
         public void FactoryData0()
         {

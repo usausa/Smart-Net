@@ -23,21 +23,27 @@ namespace Smart.Reflection
             }
         }
 
+        //--------------------------------------------------------------------------------
         // Array
+        //--------------------------------------------------------------------------------
 
         public Func<int, Array> CreateArrayAllocator(Type type)
         {
             return Factory.CreateArrayAllocator(type);
         }
 
+        //--------------------------------------------------------------------------------
         // Factory
+        //--------------------------------------------------------------------------------
 
         public Func<object[], object> CreateFactory(ConstructorInfo ci)
         {
             return Factory.CreateFactory(ci);
         }
 
+        //--------------------------------------------------------------------------------
         // Accessor
+        //--------------------------------------------------------------------------------
 
         public Func<object, object> CreateGetter(PropertyInfo pi)
         {
@@ -81,7 +87,9 @@ namespace Smart.Reflection
             return Factory.CreateSetter<T, TMember>(pi, extension);
         }
 
+        //--------------------------------------------------------------------------------
         // Etc
+        //--------------------------------------------------------------------------------
 
         public Type GetExtendedPropertyType(PropertyInfo pi)
         {

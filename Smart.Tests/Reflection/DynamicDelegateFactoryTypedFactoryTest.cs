@@ -1,9 +1,19 @@
-﻿namespace Smart.Reflection
+namespace Smart.Reflection
 {
     using Xunit;
 
     public class DynamicDelegateFactoryTypedFactoryTest
     {
+        [Fact]
+        public void FactoryStruct()
+        {
+            var factory = DynamicDelegateFactory.Default.CreateFactory<int, int, StructWithConstructor>();
+
+            var data = factory(1, 2);
+            Assert.Equal(1, data.X);
+            Assert.Equal(2, data.Y);
+        }
+
         [Fact]
         public void TypedFactoryData0()
         {

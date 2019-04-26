@@ -1,4 +1,4 @@
-﻿namespace Smart.Reflection
+namespace Smart.Reflection
 {
     using System;
 
@@ -16,6 +16,19 @@
         public int X { get; set; }
 
         public int Y { get; set; }
+    }
+
+    public struct StructWithConstructor
+    {
+        public int X { get; set; }
+
+        public int Y { get; set; }
+
+        public StructWithConstructor(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
     }
 
     public class MemberData

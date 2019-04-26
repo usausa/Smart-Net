@@ -1,4 +1,4 @@
-﻿namespace Smart.Converter.Converters
+namespace Smart.Converter.Converters
 {
     using System;
     using System.Linq;
@@ -7,6 +7,8 @@
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Ignore")]
     public sealed class ConversionOperatorConverterFactory : IConverterFactory
     {
+        private static readonly MethodInfo CreateMethod = typeof(ConversionOperatorConverterFactory).GetMethod(nameof(CreateConverter), BindingFlags.NonPublic | BindingFlags.Static);
+
         public Func<object, object> GetConverter(IObjectConverter context, Type sourceType, Type targetType)
         {
             var underlyingTargetType = targetType.IsNullableType() ? Nullable.GetUnderlyingType(targetType) : targetType;
@@ -14,8 +16,7 @@
             var methodInfo = GetImplicitConversionOperator(sourceType, underlyingTargetType);
             if (methodInfo != null)
             {
-                return ((IConverterBuilder)Activator.CreateInstance(
-                    typeof(MethodConverterBuilder<,>).MakeGenericType(methodInfo.GetParameters()[0].ParameterType, methodInfo.ReturnType), methodInfo)).Build();
+                return BuildConverter(methodInfo);
             }
 
             if (underlyingTargetType != targetType)
@@ -23,16 +24,14 @@
                 methodInfo = GetImplicitConversionOperator(sourceType, targetType);
                 if (methodInfo != null)
                 {
-                    return ((IConverterBuilder)Activator.CreateInstance(
-                        typeof(MethodConverterBuilder<,>).MakeGenericType(methodInfo.GetParameters()[0].ParameterType, methodInfo.ReturnType), methodInfo)).Build();
+                    return BuildConverter(methodInfo);
                 }
             }
 
             methodInfo = GetExplicitConversionOperator(sourceType, underlyingTargetType);
             if (methodInfo != null)
             {
-                return ((IConverterBuilder)Activator.CreateInstance(
-                    typeof(MethodConverterBuilder<,>).MakeGenericType(methodInfo.GetParameters()[0].ParameterType, methodInfo.ReturnType), methodInfo)).Build();
+                return BuildConverter(methodInfo);
             }
 
             if (underlyingTargetType != targetType)
@@ -40,8 +39,7 @@
                 methodInfo = GetExplicitConversionOperator(sourceType, targetType);
                 if (methodInfo != null)
                 {
-                    return ((IConverterBuilder)Activator.CreateInstance(
-                        typeof(MethodConverterBuilder<,>).MakeGenericType(methodInfo.GetParameters()[0].ParameterType, methodInfo.ReturnType), methodInfo)).Build();
+                    return BuildConverter(methodInfo);
                 }
             }
 
@@ -93,31 +91,25 @@
                 : parameterType == sourceType;
         }
 
-        private sealed class MethodConverterBuilder<TSource, TDestination> : IConverterBuilder
+        private static Func<object, object> BuildConverter(MethodInfo mi)
         {
-            private readonly MethodInfo mi;
+            var method = CreateMethod.MakeGenericMethod(mi.ReturnType);
+            return (Func<object, object>)method.Invoke(null, new object[] { mi });
+        }
 
-            public MethodConverterBuilder(MethodInfo mi)
+        private static Func<object, object> CreateConverter<TDestination>(MethodInfo mi)
+        {
+            return source =>
             {
-                this.mi = mi;
-            }
-
-            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Ignore")]
-            public Func<object, object> Build()
-            {
-                var func = (Func<TSource, TDestination>)Delegate.CreateDelegate(typeof(Func<TSource, TDestination>), mi);
-                return source =>
+                try
                 {
-                    try
-                    {
-                        return func((TSource)source);
-                    }
-                    catch
-                    {
-                        return default(TDestination);
-                    }
-                };
-            }
+                    return (TDestination)mi.Invoke(null, new[] { source });
+                }
+                catch
+                {
+                    return default(TDestination);
+                }
+            };
         }
     }
 }

@@ -17,7 +17,9 @@ namespace Smart.Reflection
         {
         }
 
+        //--------------------------------------------------------------------------------
         // Array
+        //--------------------------------------------------------------------------------
 
         public Func<int, Array> CreateArrayAllocator(Type type)
         {
@@ -29,7 +31,9 @@ namespace Smart.Reflection
             return length => Array.CreateInstance(type, length);
         }
 
+        //--------------------------------------------------------------------------------
         // Factory
+        //--------------------------------------------------------------------------------
 
         public Func<object[], object> CreateFactory(ConstructorInfo ci)
         {
@@ -59,7 +63,9 @@ namespace Smart.Reflection
             return Activator.CreateInstance<T>;
         }
 
+        //--------------------------------------------------------------------------------
         // Accessor
+        //--------------------------------------------------------------------------------
 
         public Func<object, object> CreateGetter(PropertyInfo pi)
         {
@@ -71,6 +77,11 @@ namespace Smart.Reflection
             if (pi is null)
             {
                 throw new ArgumentNullException(nameof(pi));
+            }
+
+            if (pi.DeclaringType.IsValueType)
+            {
+                throw new ArgumentException("Value type is not supported", nameof(pi));
             }
 
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
@@ -107,6 +118,11 @@ namespace Smart.Reflection
             if (pi is null)
             {
                 throw new ArgumentNullException(nameof(pi));
+            }
+
+            if (pi.DeclaringType.IsValueType)
+            {
+                throw new ArgumentException("Value type is not supported", nameof(pi));
             }
 
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
@@ -147,6 +163,11 @@ namespace Smart.Reflection
                 throw new ArgumentNullException(nameof(pi));
             }
 
+            if (pi.DeclaringType.IsValueType)
+            {
+                throw new ArgumentException("Value type is not supported", nameof(pi));
+            }
+
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
             if (holderType is null)
             {
@@ -183,6 +204,11 @@ namespace Smart.Reflection
                 throw new ArgumentNullException(nameof(pi));
             }
 
+            if (pi.DeclaringType.IsValueType)
+            {
+                throw new ArgumentException("Value type is not supported", nameof(pi));
+            }
+
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
             if (holderType is null)
             {
@@ -207,7 +233,9 @@ namespace Smart.Reflection
             };
         }
 
+        //--------------------------------------------------------------------------------
         // Etc
+        //--------------------------------------------------------------------------------
 
         public Type GetExtendedPropertyType(PropertyInfo pi)
         {
