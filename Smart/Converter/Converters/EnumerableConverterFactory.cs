@@ -1,4 +1,4 @@
-﻿namespace Smart.Converter.Converters
+namespace Smart.Converter.Converters
 {
     using System;
     using System.Collections.Concurrent;
@@ -129,24 +129,27 @@
                 return type.GetElementType();
             }
 
-            var interfaceType = type.GetInterfaces()
-                .FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IList<>));
+            var interfaceTypes = new List<Type>
+            {
+                type
+            };
+            interfaceTypes.AddRange(type.GetInterfaces());
+
+            var interfaceType = interfaceTypes.FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IList<>));
             if (interfaceType != null)
             {
                 sourceEnumerableType = SourceEnumerableType.List;
                 return interfaceType.GenericTypeArguments[0];
             }
 
-            interfaceType = type.GetInterfaces()
-                .FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(ICollection<>));
+            interfaceType = interfaceTypes.FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(ICollection<>));
             if (interfaceType != null)
             {
                 sourceEnumerableType = SourceEnumerableType.Collection;
                 return interfaceType.GenericTypeArguments[0];
             }
 
-            interfaceType = type.GetInterfaces()
-                .FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>));
+            interfaceType = interfaceTypes.FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>));
             if (interfaceType != null)
             {
                 sourceEnumerableType = SourceEnumerableType.Enumerable;

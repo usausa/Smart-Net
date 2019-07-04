@@ -1,4 +1,4 @@
-﻿namespace Smart
+namespace Smart
 {
     using System;
     using System.Collections;
@@ -140,6 +140,11 @@
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Type GetValueHolderType(this Type type)
         {
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == ValueHolderType)
+            {
+                return type;
+            }
+
             return type.GetInterfaces().FirstOrDefault(it => it.IsGenericType && it.GetGenericTypeDefinition() == ValueHolderType);
         }
 
