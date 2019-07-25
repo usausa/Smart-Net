@@ -198,6 +198,7 @@ namespace Smart.Reflection
             return CreateGetter(pi, true);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Ignore")]
         public Func<object, object> CreateGetter(PropertyInfo pi, bool extension)
         {
             if (pi is null)
@@ -253,6 +254,7 @@ namespace Smart.Reflection
             return CreateGetter<T, TMember>(pi, true);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Ignore")]
         public Func<T, TMember> CreateGetter<T, TMember>(PropertyInfo pi, bool extension)
         {
             if (pi is null)
@@ -289,6 +291,7 @@ namespace Smart.Reflection
             return CreateSetter<T, TMember>(pi, true);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Ignore")]
         public Action<T, TMember> CreateSetter<T, TMember>(PropertyInfo pi, bool extension)
         {
             if (pi is null)
@@ -551,6 +554,7 @@ namespace Smart.Reflection
         // Etc
         //--------------------------------------------------------------------------------
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Ignore")]
         public Type GetExtendedPropertyType(PropertyInfo pi)
         {
             var holderType = ValueHolderHelper.FindValueHolderType(pi);

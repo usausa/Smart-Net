@@ -1,9 +1,10 @@
-﻿namespace Smart.Text
+namespace Smart.Text
 {
     using System;
     using System.Globalization;
     using System.Text;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
     public static class HexEncoder
     {
         public static string ToHex(byte[] bytes)

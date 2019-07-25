@@ -1,7 +1,8 @@
-﻿namespace Smart
+namespace Smart
 {
     using System;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
     public static partial class ArrayExtensions
     {
         //--------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-﻿namespace Smart.Collections.Concurrent
+namespace Smart.Collections.Concurrent
 {
     using System;
 
@@ -37,6 +37,7 @@
             return initialSize;
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Framework only")]
         public int CalculateRequestSize(IHashArrayMapResizeContext context)
         {
             return Math.Max(initialSize, (int)Math.Ceiling((context.Count + context.Growth) * factor));

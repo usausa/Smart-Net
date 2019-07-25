@@ -1,4 +1,4 @@
-﻿namespace Smart.Converter
+namespace Smart.Converter
 {
     using System;
     using System.Diagnostics;
@@ -162,6 +162,7 @@
             return TryGetValueInternal(table, sourceType, targetType, out converter);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Performance")]
         public Func<object, object> AddIfNotExist(Type sourceType, Type targetType, Func<Type, Type, Func<object, object>> valueFactory)
         {
             lock (sync)

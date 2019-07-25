@@ -1,7 +1,8 @@
-﻿namespace Smart.IO
+namespace Smart.IO
 {
     using System.Runtime.CompilerServices;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
     public static class ByteBufferExtensions
     {
         //--------------------------------------------------------------------------------

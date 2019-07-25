@@ -1,4 +1,4 @@
-﻿namespace Smart.Collections.Concurrent
+namespace Smart.Collections.Concurrent
 {
     using System;
     using System.Collections;
@@ -190,12 +190,14 @@
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Performance")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetValue(Type key, out TValue value)
         {
             return TryGetValueInternal(table, key, out value);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Performance")]
         public TValue AddIfNotExist(Type key, TValue value)
         {
             lock (sync)
@@ -215,6 +217,7 @@
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Performance")]
         public TValue AddIfNotExist(Type key, Func<Type, TValue> valueFactory)
         {
             lock (sync)

@@ -1,4 +1,4 @@
-﻿namespace Smart.IO
+namespace Smart.IO
 {
     using System;
     using System.Runtime.CompilerServices;
@@ -96,6 +96,7 @@
         }
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
     public static class ByteOrder
     {
         private static readonly IByteOrder Little = new LittleEndian();

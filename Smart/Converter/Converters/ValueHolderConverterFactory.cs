@@ -7,6 +7,7 @@ namespace Smart.Converter.Converters
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Ignore")]
     public sealed class ValueHolderConverterFactory : IConverterFactory
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Framework only")]
         public Func<object, object> GetConverter(IObjectConverter context, Type sourceType, Type targetType)
         {
             var isSourceValueType = ValueHolderHelper.IsValueHolderType(sourceType);

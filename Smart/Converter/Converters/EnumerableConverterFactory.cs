@@ -57,6 +57,7 @@ namespace Smart.Converter.Converters
             { typeof(ConcurrentBag<>), new ProviderPair(SameTypeConcurrentBagProvider.Default, OtherTypeConcurrentBagProvider.Default) }
         };
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Framework only")]
         public Func<object, object> GetConverter(IObjectConverter context, Type sourceType, Type targetType)
         {
             // To Array

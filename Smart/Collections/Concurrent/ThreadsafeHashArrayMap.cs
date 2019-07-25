@@ -1,4 +1,4 @@
-﻿namespace Smart.Collections.Concurrent
+namespace Smart.Collections.Concurrent
 {
     using System;
     using System.Collections;
@@ -223,6 +223,7 @@
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Performance")]
         public TValue AddIfNotExist(TKey key, Func<TKey, TValue> valueFactory)
         {
             lock (sync)

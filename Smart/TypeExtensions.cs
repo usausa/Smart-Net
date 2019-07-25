@@ -10,6 +10,7 @@ namespace Smart
     using Smart.Collections.Concurrent;
     using Smart.ComponentModel;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
     public static class TypeExtensions
     {
         private static readonly Type NullableType = typeof(Nullable<>);

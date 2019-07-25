@@ -1,4 +1,4 @@
-﻿namespace Smart.Collections.Generic
+namespace Smart.Collections.Generic
 {
     using System.Collections.Generic;
 
@@ -9,6 +9,7 @@
 
         public bool Equals(T x, T y) => x == y;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Performance")]
         public int GetHashCode(T obj) => obj.GetHashCode();
     }
 }

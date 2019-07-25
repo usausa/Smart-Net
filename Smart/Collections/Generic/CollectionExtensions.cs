@@ -1,9 +1,10 @@
-﻿namespace Smart.Collections.Generic
+namespace Smart.Collections.Generic
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
     public static class CollectionExtensions
     {
         public static bool IsNullOrEmpty<T>(this ICollection<T> source)

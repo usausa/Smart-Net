@@ -1,9 +1,10 @@
-﻿namespace Smart.Text
+namespace Smart.Text
 {
     using System;
     using System.Runtime.CompilerServices;
     using System.Text;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
     public static class StringBuilderExtensions
     {
         //--------------------------------------------------------------------------------

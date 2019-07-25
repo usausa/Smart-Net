@@ -237,6 +237,7 @@ namespace Smart.Reflection
         // Etc
         //--------------------------------------------------------------------------------
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Ignore")]
         public Type GetExtendedPropertyType(PropertyInfo pi)
         {
             var holderType = ValueHolderHelper.FindValueHolderType(pi);

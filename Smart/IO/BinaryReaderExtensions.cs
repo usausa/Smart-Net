@@ -1,8 +1,9 @@
-﻿namespace Smart.IO
+namespace Smart.IO
 {
     using System.IO;
     using System.Runtime.InteropServices;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
     public static class BinaryReaderExtensions
     {
         public static T ReadStruct<T>(this BinaryReader reader)

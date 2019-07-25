@@ -1,8 +1,9 @@
-﻿namespace Smart
+namespace Smart
 {
     using System;
     using System.Runtime.CompilerServices;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
     public static class Bytes
     {
         public static byte[] FromHex(string hex)
