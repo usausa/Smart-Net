@@ -1,4 +1,4 @@
-﻿namespace Smart.Converter.Converters
+namespace Smart.Converter.Converters
 {
     public static class DefaultObjectFactories
     {
@@ -17,6 +17,7 @@
                 new NumericParseConverterFactory(),         // Numeric parse
                 new EnumConverterFactory(),                 // Enum to Enum, String to Enum, Assignable to Enum, Enum to Assignable
                 new EnumerableConverterFactory(),           // Enumerable
+                new ValueHolderConverterFactory(),          // ValueHolder
                 new ConversionOperatorConverterFactory(),   // Implicit/Explicit operator
                 new ToStringConverterFactory(),             // ToString finally
             };
