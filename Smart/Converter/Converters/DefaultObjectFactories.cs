@@ -19,6 +19,7 @@ namespace Smart.Converter.Converters
                 new EnumerableConverterFactory(),           // Enumerable
                 new ValueHolderConverterFactory(),          // ValueHolder
                 new ConversionOperatorConverterFactory(),   // Implicit/Explicit operator
+                new ConstructorConverterFactory(),          // Constructor
                 new ToStringConverterFactory(),             // ToString finally
             };
         }

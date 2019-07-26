@@ -14,7 +14,8 @@ namespace Smart.Converter.Converters
             if (isSourceValueType)
             {
                 var sourceValueType = ValueHolderHelper.GetValueTypeProperty(sourceType).PropertyType;
-                if (sourceValueType == targetType)
+                var type = sourceType.IsNullableType() ? Nullable.GetUnderlyingType(targetType) : targetType;
+                if (sourceValueType == type)
                 {
                     return ((IConverter)Activator.CreateInstance(typeof(ValueHolderConverter<>).MakeGenericType(sourceValueType))).Convert;
                 }
