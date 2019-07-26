@@ -177,6 +177,12 @@ namespace Smart.Reflection
                 {
                     il.EmitTypeConversion(ci.GetParameters()[i].ParameterType);
                 }
+                else if (ci.GetParameters()[i].ParameterType.IsNullableType() &&
+                        !argumentTypes[i].IsNullableType())
+                {
+                    var nullableCi = ci.GetParameters()[i].ParameterType.GetConstructors()[0];
+                    il.Emit(OpCodes.Newobj, nullableCi);
+                }
             }
 
             il.Emit(OpCodes.Newobj, ci);
