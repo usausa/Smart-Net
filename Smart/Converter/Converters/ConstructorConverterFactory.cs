@@ -34,17 +34,6 @@ namespace Smart.Converter.Converters
                 return (Func<object, object>)method.Invoke(null, new object[] { delegateFactory });
             }
 
-            if (sourceType.IsValueType)
-            {
-                var type = typeof(Nullable<>).MakeGenericType(sourceType);
-                ci = targetType.GetConstructor(new[] { type });
-                if (ci != null)
-                {
-                    var method = CreateMethod.MakeGenericMethod(sourceType, targetType);
-                    return (Func<object, object>)method.Invoke(null, new object[] { delegateFactory });
-                }
-            }
-
             var pair = targetType.GetConstructors()
                 .Where(x => x.GetParameters().Length == 1)
                 .Select(x => new

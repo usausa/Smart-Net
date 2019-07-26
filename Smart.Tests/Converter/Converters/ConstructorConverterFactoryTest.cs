@@ -22,6 +22,12 @@ namespace Smart.Converter.Converters
             Assert.True(converter.UsedOnly<ConstructorConverterFactory>());
         }
 
-        // TODO
+        [Fact]
+        public void IntToTypeHasDifferentTypeConstructor()
+        {
+            var converter = new TestObjectConverter();
+            Assert.Equal("1", ((NotificationValue<string>)(converter.Convert(1, typeof(NotificationValue<string>)))).Value);
+            Assert.True(converter.UsedIn(typeof(ConstructorConverterFactory), typeof(ToStringConverterFactory)));
+        }
     }
 }
