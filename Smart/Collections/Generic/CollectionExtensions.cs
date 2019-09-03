@@ -15,7 +15,8 @@ namespace Smart.Collections.Generic
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void AddRange<T>(this ICollection<T> source, IEnumerable<T> collection)
+        public static void AddRange<T, TBase>(this ICollection<TBase> source, IEnumerable<T> collection)
+            where T : TBase
         {
             if (collection is null)
             {
@@ -39,7 +40,8 @@ namespace Smart.Collections.Generic
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T AddAlso<T>(this ICollection<T> source, T item)
+        public static T AddAlso<T, TBase>(this ICollection<TBase> source, T item)
+            where T : TBase
         {
             source.Add(item);
             return item;

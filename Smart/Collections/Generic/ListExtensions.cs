@@ -7,7 +7,8 @@ namespace Smart.Collections.Generic
     public static class ListExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T InsertAlso<T>(this IList<T> source, int index, T item)
+        public static T InsertAlso<T, TBase>(this IList<TBase> source, int index, T item)
+            where T : TBase
         {
             source.Insert(index, item);
             return item;
