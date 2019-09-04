@@ -194,13 +194,14 @@ namespace Smart.Converter
         // Inner
         //--------------------------------------------------------------------------------
 
-        private class Node
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Performance")]
+        private sealed class Node
         {
-            public Type SourceType { get; }
+            public readonly Type SourceType;
 
-            public Type TargetType { get; }
+            public readonly Type TargetType;
 
-            public Func<object, object> Converter { get; }
+            public readonly Func<object, object> Converter;
 
             public Node(Type sourceType, Type targetType, Func<object, object> converter)
             {
@@ -210,13 +211,14 @@ namespace Smart.Converter
             }
         }
 
-        private class Table
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Performance")]
+        private sealed class Table
         {
-            public int HashMask { get; }
+            public readonly int HashMask;
 
-            public Node[][] Nodes { get; }
+            public readonly Node[][] Nodes;
 
-            public int Count { get; }
+            public readonly int Count;
 
             public Table(int hashMask, Node[][] nodes, int count)
             {

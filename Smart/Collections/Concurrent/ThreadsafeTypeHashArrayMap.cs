@@ -328,11 +328,12 @@ namespace Smart.Collections.Concurrent
         // Inner
         //--------------------------------------------------------------------------------
 
-        private class Node
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Performance")]
+        private sealed class Node
         {
-            public Type Key { get; }
+            public readonly Type Key;
 
-            public TValue Value { get; }
+            public readonly TValue Value;
 
             public Node(Type key, TValue value)
             {
@@ -341,15 +342,16 @@ namespace Smart.Collections.Concurrent
             }
         }
 
-        private class Table
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Performance")]
+        private sealed class Table
         {
-            public int HashMask { get; }
+            public readonly int HashMask;
 
-            public Node[][] Nodes { get; }
+            public readonly Node[][] Nodes;
 
-            public int Count { get; }
+            public readonly int Count;
 
-            public int Depth { get; }
+            public readonly int Depth;
 
             public Table(int hashMask, Node[][] nodes, int count, int depth)
             {
