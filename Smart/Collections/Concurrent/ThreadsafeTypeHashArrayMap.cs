@@ -4,7 +4,6 @@ namespace Smart.Collections.Concurrent
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Threading;
 
@@ -132,27 +131,6 @@ namespace Smart.Collections.Concurrent
             return new Table(mask, newNodes, oldTable.Count + 1, CalculateDepth(newNodes));
         }
 
-        private Table CreateAddRangeTable(Table oldTable, ICollection<Node> addNodes)
-        {
-            var requestSize = strategy.CalculateRequestSize(new AddResizeContext(oldTable.Nodes.Length, oldTable.Depth, oldTable.Count, addNodes.Count));
-
-            var size = CalculateSize(requestSize);
-            var mask = (int)(size - 1);
-            var newNodes = new Node[size][];
-
-            RelocateNodes(newNodes, oldTable.Nodes, mask);
-
-            foreach (var node in addNodes)
-            {
-                var index = node.Key.GetHashCode() & mask;
-                newNodes[index] = AddNode(newNodes[index], node);
-            }
-
-            FillEmptyIfNull(newNodes);
-
-            return new Table(mask, newNodes, oldTable.Count + addNodes.Count, CalculateDepth(newNodes));
-        }
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static bool TryGetValueInternal(Table targetTable, Type key, out TValue value)
         {
@@ -242,46 +220,6 @@ namespace Smart.Collections.Concurrent
                 table = newTable;
 
                 return value;
-            }
-        }
-
-        public int AddRangeIfNotExist(IEnumerable<KeyValuePair<Type, TValue>> pairs)
-        {
-            lock (sync)
-            {
-                var nodes = pairs
-                    .GroupBy(x => x.Key, (key, g) => g.First())
-                    .Where(x => !TryGetValueInternal(table, x.Key, out _))
-                    .Select(x => new Node(x.Key, x.Value))
-                    .ToList();
-
-                // Rebuild
-                var newTable = CreateAddRangeTable(table, nodes);
-                Interlocked.MemoryBarrier();
-                table = newTable;
-
-                return nodes.Count;
-            }
-        }
-
-        public int AddRangeIfNotExist(IEnumerable<Type> keys, Func<Type, TValue> valueFactory)
-        {
-            lock (sync)
-            {
-                var nodes = keys
-                    .Distinct()
-                    .Where(x => !TryGetValueInternal(table, x, out _))
-                    .Select(x => new KeyValuePair<Type, TValue>(x, valueFactory(x)))
-                    .Where(x => !TryGetValueInternal(table, x.Key, out _))
-                    .Select(x => new Node(x.Key, x.Value))
-                    .ToList();
-
-                // Rebuild
-                var newTable = CreateAddRangeTable(table, nodes);
-                Interlocked.MemoryBarrier();
-                table = newTable;
-
-                return nodes.Count;
             }
         }
 

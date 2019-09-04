@@ -1,4 +1,4 @@
-﻿namespace Smart.Collections.Concurrent
+namespace Smart.Collections.Concurrent
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -54,29 +54,6 @@
 
                 Assert.Equal(i + 1, map.Count);
                 Assert.Equal(1, map.Depth);
-            }
-        }
-
-        [Fact]
-        public void TestRange()
-        {
-            var map = new ThreadsafeHashArrayMap<int, string>(1);
-
-            // AddRange1
-            map.AddRangeIfNotExist(Enumerable.Range(1, 10), Factory);
-
-            Assert.Equal(10, map.Count);
-
-            // AddRange2
-            map.AddRangeIfNotExist(Enumerable.Range(6, 10).Select(x => new KeyValuePair<int, string>(x, x.ToString())));
-
-            Assert.Equal(15, map.Count);
-
-            // IEnumerable
-            var dic = map.ToDictionary(x => x.Key, x => x.Value);
-            foreach (var i in Enumerable.Range(1, 15))
-            {
-                Assert.True(dic.ContainsKey(i));
             }
         }
 
