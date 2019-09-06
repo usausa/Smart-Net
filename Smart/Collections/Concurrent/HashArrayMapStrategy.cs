@@ -26,7 +26,7 @@ namespace Smart.Collections.Concurrent
 
         private readonly double factor;
 
-        public GrowthHashArrayMapStrategy(int initialSize, double factor = 1.0)
+        public GrowthHashArrayMapStrategy(int initialSize, double factor)
         {
             this.initialSize = initialSize;
             this.factor = factor;
