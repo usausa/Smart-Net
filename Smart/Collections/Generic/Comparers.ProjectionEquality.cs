@@ -1,4 +1,4 @@
-﻿namespace Smart.Collections.Generic
+namespace Smart.Collections.Generic
 {
     using System;
     using System.Collections.Generic;
@@ -42,11 +42,6 @@
 
         public int GetHashCode(TSource obj)
         {
-            if (Object.Equals(obj, default(TSource)))
-            {
-                throw new ArgumentNullException(nameof(obj));
-            }
-
             return comparer.GetHashCode(keySelector(obj));
         }
     }
