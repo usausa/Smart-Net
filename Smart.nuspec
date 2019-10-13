@@ -18,7 +18,7 @@
       </group>
       <group targetFramework="netstandard2.0">
         <dependency id="System.ComponentModel" version="4.3.0" />
-        <dependency id="System.Reflection.Emit.Lightweight" version="4.3.0" />
+        <dependency id="System.Reflection.Emit.Lightweight" version="4.6.0" />
       </group>
       <group targetFramework="net462">
       </group>
