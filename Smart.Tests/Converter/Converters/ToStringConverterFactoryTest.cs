@@ -1,4 +1,4 @@
-﻿namespace Smart.Converter.Converters
+namespace Smart.Converter.Converters
 {
     using System;
 
@@ -93,8 +93,8 @@
         public void DoubleToString()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal("-1.79769313486232E+308", converter.Convert(Double.MinValue, typeof(string)));
-            Assert.Equal("1.79769313486232E+308", converter.Convert(Double.MaxValue, typeof(string)));
+            Assert.Equal("-1.7976931348623157E+308", converter.Convert(Double.MinValue, typeof(string)));
+            Assert.Equal("1.7976931348623157E+308", converter.Convert(Double.MaxValue, typeof(string)));
             Assert.True(converter.UsedOnly<ToStringConverterFactory>());
         }
 
@@ -102,8 +102,8 @@
         public void FloatToString()
         {
             var converter = new TestObjectConverter();
-            Assert.Equal("-3.402823E+38", converter.Convert(Single.MinValue, typeof(string)));
-            Assert.Equal("3.402823E+38", converter.Convert(Single.MaxValue, typeof(string)));
+            Assert.Equal("-3.4028235E+38", converter.Convert(Single.MinValue, typeof(string)));
+            Assert.Equal("3.4028235E+38", converter.Convert(Single.MaxValue, typeof(string)));
             Assert.True(converter.UsedOnly<ToStringConverterFactory>());
         }
 
