@@ -92,9 +92,13 @@ namespace Smart.Reflection
     {
         private string str;
 
-        public string WriteOnly { set => str = value; }
+        private void Set(string value) => str = value;
 
-        public string ReadOnly => str;
+        private string Get() => str;
+
+        public string WriteOnly { set => Set(value); }
+
+        public string ReadOnly => Get();
     }
 
     public class Data0

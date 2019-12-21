@@ -1,4 +1,4 @@
-﻿namespace Smart.Converter.Converters
+namespace Smart.Converter.Converters
 {
     using System;
     using System.Collections.Concurrent;
@@ -22,17 +22,13 @@
 
             public Type GetConverterType(SourceEnumerableType sourceEnumerableType)
             {
-                switch (sourceEnumerableType)
+                return sourceEnumerableType switch
                 {
-                    case SourceEnumerableType.Array:
-                        return typeof(OtherTypeConcurrentQueueFromArrayConverter<,>);
-                    case SourceEnumerableType.List:
-                        return typeof(OtherTypeConcurrentQueueFromListConverter<,>);
-                    case SourceEnumerableType.Collection:
-                        return typeof(OtherTypeConcurrentQueueFromCollectionConverter<,>);
-                    default:
-                        return typeof(OtherTypeConcurrentQueueFromEnumerableConverter<,>);
-                }
+                    SourceEnumerableType.Array => typeof(OtherTypeConcurrentQueueFromArrayConverter<,>),
+                    SourceEnumerableType.List => typeof(OtherTypeConcurrentQueueFromListConverter<,>),
+                    SourceEnumerableType.Collection => typeof(OtherTypeConcurrentQueueFromCollectionConverter<,>),
+                    _ => typeof(OtherTypeConcurrentQueueFromEnumerableConverter<,>)
+                };
             }
         }
 

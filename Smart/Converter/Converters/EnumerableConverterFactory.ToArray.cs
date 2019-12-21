@@ -16,17 +16,13 @@ namespace Smart.Converter.Converters
 
             public Type GetConverterType(SourceEnumerableType sourceEnumerableType)
             {
-                switch (sourceEnumerableType)
+                return sourceEnumerableType switch
                 {
-                    case SourceEnumerableType.Array:
-                        // Used assignable
-                        throw new NotSupportedException();
-                    case SourceEnumerableType.List:
-                    case SourceEnumerableType.Collection:
-                        return typeof(SameTypeArrayFromCollectionConverter<>);
-                    default:
-                        return typeof(SameTypeArrayFromEnumerableConverter<>);
-                }
+                    SourceEnumerableType.Array => throw new NotSupportedException(),
+                    SourceEnumerableType.List => typeof(SameTypeArrayFromCollectionConverter<>),
+                    SourceEnumerableType.Collection => typeof(SameTypeArrayFromCollectionConverter<>),
+                    _ => typeof(SameTypeArrayFromEnumerableConverter<>)
+                };
             }
         }
 
@@ -36,17 +32,13 @@ namespace Smart.Converter.Converters
 
             public Type GetConverterType(SourceEnumerableType sourceEnumerableType)
             {
-                switch (sourceEnumerableType)
+                return sourceEnumerableType switch
                 {
-                    case SourceEnumerableType.Array:
-                        return typeof(OtherTypeArrayFromArrayConverter<,>);
-                    case SourceEnumerableType.List:
-                        return typeof(OtherTypeArrayFromListConverter<,>);
-                    case SourceEnumerableType.Collection:
-                        return typeof(OtherTypeArrayFromCollectionConverter<,>);
-                    default:
-                        return typeof(OtherTypeArrayFromEnumerableConverter<,>);
-                }
+                    SourceEnumerableType.Array => typeof(OtherTypeArrayFromArrayConverter<,>),
+                    SourceEnumerableType.List => typeof(OtherTypeArrayFromListConverter<,>),
+                    SourceEnumerableType.Collection => typeof(OtherTypeArrayFromCollectionConverter<,>),
+                    _ => typeof(OtherTypeArrayFromEnumerableConverter<,>)
+                };
             }
         }
 

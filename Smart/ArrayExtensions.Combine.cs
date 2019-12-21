@@ -1,4 +1,4 @@
-﻿namespace Smart
+namespace Smart
 {
     using System;
 
@@ -21,7 +21,7 @@
                 var other = others[i];
                 if (other != null)
                 {
-                    length = length + other.Length;
+                    length += other.Length;
                 }
             }
 
@@ -69,7 +69,7 @@
                 var other = others[i];
                 if (other != null)
                 {
-                    length = length + other.Length;
+                    length += other.Length;
                 }
             }
 
@@ -117,7 +117,7 @@
                 var other = others[i];
                 if (other != null)
                 {
-                    length = length + other.Length;
+                    length += other.Length;
                 }
             }
 
@@ -165,7 +165,7 @@
                 var other = others[i];
                 if (other != null)
                 {
-                    length = length + other.Length;
+                    length += other.Length;
                 }
             }
 
@@ -213,7 +213,7 @@
                 var other = others[i];
                 if (other != null)
                 {
-                    length = length + other.Length;
+                    length += other.Length;
                 }
             }
 
@@ -261,7 +261,7 @@
                 var other = others[i];
                 if (other != null)
                 {
-                    length = length + other.Length;
+                    length += other.Length;
                 }
             }
 
@@ -309,7 +309,7 @@
                 var other = others[i];
                 if (other != null)
                 {
-                    length = length + other.Length;
+                    length += other.Length;
                 }
             }
 
@@ -357,7 +357,7 @@
                 var other = others[i];
                 if (other != null)
                 {
-                    length = length + other.Length;
+                    length += other.Length;
                 }
             }
 
@@ -405,7 +405,7 @@
                 var other = others[i];
                 if (other != null)
                 {
-                    length = length + other.Length;
+                    length += other.Length;
                 }
             }
 

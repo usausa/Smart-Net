@@ -64,7 +64,7 @@ namespace Smart.Reflection
             return arrayAllocatorCache.GetOrAdd(type, CreateArrayAllocatorInternal);
         }
 
-        private Func<int, Array> CreateArrayAllocatorInternal(Type type)
+        private static Func<int, Array> CreateArrayAllocatorInternal(Type type)
         {
             var dynamicMethod = new DynamicMethod(string.Empty, typeof(Array), new[] { typeof(object), typeof(int) }, true);
             var il = dynamicMethod.GetILGenerator();
@@ -103,7 +103,7 @@ namespace Smart.Reflection
 
         // Factory Helper
 
-        private Func<object[], object> CreateFactoryInternal(ConstructorInfo ci)
+        private static Func<object[], object> CreateFactoryInternal(ConstructorInfo ci)
         {
             var returnType = ci.DeclaringType.IsValueType ? typeof(object) : ci.DeclaringType;
 

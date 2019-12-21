@@ -83,6 +83,7 @@ namespace Smart
             return type.IsValueType && !type.IsEnum && !type.IsPrimitive && !type.IsNullableType();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1307:SpecifyStringComparison", Justification = "Ignore")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsAnonymous(this Type type)
         {
@@ -90,7 +91,6 @@ namespace Smart
                 type.IsGenericType &&
                 type.Name.Contains("AnonymousType") &&
                 (type.Name.StartsWith("<>", StringComparison.Ordinal) || type.Name.StartsWith("VB$", StringComparison.Ordinal)) &&
-                ((type.Attributes & TypeAttributes.NotPublic) == TypeAttributes.NotPublic) &&
                 ((type.Attributes & TypeAttributes.Sealed) == TypeAttributes.Sealed);
         }
 

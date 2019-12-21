@@ -1,4 +1,4 @@
-﻿namespace Smart.Converter.Converters
+namespace Smart.Converter.Converters
 {
     using System;
     using System.Collections.Generic;
@@ -22,17 +22,13 @@
 
             public Type GetConverterType(SourceEnumerableType sourceEnumerableType)
             {
-                switch (sourceEnumerableType)
+                return sourceEnumerableType switch
                 {
-                    case SourceEnumerableType.Array:
-                        return typeof(OtherTypeObservableCollectionFromArrayConverter<,>);
-                    case SourceEnumerableType.List:
-                        return typeof(OtherTypeObservableCollectionFromListConverter<,>);
-                    case SourceEnumerableType.Collection:
-                        return typeof(OtherTypeObservableCollectionFromCollectionConverter<,>);
-                    default:
-                        return typeof(OtherTypeObservableCollectionFromEnumerableConverter<,>);
-                }
+                    SourceEnumerableType.Array => typeof(OtherTypeObservableCollectionFromArrayConverter<,>),
+                    SourceEnumerableType.List => typeof(OtherTypeObservableCollectionFromListConverter<,>),
+                    SourceEnumerableType.Collection => typeof(OtherTypeObservableCollectionFromCollectionConverter<,>),
+                    _ => typeof(OtherTypeObservableCollectionFromEnumerableConverter<,>)
+                };
             }
         }
 

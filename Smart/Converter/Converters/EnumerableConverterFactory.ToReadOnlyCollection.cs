@@ -1,4 +1,4 @@
-﻿namespace Smart.Converter.Converters
+namespace Smart.Converter.Converters
 {
     using System;
     using System.Collections.Generic;
@@ -13,14 +13,12 @@
 
             public Type GetConverterType(SourceEnumerableType sourceEnumerableType)
             {
-                switch (sourceEnumerableType)
+                return sourceEnumerableType switch
                 {
-                    case SourceEnumerableType.Array:
-                    case SourceEnumerableType.List:
-                        return typeof(SameTypeReadOnlyCollectionFromListConverter<>);
-                    default:
-                        return typeof(SameTypeReadOnlyCollectionFromEnumerableConverter<>);
-                }
+                    SourceEnumerableType.Array => typeof(SameTypeReadOnlyCollectionFromListConverter<>),
+                    SourceEnumerableType.List => typeof(SameTypeReadOnlyCollectionFromListConverter<>),
+                    _ => typeof(SameTypeReadOnlyCollectionFromEnumerableConverter<>)
+                };
             }
         }
 
@@ -30,17 +28,13 @@
 
             public Type GetConverterType(SourceEnumerableType sourceEnumerableType)
             {
-                switch (sourceEnumerableType)
+                return sourceEnumerableType switch
                 {
-                    case SourceEnumerableType.Array:
-                        return typeof(OtherTypeReadOnlyCollectionFromArrayConverter<,>);
-                    case SourceEnumerableType.List:
-                        return typeof(OtherTypeReadOnlyCollectionFromListConverter<,>);
-                    case SourceEnumerableType.Collection:
-                        return typeof(OtherTypeReadOnlyCollectionFromCollectionConverter<,>);
-                    default:
-                        return typeof(OtherTypeReadOnlyCollectionFromEnumerableConverter<,>);
-                }
+                    SourceEnumerableType.Array => typeof(OtherTypeReadOnlyCollectionFromArrayConverter<,>),
+                    SourceEnumerableType.List => typeof(OtherTypeReadOnlyCollectionFromListConverter<,>),
+                    SourceEnumerableType.Collection => typeof(OtherTypeReadOnlyCollectionFromCollectionConverter<,>),
+                    _ => typeof(OtherTypeReadOnlyCollectionFromEnumerableConverter<,>)
+                };
             }
         }
 

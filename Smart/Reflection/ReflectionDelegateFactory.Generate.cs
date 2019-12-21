@@ -18,7 +18,7 @@ namespace Smart.Reflection
                 throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
             }
 
-            return (p1) => ci.Invoke(new[] { p1 });
+            return p1 => ci.Invoke(new[] { p1 });
         }
 
         public Func<object, object, object> CreateFactory2(ConstructorInfo ci)
@@ -254,7 +254,7 @@ namespace Smart.Reflection
                 throw new ArgumentException("Constructor type parameter is invalid.");
             }
 
-            return (p1) => (T)ci.Invoke(new object[] { p1 });
+            return p1 => (T)ci.Invoke(new object[] { p1 });
         }
 
         public Func<TP1, TP2, T> CreateFactory<TP1, TP2, T>()
