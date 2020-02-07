@@ -5,7 +5,7 @@ namespace Smart.Converter
     using System.Runtime.CompilerServices;
     using System.Threading;
 
-    [DebuggerDisplay("Count = {" + nameof(Count) + "}")]
+    [DebuggerDisplay("{" + nameof(Diagnostics) + "}")]
     public sealed class TypePairHashArray
     {
         private const int InitialSize = 256;
@@ -18,6 +18,10 @@ namespace Smart.Converter
 
         private Node[] nodes;
 
+        private int width;
+
+        private int depth;
+
         private int count;
 
         //--------------------------------------------------------------------------------
@@ -27,6 +31,7 @@ namespace Smart.Converter
         public TypePairHashArray()
         {
             nodes = CreateInitialTable();
+            width = nodes.Length;
         }
 
         //--------------------------------------------------------------------------------
@@ -40,6 +45,36 @@ namespace Smart.Converter
             {
                 return sourceType.GetHashCode() ^ (targetType.GetHashCode() * 397);
             }
+        }
+
+        private static int CalculateDepth(Node node)
+        {
+            var length = 0;
+
+            do
+            {
+                length++;
+                node = node.Next;
+            }
+            while (node != null);
+
+            return length;
+        }
+
+        private static int CalculateDepth(Node[] targetNodes)
+        {
+            var depth = 0;
+
+            for (var i = 0; i < targetNodes.Length; i++)
+            {
+                var node = targetNodes[i];
+                if (node != EmptyNode)
+                {
+                    depth = Math.Max(CalculateDepth(node), depth);
+                }
+            }
+
+            return depth;
         }
 
         private static int CalculateSize(int requestSize)
@@ -131,7 +166,8 @@ namespace Smart.Converter
                 Interlocked.MemoryBarrier();
 
                 nodes = newNodes;
-
+                width = size;
+                depth = CalculateDepth(newNodes);
                 count++;
             }
             else
@@ -140,6 +176,7 @@ namespace Smart.Converter
 
                 UpdateLink(ref nodes[CalculateHash(node.SourceType, node.TargetType) & (nodes.Length - 1)], node);
 
+                depth = Math.Max(CalculateDepth(nodes[CalculateHash(node.SourceType, node.TargetType) & (nodes.Length - 1)]), depth);
                 count++;
             }
         }
@@ -148,13 +185,13 @@ namespace Smart.Converter
         // Public
         //--------------------------------------------------------------------------------
 
-        public int Count
+        public DiagnosticsInfo Diagnostics
         {
             get
             {
                 lock (sync)
                 {
-                    return count;
+                    return new DiagnosticsInfo(width, depth, count);
                 }
             }
         }
@@ -168,6 +205,7 @@ namespace Smart.Converter
                 Interlocked.MemoryBarrier();
 
                 nodes = newNodes;
+                depth = 0;
                 count = 0;
             }
         }
@@ -243,6 +281,28 @@ namespace Smart.Converter
                 TargetType = targetType;
                 Converter = converter;
             }
+        }
+
+        //--------------------------------------------------------------------------------
+        // Diagnostics
+        //--------------------------------------------------------------------------------
+
+        public sealed class DiagnosticsInfo
+        {
+            public int Width { get; }
+
+            public int Depth { get; }
+
+            public int Count { get; }
+
+            public DiagnosticsInfo(int width, int depth, int count)
+            {
+                Width = width;
+                Depth = depth;
+                Count = count;
+            }
+
+            public override string ToString() => $"Count={Count}, Width={Width}, Depth={Depth}";
         }
     }
 }

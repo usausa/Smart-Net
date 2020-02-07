@@ -7,7 +7,7 @@ namespace Smart.Collections.Concurrent
     using System.Runtime.CompilerServices;
     using System.Threading;
 
-    [DebuggerDisplay("Count = {" + nameof(Count) + "}")]
+    [DebuggerDisplay("{" + nameof(Diagnostics) + "}")]
     public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePair<Type, TValue>>
     {
         private static readonly Node EmptyNode = new Node(typeof(EmptyKey), default);
@@ -18,9 +18,11 @@ namespace Smart.Collections.Concurrent
 
         private Node[] nodes;
 
-        private int count;
+        private int width;
 
         private int depth;
+
+        private int count;
 
         //--------------------------------------------------------------------------------
         // Constructor
@@ -35,6 +37,7 @@ namespace Smart.Collections.Concurrent
         {
             this.strategy = strategy;
             nodes = CreateInitialTable();
+            width = nodes.Length;
         }
 
         //--------------------------------------------------------------------------------
@@ -181,6 +184,7 @@ namespace Smart.Collections.Concurrent
                 Interlocked.MemoryBarrier();
 
                 nodes = newNodes;
+                width = size;
                 depth = CalculateDepth(newNodes);
                 count = CalculateCount(newNodes);
             }
@@ -199,24 +203,13 @@ namespace Smart.Collections.Concurrent
         // Public
         //--------------------------------------------------------------------------------
 
-        public int Count
+        public DiagnosticsInfo Diagnostics
         {
             get
             {
                 lock (sync)
                 {
-                    return count;
-                }
-            }
-        }
-
-        public int Depth
-        {
-            get
-            {
-                lock (sync)
-                {
-                    return depth;
+                    return new DiagnosticsInfo(width, depth, count);
                 }
             }
         }
@@ -379,10 +372,32 @@ namespace Smart.Collections.Concurrent
             public AddResizeContext(int width, int depth, int count, int growth)
             {
                 Width = width;
-                Count = count;
                 Depth = depth;
+                Count = count;
                 Growth = growth;
             }
+        }
+
+        //--------------------------------------------------------------------------------
+        // Diagnostics
+        //--------------------------------------------------------------------------------
+
+        public sealed class DiagnosticsInfo
+        {
+            public int Width { get; }
+
+            public int Depth { get; }
+
+            public int Count { get; }
+
+            public DiagnosticsInfo(int width, int depth, int count)
+            {
+                Width = width;
+                Depth = depth;
+                Count = count;
+            }
+
+            public override string ToString() => $"Count={Count}, Width={Width}, Depth={Depth}";
         }
     }
 }

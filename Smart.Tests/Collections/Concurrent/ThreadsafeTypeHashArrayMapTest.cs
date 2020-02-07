@@ -18,7 +18,7 @@ namespace Smart.Collections.Concurrent
             var map = new ThreadsafeTypeHashArrayMap<string>();
 
             // Initial
-            Assert.Equal(0, map.Count);
+            Assert.Equal(0, map.Diagnostics.Count);
             Assert.False(map.TryGetValue(Class01.Type, out string _));
             Assert.False(map.ContainsKey(Class01.Type));
             Assert.Null(map.GetValueOrDefault(Class01.Type));
@@ -26,7 +26,7 @@ namespace Smart.Collections.Concurrent
             // Add
             Assert.Equal("1", map.AddIfNotExist(Class01.Type, "1"));
 
-            Assert.Equal(1, map.Count);
+            Assert.Equal(1, map.Diagnostics.Count);
             Assert.True(map.TryGetValue(Class01.Type, out string _));
             Assert.True(map.ContainsKey(Class01.Type));
             Assert.Equal("1", map.GetValueOrDefault(Class01.Type));
@@ -34,12 +34,12 @@ namespace Smart.Collections.Concurrent
             // Add failed
             Assert.Equal("1", map.AddIfNotExist(Class01.Type, "1b"));
 
-            Assert.Equal(1, map.Count);
+            Assert.Equal(1, map.Diagnostics.Count);
 
             // Clear
             map.Clear();
 
-            Assert.Equal(0, map.Count);
+            Assert.Equal(0, map.Diagnostics.Count);
             Assert.False(map.TryGetValue(Class01.Type, out string _));
         }
 
@@ -49,25 +49,25 @@ namespace Smart.Collections.Concurrent
             var map = new ThreadsafeTypeHashArrayMap<string>(1);
 
             map.AddIfNotExist(Class01.Type, Factory);
-            Assert.Equal(1, map.Count);
+            Assert.Equal(1, map.Diagnostics.Count);
             map.AddIfNotExist(Class02.Type, Factory);
-            Assert.Equal(2, map.Count);
+            Assert.Equal(2, map.Diagnostics.Count);
             map.AddIfNotExist(Class03.Type, Factory);
-            Assert.Equal(3, map.Count);
+            Assert.Equal(3, map.Diagnostics.Count);
             map.AddIfNotExist(Class04.Type, Factory);
-            Assert.Equal(4, map.Count);
+            Assert.Equal(4, map.Diagnostics.Count);
             map.AddIfNotExist(Class05.Type, Factory);
-            Assert.Equal(5, map.Count);
+            Assert.Equal(5, map.Diagnostics.Count);
             map.AddIfNotExist(Class06.Type, Factory);
-            Assert.Equal(6, map.Count);
+            Assert.Equal(6, map.Diagnostics.Count);
             map.AddIfNotExist(Class07.Type, Factory);
-            Assert.Equal(7, map.Count);
+            Assert.Equal(7, map.Diagnostics.Count);
             map.AddIfNotExist(Class08.Type, Factory);
-            Assert.Equal(8, map.Count);
+            Assert.Equal(8, map.Diagnostics.Count);
             map.AddIfNotExist(Class09.Type, Factory);
-            Assert.Equal(9, map.Count);
+            Assert.Equal(9, map.Diagnostics.Count);
             map.AddIfNotExist(Class10.Type, Factory);
-            Assert.Equal(10, map.Count);
+            Assert.Equal(10, map.Diagnostics.Count);
         }
 
         [Fact]
