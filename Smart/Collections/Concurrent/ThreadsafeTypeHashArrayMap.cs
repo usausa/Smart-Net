@@ -18,8 +18,6 @@ namespace Smart.Collections.Concurrent
 
         private Node[] nodes;
 
-        private int width;
-
         private int depth;
 
         private int count;
@@ -37,7 +35,6 @@ namespace Smart.Collections.Concurrent
         {
             this.strategy = strategy;
             nodes = CreateInitialTable();
-            width = nodes.Length;
         }
 
         //--------------------------------------------------------------------------------
@@ -184,7 +181,6 @@ namespace Smart.Collections.Concurrent
                 Interlocked.MemoryBarrier();
 
                 nodes = newNodes;
-                width = size;
                 depth = CalculateDepth(newNodes);
                 count = CalculateCount(newNodes);
             }
@@ -209,7 +205,7 @@ namespace Smart.Collections.Concurrent
             {
                 lock (sync)
                 {
-                    return new DiagnosticsInfo(width, depth, count);
+                    return new DiagnosticsInfo(nodes.Length, depth, count);
                 }
             }
         }
