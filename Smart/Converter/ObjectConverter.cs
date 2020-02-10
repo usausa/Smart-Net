@@ -1,4 +1,4 @@
-﻿namespace Smart.Converter
+namespace Smart.Converter
 {
     using System;
     using System.Collections.Generic;
@@ -30,6 +30,10 @@
             factories = converterFactories.ToArray();
             converterCache.Clear();
         }
+
+        //--------------------------------------------------------------------------------
+        // Converter
+        //--------------------------------------------------------------------------------
 
         public void Reset()
         {
@@ -139,6 +143,41 @@
                 : value.GetType() == targetType
                     ? value
                     : converter(value);
+        }
+
+        //--------------------------------------------------------------------------------
+        // Diagnostics
+        //--------------------------------------------------------------------------------
+
+        public sealed class DiagnosticsInfo
+        {
+            public int CacheCount { get; }
+
+            public int CacheWidth { get; }
+
+            public int CacheDepth { get; }
+
+            public DiagnosticsInfo(
+                int cacheCount,
+                int cacheWidth,
+                int cacheDepth)
+            {
+                CacheCount = cacheCount;
+                CacheWidth = cacheWidth;
+                CacheDepth = cacheDepth;
+            }
+        }
+
+        public DiagnosticsInfo Diagnostics
+        {
+            get
+            {
+                var cacheDiagnostics = converterCache.Diagnostics;
+                return new DiagnosticsInfo(
+                    cacheDiagnostics.Count,
+                    cacheDiagnostics.Width,
+                    cacheDiagnostics.Depth);
+            }
         }
     }
 }
