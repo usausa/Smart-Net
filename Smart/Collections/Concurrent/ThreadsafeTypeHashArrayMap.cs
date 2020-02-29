@@ -228,7 +228,8 @@ namespace Smart.Collections.Concurrent
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetValue(Type key, out TValue value)
         {
-            var node = nodes[key.GetHashCode() & (nodes.Length - 1)];
+            var temp = nodes;
+            var node = temp[key.GetHashCode() & (temp.Length - 1)];
             do
             {
                 if (node.Key == key)

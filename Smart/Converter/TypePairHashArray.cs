@@ -210,7 +210,8 @@ namespace Smart.Converter
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetValue(Type sourceType, Type targetType, out Func<object, object> converter)
         {
-            var node = nodes[CalculateHash(sourceType, targetType) & (nodes.Length - 1)];
+            var temp = nodes;
+            var node = temp[CalculateHash(sourceType, targetType) & (temp.Length - 1)];
             do
             {
                 if ((node.SourceType == sourceType) && (node.TargetType == targetType))
