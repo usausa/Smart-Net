@@ -1,4 +1,4 @@
-﻿namespace Smart.Text
+namespace Smart.Text
 {
     using System;
     using System.Globalization;
@@ -17,6 +17,7 @@
                 return word;
             }
 
+            var isLowerPrevious = false;
             var sb = new StringBuilder();
             foreach (var c in word)
             {
@@ -31,10 +32,16 @@
                         sb.Append(Char.ToUpper(c, CultureInfo.CurrentCulture));
                         toUpper = false;
                     }
+                    else if (isLowerPrevious)
+                    {
+                        sb.Append(c);
+                    }
                     else
                     {
                         sb.Append(Char.ToLower(c, CultureInfo.CurrentCulture));
                     }
+
+                    isLowerPrevious = Char.IsLower(c);
                 }
             }
 
