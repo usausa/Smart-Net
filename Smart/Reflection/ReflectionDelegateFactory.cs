@@ -40,6 +40,7 @@ namespace Smart.Reflection
             return () => Activator.CreateInstance(type);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Performance")]
         public Func<object[], object> CreateFactory(Type type, Type[] argumentTypes)
         {
             if (type.IsValueType && (argumentTypes.Length == 0))
@@ -50,7 +51,7 @@ namespace Smart.Reflection
             var ci = type.GetConstructor(argumentTypes);
             if (ci is null)
             {
-                throw new ArgumentNullException(nameof(ci));
+                throw new ArgumentException("Constructor not found.");
             }
 
             return CreateFactory(ci);
