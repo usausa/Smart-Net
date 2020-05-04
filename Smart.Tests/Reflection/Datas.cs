@@ -57,6 +57,12 @@ namespace Smart.Reflection
 
         public MyStruct StructValue { get; set; }
 
+        public int? NullableIntValue { get; set; }
+
+        public MyEnum? NullableEnumValue { get; set; }
+
+        public MyStruct? NullableStructValue { get; set; }
+
         public IValueHolder<string> NotificationStringValue { get; } = new NotificationValue<string>();
 
         public IValueHolder<int> NotificationIntValue { get; } = new NotificationValue<int>();
@@ -99,6 +105,20 @@ namespace Smart.Reflection
         public string WriteOnly { set => Set(value); }
 
         public string ReadOnly => Get();
+    }
+
+    public class Struct0
+    {
+    }
+
+    public class Struct1
+    {
+        public int Param1 { get; }
+
+        public Struct1(int p1)
+        {
+            Param1 = p1;
+        }
     }
 
     public class Data0

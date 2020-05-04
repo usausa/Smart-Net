@@ -170,6 +170,8 @@ namespace Smart.Reflection
             var dynamicMethod = new DynamicMethod(string.Empty, returnType, parameterTypes, true);
             var il = dynamicMethod.GetILGenerator();
 
+            // TODO struct
+
             for (var i = 0; i < ci.GetParameters().Length; i++)
             {
                 il.EmitLdarg(i + 1);
