@@ -161,7 +161,7 @@ namespace Smart.Reflection.Emit
             }
         }
 
-        public static void EmitCall(this ILGenerator il, MethodInfo method)
+        public static void EmitCallMethod(this ILGenerator il, MethodInfo method)
         {
             var opCode = (method.IsStatic || method.DeclaringType.IsValueType) ? OpCodes.Call : OpCodes.Callvirt;
             il.Emit(opCode, method);

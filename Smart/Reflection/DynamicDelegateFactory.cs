@@ -183,8 +183,9 @@ namespace Smart.Reflection
                 else if (ci.GetParameters()[i].ParameterType.IsNullableType() &&
                         !argumentTypes[i].IsNullableType())
                 {
-                    var nullableCi = ci.GetParameters()[i].ParameterType.GetConstructors()[0];
-                    il.Emit(OpCodes.Newobj, nullableCi);
+                    var underlyingType = Nullable.GetUnderlyingType(ci.GetParameters()[i].ParameterType);
+                    var nullableCtor = ci.GetParameters()[i].ParameterType.GetConstructor(new[] { underlyingType });
+                    il.Emit(OpCodes.Newobj, nullableCtor);
                 }
             }
 
