@@ -1,4 +1,4 @@
-﻿namespace Smart.ComponentModel
+namespace Smart.ComponentModel
 {
     using System;
     using System.Collections.Generic;
@@ -90,6 +90,7 @@
                     String.Format(CultureInfo.InvariantCulture, "No such component registered. component type = {0}", componentType.Name));
             }
 
+            // ReSharper disable once UseIndexFromEndExpression
             return objects[objects.Length - 1];
         }
 
@@ -104,6 +105,7 @@
 
             var objects = ResolveAll(componentType);
             result = objects.Length > 0;
+            // ReSharper disable once UseIndexFromEndExpression
             return result ? objects[objects.Length - 1] : null;
         }
 

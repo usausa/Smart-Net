@@ -163,6 +163,7 @@ namespace Smart.Reflection
 
             var typeArguments = new Type[argumentTypes.Length + 1];
             Array.Copy(argumentTypes, 0, typeArguments, 0, argumentTypes.Length);
+            // ReSharper disable once UseIndexFromEndExpression
             typeArguments[typeArguments.Length - 1] = returnType;
 
             var delegateType = delegateOpenType.MakeGenericType(typeArguments);

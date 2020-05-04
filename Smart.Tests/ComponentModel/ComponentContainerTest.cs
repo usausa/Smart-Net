@@ -1,4 +1,4 @@
-﻿namespace Smart.ComponentModel
+namespace Smart.ComponentModel
 {
     using System;
     using System.Collections.Generic;
@@ -198,6 +198,7 @@
 
         protected class ArrayParameterObject
         {
+            // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
             public ICalcService[] CalcServices { get; set; }
 
             public ArrayParameterObject(ICalcService[] calcServices)
@@ -208,8 +209,10 @@
 
         protected class MultiConstructorObject
         {
+            // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
             public int Arguments { get; set; }
 
+            // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
             public ICalcService CalcService { get; set; }
 
             public MultiConstructorObject()

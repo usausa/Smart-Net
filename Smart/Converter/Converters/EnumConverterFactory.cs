@@ -1,4 +1,4 @@
-﻿namespace Smart.Converter.Converters
+namespace Smart.Converter.Converters
 {
     using System;
     using System.Collections.Generic;
@@ -8,15 +8,15 @@
     {
         private static readonly HashSet<Type> UnderlyingTypes = new HashSet<Type>
         {
-            { typeof(byte) },
-            { typeof(sbyte) },
-            { typeof(short) },
-            { typeof(ushort) },
-            { typeof(int) },
-            { typeof(uint) },
-            { typeof(long) },
-            { typeof(ulong) },
-            { typeof(char) },
+            typeof(byte),
+            typeof(sbyte),
+            typeof(short),
+            typeof(ushort),
+            typeof(int),
+            typeof(uint),
+            typeof(long),
+            typeof(ulong),
+            typeof(char),
         };
 
         private static readonly Dictionary<Tuple<Type, Type>, Func<object, object>> CastOperators = new Dictionary<Tuple<Type, Type>, Func<object, object>>

@@ -1,4 +1,4 @@
-﻿namespace Smart.Linq
+namespace Smart.Linq
 {
     using System;
     using System.Collections;
@@ -42,7 +42,7 @@
             public void Reset() => throw new NotSupportedException();
         }
 
-        private struct SliceArrayEnumerable<T> : IEnumerable<T>
+        private readonly struct SliceArrayEnumerable<T> : IEnumerable<T>
         {
             private readonly T[] array;
 
@@ -105,7 +105,7 @@
             public void Reset() => throw new NotSupportedException();
         }
 
-        private struct SliceListEnumerable<T> : IEnumerable<T>
+        private readonly struct SliceListEnumerable<T> : IEnumerable<T>
         {
             private readonly IList<T> list;
 
@@ -170,7 +170,7 @@
             public void Reset() => throw new NotSupportedException();
         }
 
-        private struct SliceEnumerable<T> : IEnumerable<T>
+        private readonly struct SliceEnumerable<T> : IEnumerable<T>
         {
             private readonly IEnumerable<T> ie;
 

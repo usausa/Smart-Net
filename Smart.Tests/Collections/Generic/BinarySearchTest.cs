@@ -1,4 +1,4 @@
-﻿namespace Smart.Collections.Generic
+namespace Smart.Collections.Generic
 {
     using System;
     using System.Collections.Generic;
@@ -15,7 +15,7 @@
                 throw new ArgumentNullException(nameof(actuals));
             }
 
-            for (var i = 0; i < expects.Count; i++)
+            for (var i = 0; i < actuals.Count; i++)
             {
                 if (expects[i] >= 0)
                 {

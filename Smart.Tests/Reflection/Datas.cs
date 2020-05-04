@@ -1,3 +1,4 @@
+// ReSharper disable MemberCanBeProtected.Global
 namespace Smart.Reflection
 {
     using System;
@@ -20,8 +21,10 @@ namespace Smart.Reflection
 
     public struct StructWithConstructor
     {
+        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
         public int X { get; set; }
 
+        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
         public int Y { get; set; }
 
         public StructWithConstructor(int x, int y)

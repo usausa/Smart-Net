@@ -1,6 +1,6 @@
-﻿namespace Smart.Linq
+namespace Smart.Linq
 {
-    public struct Indexed<T>
+    public readonly struct Indexed<T>
     {
         public T Item { get; }
 
