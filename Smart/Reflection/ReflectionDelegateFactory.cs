@@ -35,6 +35,27 @@ namespace Smart.Reflection
         // Factory
         //--------------------------------------------------------------------------------
 
+        public Func<object> CreateFactory(Type type)
+        {
+            return () => Activator.CreateInstance(type);
+        }
+
+        public Func<object[], object> CreateFactory(Type type, Type[] argumentTypes)
+        {
+            if (type.IsValueType && (argumentTypes.Length == 0))
+            {
+                return parameters => Activator.CreateInstance(type);
+            }
+
+            var ci = type.GetConstructor(argumentTypes);
+            if (ci is null)
+            {
+                throw new ArgumentNullException(nameof(ci));
+            }
+
+            return CreateFactory(ci);
+        }
+
         public Func<object[], object> CreateFactory(ConstructorInfo ci)
         {
             if (ci is null)

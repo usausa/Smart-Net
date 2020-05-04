@@ -244,21 +244,6 @@ namespace Smart.Reflection
                     new[] { typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), }));
         }
 
-        public Func<T> CreateFactory<T>()
-        {
-            var ci = typeof(T).GetConstructor(Type.EmptyTypes);
-            if (ci is null)
-            {
-                throw new ArgumentException("Constructor type parameter is invalid.");
-            }
-
-            return (Func<T>)typedFactoryCache
-                .GetOrAdd(ci, x => CreateFactoryInternal(
-                    x,
-                    x.DeclaringType,
-                    Type.EmptyTypes));
-        }
-
         public Func<TP1, T> CreateFactory<TP1, T>()
         {
             var ci = typeof(T).GetConstructor(new[] { typeof(TP1) });

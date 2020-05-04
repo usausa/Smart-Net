@@ -224,6 +224,60 @@
         }
 
         //--------------------------------------------------------------------------------
+        // Non static nullable
+        //--------------------------------------------------------------------------------
+
+        [Fact]
+        public void AccessNullableProperty()
+        {
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.NullableIntValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter(pi);
+            var setter = ReflectionDelegateFactory.Default.CreateSetter(pi);
+
+            var data = new MemberData();
+
+            setter(data, 1);
+            Assert.Equal(1, getter(data));
+
+            setter(data, null);
+            Assert.Null(getter(data));
+        }
+
+        [Fact]
+        public void AccessNullableEnumProperty()
+        {
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.NullableEnumValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter(pi);
+            var setter = ReflectionDelegateFactory.Default.CreateSetter(pi);
+
+            var data = new MemberData();
+
+            setter(data, MyEnum.One);
+            Assert.Equal(MyEnum.One, getter(data));
+
+            setter(data, null);
+            Assert.Null(getter(data));
+        }
+
+        [Fact]
+        public void AccessNullableStructProperty()
+        {
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.NullableStructValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter(pi);
+            var setter = ReflectionDelegateFactory.Default.CreateSetter(pi);
+
+            var data = new MemberData();
+
+            setter(data, new MyStruct { X = 1, Y = 2 });
+            var structValue = (MyStruct)getter(data);
+            Assert.Equal(1, structValue.X);
+            Assert.Equal(2, structValue.Y);
+
+            setter(data, null);
+            Assert.Null(getter(data));
+        }
+
+        //--------------------------------------------------------------------------------
         // Non static value holder
         //--------------------------------------------------------------------------------
 

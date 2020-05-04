@@ -1,11 +1,46 @@
 namespace Smart.Reflection
 {
+    using System;
     using System.Linq;
 
     using Xunit;
 
     public class DynamicDelegateFactoryActivatorTest
     {
+        //--------------------------------------------------------------------------------
+        // Struct
+        //--------------------------------------------------------------------------------
+
+        [Fact]
+        public void FactoryStructType()
+        {
+            var factory = DynamicDelegateFactory.Default.CreateFactory(typeof(StructWithConstructor));
+
+            var data = (StructWithConstructor)factory();
+            Assert.Equal(default, data.X);
+            Assert.Equal(default, data.Y);
+        }
+
+        [Fact]
+        public void FactoryStructTypeWithParameter()
+        {
+            var factory = DynamicDelegateFactory.Default.CreateFactory(typeof(StructWithConstructor), new[] { typeof(int), typeof(int) });
+
+            var data = (StructWithConstructor)factory(new object[] { 1, 2 });
+            Assert.Equal(1, data.X);
+            Assert.Equal(2, data.Y);
+        }
+
+        [Fact]
+        public void FactoryStructTypeWithEmptyParameter()
+        {
+            var factory = DynamicDelegateFactory.Default.CreateFactory(typeof(StructWithConstructor), Type.EmptyTypes);
+
+            var data = (StructWithConstructor)factory(null);
+            Assert.Equal(default, data.X);
+            Assert.Equal(default, data.Y);
+        }
+
         [Fact]
         public void FactoryStruct()
         {
@@ -25,6 +60,30 @@ namespace Smart.Reflection
             Assert.Equal(1, data.X);
             Assert.Equal(2, data.Y);
         }
+
+        [Fact]
+        public void FactoryStructTypedDefault()
+        {
+            var factory = DynamicDelegateFactory.Default.CreateFactory<StructWithConstructor>();
+
+            var data = factory();
+            Assert.Equal(default, data.X);
+            Assert.Equal(default, data.Y);
+        }
+
+        [Fact]
+        public void FactoryStructTypedWithParameter()
+        {
+            var factory = DynamicDelegateFactory.Default.CreateFactory<int, int, StructWithConstructor>();
+
+            var data = factory(1, 2);
+            Assert.Equal(1, data.X);
+            Assert.Equal(2, data.Y);
+        }
+
+        //--------------------------------------------------------------------------------
+        // Class
+        //--------------------------------------------------------------------------------
 
         [Fact]
         public void FactoryData0()
@@ -358,6 +417,38 @@ namespace Smart.Reflection
             Assert.Equal("14", data.Param14);
             Assert.Equal(15, data.Param15);
             Assert.Equal("16", data.Param16);
+        }
+
+        //--------------------------------------------------------------------------------
+        // Nullable
+        //--------------------------------------------------------------------------------
+
+        [Fact]
+        public void NullableParameterAsObject()
+        {
+            var factory = DynamicDelegateFactory.Default.CreateFactory1(typeof(NullableParameterClass).GetConstructors().First());
+
+            var data = (NullableParameterClass)factory(1);
+            Assert.NotNull(data);
+            Assert.Equal(1, data.Parameter);
+
+            var data2 = (NullableParameterClass)factory(null);
+            Assert.NotNull(data2);
+            Assert.Null(data2.Parameter);
+        }
+
+        [Fact]
+        public void NullableParameterAsTyped()
+        {
+            var factory = DynamicDelegateFactory.Default.CreateFactory<int?, NullableParameterClass>();
+
+            var data = factory(1);
+            Assert.NotNull(data);
+            Assert.Equal(1, data.Parameter);
+
+            var data2 = factory(null);
+            Assert.NotNull(data2);
+            Assert.Null(data2.Parameter);
         }
     }
 }

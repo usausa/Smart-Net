@@ -110,17 +110,13 @@ namespace Smart.Reflection
         public string ReadOnly => Get();
     }
 
-    public class Struct0
+    public class NullableParameterClass
     {
-    }
+        public int? Parameter { get; }
 
-    public class Struct1
-    {
-        public int Param1 { get; }
-
-        public Struct1(int p1)
+        public NullableParameterClass(int? p)
         {
-            Param1 = p1;
+            Parameter = p;
         }
     }
 

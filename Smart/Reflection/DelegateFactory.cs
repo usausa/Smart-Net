@@ -36,6 +36,16 @@ namespace Smart.Reflection
         // Factory
         //--------------------------------------------------------------------------------
 
+        public Func<object> CreateFactory(Type type)
+        {
+            return Factory.CreateFactory(type);
+        }
+
+        public Func<object[], object> CreateFactory(Type type, Type[] argumentTypes)
+        {
+            return Factory.CreateFactory(type, argumentTypes);
+        }
+
         public Func<object[], object> CreateFactory(ConstructorInfo ci)
         {
             return Factory.CreateFactory(ci);

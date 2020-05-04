@@ -3,7 +3,6 @@ namespace Smart.Reflection
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
     using System.Reflection.Emit;
 
@@ -12,15 +11,29 @@ namespace Smart.Reflection
 
     public sealed partial class DynamicDelegateFactory : IDelegateFactory
     {
-        // Cache
+        // Array cache
 
         private readonly ConcurrentDictionary<Type, Func<int, Array>> arrayAllocatorCache = new ConcurrentDictionary<Type, Func<int, Array>>();
+
+        // Factory cache
 
         private readonly ConcurrentDictionary<ConstructorInfo, Func<object[], object>> factoryCache = new ConcurrentDictionary<ConstructorInfo, Func<object[], object>>();
 
         private readonly ConcurrentDictionary<ConstructorInfo, Delegate> factoryDelegateCache = new ConcurrentDictionary<ConstructorInfo, Delegate>();
 
+        // Typed factory cache
+
         private readonly ConcurrentDictionary<ConstructorInfo, Delegate> typedFactoryCache = new ConcurrentDictionary<ConstructorInfo, Delegate>();
+
+        // Default structure cache
+
+        private readonly ConcurrentDictionary<Type, Func<object[], object>> defaultStructFactoryCache = new ConcurrentDictionary<Type, Func<object[], object>>();
+
+        private readonly ConcurrentDictionary<Type, Delegate> defaultStructDelegateCache = new ConcurrentDictionary<Type, Delegate>();
+
+        private readonly ConcurrentDictionary<Type, Delegate> typedDefaultStructDelegateCache = new ConcurrentDictionary<Type, Delegate>();
+
+        // Property cache
 
         private readonly ConcurrentDictionary<PropertyInfo, Func<object, object>> getterCache = new ConcurrentDictionary<PropertyInfo, Func<object, object>>();
 
@@ -29,6 +42,8 @@ namespace Smart.Reflection
         private readonly ConcurrentDictionary<PropertyInfo, Action<object, object>> setterCache = new ConcurrentDictionary<PropertyInfo, Action<object, object>>();
 
         private readonly ConcurrentDictionary<PropertyInfo, Action<object, object>> extensionSetterCache = new ConcurrentDictionary<PropertyInfo, Action<object, object>>();
+
+        // Typed Property cache
 
         private readonly ConcurrentDictionary<PropertyInfo, Delegate> typedGetterCache = new ConcurrentDictionary<PropertyInfo, Delegate>();
 
@@ -80,6 +95,44 @@ namespace Smart.Reflection
         // Factory
         //--------------------------------------------------------------------------------
 
+        public Func<object> CreateFactory(Type type)
+        {
+            if (type.IsValueType)
+            {
+                return (Func<object>)defaultStructDelegateCache
+                    .GetOrAdd(type, x => CreateDefaultStructFactoryInternal(false, x, Type.EmptyTypes));
+            }
+
+            var ci = type.GetConstructor(Type.EmptyTypes);
+            if (ci is null)
+            {
+                throw new ArgumentNullException(nameof(ci));
+            }
+
+            return (Func<object>)factoryDelegateCache
+                .GetOrAdd(ci, x => CreateFactoryInternal(
+                    x,
+                    typeof(object),
+                    Type.EmptyTypes));
+        }
+
+        public Func<object[], object> CreateFactory(Type type, Type[] argumentTypes)
+        {
+            if (type.IsValueType && (argumentTypes.Length == 0))
+            {
+                return defaultStructFactoryCache
+                    .GetOrAdd(type, x => (Func<object[], object>)CreateDefaultStructFactoryInternal(false, x, new[] { typeof(object[]) }));
+            }
+
+            var ci = type.GetConstructor(argumentTypes);
+            if (ci is null)
+            {
+                throw new ArgumentNullException(nameof(ci));
+            }
+
+            return CreateFactory(ci);
+        }
+
         public Func<object[], object> CreateFactory(ConstructorInfo ci)
         {
             if (ci is null)
@@ -90,18 +143,67 @@ namespace Smart.Reflection
             return factoryCache.GetOrAdd(ci, CreateFactoryInternal);
         }
 
-        // Factory
-
-        public Delegate CreateFactoryDelegate(ConstructorInfo ci)
+        public Func<T> CreateFactory<T>()
         {
-            return typedFactoryCache
+            var type = typeof(T);
+            if (type.IsValueType)
+            {
+                return (Func<T>)typedDefaultStructDelegateCache
+                    .GetOrAdd(type, x => CreateDefaultStructFactoryInternal(true, x, Type.EmptyTypes));
+            }
+
+            var ci = type.GetConstructor(Type.EmptyTypes);
+            if (ci is null)
+            {
+                throw new ArgumentException("Constructor type parameter is invalid.");
+            }
+
+            return (Func<T>)typedFactoryCache
                 .GetOrAdd(ci, x => CreateFactoryInternal(
-                    ci,
-                    ci.DeclaringType,
-                    ci.GetParameters().Select(p => p.ParameterType).ToArray()));
+                    x,
+                    x.DeclaringType,
+                    Type.EmptyTypes));
         }
 
         // Factory Helper
+
+        private static Delegate CreateDefaultStructFactoryInternal(bool typed, Type type, Type[] argumentTypes)
+        {
+            if (!FactoryDelegateTypes.TryGetValue(argumentTypes.Length, out var delegateOpenType))
+            {
+                throw new ArgumentNullException(nameof(argumentTypes));
+            }
+
+            var returnType = typed ? type : typeof(object);
+
+            var parameterTypes = new Type[argumentTypes.Length + 1];
+            parameterTypes[0] = typeof(object);
+            Array.Copy(argumentTypes, 0, parameterTypes, 1, argumentTypes.Length);
+
+            var typeArguments = new Type[argumentTypes.Length + 1];
+            Array.Copy(argumentTypes, 0, typeArguments, 0, argumentTypes.Length);
+            // ReSharper disable once UseIndexFromEndExpression
+            typeArguments[typeArguments.Length - 1] = returnType;
+
+            var delegateType = delegateOpenType.MakeGenericType(typeArguments);
+
+            var dynamicMethod = new DynamicMethod(string.Empty, returnType, parameterTypes, true);
+            var il = dynamicMethod.GetILGenerator();
+
+            var local = il.DeclareLocal(type);
+            il.Emit(OpCodes.Ldloca_S, local);
+            il.Emit(OpCodes.Initobj, type);
+            il.Emit(OpCodes.Ldloc_0);
+
+            if (!typed)
+            {
+                il.Emit(OpCodes.Box, type);
+            }
+
+            il.Emit(OpCodes.Ret);
+
+            return dynamicMethod.CreateDelegate(delegateType, null);
+        }
 
         private static Func<object[], object> CreateFactoryInternal(ConstructorInfo ci)
         {
@@ -170,8 +272,6 @@ namespace Smart.Reflection
 
             var dynamicMethod = new DynamicMethod(string.Empty, returnType, parameterTypes, true);
             var il = dynamicMethod.GetILGenerator();
-
-            // TODO struct
 
             for (var i = 0; i < ci.GetParameters().Length; i++)
             {
@@ -331,60 +431,6 @@ namespace Smart.Reflection
             return (Action<T, TMember>)(extension
                 ? typedExtensionSetterCache.GetOrAdd(pi, x => CreateSetterInternal(x, tpi, isValueHolder, typeof(T), typeof(TMember)))
                 : typedSetterCache.GetOrAdd(pi, x => CreateSetterInternal(x, tpi, false, typeof(T), typeof(TMember))));
-        }
-
-        // Accessor
-
-        public Delegate CreateGetterDelegate(PropertyInfo pi)
-        {
-            return CreateGetterDelegate(pi, true);
-        }
-
-        public Delegate CreateGetterDelegate(PropertyInfo pi, bool extension)
-        {
-            if (pi is null)
-            {
-                throw new ArgumentNullException(nameof(pi));
-            }
-
-            if (pi.DeclaringType.IsValueType)
-            {
-                throw new ArgumentException("Value type is not supported", nameof(pi));
-            }
-
-            var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
-            var isValueHolder = holderType != null;
-            var tpi = isValueHolder ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
-
-            return extension
-                ? typedExtensionGetterCache.GetOrAdd(pi, x => CreateGetterInternal(x, tpi, isValueHolder, pi.DeclaringType, tpi.PropertyType))
-                : typedGetterCache.GetOrAdd(pi, x => CreateGetterInternal(x, tpi, false, pi.DeclaringType, tpi.PropertyType));
-        }
-
-        public Delegate CreateSetterDelegate(PropertyInfo pi)
-        {
-            return CreateSetterDelegate(pi, true);
-        }
-
-        public Delegate CreateSetterDelegate(PropertyInfo pi, bool extension)
-        {
-            if (pi is null)
-            {
-                throw new ArgumentNullException(nameof(pi));
-            }
-
-            if (pi.DeclaringType.IsValueType)
-            {
-                throw new ArgumentException("Value type is not supported", nameof(pi));
-            }
-
-            var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
-            var isValueHolder = holderType != null;
-            var tpi = isValueHolder ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
-
-            return extension
-                ? typedExtensionSetterCache.GetOrAdd(pi, x => CreateSetterInternal(x, tpi, isValueHolder, pi.DeclaringType, tpi.PropertyType))
-                : typedSetterCache.GetOrAdd(pi, x => CreateSetterInternal(x, tpi, false, pi.DeclaringType, tpi.PropertyType));
         }
 
         // Accessor helper
