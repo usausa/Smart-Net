@@ -224,7 +224,7 @@ namespace Smart.Reflection.Emit
 
         public static void EmitCallMethod(this ILGenerator il, MethodInfo method)
         {
-            var opCode = (method.IsStatic || method.DeclaringType.IsValueType) ? OpCodes.Call : OpCodes.Callvirt;
+            var opCode = (method.IsFinal || !method.IsVirtual) ? OpCodes.Call : OpCodes.Callvirt;
             il.Emit(opCode, method);
         }
     }
