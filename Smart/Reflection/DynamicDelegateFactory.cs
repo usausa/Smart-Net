@@ -461,7 +461,7 @@ namespace Smart.Reflection
                 }
             }
 
-            il.Emit(pi.GetGetMethod().IsStatic ? OpCodes.Call : OpCodes.Callvirt, pi.GetGetMethod());
+            il.EmitCallMethod(pi.GetGetMethod());
 
             if (isValueHolder)
             {
@@ -533,7 +533,7 @@ namespace Smart.Reflection
 
                 if (isValueHolder)
                 {
-                    il.Emit(pi.GetGetMethod().IsStatic ? OpCodes.Call : OpCodes.Callvirt, pi.GetGetMethod());
+                    il.EmitCallMethod(pi.GetGetMethod());
                 }
 
                 var type = tpi.PropertyType.IsEnum ? tpi.PropertyType.GetEnumUnderlyingType() : tpi.PropertyType;
@@ -549,7 +549,7 @@ namespace Smart.Reflection
                     il.Emit(OpCodes.Ldloc_0);
                 }
 
-                il.Emit(tpi.GetSetMethod().IsStatic ? OpCodes.Call : OpCodes.Callvirt, tpi.GetSetMethod());
+                il.EmitCallMethod(tpi.GetSetMethod());
 
                 il.Emit(OpCodes.Ret);
 
@@ -567,13 +567,13 @@ namespace Smart.Reflection
 
                 if (isValueHolder)
                 {
-                    il.Emit(pi.GetGetMethod().IsStatic ? OpCodes.Call : OpCodes.Callvirt, pi.GetGetMethod());
+                    il.EmitCallMethod(pi.GetGetMethod());
                 }
 
                 il.Emit(OpCodes.Ldarg_2);
                 il.Emit(OpCodes.Unbox_Any, tpi.PropertyType);
 
-                il.Emit(tpi.GetSetMethod().IsStatic ? OpCodes.Call : OpCodes.Callvirt, tpi.GetSetMethod());
+                il.EmitCallMethod(tpi.GetSetMethod());
 
                 il.Emit(OpCodes.Ret);
             }
@@ -590,7 +590,7 @@ namespace Smart.Reflection
 
                 if (isValueHolder)
                 {
-                    il.Emit(pi.GetGetMethod().IsStatic ? OpCodes.Call : OpCodes.Callvirt, pi.GetGetMethod());
+                    il.EmitCallMethod(pi.GetGetMethod());
                 }
 
                 il.Emit(OpCodes.Ldarg_2);
@@ -599,7 +599,7 @@ namespace Smart.Reflection
                     il.Emit(OpCodes.Castclass, tpi.PropertyType);
                 }
 
-                il.Emit(tpi.GetSetMethod().IsStatic ? OpCodes.Call : OpCodes.Callvirt, tpi.GetSetMethod());
+                il.EmitCallMethod(tpi.GetSetMethod());
 
                 il.Emit(OpCodes.Ret);
             }
