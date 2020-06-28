@@ -6,6 +6,14 @@
     <CodeAnalysisRuleSet>..\Smart.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <PackageId>Usa.Smart.Core</PackageId>
+    <Title>Smart.Core .NET</Title>
+    <Description>Smart fundation library for .NET</Description>
+    <Summary>Smart fundation library for .NET</Summary>
+    <PackageTags>smart</PackageTags>
+  </PropertyGroup>
+
   <ItemGroup Condition=" '$(TargetFramework)' != 'net462' ">
     <PackageReference Include="System.ComponentModel" Version="4.3.0" />
     <PackageReference Include="System.Reflection.Emit.Lightweight" Version="4.7.0" />
