@@ -1,6 +1,6 @@
 # Smart-Net
 
-![Nuget](https://img.shields.io/nuget/v/Usa.Smart.Core)
+[![Nuget](https://img.shields.io/nuget/v/Usa.Smart.Core)](https://www.nuget.org/packages/Usa.Smart.Core)
 
 Smart library fundation used by other smart library.
 
