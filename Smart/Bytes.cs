@@ -23,6 +23,7 @@ namespace Smart
             return bytes;
         }
 
+        [Obsolete]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static unsafe void FastCopy(byte[] src, int srcOffset, byte[] dst, int dstOffset, int length)
         {
