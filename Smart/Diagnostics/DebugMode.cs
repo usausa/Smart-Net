@@ -1,4 +1,4 @@
-﻿namespace Smart
+namespace Smart.Diagnostics
 {
     public static class DebugMode
     {

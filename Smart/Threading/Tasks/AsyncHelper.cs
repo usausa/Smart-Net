@@ -1,4 +1,4 @@
-﻿namespace Smart.Text.Tasks
+namespace Smart.Threading.Tasks
 {
     using System;
     using System.Threading;

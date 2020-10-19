@@ -1,4 +1,4 @@
-﻿namespace Smart
+namespace Smart
 {
     using System;
 
@@ -17,11 +17,6 @@
         public static bool IsLeapYear(this DateTime date)
         {
             return DateTime.DaysInMonth(date.Year, 2) == 29;
-        }
-
-        public static DateTime Tomorrow(this DateTime date)
-        {
-            return date.AddDays(1);
         }
 
         public static DateTime OfTime(this DateTime date, int hour, int minute, int second)

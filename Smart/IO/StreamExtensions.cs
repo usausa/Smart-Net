@@ -12,11 +12,9 @@ namespace Smart.IO
                 return memoryStream.ToArray();
             }
 
-            using (var ms = new MemoryStream())
-            {
-                stream.CopyTo(ms);
-                return ms.ToArray();
-            }
+            using var ms = new MemoryStream();
+            stream.CopyTo(ms);
+            return ms.ToArray();
         }
 
         public static byte[] ReadBytes(this Stream stream, int size)

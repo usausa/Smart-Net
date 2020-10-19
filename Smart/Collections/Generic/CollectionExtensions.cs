@@ -38,13 +38,5 @@ namespace Smart.Collections.Generic
                 source.Remove(item);
             }
         }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T AddAlso<T, TBase>(this ICollection<TBase> source, T item)
-            where T : TBase
-        {
-            source.Add(item);
-            return item;
-        }
     }
 }
