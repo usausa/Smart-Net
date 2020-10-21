@@ -1,8 +1,8 @@
-﻿namespace Smart.ComponentModel
+namespace Smart.ComponentModel
 {
     using System;
 
-    public class ComponentEntry
+    internal class ComponentEntry
     {
         public object Constant { get; }
 

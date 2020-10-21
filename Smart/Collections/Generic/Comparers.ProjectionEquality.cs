@@ -40,9 +40,6 @@ namespace Smart.Collections.Generic
             return comparer.Equals(keySelector(x), keySelector(y));
         }
 
-        public int GetHashCode(TSource obj)
-        {
-            return comparer.GetHashCode(keySelector(obj));
-        }
+        public int GetHashCode(TSource obj) => comparer.GetHashCode(keySelector(obj));
     }
 }

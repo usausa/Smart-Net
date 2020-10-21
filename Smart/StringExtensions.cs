@@ -13,6 +13,9 @@ namespace Smart
             return value ?? string.Empty;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static string Repeat(this char value, int count) => new string(value, count);
+
         public static string Repeat(this string value, int count)
         {
             var sb = new StringBuilder(value.Length * count);

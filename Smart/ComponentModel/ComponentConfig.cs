@@ -1,10 +1,10 @@
-﻿namespace Smart.ComponentModel
+namespace Smart.ComponentModel
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    public sealed class ComponentConfig : IComponentConfig
+    public sealed class ComponentConfig
     {
         private readonly Dictionary<Type, List<ComponentEntry>> mappings = new Dictionary<Type, List<ComponentEntry>>();
 
@@ -100,7 +100,7 @@
             list.RemoveAll(x => x.Constant != null && x.Constant == constant);
         }
 
-        public Dictionary<Type, ComponentEntry[]> ToMappings()
+        internal Dictionary<Type, ComponentEntry[]> ToMappings()
         {
             return mappings.ToDictionary(x => x.Key, x => x.Value.ToArray());
         }

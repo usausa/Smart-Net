@@ -1,7 +1,8 @@
-﻿namespace Smart.Collections.Generic
+namespace Smart.Collections.Generic
 {
     using System;
 
+    [Obsolete]
     public struct ArrayBuffer<T>
     {
         private T[] buffer;

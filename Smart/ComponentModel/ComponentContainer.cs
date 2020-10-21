@@ -5,7 +5,7 @@ namespace Smart.ComponentModel
     using System.Globalization;
     using System.Linq;
 
-    public sealed class ComponentContainer : IComponentContainer
+    public sealed class ComponentContainer : IDisposable, IServiceProvider
     {
         private static readonly Type EnumerableType = typeof(IEnumerable<>);
 
@@ -19,7 +19,7 @@ namespace Smart.ComponentModel
 
         private readonly Dictionary<Type, ComponentEntry[]> mappings;
 
-        public ComponentContainer(IComponentConfig config)
+        public ComponentContainer(ComponentConfig config)
         {
             if (config is null)
             {

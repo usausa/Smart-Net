@@ -6,6 +6,8 @@ namespace Smart.Functional
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
+    using Smart.Threading.Tasks;
+
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
     public static class ObjectExtensions
     {
@@ -110,7 +112,7 @@ namespace Smart.Functional
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Task<TResult> MapOrDefaultAsync<T, TResult>(this T value, Func<T, Task<TResult>> func)
         {
-            return value == null ? Empty<TResult>.Task : func(value);
+            return value == null ? Tasks<TResult>.DefaultResult : func(value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
