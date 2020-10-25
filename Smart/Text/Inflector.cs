@@ -65,7 +65,7 @@ namespace Smart.Text
             {
                 if (Char.IsUpper(c) && (sb.Length > 0))
                 {
-                    sb.Append("_");
+                    sb.Append('_');
                 }
 
                 sb.Append(toUpper ? Char.ToUpper(c, CultureInfo.CurrentCulture) : Char.ToLower(c, CultureInfo.CurrentCulture));

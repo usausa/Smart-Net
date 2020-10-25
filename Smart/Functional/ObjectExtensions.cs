@@ -6,8 +6,6 @@ namespace Smart.Functional
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
-    using Smart.Threading.Tasks;
-
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
     public static class ObjectExtensions
     {
@@ -112,7 +110,7 @@ namespace Smart.Functional
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Task<TResult> MapOrDefaultAsync<T, TResult>(this T value, Func<T, Task<TResult>> func)
         {
-            return value == null ? Tasks<TResult>.DefaultResult : func(value);
+            return value == null ? Default<TResult>.TaskFromResult : func(value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -168,6 +166,13 @@ namespace Smart.Functional
         private static IEnumerable<T> FromSingleValue<T>(T value)
         {
             yield return value;
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local", Justification = "Ignore")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Ignore")]
+        private static class Default<T>
+        {
+            public static Task<T> TaskFromResult = Task.FromResult(default(T));
         }
     }
 }

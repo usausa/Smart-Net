@@ -1,26 +1,28 @@
-﻿namespace Smart.IO
+namespace Smart.IO
 {
     using System;
+    using System.Runtime.CompilerServices;
 
-    public class ByteBuffer
+    public sealed class ByteBuffer
     {
-        // position <= limit <= array.Length
+        // position <= limit <= capacity
+
+        private readonly byte[] rawBuffer;
 
         private int position;
 
         private int limit;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "Performance")]
-        public byte[] Array { get; }
-
         public int Position
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => position;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if ((value > limit) || (value < 0))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value));
+                    throw new ArgumentException("Position is out of range.", nameof(value));
                 }
 
                 position = value;
@@ -29,12 +31,14 @@
 
         public int Limit
         {
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             get => limit;
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
                 if ((value > Capacity) || (value < 0))
                 {
-                    throw new ArgumentOutOfRangeException(nameof(value));
+                    throw new ArgumentException("Limit is out of range.", nameof(value));
                 }
 
                 limit = value;
@@ -47,71 +51,86 @@
 
         public int Capacity { get; }
 
-        public int Remaining => limit - position;
-
         public bool HasRemaining => position < limit;
+
+        public int Remaining => limit - position;
 
         public ByteBuffer(int capacity)
         {
-            Array = new byte[capacity];
-            Capacity = capacity;
+            rawBuffer = new byte[capacity];
+            position = 0;
             limit = capacity;
+            Capacity = capacity;
         }
 
-        public ByteBuffer(byte[] array)
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Ignore.")]
+        public ByteBuffer(byte[] bytes)
         {
-            if (array is null)
-            {
-                throw new ArgumentNullException(nameof(array));
-            }
-
-            Array = array;
-            Capacity = array.Length;
-            limit = Capacity;
+            rawBuffer = bytes;
+            position = 0;
+            limit = bytes.Length;
+            Capacity = limit;
         }
 
-        public ByteBuffer(byte[] array, int offset, int length)
+        public ByteBuffer(byte[] bytes, int start, int length)
         {
-            if (array is null)
-            {
-                throw new ArgumentNullException(nameof(array));
-            }
-
-            Array = array;
-            position = offset;
-            Capacity = length;
+            rawBuffer = bytes;
+            position = start;
             limit = length;
+            Capacity = length;
         }
 
-        public static ByteBuffer CopyOf(ByteBuffer array)
-        {
-            if (array is null)
-            {
-                throw new ArgumentNullException(nameof(array));
-            }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public byte[] GetRawBuffer() => rawBuffer;
 
-            return CopyOf(array.Array, array.position, array.Remaining);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Span<byte> AsSpan() => new Span<byte>(rawBuffer, position, limit - position);
 
-        public static ByteBuffer CopyOf(byte[] array, int offset, int length)
-        {
-            var copy = new byte[length];
-            Bytes.FastCopy(array, offset, copy, 0, length);
-            return new ByteBuffer(copy, 0, length);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Span<byte> AsSpan(int start) => new Span<byte>(rawBuffer, position + start, limit - position - start);
 
-        public ByteBuffer Clear()
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Span<byte> AsSpan(int start, int length) => new Span<byte>(rawBuffer, position + start, length);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Span<byte> AsMemory() => new Span<byte>(rawBuffer, position, limit - position);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Span<byte> AsMemory(int start) => new Span<byte>(rawBuffer, position + start, limit - position - start);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public Span<byte> AsMemory(int start, int length) => new Span<byte>(rawBuffer, position + start, length);
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Reset()
         {
             position = 0;
             limit = Capacity;
-            return this;
         }
 
-        public ByteBuffer Flip()
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Reset(int size)
+        {
+            if ((size > Capacity) || (size < 0))
+            {
+                throw new ArgumentException("Limit is out of range.", nameof(size));
+            }
+
+            position = 0;
+            limit = size;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Flip()
         {
             limit = position;
             position = 0;
-            return this;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public void Clear()
+        {
+            Array.Clear(rawBuffer, 0, rawBuffer.Length);
         }
     }
 }
