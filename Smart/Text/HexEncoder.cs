@@ -1,193 +1,22 @@
 namespace Smart.Text
 {
     using System;
-    using System.Globalization;
+    using System.Runtime.CompilerServices;
+    using System.Runtime.InteropServices;
     using System.Text;
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
     public static class HexEncoder
     {
-        public static string ToHex(byte[] bytes)
-        {
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
+        // TODO Separator
+        // TODO (LineSeparator?)
 
-            return ToHexInternal(bytes, 0, bytes.Length, null, null, 0, Environment.NewLine);
-        }
+        // TODO Decode with separator
 
-        public static string ToHex(byte[] bytes, int lineSize)
-        {
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
+        // TODO Span to Span * 2
 
-            return ToHexInternal(bytes, 0, bytes.Length, null, null, lineSize, Environment.NewLine);
-        }
-
-        public static string ToHex(byte[] bytes, int lineSize, string lineSeparator)
-        {
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
-
-            return ToHexInternal(bytes, 0, bytes.Length, null, null, lineSize, lineSeparator ?? Environment.NewLine);
-        }
-
-        public static string ToHex(byte[] bytes, string separator)
-        {
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
-
-            return ToHexInternal(bytes, 0, bytes.Length, null, separator, 0, Environment.NewLine);
-        }
-
-        public static string ToHex(byte[] bytes, string separator, int lineSize)
-        {
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
-
-            return ToHexInternal(bytes, 0, bytes.Length, null, separator, lineSize, Environment.NewLine);
-        }
-
-        public static string ToHex(byte[] bytes, string separator, int lineSize, string lineSeparator)
-        {
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
-
-            return ToHexInternal(bytes, 0, bytes.Length, null, separator, lineSize, lineSeparator ?? Environment.NewLine);
-        }
-
-        public static string ToHex(byte[] bytes, string prefix, string separator)
-        {
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
-
-            return ToHexInternal(bytes, 0, bytes.Length, prefix, separator, 0, Environment.NewLine);
-        }
-
-        public static string ToHex(byte[] bytes, string prefix, string separator, int lineSize)
-        {
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
-
-            return ToHexInternal(bytes, 0, bytes.Length, prefix, separator, lineSize, Environment.NewLine);
-        }
-
-        public static string ToHex(byte[] bytes, string prefix, string separator, int lineSize, string lineSeparator)
-        {
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
-
-            return ToHexInternal(bytes, 0, bytes.Length, prefix, separator, lineSize, lineSeparator ?? Environment.NewLine);
-        }
-
-        public static string ToHex(byte[] bytes, int start, int length)
-        {
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
-
-            return ToHexInternal(bytes, start, length, null, null, 0, Environment.NewLine);
-        }
-
-        public static string ToHex(byte[] bytes, int start, int length, int lineSize)
-        {
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
-
-            return ToHexInternal(bytes, start, length, null, null, lineSize, Environment.NewLine);
-        }
-
-        public static string ToHex(byte[] bytes, int start, int length, int lineSize, string lineSeparator)
-        {
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
-
-            return ToHexInternal(bytes, start, length, null, null, lineSize, lineSeparator ?? Environment.NewLine);
-        }
-
-        public static string ToHex(byte[] bytes, int start, int length, string separator)
-        {
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
-
-            return ToHexInternal(bytes, start, length, null, separator, 0, Environment.NewLine);
-        }
-
-        public static string ToHex(byte[] bytes, int start, int length, string separator, int lineSize)
-        {
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
-
-            return ToHexInternal(bytes, start, length, null, separator, lineSize, Environment.NewLine);
-        }
-
-        public static string ToHex(byte[] bytes, int start, int length, string separator, int lineSize, string lineSeparator)
-        {
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
-
-            return ToHexInternal(bytes, start, length, null, separator, lineSize, lineSeparator ?? Environment.NewLine);
-        }
-
-        public static string ToHex(byte[] bytes, int start, int length, string prefix, string separator)
-        {
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
-
-            return ToHexInternal(bytes, start, length, prefix, separator, 0, Environment.NewLine);
-        }
-
-        public static string ToHex(byte[] bytes, int start, int length, string prefix, string separator, int lineSize)
-        {
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
-
-            return ToHexInternal(bytes, start, length, prefix, separator, lineSize, Environment.NewLine);
-        }
-
+        [Obsolete("Use Encode")]
         public static string ToHex(byte[] bytes, int start, int length, string prefix, string separator, int lineSize, string lineSeparator)
-        {
-            if (bytes is null)
-            {
-                throw new ArgumentNullException(nameof(bytes));
-            }
-
-            return ToHexInternal(bytes, start, length, prefix, separator, lineSize, lineSeparator ?? Environment.NewLine);
-        }
-
-        private static string ToHexInternal(byte[] bytes, int start, int length, string prefix, string separator, int lineSize, string lineSeparator)
         {
             var addPrefix = !String.IsNullOrEmpty(prefix);
             var addSeparator = !String.IsNullOrEmpty(separator);
@@ -245,37 +74,79 @@ namespace Smart.Text
             return x < 10 ? (char)(x + '0') : (char)(x + 'A' - 10);
         }
 
-        public static byte[] ToBytes(string text)
-        {
-            if (text is null)
-            {
-                throw new ArgumentNullException(nameof(text));
-            }
+        //--------------------------------------------------------------------------------
 
-            var bytes = new byte[text.Length / 2];
-            for (var index = 0; index < bytes.Length; index++)
+        private static ReadOnlySpan<byte> HexTable => new[]
+        {
+            (byte)'0', (byte)'1', (byte)'2', (byte)'3',
+            (byte)'4', (byte)'5', (byte)'6', (byte)'7',
+            (byte)'8', (byte)'9', (byte)'A', (byte)'B',
+            (byte)'C', (byte)'D', (byte)'E', (byte)'F'
+        };
+
+        public static unsafe string Encode(ReadOnlySpan<byte> bytes)
+        {
+            var length = bytes.Length * 2;
+            var temp = length < 2048 ? stackalloc char[length] : new char[length];
+            ref var hex = ref MemoryMarshal.GetReference(HexTable);
+
+            fixed (char* ptr = temp)
             {
-                bytes[index] = byte.Parse(text.Substring(index * 2, 2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
+                var p = ptr;
+                for (var i = 0; i < bytes.Length; i++)
+                {
+                    var b = bytes[i];
+                    *p = (char)Unsafe.Add(ref hex, b >> 4);
+                    p++;
+                    *p = (char)Unsafe.Add(ref hex, b & 0xF);
+                    p++;
+                }
+
+                return new string(ptr, 0, length);
+            }
+        }
+
+        public static unsafe byte[] Decode(ReadOnlySpan<char> code)
+        {
+            var bytes = new byte[code.Length / 2];
+
+            fixed (byte* pBytes = &bytes[0])
+            fixed (char* pCode = code)
+            {
+                var pb = pBytes;
+                var pc = pCode;
+                for (var i = 0; i < bytes.Length; i++)
+                {
+                    var b = CharToNumber(*pc) << 4;
+                    pc++;
+                    *pb = (byte)(b + CharToNumber(*pc));
+                    pc++;
+                    pb++;
+                }
             }
 
             return bytes;
         }
 
-        //public static byte[] FromHex(string hex)
-        //{
-        //    if (hex is null)
-        //    {
-        //        throw new ArgumentNullException(nameof(hex));
-        //    }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static int CharToNumber(char c)
+        {
+            if ((c <= '9') && (c >= '0'))
+            {
+                return c - '0';
+            }
 
-        //    var bytes = new byte[hex.Length / 2];
+            if ((c <= 'F') && (c >= 'A'))
+            {
+                return c - 'A' + 10;
+            }
 
-        //    for (var i = 0; i < bytes.Length; i++)
-        //    {
-        //        bytes[i] = Convert.ToByte(hex.Substring(i * 2, 2), 16);
-        //    }
+            if ((c <= 'F') && (c >= 'a'))
+            {
+                return c - 'a' + 10;
+            }
 
-        //    return bytes;
-        //}
+            return 0;
+        }
     }
 }
