@@ -11,6 +11,7 @@ namespace Smart.Text
         // Append
         //--------------------------------------------------------------------------------
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static StringBuilder AppendIf(this StringBuilder sb, bool condition, Func<object> valueFactory)
         {
             if (condition)
@@ -22,6 +23,7 @@ namespace Smart.Text
             return sb;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static StringBuilder AppendLineIf(this StringBuilder sb, bool condition)
         {
             if (condition)
@@ -32,6 +34,7 @@ namespace Smart.Text
             return sb;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static StringBuilder AppendLineIf(this StringBuilder sb, bool condition, Func<string> valueFactory)
         {
             if (condition)
@@ -52,6 +55,7 @@ namespace Smart.Text
 
         private static readonly char[] DefaultTrimChars = { ' ', '\t' };
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static StringBuilder TrimStart(this StringBuilder sb)
         {
             return TrimStart(sb, DefaultTrimChars);
@@ -69,6 +73,7 @@ namespace Smart.Text
             return sb;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static StringBuilder TrimEnd(this StringBuilder sb)
         {
             return TrimEnd(sb, DefaultTrimChars);
@@ -86,11 +91,13 @@ namespace Smart.Text
             return sb;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static StringBuilder Trim(this StringBuilder sb)
         {
             return Trim(sb, DefaultTrimChars);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static StringBuilder Trim(this StringBuilder sb, params char[] trimChars)
         {
             return TrimStart(TrimEnd(sb, trimChars), trimChars);
