@@ -35,6 +35,7 @@
   <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers">
     <Rule Id="CA1000" Action="Hidden" />
     <Rule Id="CA1034" Action="Hidden" />
+    <Rule Id="CA1062" Action="Hidden" />
     <Rule Id="CA1710" Action="Hidden" />
     <Rule Id="CA1720" Action="Hidden" />
   </Rules>

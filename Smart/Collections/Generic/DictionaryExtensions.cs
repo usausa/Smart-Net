@@ -4,7 +4,6 @@ namespace Smart.Collections.Generic
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
     public static class DictionaryExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -22,11 +21,6 @@ namespace Smart.Collections.Generic
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TValue GetOr<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
         {
-            if (valueFactory is null)
-            {
-                throw new ArgumentNullException(nameof(valueFactory));
-            }
-
             return dictionary.TryGetValue(key, out var value) ? value : valueFactory();
         }
 
@@ -47,11 +41,6 @@ namespace Smart.Collections.Generic
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TValue> valueFactory)
         {
-            if (valueFactory is null)
-            {
-                throw new ArgumentNullException(nameof(valueFactory));
-            }
-
             if (dictionary.TryGetValue(key, out var ret))
             {
                 return ret;
@@ -72,11 +61,6 @@ namespace Smart.Collections.Generic
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void CopyTo<TKey, TValue>(this IDictionary<TKey, TValue> src, IDictionary<TKey, TValue> dst, bool replace)
         {
-            if (dst is null)
-            {
-                throw new ArgumentNullException(nameof(dst));
-            }
-
             foreach (var key in src.Keys)
             {
                 if (replace || !dst.ContainsKey(key))

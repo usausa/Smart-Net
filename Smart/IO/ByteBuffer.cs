@@ -64,7 +64,6 @@ namespace Smart.IO
             Capacity = capacity;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Ignore.")]
         public ByteBuffer(byte[] bytes)
         {
             rawBuffer = bytes;

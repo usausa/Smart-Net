@@ -9,11 +9,6 @@ namespace Smart.Reflection
 <# for (var i = 1; i <= 16; i++) { #>
         public Func<object<# for (var j = 0; j < i; j++) { #>, object<# } #>> CreateFactory<#= i #>(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             if (ci.GetParameters().Length != <#= i #>)
             {
                 throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));

@@ -6,7 +6,6 @@ namespace Smart.Converter.Converters
     {
         private static readonly Func<object, object> Converter = source => source;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Framework only")]
         public Func<object, object> GetConverter(IObjectConverter context, Type sourceType, Type targetType)
         {
             return targetType.IsAssignableFrom(sourceType) ? Converter : null;

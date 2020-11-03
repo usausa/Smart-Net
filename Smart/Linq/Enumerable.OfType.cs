@@ -2,7 +2,6 @@ namespace Smart.Linq
 {
     using System.Collections.Generic;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
     public static partial class EnumerableExtensions
     {
         //--------------------------------------------------------------------------------

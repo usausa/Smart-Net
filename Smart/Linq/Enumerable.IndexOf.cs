@@ -1,4 +1,4 @@
-﻿namespace Smart.Linq
+namespace Smart.Linq
 {
     using System;
     using System.Collections.Generic;
@@ -11,16 +11,6 @@
 
         public static int IndexOf<T>(this IEnumerable<T> source, Func<T, bool> predicate)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (predicate is null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
-
             var index = 0;
             foreach (var item in source)
             {
@@ -38,16 +28,6 @@
         // Optimized version for array.
         public static int IndexOf<T>(this T[] source, Func<T, bool> predicate)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (predicate is null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
-
             for (var index = 0; index < source.Length; index++)
             {
                 if (predicate(source[index]))
@@ -61,16 +41,6 @@
 
         public static int LastIndexOf<T>(this T[] source, Func<T, bool> predicate)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (predicate is null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
-
             for (var index = source.Length - 1; index >= 0; index++)
             {
                 if (predicate(source[index]))
@@ -85,16 +55,6 @@
         // Optimized version for IList.
         public static int IndexOf<T>(this IList<T> source, Func<T, bool> predicate)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (predicate is null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
-
             for (var index = 0; index < source.Count; index++)
             {
                 if (predicate(source[index]))
@@ -109,16 +69,6 @@
         // Optimized version for IList.
         public static int LastIndexOf<T>(this IList<T> source, Func<T, bool> predicate)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (predicate is null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
-
             for (var index = source.Count - 1; index >= 0; index++)
             {
                 if (predicate(source[index]))

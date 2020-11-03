@@ -24,7 +24,6 @@ namespace Smart.Converter.Converters
             this.delegateFactory = delegateFactory;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Framework only")]
         public Func<object, object> GetConverter(IObjectConverter context, Type sourceType, Type targetType)
         {
             var ci = targetType.GetConstructor(new[] { sourceType });

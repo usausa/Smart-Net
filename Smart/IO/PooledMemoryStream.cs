@@ -53,11 +53,6 @@ namespace Smart.IO
 
         public PooledMemoryStream(ArrayPool<byte> pool, int capacity = 4096)
         {
-            if (pool is null)
-            {
-                throw new ArgumentNullException(nameof(pool));
-            }
-
             this.pool = pool;
             rawBuffer = pool.Rent(capacity);
         }

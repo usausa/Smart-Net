@@ -57,11 +57,6 @@ namespace Smart.Linq
 
         public static IEnumerable<Indexed<T>> Indexed<T>(this T[] source)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
             return new IndexedArrayEnumerable<T>(source);
         }
 
@@ -116,11 +111,6 @@ namespace Smart.Linq
 
         public static IEnumerable<Indexed<T>> Indexed<T>(this IList<T> source)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
             return new IndexedListEnumerable<T>(source);
         }
 
@@ -175,11 +165,6 @@ namespace Smart.Linq
 
         public static IEnumerable<Indexed<T>> Indexed<T>(this IEnumerable<T> source)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
             if (source is T[] array)
             {
                 return new IndexedArrayEnumerable<T>(array);

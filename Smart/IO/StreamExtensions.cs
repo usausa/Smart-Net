@@ -2,7 +2,6 @@ namespace Smart.IO
 {
     using System.IO;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
     public static class StreamExtensions
     {
         public static byte[] ReadAllBytes(this Stream stream)

@@ -3,7 +3,6 @@ namespace Smart.Converter.Converters
     using System;
     using System.Collections.Generic;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Framework only")]
     public sealed class NumericCastConverterFactory : IConverterFactory
     {
         private static readonly Dictionary<Tuple<Type, Type>, Func<object, object>> Converters = new Dictionary<Tuple<Type, Type>, Func<object, object>>

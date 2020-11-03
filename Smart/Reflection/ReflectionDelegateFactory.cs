@@ -23,11 +23,6 @@ namespace Smart.Reflection
 
         public Func<int, Array> CreateArrayAllocator(Type type)
         {
-            if (type is null)
-            {
-                throw new ArgumentNullException(nameof(type));
-            }
-
             return length => Array.CreateInstance(type, length);
         }
 
@@ -40,7 +35,6 @@ namespace Smart.Reflection
             return () => Activator.CreateInstance(type);
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Performance")]
         public Func<object[], object> CreateFactory(Type type, Type[] argumentTypes)
         {
             if (type.IsValueType && (argumentTypes.Length == 0))
@@ -59,11 +53,6 @@ namespace Smart.Reflection
 
         public Func<object[], object> CreateFactory(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             return ci.GetParameters().Length == 0
                 ? (Func<object[], object>)(parameters => Activator.CreateInstance(ci.DeclaringType))
                 : ci.Invoke;
@@ -71,11 +60,6 @@ namespace Smart.Reflection
 
         public Func<object> CreateFactory0(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             // specialized
             return () => Activator.CreateInstance(ci.DeclaringType);
         }
@@ -96,11 +80,6 @@ namespace Smart.Reflection
 
         public Func<object, object> CreateGetter(PropertyInfo pi, bool extension)
         {
-            if (pi is null)
-            {
-                throw new ArgumentNullException(nameof(pi));
-            }
-
             if (pi.DeclaringType.IsValueType)
             {
                 throw new ArgumentException("Value type is not supported", nameof(pi));
@@ -137,11 +116,6 @@ namespace Smart.Reflection
 
         public Action<object, object> CreateSetter(PropertyInfo pi, bool extension)
         {
-            if (pi is null)
-            {
-                throw new ArgumentNullException(nameof(pi));
-            }
-
             if (pi.DeclaringType.IsValueType)
             {
                 throw new ArgumentException("Value type is not supported", nameof(pi));
@@ -180,11 +154,6 @@ namespace Smart.Reflection
 
         public Func<T, TMember> CreateGetter<T, TMember>(PropertyInfo pi, bool extension)
         {
-            if (pi is null)
-            {
-                throw new ArgumentNullException(nameof(pi));
-            }
-
             if (pi.DeclaringType.IsValueType)
             {
                 throw new ArgumentException("Value type is not supported", nameof(pi));
@@ -221,11 +190,6 @@ namespace Smart.Reflection
 
         public Action<T, TMember> CreateSetter<T, TMember>(PropertyInfo pi, bool extension)
         {
-            if (pi is null)
-            {
-                throw new ArgumentNullException(nameof(pi));
-            }
-
             if (pi.DeclaringType.IsValueType)
             {
                 throw new ArgumentException("Value type is not supported", nameof(pi));
@@ -259,7 +223,6 @@ namespace Smart.Reflection
         // Etc
         //--------------------------------------------------------------------------------
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Ignore")]
         public Type GetExtendedPropertyType(PropertyInfo pi)
         {
             var holderType = ValueHolderHelper.FindValueHolderType(pi);

@@ -1,4 +1,4 @@
-﻿namespace Smart.Collections.Generic
+namespace Smart.Collections.Generic
 {
     using System;
     using System.Collections.Generic;
@@ -9,11 +9,6 @@
 
         public ComparisonComparer(Comparison<T> comparison)
         {
-            if (comparison is null)
-            {
-                throw new ArgumentNullException(nameof(comparison));
-            }
-
             this.comparison = comparison;
         }
 

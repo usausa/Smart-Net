@@ -1,4 +1,4 @@
-﻿namespace Smart.Collections.Generic
+namespace Smart.Collections.Generic
 {
     using System;
     using System.Collections.Generic;
@@ -16,11 +16,6 @@
 
         public ProjectionComparer(Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
         {
-            if (keySelector is null)
-            {
-                throw new ArgumentNullException(nameof(keySelector));
-            }
-
             this.comparer = comparer ?? Comparer<TKey>.Default;
             this.keySelector = keySelector;
         }

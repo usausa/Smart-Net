@@ -6,7 +6,6 @@ namespace Smart.Functional
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
     public static class ObjectExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

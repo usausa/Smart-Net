@@ -21,11 +21,6 @@ namespace Smart.ComponentModel
 
         public ComponentContainer(ComponentConfig config)
         {
-            if (config is null)
-            {
-                throw new ArgumentNullException(nameof(config));
-            }
-
             mappings = config.ToMappings();
         }
 
@@ -78,11 +73,6 @@ namespace Smart.ComponentModel
 
         public object Get(Type componentType)
         {
-            if (componentType is null)
-            {
-                throw new ArgumentNullException(nameof(componentType));
-            }
-
             var objects = ResolveAll(componentType);
             if (objects.Length == 0)
             {
@@ -98,11 +88,6 @@ namespace Smart.ComponentModel
 
         public object TryGet(Type componentType, out bool result)
         {
-            if (componentType is null)
-            {
-                throw new ArgumentNullException(nameof(componentType));
-            }
-
             var objects = ResolveAll(componentType);
             result = objects.Length > 0;
             // ReSharper disable once UseIndexFromEndExpression
@@ -116,11 +101,6 @@ namespace Smart.ComponentModel
 
         public object GetService(Type serviceType)
         {
-            if (serviceType is null)
-            {
-                throw new ArgumentNullException(nameof(serviceType));
-            }
-
             if (serviceType.IsGenericType && serviceType.GetGenericTypeDefinition() == EnumerableType)
             {
                 return ConvertArray(serviceType.GenericTypeArguments[0], GetAll(serviceType.GenericTypeArguments[0]));

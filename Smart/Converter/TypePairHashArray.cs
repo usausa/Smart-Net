@@ -206,7 +206,6 @@ namespace Smart.Converter
             }
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Performance")]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public bool TryGetValue(Type sourceType, Type targetType, out Func<object, object> converter)
         {
@@ -227,7 +226,6 @@ namespace Smart.Converter
             return false;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Performance")]
         public Func<object, object> AddIfNotExist(Type sourceType, Type targetType, Func<Type, Type, Func<object, object>> valueFactory)
         {
             lock (sync)

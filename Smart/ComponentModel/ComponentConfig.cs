@@ -37,16 +37,6 @@ namespace Smart.ComponentModel
 
         public void Add(Type componentType, Type implementType)
         {
-            if (componentType is null)
-            {
-                throw new ArgumentNullException(nameof(componentType));
-            }
-
-            if (implementType is null)
-            {
-                throw new ArgumentNullException(nameof(implementType));
-            }
-
             var entries = GetEntries(componentType);
             entries.Add(new ComponentEntry(implementType));
         }
@@ -55,16 +45,6 @@ namespace Smart.ComponentModel
 
         public void Add(Type componentType, object constant)
         {
-            if (componentType is null)
-            {
-                throw new ArgumentNullException(nameof(componentType));
-            }
-
-            if (constant is null)
-            {
-                throw new ArgumentNullException(nameof(constant));
-            }
-
             var entries = GetEntries(componentType);
             entries.Add(new ComponentEntry(constant));
         }

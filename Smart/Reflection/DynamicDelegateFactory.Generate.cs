@@ -8,11 +8,6 @@ namespace Smart.Reflection
     {
         public Func<object> CreateFactory0(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             return (Func<object>)factoryDelegateCache
                 .GetOrAdd(ci, x => CreateFactoryInternal(
                     x,
@@ -22,11 +17,6 @@ namespace Smart.Reflection
 
         public Func<object, object> CreateFactory1(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             return (Func<object, object>)factoryDelegateCache
                 .GetOrAdd(ci, x => CreateFactoryInternal(
                     x,
@@ -36,11 +26,6 @@ namespace Smart.Reflection
 
         public Func<object, object, object> CreateFactory2(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             return (Func<object, object, object>)factoryDelegateCache
                 .GetOrAdd(ci, x => CreateFactoryInternal(
                     x,
@@ -50,11 +35,6 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object> CreateFactory3(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             return (Func<object, object, object, object>)factoryDelegateCache
                 .GetOrAdd(ci, x => CreateFactoryInternal(
                     x,
@@ -64,11 +44,6 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object> CreateFactory4(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             return (Func<object, object, object, object, object>)factoryDelegateCache
                 .GetOrAdd(ci, x => CreateFactoryInternal(
                     x,
@@ -78,11 +53,6 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object> CreateFactory5(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             return (Func<object, object, object, object, object, object>)factoryDelegateCache
                 .GetOrAdd(ci, x => CreateFactoryInternal(
                     x,
@@ -92,11 +62,6 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object> CreateFactory6(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             return (Func<object, object, object, object, object, object, object>)factoryDelegateCache
                 .GetOrAdd(ci, x => CreateFactoryInternal(
                     x,
@@ -106,11 +71,6 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object> CreateFactory7(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             return (Func<object, object, object, object, object, object, object, object>)factoryDelegateCache
                 .GetOrAdd(ci, x => CreateFactoryInternal(
                     x,
@@ -120,11 +80,6 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object, object> CreateFactory8(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             return (Func<object, object, object, object, object, object, object, object, object>)factoryDelegateCache
                 .GetOrAdd(ci, x => CreateFactoryInternal(
                     x,
@@ -134,11 +89,6 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object, object, object> CreateFactory9(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             return (Func<object, object, object, object, object, object, object, object, object, object>)factoryDelegateCache
                 .GetOrAdd(ci, x => CreateFactoryInternal(
                     x,
@@ -148,11 +98,6 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object, object, object, object> CreateFactory10(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             return (Func<object, object, object, object, object, object, object, object, object, object, object>)factoryDelegateCache
                 .GetOrAdd(ci, x => CreateFactoryInternal(
                     x,
@@ -162,11 +107,6 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory11(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             return (Func<object, object, object, object, object, object, object, object, object, object, object, object>)factoryDelegateCache
                 .GetOrAdd(ci, x => CreateFactoryInternal(
                     x,
@@ -176,11 +116,6 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory12(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             return (Func<object, object, object, object, object, object, object, object, object, object, object, object, object>)factoryDelegateCache
                 .GetOrAdd(ci, x => CreateFactoryInternal(
                     x,
@@ -190,11 +125,6 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory13(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             return (Func<object, object, object, object, object, object, object, object, object, object, object, object, object, object>)factoryDelegateCache
                 .GetOrAdd(ci, x => CreateFactoryInternal(
                     x,
@@ -204,11 +134,6 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory14(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             return (Func<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object>)factoryDelegateCache
                 .GetOrAdd(ci, x => CreateFactoryInternal(
                     x,
@@ -218,11 +143,6 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory15(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             return (Func<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object>)factoryDelegateCache
                 .GetOrAdd(ci, x => CreateFactoryInternal(
                     x,
@@ -232,11 +152,6 @@ namespace Smart.Reflection
 
         public Func<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object> CreateFactory16(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             return (Func<object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object, object>)factoryDelegateCache
                 .GetOrAdd(ci, x => CreateFactoryInternal(
                     x,

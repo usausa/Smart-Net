@@ -9,11 +9,6 @@ namespace Smart.Reflection
 <# for (var i = 0; i <= 16; i++) { #>
         public Func<object<# for (var j = 0; j < i; j++) { #>, object<# } #>> CreateFactory<#= i #>(ConstructorInfo ci)
         {
-            if (ci is null)
-            {
-                throw new ArgumentNullException(nameof(ci));
-            }
-
             return (Func<object<# for (var j = 0; j < i; j++) { #>, object<# } #>>)factoryDelegateCache
                 .GetOrAdd(ci, x => CreateFactoryInternal(
                     x,

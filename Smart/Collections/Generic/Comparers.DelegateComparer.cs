@@ -1,4 +1,4 @@
-﻿namespace Smart.Collections.Generic
+namespace Smart.Collections.Generic
 {
     using System;
     using System.Collections.Generic;
@@ -9,11 +9,6 @@
 
         public DelegateComparer(Func<T, T, int> comparer)
         {
-            if (comparer is null)
-            {
-                throw new ArgumentNullException(nameof(comparer));
-            }
-
             this.comparer = comparer;
         }
 

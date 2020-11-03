@@ -10,11 +10,6 @@ namespace Smart.Collections.Generic
     {
         private static void AssertIndex(IList<int> expects, IList<int> actuals)
         {
-            if (actuals is null)
-            {
-                throw new ArgumentNullException(nameof(actuals));
-            }
-
             for (var i = 0; i < actuals.Count; i++)
             {
                 if (expects[i] >= 0)

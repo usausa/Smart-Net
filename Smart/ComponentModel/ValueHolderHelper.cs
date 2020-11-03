@@ -4,7 +4,6 @@ namespace Smart.ComponentModel
     using System.Linq;
     using System.Reflection;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
     public static class ValueHolderHelper
     {
         private static readonly Type ValueHolderType = typeof(IValueHolder<>);

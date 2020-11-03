@@ -1,4 +1,4 @@
-﻿namespace Smart.Collections.Generic
+namespace Smart.Collections.Generic
 {
     using System;
     using System.Collections.Generic;
@@ -11,16 +11,6 @@
 
         public DelegateEqualityComparer(Func<T, T, bool> equals, Func<T, int> getHashCode)
         {
-            if (equals is null)
-            {
-                throw new ArgumentNullException(nameof(equals));
-            }
-
-            if (getHashCode is null)
-            {
-                throw new ArgumentNullException(nameof(getHashCode));
-            }
-
             this.equals = equals;
             this.getHashCode = getHashCode;
         }

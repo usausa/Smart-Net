@@ -5,7 +5,6 @@ namespace Smart.Collections.Generic
     using System.Linq;
     using System.Runtime.CompilerServices;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
     public static class CollectionExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]

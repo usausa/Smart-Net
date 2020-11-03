@@ -12,7 +12,6 @@ namespace Smart.IO
 
         public int Length => size;
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Ignore.")]
         public ByteHolder(byte[] array)
         {
             rawBuffer = array;

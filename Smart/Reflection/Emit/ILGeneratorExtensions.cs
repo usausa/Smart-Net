@@ -5,7 +5,6 @@ namespace Smart.Reflection.Emit
     using System.Reflection;
     using System.Reflection.Emit;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1062:ValidateArgumentsOfPublicMethods", Justification = "Extensions")]
     public static class ILGeneratorExtensions
     {
         private static readonly Dictionary<Type, OpCode> LdelemDictionary = new Dictionary<Type, OpCode>

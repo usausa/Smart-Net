@@ -16,11 +16,6 @@ namespace Smart.Collections.Generic
 
         public ProjectionEqualityComparer(Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
         {
-            if (keySelector is null)
-            {
-                throw new ArgumentNullException(nameof(keySelector));
-            }
-
             this.comparer = comparer ?? EqualityComparer<TKey>.Default;
             this.keySelector = keySelector;
         }

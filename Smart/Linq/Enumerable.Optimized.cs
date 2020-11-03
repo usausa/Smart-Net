@@ -1,4 +1,4 @@
-﻿namespace Smart.Linq
+namespace Smart.Linq
 {
     using System;
     using System.Collections.Generic;
@@ -12,16 +12,6 @@
         // Optimized version for array.
         public static int Count<TSource>(this TSource[] source, Func<TSource, bool> predicate)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (predicate is null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
-
             var count = 0;
             for (var i = 0; i < source.Length; i++)
             {
@@ -37,16 +27,6 @@
         // Optimized version for IList.
         public static int Count<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (predicate is null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
-
             var count = 0;
             for (var i = 0; i < source.Count; i++)
             {
@@ -66,16 +46,6 @@
         // Optimized version for array.
         public static bool Any<TSource>(this TSource[] source, Func<TSource, bool> predicate)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (predicate is null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
-
             for (var i = 0; i < source.Length; i++)
             {
                 if (predicate(source[i]))
@@ -90,16 +60,6 @@
         // Optimized version for IList.
         public static bool Any<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (predicate is null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
-
             for (var i = 0; i < source.Count; i++)
             {
                 if (predicate(source[i]))
@@ -118,16 +78,6 @@
         // Optimized version for array.
         public static bool All<TSource>(this TSource[] source, Func<TSource, bool> predicate)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (predicate is null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
-
             for (var i = 0; i < source.Length; i++)
             {
                 if (!predicate(source[i]))
@@ -142,16 +92,6 @@
         // Optimized version for IList.
         public static bool All<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
-            if (predicate is null)
-            {
-                throw new ArgumentNullException(nameof(predicate));
-            }
-
             for (var i = 0; i < source.Count; i++)
             {
                 if (!predicate(source[i]))

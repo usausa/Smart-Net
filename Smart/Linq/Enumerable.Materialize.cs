@@ -12,11 +12,6 @@ namespace Smart.Linq
 
         public static IEnumerable<T> Materialize<T>(this IEnumerable<T> source)
         {
-            if (source is null)
-            {
-                throw new ArgumentNullException(nameof(source));
-            }
-
             if ((source is ICollection<T>) || (source is IReadOnlyCollection<T>))
             {
                 return source;
