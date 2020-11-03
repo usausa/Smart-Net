@@ -1,4 +1,4 @@
-﻿namespace Smart.Linq
+namespace Smart.Linq
 {
     using System;
     using System.Collections.Generic;
@@ -12,16 +12,6 @@
 
         public static IEnumerable<T> Materialize<T>(this IEnumerable<T> source)
         {
-            return source.Materialize(true);
-        }
-
-        public static IEnumerable<T> Materialize<T>(this IEnumerable<T> source, bool nullToEmpty)
-        {
-            if (nullToEmpty && source is null)
-            {
-                return Enumerable.Empty<T>();
-            }
-
             if (source is null)
             {
                 throw new ArgumentNullException(nameof(source));
