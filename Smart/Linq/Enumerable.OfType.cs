@@ -6,7 +6,7 @@ namespace Smart.Linq
     public static partial class EnumerableExtensions
     {
         //--------------------------------------------------------------------------------
-        // Materialize
+        // OfType
         //--------------------------------------------------------------------------------
 
         public static IEnumerable<TResult> OfType<TSource, TResult>(this IEnumerable<TSource> source)
