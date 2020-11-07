@@ -19,6 +19,8 @@ namespace Smart.ComponentModel
             storage = value;
         }
 
+        public static implicit operator T(NotificationValue<T> value) => value.Value;
+
         public override string ToString() => storage?.ToString();
     }
 }
