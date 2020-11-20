@@ -1,10 +1,9 @@
-namespace Smart.Collections.Generic
+namespace Smart.Converter.Converters
 {
     using System;
 
-    [Obsolete]
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1815:OverrideEqualsAndOperatorEqualsOnValueTypes", Justification = "Ignore")]
-    public struct ArrayBuffer<T>
+    internal struct ArrayBuffer<T>
     {
         private T[] buffer;
 
