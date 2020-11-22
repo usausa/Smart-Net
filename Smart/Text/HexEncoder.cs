@@ -3,78 +3,9 @@ namespace Smart.Text
     using System;
     using System.Runtime.CompilerServices;
     using System.Runtime.InteropServices;
-    using System.Text;
 
     public static class HexEncoder
     {
-        // TODO Separator
-        // TODO (LineSeparator?)
-
-        // TODO Decode with separator
-
-        // TODO Span to Span * 2
-
-        [Obsolete("Use Encode")]
-        public static string ToHex(byte[] bytes, int start, int length, string prefix, string separator, int lineSize, string lineSeparator)
-        {
-            var addPrefix = !String.IsNullOrEmpty(prefix);
-            var addSeparator = !String.IsNullOrEmpty(separator);
-
-            var bufferSize = length * 2;
-            var lines = lineSize > 0 ? (length - 1) / lineSize : 0;
-            if (lineSize > 0)
-            {
-                bufferSize += lines * lineSeparator.Length;
-            }
-
-            if (addPrefix)
-            {
-                bufferSize += prefix.Length * length;
-            }
-
-            if (addSeparator)
-            {
-                bufferSize += (length - lines - 1) * separator.Length;
-            }
-
-            var sb = new StringBuilder(bufferSize);
-            var count = 0;
-            for (var i = start; i < start + length; i++)
-            {
-                if (count != 0)
-                {
-                    if (count == lineSize)
-                    {
-                        sb.Append(lineSeparator);
-                        count = 0;
-                    }
-                    else if (addSeparator)
-                    {
-                        sb.Append(separator);
-                    }
-                }
-
-                if (addPrefix)
-                {
-                    sb.Append(prefix);
-                }
-
-                var b = bytes[i];
-                sb.Append(ToHex(b >> 4));
-                sb.Append(ToHex(b & 0x0F));
-                count++;
-            }
-
-            return sb.ToString();
-        }
-
-        private static char ToHex(int x)
-        {
-            return x < 10 ? (char)(x + '0') : (char)(x + 'A' - 10);
-        }
-
-        //--------------------------------------------------------------------------------
-
         private static ReadOnlySpan<byte> HexTable => new[]
         {
             (byte)'0', (byte)'1', (byte)'2', (byte)'3',
@@ -85,11 +16,32 @@ namespace Smart.Text
 
         public static unsafe string Encode(ReadOnlySpan<byte> bytes)
         {
-            var length = bytes.Length * 2;
-            var temp = length < 2048 ? stackalloc char[length] : new char[length];
+            var length = bytes.Length << 1;
+            var buffer = length < 2048 ? stackalloc char[length] : new char[length];
             ref var hex = ref MemoryMarshal.GetReference(HexTable);
 
-            fixed (char* ptr = temp)
+            fixed (char* pBuffer = buffer)
+            {
+                var p = pBuffer;
+                for (var i = 0; i < bytes.Length; i++)
+                {
+                    var b = bytes[i];
+                    *p = (char)Unsafe.Add(ref hex, b >> 4);
+                    p++;
+                    *p = (char)Unsafe.Add(ref hex, b & 0xF);
+                    p++;
+                }
+
+                return new string(pBuffer, 0, length);
+            }
+        }
+
+        public static unsafe int Encode(ReadOnlySpan<byte> bytes, Span<char> buffer)
+        {
+            var length = bytes.Length << 1;
+            ref var hex = ref MemoryMarshal.GetReference(HexTable);
+
+            fixed (char* ptr = buffer)
             {
                 var p = ptr;
                 for (var i = 0; i < bytes.Length; i++)
@@ -100,21 +52,21 @@ namespace Smart.Text
                     *p = (char)Unsafe.Add(ref hex, b & 0xF);
                     p++;
                 }
-
-                return new string(ptr, 0, length);
             }
+
+            return length;
         }
 
         public static unsafe byte[] Decode(ReadOnlySpan<char> code)
         {
-            var bytes = new byte[code.Length / 2];
+            var buffer = new byte[code.Length >> 1];
 
-            fixed (byte* pBytes = &bytes[0])
             fixed (char* pCode = code)
+            fixed (byte* pBuffer = &buffer[0])
             {
-                var pb = pBytes;
+                var pb = pBuffer;
                 var pc = pCode;
-                for (var i = 0; i < bytes.Length; i++)
+                for (var i = 0; i < buffer.Length; i++)
                 {
                     var b = CharToNumber(*pc) << 4;
                     pc++;
@@ -124,7 +76,29 @@ namespace Smart.Text
                 }
             }
 
-            return bytes;
+            return buffer;
+        }
+
+        public static unsafe int Decode(ReadOnlySpan<char> code, Span<byte> buffer)
+        {
+            var length = code.Length >> 1;
+
+            fixed (char* pCode = code)
+            fixed (byte* pBuffer = buffer)
+            {
+                var pb = pBuffer;
+                var pc = pCode;
+                for (var i = 0; i < length; i++)
+                {
+                    var b = CharToNumber(*pc) << 4;
+                    pc++;
+                    *pb = (byte)(b + CharToNumber(*pc));
+                    pc++;
+                    pb++;
+                }
+            }
+
+            return length;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -140,7 +114,7 @@ namespace Smart.Text
                 return c - 'A' + 10;
             }
 
-            if ((c <= 'F') && (c >= 'a'))
+            if ((c <= 'f') && (c >= 'a'))
             {
                 return c - 'a' + 10;
             }
