@@ -21,7 +21,7 @@ namespace Smart.IO
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if ((value > limit) || (value < 0))
+                if ((uint)value > (uint)limit)
                 {
                     throw new ArgumentException("Position is out of range.", nameof(value));
                 }
@@ -37,7 +37,7 @@ namespace Smart.IO
             [MethodImpl(MethodImplOptions.AggressiveInlining)]
             set
             {
-                if ((value > Capacity) || (value < 0))
+                if ((uint)value > (uint)Capacity)
                 {
                     throw new ArgumentException("Limit is out of range.", nameof(value));
                 }
@@ -111,7 +111,7 @@ namespace Smart.IO
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Reset(int size)
         {
-            if ((size > Capacity) || (size < 0))
+            if ((uint)size > (uint)Capacity)
             {
                 throw new ArgumentException("Limit is out of range.", nameof(size));
             }

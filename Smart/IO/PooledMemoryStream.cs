@@ -90,7 +90,7 @@ namespace Smart.IO
                     throw new ArgumentException("Invalid seek origin.", nameof(origin));
             }
 
-            if ((newPosition < 0) || (newPosition > rawBuffer.Length))
+            if ((uint)newPosition > (uint)rawBuffer.Length)
             {
                 throw new IndexOutOfRangeException();
             }
@@ -100,7 +100,7 @@ namespace Smart.IO
 
         public override void SetLength(long value)
         {
-            if ((value < 0) || (value > int.MaxValue))
+            if ((uint)value > (uint)int.MaxValue)
             {
                 throw new IndexOutOfRangeException();
             }
