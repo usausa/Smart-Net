@@ -2,7 +2,7 @@ namespace Smart
 {
     using System;
 
-    public static partial class ArrayExtensions
+    public static class ArrayExtensions
     {
         //--------------------------------------------------------------------------------
         // Combine

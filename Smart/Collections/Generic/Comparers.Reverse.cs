@@ -1,6 +1,5 @@
 namespace Smart.Collections.Generic
 {
-    using System;
     using System.Collections.Generic;
 
     public sealed class ReverseComparer<T> : IComparer<T>
