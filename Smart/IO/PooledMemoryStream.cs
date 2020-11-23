@@ -100,7 +100,7 @@ namespace Smart.IO
 
         public override void SetLength(long value)
         {
-            if ((uint)value > (uint)int.MaxValue)
+            if ((uint)value > int.MaxValue)
             {
                 throw new IndexOutOfRangeException();
             }
