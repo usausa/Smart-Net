@@ -1,8 +1,6 @@
 namespace Smart.Text
 {
     using System;
-    using System.Globalization;
-    using System.Text;
 
     public static class Inflector
     {
@@ -10,42 +8,47 @@ namespace Smart.Text
 
         public static string Camelize(string word) => Camelize(word, false);
 
-        public static string Camelize(string word, bool toUpper)
+        public static unsafe string Camelize(string word, bool toUpper)
         {
-            if (String.IsNullOrEmpty(word))
+            if ((word is null) || (word.Length == 0))
             {
                 return word;
             }
 
-            var isLowerPrevious = false;
-            var sb = new StringBuilder();
-            foreach (var c in word)
+            var buffer = word.Length < 2048 ? stackalloc char[word.Length] : new char[word.Length];
+            var length = 0;
+
+            fixed (char* pBuffer = buffer)
             {
-                if (c == '_')
+                var isLowerPrevious = false;
+                foreach (var c in word)
                 {
-                    toUpper = true;
-                }
-                else
-                {
-                    if (toUpper)
+                    if (c == '_')
                     {
-                        sb.Append(Char.ToUpper(c, CultureInfo.CurrentCulture));
-                        toUpper = false;
-                    }
-                    else if (isLowerPrevious)
-                    {
-                        sb.Append(c);
+                        toUpper = true;
                     }
                     else
                     {
-                        sb.Append(Char.ToLower(c, CultureInfo.CurrentCulture));
+                        if (toUpper)
+                        {
+                            pBuffer[length++] = Char.ToUpperInvariant(c);
+                            toUpper = false;
+                        }
+                        else if (isLowerPrevious)
+                        {
+                            pBuffer[length++] = c;
+                        }
+                        else
+                        {
+                            pBuffer[length++] = Char.ToLowerInvariant(c);
+                        }
+
+                        isLowerPrevious = Char.IsLower(c);
                     }
-
-                    isLowerPrevious = Char.IsLower(c);
                 }
-            }
 
-            return sb.ToString();
+                return new string(pBuffer, 0, length);
+            }
         }
 
         public static string Underscore(string word)
@@ -53,25 +56,60 @@ namespace Smart.Text
             return Underscore(word, false);
         }
 
-        public static string Underscore(string word, bool toUpper)
+        public static unsafe string Underscore(string word, bool toUpper)
         {
-            if (String.IsNullOrEmpty(word))
+            if ((word is null) || (word.Length == 0))
             {
                 return word;
             }
 
-            var sb = new StringBuilder();
-            foreach (var c in word)
+            var bufferSize = word.Length << 1;
+            var buffer = bufferSize < 2048 ? stackalloc char[bufferSize] : new char[bufferSize];
+            var length = 0;
+
+            fixed (char* pBuffer = buffer)
             {
-                if (Char.IsUpper(c) && (sb.Length > 0))
+                if (toUpper)
                 {
-                    sb.Append('_');
+                    foreach (var c in word)
+                    {
+                        if (Char.IsUpper(c))
+                        {
+                            if (length > 0)
+                            {
+                                pBuffer[length++] = '_';
+                            }
+
+                            pBuffer[length++] = c;
+                        }
+                        else
+                        {
+                            pBuffer[length++] = Char.ToUpperInvariant(c);
+                        }
+                    }
+                }
+                else
+                {
+                    foreach (var c in word)
+                    {
+                        if (Char.IsUpper(c))
+                        {
+                            if (length > 0)
+                            {
+                                pBuffer[length++] = '_';
+                            }
+
+                            pBuffer[length++] = Char.ToLowerInvariant(c);
+                        }
+                        else
+                        {
+                            pBuffer[length++] = c;
+                        }
+                    }
                 }
 
-                sb.Append(toUpper ? Char.ToUpper(c, CultureInfo.CurrentCulture) : Char.ToLower(c, CultureInfo.CurrentCulture));
+                return new string(pBuffer, 0, length);
             }
-
-            return sb.ToString();
         }
     }
 }
