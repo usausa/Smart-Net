@@ -4,6 +4,7 @@ namespace Smart.ComponentModel
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
+    using System.Runtime.CompilerServices;
 
     public sealed class ComponentContainer : IDisposable, IServiceProvider
     {
@@ -65,10 +66,13 @@ namespace Smart.ComponentModel
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T Get<T>() => (T)Get(typeof(T));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public T TryGet<T>() => (T)TryGet(typeof(T));
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public IEnumerable<T> GetAll<T>() => GetAll(typeof(T)).Cast<T>();
 
         public object Get(Type componentType)
@@ -84,6 +88,7 @@ namespace Smart.ComponentModel
             return objects[objects.Length - 1];
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public object TryGet(Type componentType) => TryGet(componentType, out _);
 
         public object TryGet(Type componentType, out bool result)
@@ -94,10 +99,8 @@ namespace Smart.ComponentModel
             return result ? objects[objects.Length - 1] : null;
         }
 
-        public IEnumerable<object> GetAll(Type componentType)
-        {
-            return ResolveAll(componentType);
-        }
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public IEnumerable<object> GetAll(Type componentType) => ResolveAll(componentType);
 
         public object GetService(Type serviceType)
         {

@@ -35,26 +35,15 @@ namespace Smart.ComponentModel
 
         public void Add(Type componentType) => Add(componentType, componentType);
 
-        public void Add(Type componentType, Type implementType)
-        {
-            var entries = GetEntries(componentType);
-            entries.Add(new ComponentEntry(implementType));
-        }
+        public void Add(Type componentType, Type implementType) => GetEntries(componentType).Add(new ComponentEntry(implementType));
 
         public void Add<TComponent>(TComponent constant) => Add(typeof(TComponent), constant);
 
-        public void Add(Type componentType, object constant)
-        {
-            var entries = GetEntries(componentType);
-            entries.Add(new ComponentEntry(constant));
-        }
+        public void Add(Type componentType, object constant) => GetEntries(componentType).Add(new ComponentEntry(constant));
 
         public void RemoveAll<TComponent>() => RemoveAll(typeof(TComponent));
 
-        public void RemoveAll(Type componentType)
-        {
-            mappings.Remove(componentType);
-        }
+        public void RemoveAll(Type componentType) => mappings.Remove(componentType);
 
         public void Remove<TComponent, TImplement>() => Remove(typeof(TComponent), typeof(TImplement));
 
