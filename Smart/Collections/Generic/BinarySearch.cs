@@ -2,19 +2,23 @@ namespace Smart.Collections.Generic
 {
     using System;
     using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
 
     public static class BinarySearch
     {
+        // TODO Span
+
         //--------------------------------------------------------------------------------
         // Func version
         //--------------------------------------------------------------------------------
 
-        public static int Find<T>(IList<T> list, Func<T, int> comparer)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Find<T>(Span<T> list, Func<T, int> comparer)
         {
-            return Find(list, 0, list.Count, comparer);
+            return Find(list, 0, list.Length, comparer);
         }
 
-        public static int Find<T>(IList<T> list, int index, int length, Func<T, int> comparer)
+        public static int Find<T>(Span<T> list, int index, int length, Func<T, int> comparer)
         {
             var lo = index;
             var hi = index + length - 1;
@@ -42,12 +46,13 @@ namespace Smart.Collections.Generic
             return ~lo;
         }
 
-        public static int FindFirst<T>(IList<T> list, Func<T, int> comparer)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int FindFirst<T>(Span<T> list, Func<T, int> comparer)
         {
-            return FindFirst(list, 0, list.Count, comparer);
+            return FindFirst(list, 0, list.Length, comparer);
         }
 
-        public static int FindFirst<T>(IList<T> list, int index, int length, Func<T, int> comparer)
+        public static int FindFirst<T>(Span<T> list, int index, int length, Func<T, int> comparer)
         {
             var find = -1;
             var lo = index;
@@ -76,12 +81,13 @@ namespace Smart.Collections.Generic
             return find >= 0 ? find : ~lo;
         }
 
-        public static int FindLast<T>(IList<T> list, Func<T, int> comparer)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int FindLast<T>(Span<T> list, Func<T, int> comparer)
         {
-            return FindLast(list, 0, list.Count, comparer);
+            return FindLast(list, 0, list.Length, comparer);
         }
 
-        public static int FindLast<T>(IList<T> list, int index, int length, Func<T, int> comparer)
+        public static int FindLast<T>(Span<T> list, int index, int length, Func<T, int> comparer)
         {
             var find = -1;
             var lo = index;
@@ -114,42 +120,50 @@ namespace Smart.Collections.Generic
         // IComparer version Find
         //--------------------------------------------------------------------------------
 
-        public static int Find<T>(IList<T> list, T key)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Find<T>(Span<T> list, T key)
         {
-            return Find(list, 0, list.Count, key, Functions<T>.Identify, Comparer<T>.Default);
+            return Find(list, 0, list.Length, key, Functions<T>.Identify, Comparer<T>.Default);
         }
 
-        public static int Find<T>(IList<T> list, T key, IComparer<T> comparer)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Find<T>(Span<T> list, T key, IComparer<T> comparer)
         {
-            return Find(list, 0, list.Count, key, Functions<T>.Identify, comparer);
+            return Find(list, 0, list.Length, key, Functions<T>.Identify, comparer);
         }
 
-        public static int Find<T, TKey>(IList<T> list, TKey key, Func<T, TKey> selector)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Find<T, TKey>(Span<T> list, TKey key, Func<T, TKey> selector)
         {
-            return Find(list, 0, list.Count, key, selector, Comparer<TKey>.Default);
+            return Find(list, 0, list.Length, key, selector, Comparer<TKey>.Default);
         }
 
-        public static int Find<T, TKey>(IList<T> list, TKey key, Func<T, TKey> selector, IComparer<TKey> comparer)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Find<T, TKey>(Span<T> list, TKey key, Func<T, TKey> selector, IComparer<TKey> comparer)
         {
-            return Find(list, 0, list.Count, key, selector, comparer);
+            return Find(list, 0, list.Length, key, selector, comparer);
         }
 
-        public static int Find<T>(IList<T> list, int index, int length, T key)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Find<T>(Span<T> list, int index, int length, T key)
         {
             return Find(list, index, length, key, Functions<T>.Identify, Comparer<T>.Default);
         }
 
-        public static int Find<T>(IList<T> list, int index, int length, T key, IComparer<T> comparer)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Find<T>(Span<T> list, int index, int length, T key, IComparer<T> comparer)
         {
             return Find(list, index, length, key, Functions<T>.Identify, comparer);
         }
 
-        public static int Find<T, TKey>(IList<T> list, int index, int length, TKey key, Func<T, TKey> selector)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Find<T, TKey>(Span<T> list, int index, int length, TKey key, Func<T, TKey> selector)
         {
             return Find(list, index, length, key, selector, Comparer<TKey>.Default);
         }
 
-        public static int Find<T, TKey>(IList<T> list, int index, int length, TKey key, Func<T, TKey> selector, IComparer<TKey> comparer)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Find<T, TKey>(Span<T> list, int index, int length, TKey key, Func<T, TKey> selector, IComparer<TKey> comparer)
         {
             var lo = index;
             var hi = index + length - 1;
@@ -181,42 +195,50 @@ namespace Smart.Collections.Generic
         // IComparer version FindFirst
         //--------------------------------------------------------------------------------
 
-        public static int FindFirst<T>(IList<T> list, T key)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int FindFirst<T>(Span<T> list, T key)
         {
-            return FindFirst(list, 0, list.Count, key, Functions<T>.Identify, Comparer<T>.Default);
+            return FindFirst(list, 0, list.Length, key, Functions<T>.Identify, Comparer<T>.Default);
         }
 
-        public static int FindFirst<T>(IList<T> list, T key, IComparer<T> comparer)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int FindFirst<T>(Span<T> list, T key, IComparer<T> comparer)
         {
-            return FindFirst(list, 0, list.Count, key, Functions<T>.Identify, comparer);
+            return FindFirst(list, 0, list.Length, key, Functions<T>.Identify, comparer);
         }
 
-        public static int FindFirst<T, TKey>(IList<T> list, TKey key, Func<T, TKey> selector)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int FindFirst<T, TKey>(Span<T> list, TKey key, Func<T, TKey> selector)
         {
-            return FindFirst(list, 0, list.Count, key, selector, Comparer<TKey>.Default);
+            return FindFirst(list, 0, list.Length, key, selector, Comparer<TKey>.Default);
         }
 
-        public static int FindFirst<T, TKey>(IList<T> list, TKey key, Func<T, TKey> selector, IComparer<TKey> comparer)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int FindFirst<T, TKey>(Span<T> list, TKey key, Func<T, TKey> selector, IComparer<TKey> comparer)
         {
-            return FindFirst(list, 0, list.Count, key, selector, comparer);
+            return FindFirst(list, 0, list.Length, key, selector, comparer);
         }
 
-        public static int FindFirst<T>(IList<T> list, int index, int length, T key)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int FindFirst<T>(Span<T> list, int index, int length, T key)
         {
             return FindFirst(list, index, length, key, Functions<T>.Identify, Comparer<T>.Default);
         }
 
-        public static int FindFirst<T>(IList<T> list, int index, int length, T key, IComparer<T> comparer)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int FindFirst<T>(Span<T> list, int index, int length, T key, IComparer<T> comparer)
         {
             return FindFirst(list, index, length, key, Functions<T>.Identify, comparer);
         }
 
-        public static int FindFirst<T, TKey>(IList<T> list, int index, int length, TKey key, Func<T, TKey> selector)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int FindFirst<T, TKey>(Span<T> list, int index, int length, TKey key, Func<T, TKey> selector)
         {
             return FindFirst(list, index, length, key, selector, Comparer<TKey>.Default);
         }
 
-        public static int FindFirst<T, TKey>(IList<T> list, int index, int length, TKey key, Func<T, TKey> selector, IComparer<TKey> comparer)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int FindFirst<T, TKey>(Span<T> list, int index, int length, TKey key, Func<T, TKey> selector, IComparer<TKey> comparer)
         {
             var find = -1;
             var lo = index;
@@ -249,42 +271,50 @@ namespace Smart.Collections.Generic
         // IComparer version FindLast
         //--------------------------------------------------------------------------------
 
-        public static int FindLast<T>(IList<T> list, T key)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int FindLast<T>(Span<T> list, T key)
         {
-            return FindLast(list, 0, list.Count, key, Functions<T>.Identify, Comparer<T>.Default);
+            return FindLast(list, 0, list.Length, key, Functions<T>.Identify, Comparer<T>.Default);
         }
 
-        public static int FindLast<T>(IList<T> list, T key, IComparer<T> comparer)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int FindLast<T>(Span<T> list, T key, IComparer<T> comparer)
         {
-            return FindLast(list, 0, list.Count, key, Functions<T>.Identify, comparer);
+            return FindLast(list, 0, list.Length, key, Functions<T>.Identify, comparer);
         }
 
-        public static int FindLast<T, TKey>(IList<T> list, TKey key, Func<T, TKey> selector)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int FindLast<T, TKey>(Span<T> list, TKey key, Func<T, TKey> selector)
         {
-            return FindLast(list, 0, list.Count, key, selector, Comparer<TKey>.Default);
+            return FindLast(list, 0, list.Length, key, selector, Comparer<TKey>.Default);
         }
 
-        public static int FindLast<T, TKey>(IList<T> list, TKey key, Func<T, TKey> selector, IComparer<TKey> comparer)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int FindLast<T, TKey>(Span<T> list, TKey key, Func<T, TKey> selector, IComparer<TKey> comparer)
         {
-            return FindLast(list, 0, list.Count, key, selector, comparer);
+            return FindLast(list, 0, list.Length, key, selector, comparer);
         }
 
-        public static int FindLast<T>(IList<T> list, int index, int length, T key)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int FindLast<T>(Span<T> list, int index, int length, T key)
         {
             return FindLast(list, index, length, key, Functions<T>.Identify, Comparer<T>.Default);
         }
 
-        public static int FindLast<T>(IList<T> list, int index, int length, T key, IComparer<T> comparer)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int FindLast<T>(Span<T> list, int index, int length, T key, IComparer<T> comparer)
         {
             return FindLast(list, index, length, key, Functions<T>.Identify, comparer);
         }
 
-        public static int FindLast<T, TKey>(IList<T> list, int index, int length, TKey key, Func<T, TKey> selector)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int FindLast<T, TKey>(Span<T> list, int index, int length, TKey key, Func<T, TKey> selector)
         {
             return FindLast(list, index, length, key, selector, Comparer<TKey>.Default);
         }
 
-        public static int FindLast<T, TKey>(IList<T> list, int index, int length, TKey key, Func<T, TKey> selector, IComparer<TKey> comparer)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int FindLast<T, TKey>(Span<T> list, int index, int length, TKey key, Func<T, TKey> selector, IComparer<TKey> comparer)
         {
             var find = -1;
             var lo = index;
