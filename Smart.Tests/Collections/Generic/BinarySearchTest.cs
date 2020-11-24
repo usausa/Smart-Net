@@ -1,5 +1,6 @@
 namespace Smart.Collections.Generic
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -36,7 +37,7 @@ namespace Smart.Collections.Generic
             {
                 var key = i;
                 expects.Add(list.IndexOf(key));
-                actuals.Add(BinarySearch.FindFirst(array, x => x - key));
+                actuals.Add(BinarySearch.FindFirst(array.AsSpan(), x => x - key));
             }
 
             AssertIndex(expects, actuals);
@@ -56,7 +57,7 @@ namespace Smart.Collections.Generic
             {
                 var key = i;
                 expects.Add(list.LastIndexOf(key));
-                actuals.Add(BinarySearch.FindLast(array, x => x - key));
+                actuals.Add(BinarySearch.FindLast(array.AsSpan(), x => x - key));
             }
 
             AssertIndex(expects, actuals);
@@ -67,10 +68,10 @@ namespace Smart.Collections.Generic
         {
             var array = new[] { 1, 1, 3, 3, 3, 5, 5, 5, 5 };    // 9個
 
-            Assert.Equal(-1, BinarySearch.Find(array, x => x - 0));
-            Assert.Equal(-3, BinarySearch.Find(array, x => x - 2));
-            Assert.Equal(-6, BinarySearch.Find(array, x => x - 4));
-            Assert.Equal(-10, BinarySearch.Find(array, x => x - 6));
+            Assert.Equal(-1, BinarySearch.Find(array.AsSpan(), x => x - 0));
+            Assert.Equal(-3, BinarySearch.Find(array.AsSpan(), x => x - 2));
+            Assert.Equal(-6, BinarySearch.Find(array.AsSpan(), x => x - 4));
+            Assert.Equal(-10, BinarySearch.Find(array.AsSpan(), x => x - 6));
         }
     }
 }
