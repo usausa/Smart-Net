@@ -1,8 +1,9 @@
-﻿namespace Smart.Converter.Converters
+namespace Smart.Converter.Converters
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
 
     public sealed partial class EnumerableConverterFactory
     {
@@ -25,6 +26,7 @@
                 index = -1;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool MoveNext()
             {
                 index++;
@@ -33,7 +35,11 @@
 
             public void Reset() => index = -1;
 
-            public TDestination Current => (TDestination)converter(source[index]);
+            public TDestination Current
+            {
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                get => (TDestination)converter(source[index]);
+            }
 
             object IEnumerator.Current => Current;
 
@@ -110,6 +116,7 @@
                 index = -1;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool MoveNext()
             {
                 index++;
@@ -118,7 +125,11 @@
 
             public void Reset() => index = -1;
 
-            public TDestination Current => (TDestination)converter(source[index]);
+            public TDestination Current
+            {
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                get => (TDestination)converter(source[index]);
+            }
 
             object IEnumerator.Current => Current;
 
@@ -235,16 +246,22 @@
                 this.converter = converter;
             }
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool MoveNext() => source.MoveNext();
 
             public void Reset() => source.Reset();
 
-            public TDestination Current => (TDestination)converter(source.Current);
+            public TDestination Current
+            {
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                get => (TDestination)converter(source.Current);
+            }
 
             object IEnumerator.Current => Current;
 
             public void Dispose()
             {
+                source.Dispose();
             }
         }
 

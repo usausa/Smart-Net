@@ -24,10 +24,15 @@ namespace Smart.Linq
                 ie.Dispose();
             }
 
-            public Indexed<T> Current => new Indexed<T>(ie.Current, index);
+            public Indexed<T> Current
+            {
+                [MethodImpl(MethodImplOptions.AggressiveInlining)]
+                get => new Indexed<T>(ie.Current, index);
+            }
 
             object IEnumerator.Current => Current;
 
+            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             public bool MoveNext()
             {
                 index++;
@@ -46,10 +51,8 @@ namespace Smart.Linq
                 this.ie = ie;
             }
 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             IEnumerator<Indexed<T>> IEnumerable<Indexed<T>>.GetEnumerator() => new IndexedEnumerator<T>(ie.GetEnumerator());
 
-            [MethodImpl(MethodImplOptions.AggressiveInlining)]
             IEnumerator IEnumerable.GetEnumerator() => new IndexedEnumerator<T>(ie.GetEnumerator());
         }
 
