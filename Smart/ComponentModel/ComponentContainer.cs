@@ -16,7 +16,7 @@ namespace Smart.ComponentModel
 
         private static readonly object[] EmptyResult = Array.Empty<object>();
 
-        private readonly Dictionary<Type, object[]> cache = new Dictionary<Type, object[]>();
+        private readonly Dictionary<Type, object[]> cache = new();
 
         private readonly Dictionary<Type, ComponentEntry[]> mappings;
 

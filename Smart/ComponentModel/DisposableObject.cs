@@ -1,10 +1,10 @@
-﻿namespace Smart.ComponentModel
+namespace Smart.ComponentModel
 {
     using System;
 
     public abstract class DisposableObject : IDisposable
     {
-        private readonly object sync = new object();
+        private readonly object sync = new();
 
         public bool IsDisposed { get; private set; }
 

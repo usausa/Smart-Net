@@ -5,7 +5,7 @@ namespace Smart.Converter.Converters
 
     public sealed class BooleanConverterFactory : IConverterFactory
     {
-        private static readonly Dictionary<Type, Func<object, object>> FromBooleanConverters = new Dictionary<Type, Func<object, object>>
+        private static readonly Dictionary<Type, Func<object, object>> FromBooleanConverters = new()
         {
             { typeof(byte), x => (bool)x ? (byte)1 : (byte)0 },
             { typeof(sbyte), x => (bool)x ? (sbyte)1 : (sbyte)0 },
@@ -18,12 +18,12 @@ namespace Smart.Converter.Converters
             { typeof(char), x => (bool)x ? (char)1 : (char)0 },
             { typeof(double), x => (bool)x ? 1.0d : 0.0d },
             { typeof(float), x => (bool)x ? 1.0f : 0.0f },
-            { typeof(decimal), x => (bool)x ? Decimal.One : Decimal.Zero },
+            { typeof(decimal), x => (bool)x ? Decimal.One : Decimal.Zero }
         };
 
         // ReSharper disable CompareOfFloatsByEqualityOperator
         // ReSharper disable RedundantTypeSpecificationInDefaultExpression
-        private static readonly Dictionary<Type, Func<object, object>> ToBooleanConverters = new Dictionary<Type, Func<object, object>>
+        private static readonly Dictionary<Type, Func<object, object>> ToBooleanConverters = new()
         {
             { typeof(byte), x => (byte)x != default(byte) },
             { typeof(sbyte), x => (sbyte)x != default(sbyte) },

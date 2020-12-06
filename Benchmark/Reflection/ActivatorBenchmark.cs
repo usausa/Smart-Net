@@ -1,4 +1,4 @@
-﻿namespace Benchmark.Reflection
+namespace Benchmark.Reflection
 {
     using System;
     using System.Linq;
@@ -39,7 +39,7 @@
             var ctor1 = typeof(Data1).GetConstructors().First();
             var ctor8 = typeof(Data8).GetConstructors().First();
 
-            newFactory0 = args => new Data0();
+            newFactory0 = _ => new Data0();
             dynamicFactory0A = DynamicDelegateFactory.Default.CreateFactory(ctor0);
             reflectionFactory0A = ReflectionDelegateFactory.Default.CreateFactory(ctor0);
             dynamicFactory0B = DynamicDelegateFactory.Default.CreateFactory0(ctor0);

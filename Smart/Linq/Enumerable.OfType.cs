@@ -9,6 +9,7 @@ namespace Smart.Linq
         //--------------------------------------------------------------------------------
 
         public static IEnumerable<TResult> OfType<TSource, TResult>(this IEnumerable<TSource> source)
+            where TSource : class
             where TResult : TSource
         {
             foreach (var value in source)

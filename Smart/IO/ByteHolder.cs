@@ -28,22 +28,22 @@ namespace Smart.IO
         public byte[] GetRawBuffer() => rawBuffer;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Span<byte> AsSpan() => new Span<byte>(rawBuffer, 0, size);
+        public Span<byte> AsSpan() => new(rawBuffer, 0, size);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Span<byte> AsSpan(int start) => new Span<byte>(rawBuffer, start, Length - start);
+        public Span<byte> AsSpan(int start) => new(rawBuffer, start, Length - start);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Span<byte> AsSpan(int start, int length) => new Span<byte>(rawBuffer, start, length);
+        public Span<byte> AsSpan(int start, int length) => new(rawBuffer, start, length);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Memory<byte> AsMemory() => new Memory<byte>(rawBuffer, 0, Length);
+        public Memory<byte> AsMemory() => new(rawBuffer, 0, Length);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Memory<byte> AsMemory(int start) => new Memory<byte>(rawBuffer, start, Length - start);
+        public Memory<byte> AsMemory(int start) => new(rawBuffer, start, Length - start);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Memory<byte> AsMemory(int start, int length) => new Memory<byte>(rawBuffer, start, length);
+        public Memory<byte> AsMemory(int start, int length) => new(rawBuffer, start, length);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Clear()

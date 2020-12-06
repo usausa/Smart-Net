@@ -12,9 +12,9 @@ namespace Smart.Converter
 
         private const int Factor = 3;
 
-        private static readonly Node EmptyNode = new Node(typeof(EmptyKey), typeof(EmptyKey), default);
+        private static readonly Node EmptyNode = new(typeof(EmptyKey), typeof(EmptyKey), default);
 
-        private readonly object sync = new object();
+        private readonly object sync = new();
 
         private Node[] nodes;
 

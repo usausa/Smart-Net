@@ -10,9 +10,9 @@ namespace Smart.Collections.Concurrent
     [DebuggerDisplay("{" + nameof(Diagnostics) + "}")]
     public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePair<Type, TValue>>
     {
-        private static readonly Node EmptyNode = new Node(typeof(EmptyKey), default);
+        private static readonly Node EmptyNode = new(typeof(EmptyKey), default);
 
-        private readonly object sync = new object();
+        private readonly object sync = new();
 
         private readonly IHashArrayMapStrategy strategy;
 

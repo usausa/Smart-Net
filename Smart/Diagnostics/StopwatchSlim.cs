@@ -15,8 +15,8 @@ namespace Smart.Diagnostics
             this.start = start;
         }
 
-        public static StopwatchSlim StartNew() => new StopwatchSlim(Stopwatch.GetTimestamp());
+        public static StopwatchSlim StartNew() => new(Stopwatch.GetTimestamp());
 
-        public TimeSpan Elapsed => new TimeSpan((long)(TimestampToTicks * (Stopwatch.GetTimestamp() - start)));
+        public TimeSpan Elapsed => new((long)(TimestampToTicks * (Stopwatch.GetTimestamp() - start)));
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Smart.Converter.Converters
+namespace Smart.Converter.Converters
 {
     using System;
 
@@ -9,7 +9,7 @@
             if (sourceType == typeof(DBNull))
             {
                 var defaultValue = targetType.GetDefaultValue();
-                return source => defaultValue;
+                return _ => defaultValue;
             }
 
             return null;

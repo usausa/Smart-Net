@@ -9,9 +9,9 @@ namespace Smart.Converter
 
     public sealed class ObjectConverter : IObjectConverter
     {
-        public static ObjectConverter Default { get; } = new ObjectConverter();
+        public static ObjectConverter Default { get; } = new();
 
-        private readonly TypePairHashArray converterCache = new TypePairHashArray();
+        private readonly TypePairHashArray converterCache = new();
 
         private IConverterFactory[] factories;
 

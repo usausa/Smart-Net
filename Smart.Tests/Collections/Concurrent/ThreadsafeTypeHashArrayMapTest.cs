@@ -85,7 +85,7 @@ namespace Smart.Collections.Concurrent
 
                     evThreadStarted.Signal();
 
-                    var ret = map.AddIfNotExist(Class01.Type, key => "t1");
+                    var ret = map.AddIfNotExist(Class01.Type, _ => "t1");
 
                     evThread1Completed.Signal();
 
@@ -102,7 +102,7 @@ namespace Smart.Collections.Concurrent
 
                     Assert.True(map.ContainsKey(Class01.Type));
 
-                    var ret = map.AddIfNotExist(Class01.Type, key => "t2");
+                    var ret = map.AddIfNotExist(Class01.Type, _ => "t2");
 
                     Assert.Equal("t1", ret);
                 })

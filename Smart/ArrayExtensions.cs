@@ -10,11 +10,6 @@ namespace Smart
 
         public static T[] Combine<T>(this T[] array, params T[][] others)
         {
-            if (others is null)
-            {
-                return array;
-            }
-
             var length = array?.Length ?? 0;
             for (var i = 0; i < others.Length; i++)
             {

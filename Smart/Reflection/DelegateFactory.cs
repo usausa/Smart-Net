@@ -5,7 +5,7 @@ namespace Smart.Reflection
 
     public sealed partial class DelegateFactory : IDelegateFactory
     {
-        public static DelegateFactory Default { get; } = new DelegateFactory();
+        public static DelegateFactory Default { get; } = new();
 
         public IDelegateFactory Factory { get; set; }
 

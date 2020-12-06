@@ -14,9 +14,9 @@ namespace Smart.Reflection
 
     public struct MyStruct
     {
-        public int X { get; set; }
+        public int X { get; init; }
 
-        public int Y { get; set; }
+        public int Y { get; init; }
     }
 
     public struct StructWithConstructor

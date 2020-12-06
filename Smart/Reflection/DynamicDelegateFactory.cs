@@ -13,49 +13,49 @@ namespace Smart.Reflection
     {
         // Array cache
 
-        private readonly ConcurrentDictionary<Type, Func<int, Array>> arrayAllocatorCache = new ConcurrentDictionary<Type, Func<int, Array>>();
+        private readonly ConcurrentDictionary<Type, Func<int, Array>> arrayAllocatorCache = new();
 
         // Factory cache
 
-        private readonly ConcurrentDictionary<ConstructorInfo, Func<object[], object>> factoryCache = new ConcurrentDictionary<ConstructorInfo, Func<object[], object>>();
+        private readonly ConcurrentDictionary<ConstructorInfo, Func<object[], object>> factoryCache = new();
 
-        private readonly ConcurrentDictionary<ConstructorInfo, Delegate> factoryDelegateCache = new ConcurrentDictionary<ConstructorInfo, Delegate>();
+        private readonly ConcurrentDictionary<ConstructorInfo, Delegate> factoryDelegateCache = new();
 
         // Typed factory cache
 
-        private readonly ConcurrentDictionary<ConstructorInfo, Delegate> typedFactoryCache = new ConcurrentDictionary<ConstructorInfo, Delegate>();
+        private readonly ConcurrentDictionary<ConstructorInfo, Delegate> typedFactoryCache = new();
 
         // Default structure cache
 
-        private readonly ConcurrentDictionary<Type, Func<object[], object>> defaultStructFactoryCache = new ConcurrentDictionary<Type, Func<object[], object>>();
+        private readonly ConcurrentDictionary<Type, Func<object[], object>> defaultStructFactoryCache = new();
 
-        private readonly ConcurrentDictionary<Type, Delegate> defaultStructDelegateCache = new ConcurrentDictionary<Type, Delegate>();
+        private readonly ConcurrentDictionary<Type, Delegate> defaultStructDelegateCache = new();
 
-        private readonly ConcurrentDictionary<Type, Delegate> typedDefaultStructDelegateCache = new ConcurrentDictionary<Type, Delegate>();
+        private readonly ConcurrentDictionary<Type, Delegate> typedDefaultStructDelegateCache = new();
 
         // Property cache
 
-        private readonly ConcurrentDictionary<PropertyInfo, Func<object, object>> getterCache = new ConcurrentDictionary<PropertyInfo, Func<object, object>>();
+        private readonly ConcurrentDictionary<PropertyInfo, Func<object, object>> getterCache = new();
 
-        private readonly ConcurrentDictionary<PropertyInfo, Func<object, object>> extensionGetterCache = new ConcurrentDictionary<PropertyInfo, Func<object, object>>();
+        private readonly ConcurrentDictionary<PropertyInfo, Func<object, object>> extensionGetterCache = new();
 
-        private readonly ConcurrentDictionary<PropertyInfo, Action<object, object>> setterCache = new ConcurrentDictionary<PropertyInfo, Action<object, object>>();
+        private readonly ConcurrentDictionary<PropertyInfo, Action<object, object>> setterCache = new();
 
-        private readonly ConcurrentDictionary<PropertyInfo, Action<object, object>> extensionSetterCache = new ConcurrentDictionary<PropertyInfo, Action<object, object>>();
+        private readonly ConcurrentDictionary<PropertyInfo, Action<object, object>> extensionSetterCache = new();
 
         // Typed Property cache
 
-        private readonly ConcurrentDictionary<PropertyInfo, Delegate> typedGetterCache = new ConcurrentDictionary<PropertyInfo, Delegate>();
+        private readonly ConcurrentDictionary<PropertyInfo, Delegate> typedGetterCache = new();
 
-        private readonly ConcurrentDictionary<PropertyInfo, Delegate> typedExtensionGetterCache = new ConcurrentDictionary<PropertyInfo, Delegate>();
+        private readonly ConcurrentDictionary<PropertyInfo, Delegate> typedExtensionGetterCache = new();
 
-        private readonly ConcurrentDictionary<PropertyInfo, Delegate> typedSetterCache = new ConcurrentDictionary<PropertyInfo, Delegate>();
+        private readonly ConcurrentDictionary<PropertyInfo, Delegate> typedSetterCache = new();
 
-        private readonly ConcurrentDictionary<PropertyInfo, Delegate> typedExtensionSetterCache = new ConcurrentDictionary<PropertyInfo, Delegate>();
+        private readonly ConcurrentDictionary<PropertyInfo, Delegate> typedExtensionSetterCache = new();
 
         // Property
 
-        public static DynamicDelegateFactory Default { get; } = new DynamicDelegateFactory();
+        public static DynamicDelegateFactory Default { get; } = new();
 
         public bool IsCodegenRequired => true;
 
@@ -217,7 +217,7 @@ namespace Smart.Reflection
             return (Func<object[], object>)dynamicMethod.CreateDelegate(delegateType, null);
         }
 
-        private static readonly Dictionary<int, Type> FactoryDelegateTypes = new Dictionary<int, Type>
+        private static readonly Dictionary<int, Type> FactoryDelegateTypes = new()
         {
             { 0, typeof(Func<>) },
             { 1, typeof(Func<,>) },
@@ -437,7 +437,7 @@ namespace Smart.Reflection
             return dynamicMethod.CreateDelegate(delegateType, null);
         }
 
-        private static readonly Dictionary<Type, Action<ILGenerator>> LdcDictionary = new Dictionary<Type, Action<ILGenerator>>
+        private static readonly Dictionary<Type, Action<ILGenerator>> LdcDictionary = new()
         {
             { typeof(bool), il => il.Emit(OpCodes.Ldc_I4_0) },
             { typeof(byte), il => il.Emit(OpCodes.Ldc_I4_0) },

@@ -19,7 +19,7 @@ namespace Smart.Text
                 bytes[i] = (byte)i;
             }
 
-            hex = BitConverter.ToString(bytes).Replace("-", string.Empty);
+            hex = BitConverter.ToString(bytes).Replace("-", string.Empty, StringComparison.Ordinal);
         }
 
         [Fact]

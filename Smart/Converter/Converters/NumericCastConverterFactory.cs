@@ -5,7 +5,7 @@ namespace Smart.Converter.Converters
 
     public sealed class NumericCastConverterFactory : IConverterFactory
     {
-        private static readonly Dictionary<Tuple<Type, Type>, Func<object, object>> Converters = new Dictionary<Tuple<Type, Type>, Func<object, object>>
+        private static readonly Dictionary<Tuple<Type, Type>, Func<object, object>> Converters = new()
         {
             // byte
             { Tuple.Create(typeof(byte), typeof(sbyte)), x => (sbyte)(byte)x },
@@ -127,7 +127,7 @@ namespace Smart.Converter.Converters
             { Tuple.Create(typeof(float), typeof(long)), x => (long)(float)x },
             { Tuple.Create(typeof(float), typeof(ulong)), x => (ulong)(float)x },
             { Tuple.Create(typeof(float), typeof(char)), x => (char)(float)x },
-            { Tuple.Create(typeof(float), typeof(double)), x => (double)(float)x },
+            { Tuple.Create(typeof(float), typeof(double)), x => (double)(float)x }
         };
 
         public Func<object, object> GetConverter(IObjectConverter context, Type sourceType, Type targetType)

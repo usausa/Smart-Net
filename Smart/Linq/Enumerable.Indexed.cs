@@ -27,7 +27,7 @@ namespace Smart.Linq
             public Indexed<T> Current
             {
                 [MethodImpl(MethodImplOptions.AggressiveInlining)]
-                get => new Indexed<T>(ie.Current, index);
+                get => new(ie.Current, index);
             }
 
             object IEnumerator.Current => Current;

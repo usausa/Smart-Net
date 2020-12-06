@@ -1,8 +1,8 @@
-﻿namespace Smart.Converter.Types
+namespace Smart.Converter.Types
 {
     public struct ImplicitType
     {
-        public int Value { get; set; }
+        public int Value { get; init; }
 
         public static implicit operator int(ImplicitType value)
         {
@@ -11,13 +11,13 @@
 
         public static implicit operator ImplicitType(int value)
         {
-            return new ImplicitType { Value = value };
+            return new() { Value = value };
         }
     }
 
     public struct NullableImplicitType
     {
-        public int? Value { get; set; }
+        public int? Value { get; init; }
 
         public static implicit operator int? (NullableImplicitType value)
         {
@@ -26,7 +26,7 @@
 
         public static implicit operator NullableImplicitType(int? value)
         {
-            return new NullableImplicitType { Value = value };
+            return new() { Value = value };
         }
     }
 }

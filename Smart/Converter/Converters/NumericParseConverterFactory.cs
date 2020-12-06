@@ -1,11 +1,11 @@
-﻿namespace Smart.Converter.Converters
+namespace Smart.Converter.Converters
 {
     using System;
     using System.Collections.Generic;
 
     public sealed class NumericParseConverterFactory : IConverterFactory
     {
-        private static readonly Dictionary<Type, Func<object, object>> Converters = new Dictionary<Type, Func<object, object>>
+        private static readonly Dictionary<Type, Func<object, object>> Converters = new()
         {
             { typeof(byte), x => Byte.TryParse((string)x, out var result) ? result : default },
             { typeof(byte?), x => Byte.TryParse((string)x, out var result) ? result : default(byte?) },
@@ -28,7 +28,7 @@
             { typeof(double), x => Double.TryParse((string)x, out var result) ? result : default },
             { typeof(double?), x => Double.TryParse((string)x, out var result) ? result : default(double?) },
             { typeof(float), x => Single.TryParse((string)x, out var result) ? result : default },
-            { typeof(float?), x => Single.TryParse((string)x, out var result) ? result : default(float?) },
+            { typeof(float?), x => Single.TryParse((string)x, out var result) ? result : default(float?) }
         };
 
         public Func<object, object> GetConverter(IObjectConverter context, Type sourceType, Type targetType)

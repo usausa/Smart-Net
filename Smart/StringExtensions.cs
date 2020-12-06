@@ -13,7 +13,7 @@ namespace Smart
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string Repeat(this char value, int count) => new string(value, count);
+        public static string Repeat(this char value, int count) => new(value, count);
 
         public static string Repeat(this string value, int count)
         {

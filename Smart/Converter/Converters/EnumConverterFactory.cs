@@ -6,7 +6,7 @@ namespace Smart.Converter.Converters
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Ignore")]
     public sealed class EnumConverterFactory : IConverterFactory
     {
-        private static readonly HashSet<Type> UnderlyingTypes = new HashSet<Type>
+        private static readonly HashSet<Type> UnderlyingTypes = new()
         {
             typeof(byte),
             typeof(sbyte),
@@ -16,10 +16,10 @@ namespace Smart.Converter.Converters
             typeof(uint),
             typeof(long),
             typeof(ulong),
-            typeof(char),
+            typeof(char)
         };
 
-        private static readonly Dictionary<Tuple<Type, Type>, Func<object, object>> CastOperators = new Dictionary<Tuple<Type, Type>, Func<object, object>>
+        private static readonly Dictionary<Tuple<Type, Type>, Func<object, object>> CastOperators = new()
         {
             // byte
             { Tuple.Create(typeof(byte), typeof(byte)), source => (byte)source },
@@ -100,7 +100,7 @@ namespace Smart.Converter.Converters
             { Tuple.Create(typeof(ulong), typeof(uint)), source => (uint)(ulong)source },
             { Tuple.Create(typeof(ulong), typeof(long)), source => (long)(ulong)source },
             { Tuple.Create(typeof(ulong), typeof(ulong)), source => (ulong)source },
-            { Tuple.Create(typeof(ulong), typeof(char)), source => (char)(ulong)source },
+            { Tuple.Create(typeof(ulong), typeof(char)), source => (char)(ulong)source }
         };
 
         public Func<object, object> GetConverter(IObjectConverter context, Type sourceType, Type targetType)

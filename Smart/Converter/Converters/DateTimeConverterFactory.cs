@@ -1,4 +1,4 @@
-﻿namespace Smart.Converter.Converters
+namespace Smart.Converter.Converters
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,7 @@
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", Justification = "Ignore")]
     public sealed class DateTimeConverterFactory : IConverterFactory
     {
-        private static readonly Dictionary<Type, Func<object, object>> DateTimeToTickConverter = new Dictionary<Type, Func<object, object>>
+        private static readonly Dictionary<Type, Func<object, object>> DateTimeToTickConverter = new()
         {
             { typeof(byte), source => (byte)((DateTime)source).Ticks },
             { typeof(sbyte), source => (sbyte)((DateTime)source).Ticks },
@@ -22,7 +22,7 @@
             { typeof(decimal), source => (decimal)((DateTime)source).Ticks }
         };
 
-        private static readonly Dictionary<Type, Func<object, object>> DateTimeOffsetToTickConverter = new Dictionary<Type, Func<object, object>>
+        private static readonly Dictionary<Type, Func<object, object>> DateTimeOffsetToTickConverter = new()
         {
             { typeof(byte), source => (byte)((DateTimeOffset)source).Ticks },
             { typeof(sbyte), source => (sbyte)((DateTimeOffset)source).Ticks },
@@ -38,7 +38,7 @@
             { typeof(decimal), source => (decimal)((DateTimeOffset)source).Ticks }
         };
 
-        private static readonly Dictionary<Type, Func<object, object>> TimeSpanToTickConverter = new Dictionary<Type, Func<object, object>>
+        private static readonly Dictionary<Type, Func<object, object>> TimeSpanToTickConverter = new()
         {
             { typeof(byte), source => (byte)((TimeSpan)source).Ticks },
             { typeof(sbyte), source => (sbyte)((TimeSpan)source).Ticks },
@@ -54,7 +54,7 @@
             { typeof(decimal), source => (decimal)((TimeSpan)source).Ticks }
         };
 
-        private static readonly Dictionary<Type, Func<object, object>> DateTimeFromTickConverter = new Dictionary<Type, Func<object, object>>
+        private static readonly Dictionary<Type, Func<object, object>> DateTimeFromTickConverter = new()
         {
             { typeof(byte), source => { try { return new DateTime((byte)source); } catch (ArgumentOutOfRangeException) { return default(DateTime); } } },
             { typeof(sbyte), source => { try { return new DateTime((sbyte)source); } catch (ArgumentOutOfRangeException) { return default(DateTime); } } },
@@ -70,7 +70,7 @@
             { typeof(decimal), source => { try { return new DateTime((long)(decimal)source); } catch (ArgumentOutOfRangeException) { return default(DateTime); } } }
         };
 
-        private static readonly Dictionary<Type, Func<object, object>> NullableDateTimeFromTickConverter = new Dictionary<Type, Func<object, object>>
+        private static readonly Dictionary<Type, Func<object, object>> NullableDateTimeFromTickConverter = new()
         {
             { typeof(byte), source => { try { return new DateTime((byte)source); } catch (ArgumentOutOfRangeException) { return default(DateTime?); } } },
             { typeof(sbyte), source => { try { return new DateTime((sbyte)source); } catch (ArgumentOutOfRangeException) { return default(DateTime?); } } },
@@ -86,7 +86,7 @@
             { typeof(decimal), source => { try { return new DateTime((long)(decimal)source); } catch (ArgumentOutOfRangeException) { return default(DateTime?); } } }
         };
 
-        private static readonly Dictionary<Type, Func<object, object>> DateTimeOffsetFromTickConverter = new Dictionary<Type, Func<object, object>>
+        private static readonly Dictionary<Type, Func<object, object>> DateTimeOffsetFromTickConverter = new()
         {
             { typeof(byte), source => { try { return new DateTimeOffset(new DateTime((byte)source)); } catch (ArgumentOutOfRangeException) { return default(DateTimeOffset); } } },
             { typeof(sbyte), source => { try { return new DateTimeOffset(new DateTime((sbyte)source)); } catch (ArgumentOutOfRangeException) { return default(DateTimeOffset); } } },
@@ -102,7 +102,7 @@
             { typeof(decimal), source => { try { return new DateTimeOffset(new DateTime((long)(decimal)source)); } catch (ArgumentOutOfRangeException) { return default(DateTimeOffset); } } }
         };
 
-        private static readonly Dictionary<Type, Func<object, object>> NullableDateTimeOffsetFromTickConverter = new Dictionary<Type, Func<object, object>>
+        private static readonly Dictionary<Type, Func<object, object>> NullableDateTimeOffsetFromTickConverter = new()
         {
             { typeof(byte), source => { try { return new DateTimeOffset(new DateTime((byte)source)); } catch (ArgumentOutOfRangeException) { return default(DateTimeOffset?); } } },
             { typeof(sbyte), source => { try { return new DateTimeOffset(new DateTime((sbyte)source)); } catch (ArgumentOutOfRangeException) { return default(DateTimeOffset?); } } },
@@ -118,7 +118,7 @@
             { typeof(decimal), source => { try { return new DateTimeOffset(new DateTime((long)(decimal)source)); } catch (ArgumentOutOfRangeException) { return default(DateTimeOffset?); } } }
         };
 
-        private static readonly Dictionary<Type, Func<object, object>> TimeSpanFromTickConverter = new Dictionary<Type, Func<object, object>>
+        private static readonly Dictionary<Type, Func<object, object>> TimeSpanFromTickConverter = new()
         {
             { typeof(byte), source => { try { return new TimeSpan((byte)source); } catch (ArgumentOutOfRangeException) { return default(TimeSpan); } } },
             { typeof(sbyte), source => { try { return new TimeSpan((sbyte)source); } catch (ArgumentOutOfRangeException) { return default(TimeSpan); } } },
@@ -134,7 +134,7 @@
             { typeof(decimal), source => { try { return new TimeSpan((long)(decimal)source); } catch (ArgumentOutOfRangeException) { return default(TimeSpan); } } }
         };
 
-        private static readonly Dictionary<Type, Func<object, object>> NullableTimeSpanFromTickConverter = new Dictionary<Type, Func<object, object>>
+        private static readonly Dictionary<Type, Func<object, object>> NullableTimeSpanFromTickConverter = new()
         {
             { typeof(byte), source => { try { return new TimeSpan((byte)source); } catch (ArgumentOutOfRangeException) { return default(TimeSpan?); } } },
             { typeof(sbyte), source => { try { return new TimeSpan((sbyte)source); } catch (ArgumentOutOfRangeException) { return default(TimeSpan?); } } },

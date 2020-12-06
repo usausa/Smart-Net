@@ -24,9 +24,9 @@ namespace Smart
 
         private static readonly Type ValueHolderType = typeof(IValueHolder<>);
 
-        private static readonly ThreadsafeTypeHashArrayMap<object> DefaultValues = new ThreadsafeTypeHashArrayMap<object>();
+        private static readonly ThreadsafeTypeHashArrayMap<object> DefaultValues = new();
 
-        private static readonly Func<Type, object> NullFactory = t => null;
+        private static readonly Func<Type, object> NullFactory = _ => null;
 
         private static readonly Func<Type, object> ValueFactory = Activator.CreateInstance;
 

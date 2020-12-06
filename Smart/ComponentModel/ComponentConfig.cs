@@ -6,7 +6,7 @@ namespace Smart.ComponentModel
 
     public sealed class ComponentConfig
     {
-        private readonly Dictionary<Type, List<ComponentEntry>> mappings = new Dictionary<Type, List<ComponentEntry>>();
+        private readonly Dictionary<Type, List<ComponentEntry>> mappings = new();
 
         private List<ComponentEntry> GetEntries(Type componentType)
         {

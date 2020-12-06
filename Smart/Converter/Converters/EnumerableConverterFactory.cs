@@ -36,7 +36,7 @@ namespace Smart.Converter.Converters
             }
         }
 
-        private static readonly Dictionary<Type, ProviderPair> Providers = new Dictionary<Type, ProviderPair>
+        private static readonly Dictionary<Type, ProviderPair> Providers = new()
         {
             { typeof(IEnumerable<>), new ProviderPair(SameTypeListProvider.Default, OtherTypeListProvider.Default) },
             { typeof(ICollection<>), new ProviderPair(SameTypeListProvider.Default, OtherTypeListProvider.Default) },

@@ -11,11 +11,11 @@ namespace Benchmark.Collections.Concurrent
     [Config(typeof(BenchmarkConfig))]
     public class DictionaryBenchmark
     {
-        private readonly Dictionary<Type, object> dictionary = new Dictionary<Type, object>();
+        private readonly Dictionary<Type, object> dictionary = new();
 
-        private readonly ConcurrentDictionary<Type, object> concurrentDictionary = new ConcurrentDictionary<Type, object>();
+        private readonly ConcurrentDictionary<Type, object> concurrentDictionary = new();
 
-        private readonly ThreadsafeTypeHashArrayMap<object> hashArrayMap = new ThreadsafeTypeHashArrayMap<object>();
+        private readonly ThreadsafeTypeHashArrayMap<object> hashArrayMap = new();
 
         private readonly Type key = typeof(Class0);
 

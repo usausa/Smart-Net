@@ -7,7 +7,7 @@ namespace Smart.Reflection
 
     public sealed partial class ReflectionDelegateFactory : IDelegateFactory
     {
-        public static ReflectionDelegateFactory Default { get; } = new ReflectionDelegateFactory();
+        public static ReflectionDelegateFactory Default { get; } = new();
 
         public bool IsCodegenRequired => false;
 
@@ -39,7 +39,7 @@ namespace Smart.Reflection
         {
             if (type.IsValueType && (argumentTypes.Length == 0))
             {
-                return parameters => Activator.CreateInstance(type);
+                return _ => Activator.CreateInstance(type);
             }
 
             var ci = type.GetConstructor(argumentTypes);
@@ -54,7 +54,7 @@ namespace Smart.Reflection
         public Func<object[], object> CreateFactory(ConstructorInfo ci)
         {
             return ci.GetParameters().Length == 0
-                ? (Func<object[], object>)(parameters => Activator.CreateInstance(ci.DeclaringType))
+                ? (Func<object[], object>)(_ => Activator.CreateInstance(ci.DeclaringType))
                 : ci.Invoke;
         }
 

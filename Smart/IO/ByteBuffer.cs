@@ -84,22 +84,22 @@ namespace Smart.IO
         public byte[] GetRawBuffer() => rawBuffer;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Span<byte> AsSpan() => new Span<byte>(rawBuffer, position, limit - position);
+        public Span<byte> AsSpan() => new(rawBuffer, position, limit - position);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Span<byte> AsSpan(int start) => new Span<byte>(rawBuffer, position + start, limit - position - start);
+        public Span<byte> AsSpan(int start) => new(rawBuffer, position + start, limit - position - start);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Span<byte> AsSpan(int start, int length) => new Span<byte>(rawBuffer, position + start, length);
+        public Span<byte> AsSpan(int start, int length) => new(rawBuffer, position + start, length);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Memory<byte> AsMemory() => new Memory<byte>(rawBuffer, position, limit - position);
+        public Memory<byte> AsMemory() => new(rawBuffer, position, limit - position);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Memory<byte> AsMemory(int start) => new Memory<byte>(rawBuffer, position + start, limit - position - start);
+        public Memory<byte> AsMemory(int start) => new(rawBuffer, position + start, limit - position - start);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Memory<byte> AsMemory(int start, int length) => new Memory<byte>(rawBuffer, position + start, length);
+        public Memory<byte> AsMemory(int start, int length) => new(rawBuffer, position + start, length);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void Reset()
@@ -136,9 +136,9 @@ namespace Smart.IO
         public void Advance(int count) => position += count;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Memory<byte> GetMemory(int sizeHint = 0) => new Memory<byte>(rawBuffer, position, limit - position);
+        public Memory<byte> GetMemory(int sizeHint = 0) => new(rawBuffer, position, limit - position);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Span<byte> GetSpan(int sizeHint = 0) => new Span<byte>(rawBuffer, position, limit - position);
+        public Span<byte> GetSpan(int sizeHint = 0) => new(rawBuffer, position, limit - position);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Smart.Converter.Converters
+namespace Smart.Converter.Converters
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,7 @@
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Globalization", "CA1305:SpecifyIFormatProvider", Justification = "Ignore")]
     public sealed class DecimalConverterFactory : IConverterFactory
     {
-        private static readonly Dictionary<Tuple<Type, Type>, Func<object, object>> Converters = new Dictionary<Tuple<Type, Type>, Func<object, object>>
+        private static readonly Dictionary<Tuple<Type, Type>, Func<object, object>> Converters = new()
         {
             // From decimal
             { Tuple.Create(typeof(Decimal), typeof(byte)), x => { try { return Decimal.ToByte((decimal)x); } catch (OverflowException) { return default(byte); } } },

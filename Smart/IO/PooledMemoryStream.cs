@@ -34,7 +34,7 @@ namespace Smart.IO
             {
                 if (value > rawBuffer.Length)
                 {
-                    throw new IndexOutOfRangeException();
+                    throw new ArgumentOutOfRangeException(nameof(value));
                 }
 
                 position = (int)value;
@@ -92,7 +92,7 @@ namespace Smart.IO
 
             if ((uint)newPosition > (uint)rawBuffer.Length)
             {
-                throw new IndexOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(offset));
             }
 
             return position;
@@ -102,7 +102,7 @@ namespace Smart.IO
         {
             if ((uint)value > int.MaxValue)
             {
-                throw new IndexOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(value));
             }
 
             length = (int)value;

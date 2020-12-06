@@ -7,7 +7,7 @@ namespace Smart.Reflection.Emit
 
     public static class ILGeneratorExtensions
     {
-        private static readonly Dictionary<Type, OpCode> LdelemDictionary = new Dictionary<Type, OpCode>
+        private static readonly Dictionary<Type, OpCode> LdelemDictionary = new()
         {
             { typeof(bool), OpCodes.Ldelem_U1 },
             { typeof(byte), OpCodes.Ldelem_U1 },
@@ -25,7 +25,7 @@ namespace Smart.Reflection.Emit
             { typeof(UIntPtr), OpCodes.Ldelem_I }
         };
 
-        private static readonly Dictionary<Type, OpCode> StelemDictionary = new Dictionary<Type, OpCode>
+        private static readonly Dictionary<Type, OpCode> StelemDictionary = new()
         {
             { typeof(bool), OpCodes.Stelem_I1 },
             { typeof(byte), OpCodes.Stelem_I1 },

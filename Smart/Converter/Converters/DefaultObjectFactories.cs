@@ -20,7 +20,7 @@ namespace Smart.Converter.Converters
                 new ValueHolderConverterFactory(),          // ValueHolder
                 new ConversionOperatorConverterFactory(),   // Implicit/Explicit operator
                 new ToStringConverterFactory(),             // ToString finally
-                new ConstructorConverterFactory(),          // Constructor
+                new ConstructorConverterFactory()           // Constructor
             };
         }
     }
