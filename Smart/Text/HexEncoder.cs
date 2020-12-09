@@ -14,6 +14,9 @@ namespace Smart.Text
             (byte)'C', (byte)'D', (byte)'E', (byte)'F'
         };
 
+#if NET5_0
+        [SkipLocalsInit]
+#endif
         public static unsafe string Encode(ReadOnlySpan<byte> bytes)
         {
             var length = bytes.Length << 1;

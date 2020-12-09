@@ -1,6 +1,7 @@
 namespace Smart.Text
 {
     using System;
+    using System.Runtime.CompilerServices;
 
     public static class Inflector
     {
@@ -8,6 +9,9 @@ namespace Smart.Text
 
         public static string Camelize(string word) => Camelize(word, false);
 
+#if NET5_0
+        [SkipLocalsInit]
+#endif
         public static unsafe string Camelize(string word, bool toUpper)
         {
             if ((word is null) || (word.Length == 0))
@@ -51,11 +55,15 @@ namespace Smart.Text
             }
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Underscore(string word)
         {
             return Underscore(word, false);
         }
 
+#if NET5_0
+        [SkipLocalsInit]
+#endif
         public static unsafe string Underscore(string word, bool toUpper)
         {
             if ((word is null) || (word.Length == 0))
