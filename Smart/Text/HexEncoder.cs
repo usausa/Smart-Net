@@ -39,9 +39,6 @@ namespace Smart.Text
             }
         }
 
-#if NET5_0
-        [SkipLocalsInit]
-#endif
         public static unsafe int Encode(ReadOnlySpan<byte> bytes, Span<char> buffer)
         {
             var length = bytes.Length << 1;
@@ -88,9 +85,6 @@ namespace Smart.Text
             return buffer;
         }
 
-#if NET5_0
-        [SkipLocalsInit]
-#endif
         public static unsafe int Decode(ReadOnlySpan<char> code, Span<byte> buffer)
         {
             var length = code.Length >> 1;
