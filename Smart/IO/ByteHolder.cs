@@ -46,10 +46,7 @@ namespace Smart.IO
         public Memory<byte> AsMemory(int start, int length) => new(rawBuffer, start, length);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Clear()
-        {
-            Array.Clear(rawBuffer, 0, rawBuffer.Length);
-        }
+        public void Clear() => rawBuffer.AsSpan().Clear();
     }
 #pragma warning restore IDE0032
 }

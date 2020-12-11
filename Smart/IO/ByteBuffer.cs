@@ -128,10 +128,7 @@ namespace Smart.IO
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Clear()
-        {
-            Array.Clear(rawBuffer, 0, rawBuffer.Length);
-        }
+        public void Clear() => rawBuffer.AsSpan().Clear();
 
         public void Advance(int count) => position += count;
 
