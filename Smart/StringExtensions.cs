@@ -6,11 +6,19 @@ namespace Smart
 
     public static class StringExtensions
     {
+        //--------------------------------------------------------------------------------
+        // Safe
+        //--------------------------------------------------------------------------------
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string EmptyIfNull(this string value)
         {
             return value ?? string.Empty;
         }
+
+        //--------------------------------------------------------------------------------
+        // Repeat
+        //--------------------------------------------------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string Repeat(this char value, int count) => new(value, count);
@@ -25,6 +33,10 @@ namespace Smart
 
             return sb.ToString();
         }
+
+        //--------------------------------------------------------------------------------
+        // Cut
+        //--------------------------------------------------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string CutLeft(this string text, int length)
