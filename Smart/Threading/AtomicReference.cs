@@ -1,4 +1,4 @@
-﻿namespace Smart.Threading
+namespace Smart.Threading
 {
     using System.Threading;
 
@@ -7,9 +7,9 @@
     public sealed class AtomicReference<T> : IValueHolder<T>
         where T : class
     {
-        private T currentValue;
+        private T? currentValue;
 
-        public T Value
+        public T? Value
         {
             get => currentValue;
             set => Interlocked.Exchange(ref currentValue, value);
@@ -19,12 +19,12 @@
         {
         }
 
-        public AtomicReference(T initialValue)
+        public AtomicReference(T? initialValue)
         {
             currentValue = initialValue;
         }
 
-        public T GetAndSet(T value)
+        public T? GetAndSet(T? value)
         {
             return Interlocked.Exchange(ref currentValue, value);
         }

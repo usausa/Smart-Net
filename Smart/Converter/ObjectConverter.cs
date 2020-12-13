@@ -66,12 +66,12 @@ namespace Smart.Converter
             return converter;
         }
 
-        public bool CanConvert<T>(object value)
+        public bool CanConvert<T>(object? value)
         {
             return CanConvert(value, typeof(T));
         }
 
-        public bool CanConvert(object value, Type targetType)
+        public bool CanConvert(object? value, Type targetType)
         {
             if (value is null)
             {
@@ -93,12 +93,12 @@ namespace Smart.Converter
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public T Convert<T>(object value)
+        public T? Convert<T>(object? value)
         {
-            return (T)Convert(value, typeof(T));
+            return (T?)Convert(value, typeof(T));
         }
 
-        public object Convert(object value, Type targetType)
+        public object? Convert(object? value, Type targetType)
         {
             // Specialized null
             if (value is null)
@@ -122,7 +122,7 @@ namespace Smart.Converter
             return converter(value);
         }
 
-        public Func<object, object> CreateConverter(Type sourceType, Type targetType)
+        public Func<object, object>? CreateConverter(Type sourceType, Type targetType)
         {
             var converter = GetConverter(sourceType.IsNullableType() ? Nullable.GetUnderlyingType(sourceType) : sourceType, targetType);
             if (converter is null)

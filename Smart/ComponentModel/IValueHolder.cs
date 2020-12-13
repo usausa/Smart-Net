@@ -1,7 +1,7 @@
-﻿namespace Smart.ComponentModel
+namespace Smart.ComponentModel
 {
     public interface IValueHolder<T>
     {
-        T Value { get; set; }
+        T? Value { get; set; }
     }
 }

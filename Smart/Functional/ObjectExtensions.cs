@@ -8,6 +8,10 @@ namespace Smart.Functional
 
     public static class ObjectExtensions
     {
+        //--------------------------------------------------------------------------------
+        // Also
+        //--------------------------------------------------------------------------------
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T Also<T>(this T value, Action<T> action)
         {
@@ -25,6 +29,10 @@ namespace Smart.Functional
             return value;
         }
 
+        //--------------------------------------------------------------------------------
+        // Apply
+        //--------------------------------------------------------------------------------
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Apply<T>(this T value, Action<T> action)
         {
@@ -39,6 +47,38 @@ namespace Smart.Functional
                 action(value);
             }
         }
+
+        // TODO
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IfNotNull<T>(this T value, Action<T> action)
+            where T : class
+        {
+            if (value is null)
+            {
+                return;
+            }
+
+            action(value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IfNotNull<T>(this T? value, Action<T> action)
+            where T : struct
+        {
+            if (value is null)
+            {
+                return;
+            }
+
+            action(value.Value);
+        }
+
+        //--------------------------------------------------------------------------------
+        // Map
+        //--------------------------------------------------------------------------------
+
+        // TODO
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static TResult Apply<T, TResult>(this T value, Func<T, TResult> func)
@@ -124,29 +164,9 @@ namespace Smart.Functional
             return value == null ? defaultTaskFactory() : func(value);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IfNotNull<T>(this T value, Action<T> action)
-            where T : class
-        {
-            if (value is null)
-            {
-                return;
-            }
-
-            action(value);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void IfNotNull<T>(this T? value, Action<T> action)
-            where T : struct
-        {
-            if (value is null)
-            {
-                return;
-            }
-
-            action(value.Value);
-        }
+        //--------------------------------------------------------------------------------
+        // Enumerable
+        //--------------------------------------------------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<T> FlatOrEmpty<T>(this T value)
@@ -166,6 +186,10 @@ namespace Smart.Functional
         {
             yield return value;
         }
+
+        //--------------------------------------------------------------------------------
+        // TODO
+        //--------------------------------------------------------------------------------
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local", Justification = "Ignore")]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Ignore")]

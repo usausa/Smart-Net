@@ -266,11 +266,11 @@ namespace Smart.Converter
 
             public readonly Type TargetType;
 
-            public readonly Func<object, object> Converter;
+            public readonly Func<object, object>? Converter;
 
-            public Node Next;
+            public Node? Next;
 
-            public Node(Type sourceType, Type targetType, Func<object, object> converter)
+            public Node(Type sourceType, Type targetType, Func<object, object>? converter)
             {
                 SourceType = sourceType;
                 TargetType = targetType;
