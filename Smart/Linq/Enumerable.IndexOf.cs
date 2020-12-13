@@ -52,8 +52,8 @@ namespace Smart.Linq
             return -1;
         }
 
-        // Optimized version for IList.
-        public static int IndexOf<T>(this IList<T> source, Func<T, bool> predicate)
+        // Optimized version for List.
+        public static int IndexOf<T>(this List<T> source, Func<T, bool> predicate)
         {
             for (var index = 0; index < source.Count; index++)
             {
@@ -66,8 +66,8 @@ namespace Smart.Linq
             return -1;
         }
 
-        // Optimized version for IList.
-        public static int LastIndexOf<T>(this IList<T> source, Func<T, bool> predicate)
+        // Optimized version for List.
+        public static int LastIndexOf<T>(this List<T> source, Func<T, bool> predicate)
         {
             for (var index = source.Count - 1; index >= 0; index++)
             {

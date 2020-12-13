@@ -24,8 +24,8 @@ namespace Smart.Linq
             return count;
         }
 
-        // Optimized version for IList.
-        public static int Count<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
+        // Optimized version for List.
+        public static int Count<TSource>(this List<TSource> source, Func<TSource, bool> predicate)
         {
             var count = 0;
             for (var i = 0; i < source.Count; i++)
@@ -57,8 +57,8 @@ namespace Smart.Linq
             return false;
         }
 
-        // Optimized version for IList.
-        public static bool Any<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
+        // Optimized version for List.
+        public static bool Any<TSource>(this List<TSource> source, Func<TSource, bool> predicate)
         {
             for (var i = 0; i < source.Count; i++)
             {
@@ -90,7 +90,7 @@ namespace Smart.Linq
         }
 
         // Optimized version for IList.
-        public static bool All<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
+        public static bool All<TSource>(this List<TSource> source, Func<TSource, bool> predicate)
         {
             for (var i = 0; i < source.Count; i++)
             {
