@@ -24,11 +24,11 @@ namespace Smart
 
         private static readonly Type ValueHolderType = typeof(IValueHolder<>);
 
-        private static readonly ThreadsafeTypeHashArrayMap<object> DefaultValues = new();
+        private static readonly ThreadsafeTypeHashArrayMap<object?> DefaultValues = new();
 
-        private static readonly Func<Type, object> NullFactory = _ => null;
+        private static readonly Func<Type, object?> NullFactory = _ => null;
 
-        private static readonly Func<Type, object> ValueFactory = Activator.CreateInstance;
+        private static readonly Func<Type, object?> ValueFactory = Activator.CreateInstance;
 
         static TypeExtensions()
         {
@@ -50,11 +50,11 @@ namespace Smart
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static object GetDefaultValue(this Type type)
+        public static object? GetDefaultValue(this Type type)
         {
             if (type.IsValueType)
             {
-                if (DefaultValues.TryGetValue(type, out object value))
+                if (DefaultValues.TryGetValue(type, out object? value))
                 {
                     return value;
                 }
@@ -94,7 +94,7 @@ namespace Smart
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Type GetCollectionElementType(this Type type)
+        public static Type? GetCollectionElementType(this Type type)
         {
             if (type.HasElementType)
             {
@@ -121,7 +121,7 @@ namespace Smart
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Type GetEnumType(this Type type)
+        public static Type? GetEnumType(this Type type)
         {
             if (type.IsEnum)
             {
@@ -149,7 +149,7 @@ namespace Smart
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static PropertyInfo GetValueHolderProperty(this Type type)
+        public static PropertyInfo? GetValueHolderProperty(this Type type)
         {
             return type.GetValueHolderType()?.GetRuntimeProperty("Value");
         }

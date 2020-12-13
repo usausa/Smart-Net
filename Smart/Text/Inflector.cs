@@ -13,7 +13,7 @@ namespace Smart.Text
 
         public static unsafe string Camelize(string word, bool toUpper)
         {
-            if ((word is null) || (word.Length == 0))
+            if (word.Length == 0)
             {
                 return word;
             }
@@ -62,7 +62,7 @@ namespace Smart.Text
 
         public static unsafe string Underscore(string word, bool toUpper)
         {
-            if ((word is null) || (word.Length == 0))
+            if (word.Length == 0)
             {
                 return word;
             }
