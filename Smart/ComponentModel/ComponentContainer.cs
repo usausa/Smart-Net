@@ -84,8 +84,7 @@ namespace Smart.ComponentModel
                     String.Format(CultureInfo.InvariantCulture, "No such component registered. component type = {0}", componentType.Name));
             }
 
-            // ReSharper disable once UseIndexFromEndExpression
-            return objects[objects.Length - 1];
+            return objects[^1];
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -95,8 +94,7 @@ namespace Smart.ComponentModel
         {
             var objects = ResolveAll(componentType);
             result = objects.Length > 0;
-            // ReSharper disable once UseIndexFromEndExpression
-            return result ? objects[objects.Length - 1] : null;
+            return result ? objects[^1] : null;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
