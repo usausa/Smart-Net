@@ -1,13 +1,9 @@
 namespace Smart.IO
 {
-#if !NETSTANDARD2_0
     using System;
-#endif
     using System.IO;
-#if !NETSTANDARD2_0
     using System.Threading;
     using System.Threading.Tasks;
-#endif
 
     public static class StreamExtensions
     {
@@ -35,7 +31,6 @@ namespace Smart.IO
             return ms.ToArray();
         }
 
-#if !NETSTANDARD2_0
         public static async ValueTask<byte[]> ReadAllBytesAsync(this Stream stream)
         {
             if (stream is MemoryStream memoryStream)
@@ -43,7 +38,7 @@ namespace Smart.IO
                 return memoryStream.ToArray();
             }
 
-            using var ms = new MemoryStream();
+            await using var ms = new MemoryStream();
             await stream.CopyToAsync(ms).ConfigureAwait(false);
             return ms.ToArray();
         }
@@ -55,13 +50,12 @@ namespace Smart.IO
                 return memoryStream.ToArray();
             }
 
-            using var ms = new MemoryStream();
+            await using var ms = new MemoryStream();
             await stream.CopyToAsync(ms, cancel).ConfigureAwait(false);
             return ms.ToArray();
         }
-#endif
 
-        public static byte[] ReadBytes(this Stream stream, int size)
+        public static byte[]? ReadBytes(this Stream stream, int size)
         {
             var buffer = new byte[size];
             var offset = 0;
@@ -79,8 +73,7 @@ namespace Smart.IO
             return buffer;
         }
 
-#if !NETSTANDARD2_0
-        public static async ValueTask<byte[]> ReadBytesAsync(this Stream stream, int size)
+        public static async ValueTask<byte[]?> ReadBytesAsync(this Stream stream, int size)
         {
             var buffer = new byte[size];
             var offset = 0;
@@ -98,7 +91,7 @@ namespace Smart.IO
             return buffer;
         }
 
-        public static async ValueTask<byte[]> ReadBytesAsync(this Stream stream, int size, CancellationToken cancel)
+        public static async ValueTask<byte[]?> ReadBytesAsync(this Stream stream, int size, CancellationToken cancel)
         {
             var buffer = new byte[size];
             var offset = 0;
@@ -115,6 +108,5 @@ namespace Smart.IO
 
             return buffer;
         }
-#endif
     }
 }

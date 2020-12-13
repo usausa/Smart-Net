@@ -12,6 +12,6 @@ namespace Smart.Collections.Generic
             this.comparison = comparison;
         }
 
-        public int Compare(T x, T y) => comparison(x, y);
+        public int Compare(T? x, T? y) => comparison(x, y);
     }
 }

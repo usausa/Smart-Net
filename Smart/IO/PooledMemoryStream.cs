@@ -1,4 +1,3 @@
-#if !NETSTANDARD2_0
 namespace Smart.IO
 {
     using System;
@@ -182,4 +181,3 @@ namespace Smart.IO
     }
 #pragma warning restore IDE0032
 }
-#endif

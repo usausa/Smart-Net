@@ -1,4 +1,4 @@
-﻿namespace Smart.Collections.Generic
+namespace Smart.Collections.Generic
 {
     using System.Collections.Generic;
 
@@ -11,7 +11,7 @@
             this.comparers = comparers;
         }
 
-        public int Compare(T x, T y)
+        public int Compare(T? x, T? y)
         {
             for (var i = 0; i < comparers.Length; i++)
             {
