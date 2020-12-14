@@ -70,7 +70,11 @@ namespace Smart.ComponentModel
         public T Get<T>() => (T)Get(typeof(T));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public T TryGet<T>() => (T)TryGet(typeof(T));
+        public T? TryGet<T>()
+        {
+            var obj = TryGet(typeof(T), out var result);
+            return result ? (T)obj! : default;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public IEnumerable<T> GetAll<T>() => GetAll(typeof(T)).Cast<T>();
@@ -88,9 +92,9 @@ namespace Smart.ComponentModel
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public object TryGet(Type componentType) => TryGet(componentType, out _);
+        public object? TryGet(Type componentType) => TryGet(componentType, out _);
 
-        public object TryGet(Type componentType, out bool result)
+        public object? TryGet(Type componentType, out bool result)
         {
             var objects = ResolveAll(componentType);
             result = objects.Length > 0;
@@ -100,7 +104,7 @@ namespace Smart.ComponentModel
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public IEnumerable<object> GetAll(Type componentType) => ResolveAll(componentType);
 
-        public object GetService(Type serviceType)
+        public object? GetService(Type serviceType)
         {
             if (serviceType.IsGenericType && serviceType.GetGenericTypeDefinition() == EnumerableType)
             {
@@ -125,7 +129,7 @@ namespace Smart.ComponentModel
                 }
 
                 objects = entries
-                    .Select(entry => entry.Constant ?? CreateInstance(entry.ImplementType))
+                    .Select(entry => entry.Constant ?? CreateInstance(entry.ImplementType!))
                     .ToArray();
                 cache[componentType] = objects;
 
@@ -143,7 +147,7 @@ namespace Smart.ComponentModel
                 }
 
                 var match = true;
-                var arguments = new object[ci.GetParameters().Length];
+                var arguments = new object?[ci.GetParameters().Length];
                 for (var i = 0; i < arguments.Length; i++)
                 {
                     var pi = ci.GetParameters()[i];
@@ -175,7 +179,7 @@ namespace Smart.ComponentModel
                 String.Format(CultureInfo.InvariantCulture, "Constructor parameter unresolved. implementation type = {0}", type.Name));
         }
 
-        private static Type GetElementType(Type type)
+        private static Type? GetElementType(Type type)
         {
             if (type.IsArray)
             {

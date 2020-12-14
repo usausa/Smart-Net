@@ -37,7 +37,9 @@ namespace Smart.ComponentModel
 
         public void Add(Type componentType, Type implementType) => GetEntries(componentType).Add(new ComponentEntry(implementType));
 
-        public void Add<TComponent>(TComponent constant) => Add(typeof(TComponent), constant);
+        public void Add<TComponent>(TComponent constant)
+            where TComponent : notnull
+            => Add(typeof(TComponent), constant);
 
         public void Add(Type componentType, object constant) => GetEntries(componentType).Add(new ComponentEntry(constant));
 
@@ -57,7 +59,9 @@ namespace Smart.ComponentModel
             list.RemoveAll(x => x.ImplementType is not null && x.ImplementType == implementType);
         }
 
-        public void Remove<TComponent>(TComponent constant) => Remove(typeof(TComponent), constant);
+        public void Remove<TComponent>(TComponent constant)
+            where TComponent : notnull
+            => Remove(typeof(TComponent), constant);
 
         public void Remove(Type componentType, object constant)
         {
