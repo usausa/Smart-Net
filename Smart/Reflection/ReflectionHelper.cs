@@ -11,7 +11,7 @@ namespace Smart.Reflection
             try
             {
                 var type = Type.GetType("System.Reflection.Emit.DynamicMethod");
-                if (type != null)
+                if (type is not null)
                 {
                     Activator.CreateInstance(type, string.Empty, typeof(object), Type.EmptyTypes, true);
                     IsCodegenAllowed = true;

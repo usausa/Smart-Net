@@ -149,19 +149,19 @@ namespace Smart.Functional
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Task<TResult> MapOrDefaultAsync<T, TResult>(this T value, Func<T, Task<TResult>> func)
         {
-            return value == null ? Default<TResult>.TaskFromResult : func(value);
+            return value is null ? Default<TResult>.TaskFromResult : func(value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Task<TResult> MapOrAsync<T, TResult>(this T value, Func<T, Task<TResult>> func, Task<TResult> defaultTask)
         {
-            return value == null ? defaultTask : func(value);
+            return value is null ? defaultTask : func(value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static Task<TResult> MapOrAsync<T, TResult>(this T value, Func<T, Task<TResult>> func, Func<Task<TResult>> defaultTaskFactory)
         {
-            return value == null ? defaultTaskFactory() : func(value);
+            return value is null ? defaultTaskFactory() : func(value);
         }
 
         //--------------------------------------------------------------------------------

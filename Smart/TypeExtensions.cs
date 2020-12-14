@@ -107,7 +107,7 @@ namespace Smart
             }
 
             var enumerableType = type.GetInterfaces().FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == GenericEnumerableType);
-            if (enumerableType != null)
+            if (enumerableType is not null)
             {
                 return enumerableType.GenericTypeArguments[0];
             }
@@ -128,17 +128,12 @@ namespace Smart
                 return type;
             }
 
-            if (type.IsNullableType())
-            {
-                var genericType = Nullable.GetUnderlyingType(type);
-                return genericType.IsEnum ? genericType : null;
-            }
-
-            return null;
+            var genericType = Nullable.GetUnderlyingType(type);
+            return genericType is not null &&  genericType.IsEnum ? genericType : null;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Type GetValueHolderType(this Type type)
+        public static Type? GetValueHolderType(this Type type)
         {
             if (type.IsGenericType && type.GetGenericTypeDefinition() == ValueHolderType)
             {

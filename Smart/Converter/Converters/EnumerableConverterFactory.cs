@@ -64,7 +64,7 @@ namespace Smart.Converter.Converters
             {
                 var targetElementType = targetType.GetElementType();
                 var sourceElementType = ResolveEnumerableType(sourceType, out var enumerableType);
-                if (sourceElementType != null)
+                if (sourceElementType is not null)
                 {
                     if (sourceElementType == targetElementType)
                     {
@@ -74,7 +74,7 @@ namespace Smart.Converter.Converters
                     }
 
                     var converter = context.CreateConverter(sourceElementType, targetElementType);
-                    if (converter != null)
+                    if (converter is not null)
                     {
                         // IE<T1> to T2[]
                         return ((IConverter)Activator.CreateInstance(
@@ -92,7 +92,7 @@ namespace Smart.Converter.Converters
             {
                 var targetElementType = targetType.GenericTypeArguments[0];
                 var sourceElementType = ResolveEnumerableType(sourceType, out var enumerableType);
-                if (sourceElementType != null)
+                if (sourceElementType is not null)
                 {
                     if (sourceElementType == targetElementType)
                     {
@@ -102,7 +102,7 @@ namespace Smart.Converter.Converters
                     }
 
                     var converter = context.CreateConverter(sourceElementType, targetElementType);
-                    if (converter != null)
+                    if (converter is not null)
                     {
                         // IE<T1> to IE<T2>
                         return ((IConverter)Activator.CreateInstance(
@@ -136,21 +136,21 @@ namespace Smart.Converter.Converters
             interfaceTypes.AddRange(type.GetInterfaces());
 
             var interfaceType = interfaceTypes.FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IList<>));
-            if (interfaceType != null)
+            if (interfaceType is not null)
             {
                 sourceEnumerableType = SourceEnumerableType.List;
                 return interfaceType.GenericTypeArguments[0];
             }
 
             interfaceType = interfaceTypes.FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(ICollection<>));
-            if (interfaceType != null)
+            if (interfaceType is not null)
             {
                 sourceEnumerableType = SourceEnumerableType.Collection;
                 return interfaceType.GenericTypeArguments[0];
             }
 
             interfaceType = interfaceTypes.FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>));
-            if (interfaceType != null)
+            if (interfaceType is not null)
             {
                 sourceEnumerableType = SourceEnumerableType.Enumerable;
                 return interfaceType.GenericTypeArguments[0];

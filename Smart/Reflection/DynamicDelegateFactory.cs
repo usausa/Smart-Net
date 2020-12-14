@@ -297,7 +297,7 @@ namespace Smart.Reflection
             }
 
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
-            var isValueHolder = holderType != null;
+            var isValueHolder = holderType is not null;
             var tpi = isValueHolder ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
             var memberType = tpi.PropertyType.IsValueType ? typeof(object) : tpi.PropertyType;
 
@@ -319,7 +319,7 @@ namespace Smart.Reflection
             }
 
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
-            var isValueHolder = holderType != null;
+            var isValueHolder = holderType is not null;
             var tpi = isValueHolder ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
 
             return extension
@@ -347,7 +347,7 @@ namespace Smart.Reflection
             }
 
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
-            var isValueHolder = holderType != null;
+            var isValueHolder = holderType is not null;
             var tpi = isValueHolder ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
 
             if (tpi.PropertyType != typeof(TMember))
@@ -378,7 +378,7 @@ namespace Smart.Reflection
             }
 
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
-            var isValueHolder = holderType != null;
+            var isValueHolder = holderType is not null;
             var tpi = isValueHolder ? ValueHolderHelper.GetValueTypeProperty(holderType) : pi;
 
             if (tpi.PropertyType != typeof(TMember))

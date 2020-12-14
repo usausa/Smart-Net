@@ -1,4 +1,4 @@
-﻿namespace Smart.Converter
+namespace Smart.Converter
 {
     using System;
 
@@ -16,7 +16,7 @@
         public Func<object, object> GetConverter(IObjectConverter context, Type sourceType, Type targetType)
         {
             var converter = Factory.GetConverter(context, sourceType, targetType);
-            if (converter != null)
+            if (converter is not null)
             {
                 Used = true;
             }

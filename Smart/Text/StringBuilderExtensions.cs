@@ -34,12 +34,12 @@ namespace Smart.Text
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static StringBuilder AppendLineIf(this StringBuilder sb, bool condition, Func<string> valueFactory)
+        public static StringBuilder AppendLineIf(this StringBuilder sb, bool condition, Func<string?> valueFactory)
         {
             if (condition)
             {
                 var value = valueFactory();
-                if (value != null)
+                if (value is not null)
                 {
                     sb.AppendLine(value);
                 }

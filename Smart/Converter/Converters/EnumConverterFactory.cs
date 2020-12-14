@@ -108,13 +108,13 @@ namespace Smart.Converter.Converters
             var sourceEnumType = sourceType.GetEnumType();
             var targetEnumType = targetType.GetEnumType();
 
-            if ((sourceEnumType != null) && (targetEnumType != null))
+            if ((sourceEnumType is not null) && (targetEnumType is not null))
             {
                 // Enum to Enum
                 return source => Enum.ToObject(targetEnumType, source);
             }
 
-            if (targetEnumType != null)
+            if (targetEnumType is not null)
             {
                 // !Enum to Enum
 
@@ -134,7 +134,7 @@ namespace Smart.Converter.Converters
                 return null;
             }
 
-            if (sourceEnumType != null)
+            if (sourceEnumType is not null)
             {
                 // Enum to !Enum
 

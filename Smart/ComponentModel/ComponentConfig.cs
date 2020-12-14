@@ -54,7 +54,7 @@ namespace Smart.ComponentModel
                 return;
             }
 
-            list.RemoveAll(x => x.ImplementType != null && x.ImplementType == implementType);
+            list.RemoveAll(x => x.ImplementType is not null && x.ImplementType == implementType);
         }
 
         public void Remove<TComponent>(TComponent constant) => Remove(typeof(TComponent), constant);
@@ -66,7 +66,7 @@ namespace Smart.ComponentModel
                 return;
             }
 
-            list.RemoveAll(x => x.Constant != null && x.Constant == constant);
+            list.RemoveAll(x => x.Constant is not null && x.Constant == constant);
         }
 
         internal Dictionary<Type, ComponentEntry[]> ToMappings()

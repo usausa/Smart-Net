@@ -8,7 +8,7 @@ namespace Smart.Collections.Concurrent
     using System.Threading;
 
     [DebuggerDisplay("{" + nameof(Diagnostics) + "}")]
-    public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePair<Type, TValue>>
+    public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePair<Type, TValue?>>
     {
         private static readonly Node EmptyNode = new(typeof(EmptyKey), default);
 
@@ -66,7 +66,7 @@ namespace Smart.Collections.Concurrent
                         count++;
                         node = node.Next;
                     }
-                    while (node != null);
+                    while (node is not null);
                 }
             }
 
@@ -75,14 +75,13 @@ namespace Smart.Collections.Concurrent
 
         private static int CalculateDepth(Node node)
         {
-            var length = 0;
-
-            do
+            var length = 1;
+            var next = node.Next;
+            while (next is not null)
             {
                 length++;
-                node = node.Next;
+                next = node.Next;
             }
-            while (node != null);
 
             return length;
         }
@@ -118,7 +117,7 @@ namespace Smart.Collections.Concurrent
 
         private static Node FindLastNode(Node node)
         {
-            while (node.Next != null)
+            while (node.Next is not null)
             {
                 node = node.Next;
             }
@@ -158,7 +157,7 @@ namespace Smart.Collections.Concurrent
 
                     node = next;
                 }
-                while (node != null);
+                while (node is not null);
             }
         }
 
@@ -225,7 +224,7 @@ namespace Smart.Collections.Concurrent
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool TryGetValue(Type key, out TValue value)
+        public bool TryGetValue(Type key, out TValue? value)
         {
             var temp = nodes;
             var node = temp[key.GetHashCode() & (temp.Length - 1)];
@@ -238,13 +237,13 @@ namespace Smart.Collections.Concurrent
                 }
                 node = node.Next;
             }
-            while (node != null);
+            while (node is not null);
 
             value = default;
             return false;
         }
 
-        public TValue AddIfNotExist(Type key, TValue value)
+        public TValue? AddIfNotExist(Type key, TValue? value)
         {
             lock (sync)
             {
@@ -260,7 +259,7 @@ namespace Smart.Collections.Concurrent
             }
         }
 
-        public TValue AddIfNotExist(Type key, Func<Type, TValue> valueFactory)
+        public TValue? AddIfNotExist(Type key, Func<Type, TValue?> valueFactory)
         {
             lock (sync)
             {
@@ -288,7 +287,7 @@ namespace Smart.Collections.Concurrent
         // IEnumerable
         //--------------------------------------------------------------------------------
 
-        public IEnumerator<KeyValuePair<Type, TValue>> GetEnumerator()
+        public IEnumerator<KeyValuePair<Type, TValue?>> GetEnumerator()
         {
             var copy = nodes;
 
@@ -299,10 +298,10 @@ namespace Smart.Collections.Concurrent
                 {
                     do
                     {
-                        yield return new KeyValuePair<Type, TValue>(node.Key, node.Value);
+                        yield return new KeyValuePair<Type, TValue?>(node.Key, node.Value);
                         node = node.Next;
                     }
-                    while (node != null);
+                    while (node is not null);
                 }
             }
         }
@@ -323,7 +322,7 @@ namespace Smart.Collections.Concurrent
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public TValue GetValueOrDefault(Type key, TValue defaultValue = default)
+        public TValue? GetValueOrDefault(Type key, TValue? defaultValue = default)
         {
             return TryGetValue(key, out var value) ? value : defaultValue;
         }
@@ -342,11 +341,11 @@ namespace Smart.Collections.Concurrent
         {
             public readonly Type Key;
 
-            public readonly TValue Value;
+            public readonly TValue? Value;
 
-            public Node Next;
+            public Node? Next;
 
-            public Node(Type key, TValue value)
+            public Node(Type key, TValue? value)
             {
                 Key = key;
                 Value = value;

@@ -14,7 +14,7 @@ namespace Smart
             for (var i = 0; i < others.Length; i++)
             {
                 var other = others[i];
-                if (other != null)
+                if (other is not null)
                 {
                     length += other.Length;
                 }
@@ -33,7 +33,7 @@ namespace Smart
             for (var i = 0; i < others.Length; i++)
             {
                 var other = others[i];
-                if (other != null)
+                if (other is not null)
                 {
                     other.AsSpan().CopyTo(result.AsSpan(offset));
                     offset += other.Length;

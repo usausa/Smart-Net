@@ -27,7 +27,7 @@ namespace Smart.Converter.Converters
         public Func<object, object> GetConverter(IObjectConverter context, Type sourceType, Type targetType)
         {
             var ci = targetType.GetConstructor(new[] { sourceType });
-            if (ci != null)
+            if (ci is not null)
             {
                 var method = CreateMethod.MakeGenericMethod(sourceType, targetType);
                 return (Func<object, object>)method.Invoke(null, new object[] { delegateFactory });
@@ -40,8 +40,8 @@ namespace Smart.Converter.Converters
                     Constructor = x,
                     Converter = context.CreateConverter(sourceType, x.GetParameters()[0].ParameterType)
                 })
-                .FirstOrDefault(x => x.Converter != null);
-            if (pair != null)
+                .FirstOrDefault(x => x.Converter is not null);
+            if (pair is not null)
             {
                 var method = CreateWithConvertMethod.MakeGenericMethod(pair.Constructor.GetParameters()[0].ParameterType, targetType);
                 return (Func<object, object>)method.Invoke(null, new object[] { delegateFactory, pair.Converter });

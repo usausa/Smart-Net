@@ -14,7 +14,7 @@ namespace Smart.Converter.Converters
             var underlyingTargetType = targetType.IsNullableType() ? Nullable.GetUnderlyingType(targetType) : targetType;
 
             var methodInfo = GetImplicitConversionOperator(sourceType, underlyingTargetType);
-            if (methodInfo != null)
+            if (methodInfo is not null)
             {
                 return BuildConverter(methodInfo);
             }
@@ -22,14 +22,14 @@ namespace Smart.Converter.Converters
             if (underlyingTargetType != targetType)
             {
                 methodInfo = GetImplicitConversionOperator(sourceType, targetType);
-                if (methodInfo != null)
+                if (methodInfo is not null)
                 {
                     return BuildConverter(methodInfo);
                 }
             }
 
             methodInfo = GetExplicitConversionOperator(sourceType, underlyingTargetType);
-            if (methodInfo != null)
+            if (methodInfo is not null)
             {
                 return BuildConverter(methodInfo);
             }
@@ -37,7 +37,7 @@ namespace Smart.Converter.Converters
             if (underlyingTargetType != targetType)
             {
                 methodInfo = GetExplicitConversionOperator(sourceType, targetType);
-                if (methodInfo != null)
+                if (methodInfo is not null)
                 {
                     return BuildConverter(methodInfo);
                 }

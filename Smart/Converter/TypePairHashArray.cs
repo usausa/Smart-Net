@@ -53,7 +53,7 @@ namespace Smart.Converter
                 length++;
                 node = node.Next;
             }
-            while (node != null);
+            while (node is not null);
 
             return length;
         }
@@ -100,7 +100,7 @@ namespace Smart.Converter
 
         private static Node FindLastNode(Node node)
         {
-            while (node.Next != null)
+            while (node.Next is not null)
             {
                 node = node.Next;
             }
@@ -140,7 +140,7 @@ namespace Smart.Converter
 
                     node = next;
                 }
-                while (node != null);
+                while (node is not null);
             }
         }
 
@@ -220,7 +220,7 @@ namespace Smart.Converter
                 }
                 node = node.Next;
             }
-            while (node != null);
+            while (node is not null);
 
             converter = default;
             return false;

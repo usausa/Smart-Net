@@ -46,7 +46,7 @@ namespace Smart.Converter
             for (var i = 0; i < factories.Length; i++)
             {
                 var converter = factories[i].GetConverter(this, sourceType, targetType);
-                if (converter != null)
+                if (converter is not null)
                 {
                     return converter;
                 }
@@ -84,12 +84,12 @@ namespace Smart.Converter
                 return true;
             }
 
-            return GetConverter(sourceType, targetType) != null;
+            return GetConverter(sourceType, targetType) is not null;
         }
 
         public bool CanConvert(Type sourceType, Type targetType)
         {
-            return GetConverter(sourceType.IsNullableType() ? Nullable.GetUnderlyingType(sourceType) : sourceType, targetType) != null;
+            return GetConverter(sourceType.IsNullableType() ? Nullable.GetUnderlyingType(sourceType) : sourceType, targetType) is not null;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
