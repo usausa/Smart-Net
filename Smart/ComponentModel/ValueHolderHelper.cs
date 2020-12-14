@@ -19,7 +19,7 @@ namespace Smart.ComponentModel
                 .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == ValueHolderType);
         }
 
-        public static Type FindValueHolderType(PropertyInfo pi)
+        public static Type? FindValueHolderType(PropertyInfo pi)
         {
             if (pi.PropertyType.IsGenericType && (pi.PropertyType.GetGenericTypeDefinition() == ValueHolderType))
             {
@@ -30,7 +30,7 @@ namespace Smart.ComponentModel
                 .FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == ValueHolderType);
         }
 
-        public static PropertyInfo GetValueTypeProperty(Type type)
+        public static PropertyInfo? GetValueTypeProperty(Type type)
         {
             return type.GetRuntimeProperty("Value");
         }

@@ -6,23 +6,23 @@ namespace Smart.ComponentModel
 
     public abstract class NotificationObject : INotifyPropertyChanged, INotifyPropertyChanging
     {
-        public event PropertyChangingEventHandler PropertyChanging;
+        public event PropertyChangingEventHandler? PropertyChanging;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "Ignore")]
-        protected void RaisePropertyChanging([CallerMemberName] string propertyName = null)
+        protected void RaisePropertyChanging([CallerMemberName] string? propertyName = null)
         {
             PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "Ignore")]
-        protected void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        protected void RaisePropertyChanged([CallerMemberName] string? propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
         {
             if (EqualityComparer<T>.Default.Equals(storage, value))
             {
@@ -36,7 +36,7 @@ namespace Smart.ComponentModel
             return true;
         }
 
-        protected bool SetProperty<T>(ref T storage, T value, IEqualityComparer<T> comparer, [CallerMemberName] string propertyName = null)
+        protected bool SetProperty<T>(ref T storage, T value, IEqualityComparer<T> comparer, [CallerMemberName] string? propertyName = null)
         {
             if (comparer.Equals(storage, value))
             {
