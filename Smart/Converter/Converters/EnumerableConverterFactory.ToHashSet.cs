@@ -1,4 +1,5 @@
-﻿namespace Smart.Converter.Converters
+﻿#nullable disable
+namespace Smart.Converter.Converters
 {
     using System;
     using System.Collections.Generic;
