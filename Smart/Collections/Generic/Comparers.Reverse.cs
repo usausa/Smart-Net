@@ -1,3 +1,4 @@
+#nullable disable
 namespace Smart.Collections.Generic
 {
     using System.Collections.Generic;
@@ -11,6 +12,6 @@ namespace Smart.Collections.Generic
             OriginalComparer = original;
         }
 
-        public int Compare(T? x, T? y) => OriginalComparer.Compare(y, x);
+        public int Compare(T x, T y) => OriginalComparer.Compare(y, x);
     }
 }

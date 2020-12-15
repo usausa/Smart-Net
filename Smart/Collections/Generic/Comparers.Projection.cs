@@ -1,3 +1,4 @@
+#nullable disable
 namespace Smart.Collections.Generic
 {
     using System;

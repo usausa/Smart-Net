@@ -1,3 +1,4 @@
+#nullable disable
 namespace Smart.Collections.Generic
 {
     using System.Collections.Generic;
@@ -7,7 +8,7 @@ namespace Smart.Collections.Generic
     {
         public static IEqualityComparer<T> Default { get; } = new ObjectEqualityComparer<T>();
 
-        public bool Equals(T? x, T? y) => x == y;
+        public bool Equals(T x, T y) => x == y;
 
         public int GetHashCode(T obj) => obj.GetHashCode();
     }

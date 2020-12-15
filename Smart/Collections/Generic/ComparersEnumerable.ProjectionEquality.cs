@@ -39,10 +39,12 @@ namespace Smart.Collections.Generic
         public static bool SequenceEqual<TSource, TCompareKey>(this IEnumerable<TSource> first, IEnumerable<TSource> second, Func<TSource, TCompareKey> compareKeySelector) =>
             first.SequenceEqual(second, Comparers.ProjectionEquality(compareKeySelector));
 
-        public static Dictionary<TKey, TSource> ToDictionary<TSource, TKey, TCompareKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TKey, TCompareKey> compareKeySelector) =>
+        public static Dictionary<TKey, TSource> ToDictionary<TSource, TKey, TCompareKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TKey, TCompareKey> compareKeySelector)
+            where TKey : notnull =>
             source.ToDictionary(keySelector, Comparers.ProjectionEquality(compareKeySelector));
 
-        public static Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement, TCompareKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, Func<TKey, TCompareKey> compareKeySelector) =>
+        public static Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement, TCompareKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, Func<TKey, TCompareKey> compareKeySelector)
+            where TKey : notnull =>
             source.ToDictionary(keySelector, elementSelector, Comparers.ProjectionEquality(compareKeySelector));
 
         public static ILookup<TKey, TSource> ToLookup<TSource, TKey, TCompareKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TKey, TCompareKey> compareKeySelector) =>
