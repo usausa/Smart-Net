@@ -13,6 +13,9 @@ namespace Smart.Linq
             Index = index;
         }
 
-        public override int GetHashCode() => (Item?.GetHashCode() ?? 0) ^ Index;
+        public override int GetHashCode()
+        {
+            return Item is null ? Index : Item.GetHashCode() ^ Index;
+        }
     }
 }

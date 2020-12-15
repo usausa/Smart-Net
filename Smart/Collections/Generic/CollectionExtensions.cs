@@ -8,7 +8,7 @@ namespace Smart.Collections.Generic
     public static class CollectionExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsNullOrEmpty<T>(this ICollection<T> source)
+        public static bool IsNullOrEmpty<T>(this ICollection<T>? source)
         {
             return (source is null) || (source.Count == 0);
         }
@@ -17,11 +17,6 @@ namespace Smart.Collections.Generic
         public static void AddRange<T, TBase>(this ICollection<TBase> source, IEnumerable<T> collection)
             where T : TBase
         {
-            if (collection is null)
-            {
-                return;
-            }
-
             foreach (var item in collection)
             {
                 source.Add(item);

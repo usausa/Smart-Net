@@ -22,6 +22,6 @@ namespace Smart.ComponentModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2225:OperatorOverloadsHaveNamedAlternates", Justification = "Ignore")]
         public static implicit operator T?(NotificationValue<T> value) => value.Value;
 
-        public override string? ToString() => storage?.ToString();
+        public override string? ToString() => storage is null ? null : storage.ToString();
     }
 }

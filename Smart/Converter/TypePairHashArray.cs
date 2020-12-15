@@ -46,14 +46,13 @@ namespace Smart.Converter
 
         private static int CalculateDepth(Node node)
         {
-            var length = 0;
-
-            do
+            var length = 1;
+            var next = node.Next;
+            while (next is not null)
             {
                 length++;
-                node = node.Next;
+                next = node.Next;
             }
-            while (node is not null);
 
             return length;
         }
@@ -207,7 +206,7 @@ namespace Smart.Converter
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool TryGetValue(Type sourceType, Type targetType, out Func<object, object> converter)
+        public bool TryGetValue(Type sourceType, Type targetType, out Func<object, object>? converter)
         {
             var temp = nodes;
             var node = temp[CalculateHash(sourceType, targetType) & (temp.Length - 1)];
@@ -233,7 +232,7 @@ namespace Smart.Converter
                 // Double checked locking
                 if (TryGetValue(sourceType, targetType, out var currentValue))
                 {
-                    return currentValue;
+                    return currentValue!;
                 }
 
                 var value = valueFactory(sourceType, targetType);
@@ -241,7 +240,7 @@ namespace Smart.Converter
                 // Check if added by recursive
                 if (TryGetValue(sourceType, targetType, out currentValue))
                 {
-                    return currentValue;
+                    return currentValue!;
                 }
 
                 AddNode(new Node(sourceType, targetType, value));

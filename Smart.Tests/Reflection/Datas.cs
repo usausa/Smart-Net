@@ -36,7 +36,7 @@ namespace Smart.Reflection
 
     public class MemberData
     {
-        public string StringValue { get; set; }
+        public string? StringValue { get; set; }
 
         public int IntValue { get; set; }
 
@@ -76,7 +76,7 @@ namespace Smart.Reflection
 
         // static
 
-        public static string StaticStringValue { get; set; }
+        public static string? StaticStringValue { get; set; }
 
         public static int StaticIntValue { get; set; }
 
@@ -99,15 +99,15 @@ namespace Smart.Reflection
 
     public class ReadWriteOnlyData
     {
-        private string str;
+        private string? str;
 
-        private void Set(string value) => str = value;
+        private void Set(string? value) => str = value;
 
-        private string Get() => str;
+        private string? Get() => str;
 
-        public string WriteOnly { set => Set(value); }
+        public string? WriteOnly { set => Set(value); }
 
-        public string ReadOnly => Get();
+        public string? ReadOnly => Get();
     }
 
     public class NullableParameterClass
