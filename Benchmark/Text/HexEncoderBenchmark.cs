@@ -10,13 +10,13 @@ namespace Benchmark.Text
     [Config(typeof(BenchmarkConfig))]
     public class HexEncoderBenchmark
     {
-        private byte[] bytes;
+        private byte[]? bytes;
 
-        private string text;
+        private string? text;
 
-        private byte[] byteBuffer;
+        private byte[]? byteBuffer;
 
-        private char[] charBuffer;
+        private char[]? charBuffer;
 
         [Params(4, 16, 64, 256)]
         public int Size { get; set; }

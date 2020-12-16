@@ -11,11 +11,11 @@ namespace Benchmark.Collections.Concurrent
     [Config(typeof(BenchmarkConfig))]
     public class DictionaryBenchmark
     {
-        private readonly Dictionary<Type, object> dictionary = new();
+        private readonly Dictionary<Type, object?> dictionary = new();
 
-        private readonly ConcurrentDictionary<Type, object> concurrentDictionary = new();
+        private readonly ConcurrentDictionary<Type, object?> concurrentDictionary = new();
 
-        private readonly ThreadsafeTypeHashArrayMap<object> hashArrayMap = new();
+        private readonly ThreadsafeTypeHashArrayMap<object?> hashArrayMap = new();
 
         private readonly Type key = typeof(Class0);
 
@@ -31,7 +31,7 @@ namespace Benchmark.Collections.Concurrent
         }
 
         [Benchmark]
-        public object Dictionary()
+        public object? Dictionary()
         {
             lock (dictionary)
             {
@@ -40,13 +40,13 @@ namespace Benchmark.Collections.Concurrent
         }
 
         [Benchmark]
-        public object ConcurrentDictionary()
+        public object? ConcurrentDictionary()
         {
             return concurrentDictionary.TryGetValue(key, out var obj) ? obj : null;
         }
 
         [Benchmark]
-        public object ThreadsafeTypeHashArrayMap()
+        public object? ThreadsafeTypeHashArrayMap()
         {
             return hashArrayMap.TryGetValue(key, out var obj) ? obj : null;
         }
