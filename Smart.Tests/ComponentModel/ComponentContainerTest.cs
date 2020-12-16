@@ -46,9 +46,9 @@ namespace Smart.ComponentModel
 
             using (var container = config.ToContainer())
             {
-                var services = (IEnumerable<ICalcService>)container.GetService(typeof(IEnumerable<ICalcService>));
+                var services = (IEnumerable<ICalcService>?)container.GetService(typeof(IEnumerable<ICalcService>));
 
-                Assert.Equal(2, services.Count());
+                Assert.Equal(2, services?.Count());
             }
         }
 
@@ -213,7 +213,7 @@ namespace Smart.ComponentModel
             public int Arguments { get; set; }
 
             // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
-            public ICalcService CalcService { get; set; }
+            public ICalcService? CalcService { get; set; }
 
             public MultiConstructorObject()
             {

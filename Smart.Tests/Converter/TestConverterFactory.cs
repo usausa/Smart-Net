@@ -1,3 +1,4 @@
+#nullable disable
 namespace Smart.Converter
 {
     using System;
