@@ -1,4 +1,4 @@
-namespace Smart.Functional
+namespace Smart
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,7 @@ namespace Smart.Functional
     using System.Runtime.CompilerServices;
     using System.Threading.Tasks;
 
-    public static class ObjectExtensions
+    public static class FunctionalExtensions
     {
         //--------------------------------------------------------------------------------
         // If
@@ -139,7 +139,7 @@ namespace Smart.Functional
             value is null ? Task.FromResult(defaultValue) : func(value);
 
         public static Task<TResult?> MapIfOrDefault<T, TResult>(this T? value, Func<T?, bool> predicate, Func<T?, Task<TResult?>> func) =>
-            predicate(value) ? func(value) : Default<TResult>.FromResultTask;
+            predicate(value) ? func(value) : Task.FromResult<TResult?>(default);
 
         public static Task<TResult?> MapIfOrDefault<T, TResult>(this T? value, Func<T?, bool> predicate, Func<T?, Task<TResult?>> func, TResult? defaultValue) =>
             predicate(value) ? func(value) : Task.FromResult(defaultValue);
@@ -174,17 +174,6 @@ namespace Smart.Functional
         private static IEnumerable<T> Flat<T>(T value)
         {
             yield return value;
-        }
-
-        //--------------------------------------------------------------------------------
-        // Result
-        //--------------------------------------------------------------------------------
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("ReSharper", "FieldCanBeMadeReadOnly.Local", Justification = "Ignore")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Ignore")]
-        private static class Default<T>
-        {
-            public static Task<T?> FromResultTask = Task.FromResult(default(T?));
         }
     }
 }
