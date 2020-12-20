@@ -15,24 +15,48 @@ namespace Smart.Reflection
             factory.Factory = ReflectionDelegateFactory.Default;
         }
 
-        public static Func<T, TMember> CreateGetter<T, TMember>(this IDelegateFactory factory, string name)
+        public static Func<T, TMember?>? CreateGetter<T, TMember>(this IDelegateFactory factory, string name)
         {
-            return factory.CreateGetter<T, TMember>(typeof(T).GetRuntimeProperty(name));
+            var pi = typeof(T).GetRuntimeProperty(name);
+            if (pi is null)
+            {
+                throw new ArgumentException("Invalid name.", nameof(name));
+            }
+
+            return factory.CreateGetter<T, TMember>(pi);
         }
 
-        public static Func<T, TMember> CreateGetter<T, TMember>(this IDelegateFactory factory, string name, bool extension)
+        public static Func<T, TMember?>? CreateGetter<T, TMember>(this IDelegateFactory factory, string name, bool extension)
         {
-            return factory.CreateGetter<T, TMember>(typeof(T).GetRuntimeProperty(name), extension);
+            var pi = typeof(T).GetRuntimeProperty(name);
+            if (pi is null)
+            {
+                throw new ArgumentException("Invalid name.", nameof(name));
+            }
+
+            return factory.CreateGetter<T, TMember>(pi, extension);
         }
 
-        public static Action<T, TMember> CreateSetter<T, TMember>(this IDelegateFactory factory, string name)
+        public static Action<T, TMember?>? CreateSetter<T, TMember>(this IDelegateFactory factory, string name)
         {
-            return factory.CreateSetter<T, TMember>(typeof(T).GetRuntimeProperty(name));
+            var pi = typeof(T).GetRuntimeProperty(name);
+            if (pi is null)
+            {
+                throw new ArgumentException("Invalid name.", nameof(name));
+            }
+
+            return factory.CreateSetter<T, TMember>(pi);
         }
 
-        public static Action<T, TMember> CreateSetter<T, TMember>(this IDelegateFactory factory, string name, bool extension)
+        public static Action<T, TMember?>? CreateSetter<T, TMember>(this IDelegateFactory factory, string name, bool extension)
         {
-            return factory.CreateSetter<T, TMember>(typeof(T).GetRuntimeProperty(name), extension);
+            var pi = typeof(T).GetRuntimeProperty(name);
+            if (pi is null)
+            {
+                throw new ArgumentException("Invalid name.", nameof(name));
+            }
+
+            return factory.CreateSetter<T, TMember>(pi, extension);
         }
     }
 }

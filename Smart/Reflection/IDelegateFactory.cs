@@ -91,26 +91,26 @@ namespace Smart.Reflection
 
         // Accessor
 
-        Func<object, object> CreateGetter(PropertyInfo pi);
+        Func<object, object?>? CreateGetter(PropertyInfo pi);
 
-        Func<object, object> CreateGetter(PropertyInfo pi, bool extension);
+        Func<object, object?>? CreateGetter(PropertyInfo pi, bool extension);
 
-        Action<object, object> CreateSetter(PropertyInfo pi);
+        Action<object, object?>? CreateSetter(PropertyInfo pi);
 
-        Action<object, object> CreateSetter(PropertyInfo pi, bool extension);
+        Action<object, object?>? CreateSetter(PropertyInfo pi, bool extension);
 
         // Accessor
 
-        Func<T, TMember> CreateGetter<T, TMember>(PropertyInfo pi);
+        Func<T, TMember?>? CreateGetter<T, TMember>(PropertyInfo pi);
 
-        Func<T, TMember> CreateGetter<T, TMember>(PropertyInfo pi, bool extension);
+        Func<T, TMember?>? CreateGetter<T, TMember>(PropertyInfo pi, bool extension);
 
-        Action<T, TMember> CreateSetter<T, TMember>(PropertyInfo pi);
+        Action<T, TMember?>? CreateSetter<T, TMember>(PropertyInfo pi);
 
-        Action<T, TMember> CreateSetter<T, TMember>(PropertyInfo pi, bool extension);
+        Action<T, TMember?>? CreateSetter<T, TMember>(PropertyInfo pi, bool extension);
 
         // Etc
 
-        Type GetExtendedPropertyType(PropertyInfo pi);
+        Type? GetExtendedPropertyType(PropertyInfo pi);
     }
 }

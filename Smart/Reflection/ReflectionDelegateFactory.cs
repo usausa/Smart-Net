@@ -32,14 +32,14 @@ namespace Smart.Reflection
 
         public Func<object> CreateFactory(Type type)
         {
-            return () => Activator.CreateInstance(type);
+            return () => Activator.CreateInstance(type)!;
         }
 
         public Func<object[], object> CreateFactory(Type type, Type[] argumentTypes)
         {
             if (type.IsValueType && (argumentTypes.Length == 0))
             {
-                return _ => Activator.CreateInstance(type);
+                return _ => Activator.CreateInstance(type)!;
             }
 
             var ci = type.GetConstructor(argumentTypes);
@@ -53,15 +53,25 @@ namespace Smart.Reflection
 
         public Func<object[], object> CreateFactory(ConstructorInfo ci)
         {
+            if (ci.DeclaringType is null)
+            {
+                throw new ArgumentException($"Invalid type parameter. name=[{ci.Name}]", nameof(ci));
+            }
+
             return ci.GetParameters().Length == 0
-                ? (Func<object[], object>)(_ => Activator.CreateInstance(ci.DeclaringType))
+                ? (Func<object[], object>)(_ => Activator.CreateInstance(ci.DeclaringType)!)
                 : ci.Invoke;
         }
 
         public Func<object> CreateFactory0(ConstructorInfo ci)
         {
+            if (ci.DeclaringType is null)
+            {
+                throw new ArgumentException($"Invalid type parameter. name=[{ci.Name}]", nameof(ci));
+            }
+
             // specialized
-            return () => Activator.CreateInstance(ci.DeclaringType);
+            return () => Activator.CreateInstance(ci.DeclaringType)!;
         }
 
         public Func<T> CreateFactory<T>()
@@ -73,16 +83,16 @@ namespace Smart.Reflection
         // Accessor
         //--------------------------------------------------------------------------------
 
-        public Func<object, object> CreateGetter(PropertyInfo pi)
+        public Func<object, object?>? CreateGetter(PropertyInfo pi)
         {
             return CreateGetter(pi, true);
         }
 
-        public Func<object, object> CreateGetter(PropertyInfo pi, bool extension)
+        public Func<object, object?>? CreateGetter(PropertyInfo pi, bool extension)
         {
-            if (pi.DeclaringType.IsValueType)
+            if ((pi.DeclaringType is null) || pi.DeclaringType.IsValueType)
             {
-                throw new ArgumentException("Value type is not supported", nameof(pi));
+                throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
             }
 
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
@@ -101,7 +111,7 @@ namespace Smart.Reflection
                 throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
             }
 
-            var vpi = ValueHolderHelper.GetValueTypeProperty(holderType);
+            var vpi = ValueHolderHelper.GetValueTypeProperty(holderType)!;
             return obj =>
             {
                 var holder = pi.GetValue(obj, null);
@@ -109,16 +119,16 @@ namespace Smart.Reflection
             };
         }
 
-        public Action<object, object> CreateSetter(PropertyInfo pi)
+        public Action<object, object?>? CreateSetter(PropertyInfo pi)
         {
             return CreateSetter(pi, true);
         }
 
-        public Action<object, object> CreateSetter(PropertyInfo pi, bool extension)
+        public Action<object, object?>? CreateSetter(PropertyInfo pi, bool extension)
         {
-            if (pi.DeclaringType.IsValueType)
+            if ((pi.DeclaringType is null) || pi.DeclaringType.IsValueType)
             {
-                throw new ArgumentException("Value type is not supported", nameof(pi));
+                throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
             }
 
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
@@ -137,7 +147,7 @@ namespace Smart.Reflection
                 throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
             }
 
-            var vpi = ValueHolderHelper.GetValueTypeProperty(holderType);
+            var vpi = ValueHolderHelper.GetValueTypeProperty(holderType)!;
             return (obj, value) =>
             {
                 var holder = pi.GetValue(obj, null);
@@ -147,16 +157,16 @@ namespace Smart.Reflection
 
         // Accessor
 
-        public Func<T, TMember> CreateGetter<T, TMember>(PropertyInfo pi)
+        public Func<T, TMember?>? CreateGetter<T, TMember>(PropertyInfo pi)
         {
             return CreateGetter<T, TMember>(pi, true);
         }
 
-        public Func<T, TMember> CreateGetter<T, TMember>(PropertyInfo pi, bool extension)
+        public Func<T, TMember?>? CreateGetter<T, TMember>(PropertyInfo pi, bool extension)
         {
-            if (pi.DeclaringType.IsValueType)
+            if ((pi.DeclaringType is null) || pi.DeclaringType.IsValueType)
             {
-                throw new ArgumentException("Value type is not supported", nameof(pi));
+                throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
             }
 
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
@@ -167,7 +177,7 @@ namespace Smart.Reflection
                     return null;
                 }
 
-                return obj => (TMember)pi.GetValue(obj, null);
+                return obj => (TMember?)pi.GetValue(obj, null)!;
             }
 
             if (!pi.CanRead)
@@ -175,24 +185,24 @@ namespace Smart.Reflection
                 throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
             }
 
-            var vpi = ValueHolderHelper.GetValueTypeProperty(holderType);
+            var vpi = ValueHolderHelper.GetValueTypeProperty(holderType)!;
             return obj =>
             {
                 var holder = pi.GetValue(obj, null);
-                return (TMember)vpi.GetValue(holder, null);
+                return (TMember?)vpi.GetValue(holder, null)!;
             };
         }
 
-        public Action<T, TMember> CreateSetter<T, TMember>(PropertyInfo pi)
+        public Action<T, TMember?>? CreateSetter<T, TMember>(PropertyInfo pi)
         {
             return CreateSetter<T, TMember>(pi, true);
         }
 
-        public Action<T, TMember> CreateSetter<T, TMember>(PropertyInfo pi, bool extension)
+        public Action<T, TMember?>? CreateSetter<T, TMember>(PropertyInfo pi, bool extension)
         {
-            if (pi.DeclaringType.IsValueType)
+            if ((pi.DeclaringType is null) || pi.DeclaringType.IsValueType)
             {
-                throw new ArgumentException("Value type is not supported", nameof(pi));
+                throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
             }
 
             var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
@@ -211,7 +221,7 @@ namespace Smart.Reflection
                 throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
             }
 
-            var vpi = ValueHolderHelper.GetValueTypeProperty(holderType);
+            var vpi = ValueHolderHelper.GetValueTypeProperty(holderType)!;
             return (obj, value) =>
             {
                 var holder = pi.GetValue(obj, null);
@@ -223,11 +233,11 @@ namespace Smart.Reflection
         // Etc
         //--------------------------------------------------------------------------------
 
-        public Type GetExtendedPropertyType(PropertyInfo pi)
+        public Type? GetExtendedPropertyType(PropertyInfo pi)
         {
             var holderType = ValueHolderHelper.FindValueHolderType(pi);
             var tpi = holderType is null ? pi : ValueHolderHelper.GetValueTypeProperty(holderType);
-            return tpi.PropertyType;
+            return tpi?.PropertyType;
         }
     }
 }
