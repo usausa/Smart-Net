@@ -41,12 +41,12 @@ namespace Smart.Reflection
             return Factory.CreateFactory(type);
         }
 
-        public Func<object[], object> CreateFactory(Type type, Type[] argumentTypes)
+        public Func<object?[], object> CreateFactory(Type type, Type[] argumentTypes)
         {
             return Factory.CreateFactory(type, argumentTypes);
         }
 
-        public Func<object[], object> CreateFactory(ConstructorInfo ci)
+        public Func<object?[], object> CreateFactory(ConstructorInfo ci)
         {
             return Factory.CreateFactory(ci);
         }
