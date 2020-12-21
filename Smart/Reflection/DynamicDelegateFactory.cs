@@ -17,7 +17,7 @@ namespace Smart.Reflection
 
         // Factory cache
 
-        private readonly ConcurrentDictionary<ConstructorInfo, Func<object?[], object>> factoryCache = new();
+        private readonly ConcurrentDictionary<ConstructorInfo, Func<object?[]?, object>> factoryCache = new();
 
         private readonly ConcurrentDictionary<ConstructorInfo, Delegate> factoryDelegateCache = new();
 
@@ -27,7 +27,7 @@ namespace Smart.Reflection
 
         // Default structure cache
 
-        private readonly ConcurrentDictionary<Type, Func<object?[], object>> defaultStructFactoryCache = new();
+        private readonly ConcurrentDictionary<Type, Func<object?[]?, object>> defaultStructFactoryCache = new();
 
         private readonly ConcurrentDictionary<Type, Delegate> defaultStructDelegateCache = new();
 
@@ -111,12 +111,12 @@ namespace Smart.Reflection
                     Type.EmptyTypes));
         }
 
-        public Func<object?[], object> CreateFactory(Type type, Type[] argumentTypes)
+        public Func<object?[]?, object> CreateFactory(Type type, Type[] argumentTypes)
         {
             if (type.IsValueType && (argumentTypes.Length == 0))
             {
                 return defaultStructFactoryCache
-                    .GetOrAdd(type, x => (Func<object?[], object>)CreateDefaultStructFactoryInternal(false, x, new[] { typeof(object?[]) }));
+                    .GetOrAdd(type, x => (Func<object?[]?, object>)CreateDefaultStructFactoryInternal(false, x, new[] { typeof(object?[]) }));
             }
 
             var ci = type.GetConstructor(argumentTypes);
@@ -128,7 +128,7 @@ namespace Smart.Reflection
             return CreateFactory(ci);
         }
 
-        public Func<object?[], object> CreateFactory(ConstructorInfo ci)
+        public Func<object?[]?, object> CreateFactory(ConstructorInfo ci)
         {
             return factoryCache.GetOrAdd(ci, CreateFactoryInternal);
         }
@@ -186,7 +186,7 @@ namespace Smart.Reflection
             return dynamicMethod.CreateDelegate(delegateType, null);
         }
 
-        private static Func<object?[], object> CreateFactoryInternal(ConstructorInfo ci)
+        private static Func<object?[]?, object> CreateFactoryInternal(ConstructorInfo ci)
         {
             var returnType = ci.DeclaringType!.IsValueType ? typeof(object) : ci.DeclaringType;
 
@@ -209,7 +209,7 @@ namespace Smart.Reflection
             il.Emit(OpCodes.Ret);
 
             var delegateType = typeof(Func<,>).MakeGenericType(typeof(object?[]), returnType);
-            return (Func<object?[], object>)dynamicMethod.CreateDelegate(delegateType, null);
+            return (Func<object?[]?, object>)dynamicMethod.CreateDelegate(delegateType, null);
         }
 
         private static readonly Dictionary<int, Type> FactoryDelegateTypes = new()

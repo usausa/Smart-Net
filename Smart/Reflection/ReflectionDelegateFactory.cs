@@ -35,7 +35,7 @@ namespace Smart.Reflection
             return () => Activator.CreateInstance(type)!;
         }
 
-        public Func<object?[], object> CreateFactory(Type type, Type[] argumentTypes)
+        public Func<object?[]?, object> CreateFactory(Type type, Type[] argumentTypes)
         {
             if (type.IsValueType && (argumentTypes.Length == 0))
             {
@@ -51,7 +51,7 @@ namespace Smart.Reflection
             return CreateFactory(ci);
         }
 
-        public Func<object?[], object> CreateFactory(ConstructorInfo ci)
+        public Func<object?[]?, object> CreateFactory(ConstructorInfo ci)
         {
             if (ci.DeclaringType is null)
             {
@@ -59,7 +59,7 @@ namespace Smart.Reflection
             }
 
             return ci.GetParameters().Length == 0
-                ? (Func<object?[], object>)(_ => Activator.CreateInstance(ci.DeclaringType)!)
+                ? (Func<object?[]?, object>)(_ => Activator.CreateInstance(ci.DeclaringType)!)
                 : ci.Invoke;
         }
 

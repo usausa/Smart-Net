@@ -15,9 +15,9 @@ namespace Smart.Reflection
 
         Func<object> CreateFactory(Type type);
 
-        Func<object?[], object> CreateFactory(Type type, Type[] argumentTypes);
+        Func<object?[]?, object> CreateFactory(Type type, Type[] argumentTypes);
 
-        Func<object?[], object> CreateFactory(ConstructorInfo ci);
+        Func<object?[]?, object> CreateFactory(ConstructorInfo ci);
 
         Func<object> CreateFactory0(ConstructorInfo ci);
 
