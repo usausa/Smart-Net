@@ -15,7 +15,7 @@ namespace Smart.Reflection
             factory.Factory = ReflectionDelegateFactory.Default;
         }
 
-        public static Func<T, TMember?>? CreateGetter<T, TMember>(this IDelegateFactory factory, string name)
+        public static Func<T?, TMember?>? CreateGetter<T, TMember>(this IDelegateFactory factory, string name)
         {
             var pi = typeof(T).GetRuntimeProperty(name);
             if (pi is null)
@@ -26,7 +26,7 @@ namespace Smart.Reflection
             return factory.CreateGetter<T, TMember>(pi);
         }
 
-        public static Func<T, TMember?>? CreateGetter<T, TMember>(this IDelegateFactory factory, string name, bool extension)
+        public static Func<T?, TMember?>? CreateGetter<T, TMember>(this IDelegateFactory factory, string name, bool extension)
         {
             var pi = typeof(T).GetRuntimeProperty(name);
             if (pi is null)
@@ -37,7 +37,7 @@ namespace Smart.Reflection
             return factory.CreateGetter<T, TMember>(pi, extension);
         }
 
-        public static Action<T, TMember?>? CreateSetter<T, TMember>(this IDelegateFactory factory, string name)
+        public static Action<T?, TMember?>? CreateSetter<T, TMember>(this IDelegateFactory factory, string name)
         {
             var pi = typeof(T).GetRuntimeProperty(name);
             if (pi is null)
@@ -48,7 +48,7 @@ namespace Smart.Reflection
             return factory.CreateSetter<T, TMember>(pi);
         }
 
-        public static Action<T, TMember?>? CreateSetter<T, TMember>(this IDelegateFactory factory, string name, bool extension)
+        public static Action<T?, TMember?>? CreateSetter<T, TMember>(this IDelegateFactory factory, string name, bool extension)
         {
             var pi = typeof(T).GetRuntimeProperty(name);
             if (pi is null)

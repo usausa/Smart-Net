@@ -83,12 +83,12 @@ namespace Smart.Reflection
         // Accessor
         //--------------------------------------------------------------------------------
 
-        public Func<object, object?>? CreateGetter(PropertyInfo pi)
+        public Func<object?, object?>? CreateGetter(PropertyInfo pi)
         {
             return CreateGetter(pi, true);
         }
 
-        public Func<object, object?>? CreateGetter(PropertyInfo pi, bool extension)
+        public Func<object?, object?>? CreateGetter(PropertyInfo pi, bool extension)
         {
             if ((pi.DeclaringType is null) || pi.DeclaringType.IsValueType)
             {
@@ -119,12 +119,12 @@ namespace Smart.Reflection
             };
         }
 
-        public Action<object, object?>? CreateSetter(PropertyInfo pi)
+        public Action<object?, object?>? CreateSetter(PropertyInfo pi)
         {
             return CreateSetter(pi, true);
         }
 
-        public Action<object, object?>? CreateSetter(PropertyInfo pi, bool extension)
+        public Action<object?, object?>? CreateSetter(PropertyInfo pi, bool extension)
         {
             if ((pi.DeclaringType is null) || pi.DeclaringType.IsValueType)
             {
@@ -157,12 +157,12 @@ namespace Smart.Reflection
 
         // Accessor
 
-        public Func<T, TMember?>? CreateGetter<T, TMember>(PropertyInfo pi)
+        public Func<T?, TMember?>? CreateGetter<T, TMember>(PropertyInfo pi)
         {
             return CreateGetter<T, TMember>(pi, true);
         }
 
-        public Func<T, TMember?>? CreateGetter<T, TMember>(PropertyInfo pi, bool extension)
+        public Func<T?, TMember?>? CreateGetter<T, TMember>(PropertyInfo pi, bool extension)
         {
             if ((pi.DeclaringType is null) || pi.DeclaringType.IsValueType)
             {
@@ -193,12 +193,12 @@ namespace Smart.Reflection
             };
         }
 
-        public Action<T, TMember?>? CreateSetter<T, TMember>(PropertyInfo pi)
+        public Action<T?, TMember?>? CreateSetter<T, TMember>(PropertyInfo pi)
         {
             return CreateSetter<T, TMember>(pi, true);
         }
 
-        public Action<T, TMember?>? CreateSetter<T, TMember>(PropertyInfo pi, bool extension)
+        public Action<T?, TMember?>? CreateSetter<T, TMember>(PropertyInfo pi, bool extension)
         {
             if ((pi.DeclaringType is null) || pi.DeclaringType.IsValueType)
             {
