@@ -13,8 +13,8 @@ namespace Smart.Reflection
         [Fact]
         public void AccessReadWriteOnly()
         {
-            var piWrite = typeof(ReadWriteOnlyData).GetProperty(nameof(ReadWriteOnlyData.WriteOnly));
-            var piRead = typeof(ReadWriteOnlyData).GetProperty(nameof(ReadWriteOnlyData.ReadOnly));
+            var piWrite = typeof(ReadWriteOnlyData).GetProperty(nameof(ReadWriteOnlyData.WriteOnly))!;
+            var piRead = typeof(ReadWriteOnlyData).GetProperty(nameof(ReadWriteOnlyData.ReadOnly))!;
 
             var getterWrite = DynamicDelegateFactory.Default.CreateGetter(piWrite);
             var setterWrite = DynamicDelegateFactory.Default.CreateSetter(piWrite);
@@ -30,9 +30,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessClassProperty()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StringValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StringValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             var data = new MemberData();
 
@@ -46,9 +46,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessValueTypePropertyInt()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.IntValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.IntValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             var data = new MemberData();
 
@@ -62,25 +62,25 @@ namespace Smart.Reflection
         [Fact]
         public void AccessValueTypePropertyBool()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.BoolValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.BoolValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             var data = new MemberData();
 
             setter(data, true);
-            Assert.True((bool)getter(data));
+            Assert.True((bool?)getter(data));
 
             setter(data, null);
-            Assert.False((bool)getter(data));
+            Assert.False((bool?)getter(data));
         }
 
         [Fact]
         public void AccessValueTypePropertyByte()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.ByteValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.ByteValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             var data = new MemberData();
 
@@ -94,9 +94,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessValueTypePropertyChar()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.CharValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.CharValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             var data = new MemberData();
 
@@ -110,9 +110,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessValueTypePropertyShort()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.ShortValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.ShortValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             var data = new MemberData();
 
@@ -126,9 +126,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessValueTypePropertyLong()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.LongValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.LongValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             var data = new MemberData();
 
@@ -142,9 +142,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessValueTypePropertyFloat()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.FloatValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.FloatValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             var data = new MemberData();
 
@@ -158,9 +158,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessValueTypePropertyDouble()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.DoubleValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.DoubleValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             var data = new MemberData();
 
@@ -174,9 +174,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessValueTypePropertyIntPtr()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.IntPtrValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.IntPtrValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             var data = new MemberData();
 
@@ -190,9 +190,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessEnumProperty()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.EnumValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.EnumValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             var data = new MemberData();
 
@@ -206,19 +206,19 @@ namespace Smart.Reflection
         [Fact]
         public void AccessStructProperty()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StructValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StructValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             var data = new MemberData();
 
             setter(data, new MyStruct { X = 1, Y = 2 });
-            var structValue = (MyStruct)getter(data);
+            var structValue = (MyStruct)getter(data)!;
             Assert.Equal(1, structValue.X);
             Assert.Equal(2, structValue.Y);
 
             setter(data, null);
-            structValue = (MyStruct)getter(data);
+            structValue = (MyStruct)getter(data)!;
             Assert.Equal(0, structValue.X);
             Assert.Equal(0, structValue.Y);
         }
@@ -230,9 +230,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessNullableProperty()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.NullableIntValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.NullableIntValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             var data = new MemberData();
 
@@ -246,9 +246,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessNullableEnumProperty()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.NullableEnumValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.NullableEnumValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             var data = new MemberData();
 
@@ -262,14 +262,14 @@ namespace Smart.Reflection
         [Fact]
         public void AccessNullableStructProperty()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.NullableStructValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.NullableStructValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             var data = new MemberData();
 
             setter(data, new MyStruct { X = 1, Y = 2 });
-            var structValue = (MyStruct)getter(data);
+            var structValue = (MyStruct)getter(data)!;
             Assert.Equal(1, structValue.X);
             Assert.Equal(2, structValue.Y);
 
@@ -284,9 +284,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessValueHolderClassProperty()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.NotificationStringValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.NotificationStringValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             var data = new MemberData();
 
@@ -300,9 +300,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessValueHolderValueTypeProperty()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.NotificationIntValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.NotificationIntValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             var data = new MemberData();
 
@@ -316,9 +316,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessValueHolderEnumProperty()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.NotificationEnumValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.NotificationEnumValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             var data = new MemberData();
 
@@ -332,19 +332,19 @@ namespace Smart.Reflection
         [Fact]
         public void AccessValueHolderStructProperty()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.NotificationStructValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.NotificationStructValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             var data = new MemberData();
 
             setter(data, new MyStruct { X = 1, Y = 2 });
-            var structValue = (MyStruct)getter(data);
+            var structValue = (MyStruct)getter(data)!;
             Assert.Equal(1, structValue.X);
             Assert.Equal(2, structValue.Y);
 
             setter(data, null);
-            structValue = (MyStruct)getter(data);
+            structValue = (MyStruct)getter(data)!;
             Assert.Equal(0, structValue.X);
             Assert.Equal(0, structValue.Y);
         }
@@ -356,9 +356,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessStaticClassProperty()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StaticStringValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StaticStringValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             setter(null, "abc");
             Assert.Equal("abc", getter(null));
@@ -370,9 +370,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessStaticValueTypePropertyInt()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StaticIntValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StaticIntValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             setter(null, 1);
             Assert.Equal(1, getter(null));
@@ -384,9 +384,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessStaticEnumProperty()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StaticEnumValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StaticEnumValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             setter(null, MyEnum.One);
             Assert.Equal(MyEnum.One, getter(null));
@@ -398,17 +398,17 @@ namespace Smart.Reflection
         [Fact]
         public void AccessStaticStructProperty()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StaticStructValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StaticStructValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             setter(null, new MyStruct { X = 1, Y = 2 });
-            var structValue = (MyStruct)getter(null);
+            var structValue = (MyStruct)getter(null)!;
             Assert.Equal(1, structValue.X);
             Assert.Equal(2, structValue.Y);
 
             setter(null, null);
-            structValue = (MyStruct)getter(null);
+            structValue = (MyStruct)getter(null)!;
             Assert.Equal(0, structValue.X);
             Assert.Equal(0, structValue.Y);
         }
@@ -420,9 +420,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessStaticValueHolderClassProperty()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StaticNotificationStringValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StaticNotificationStringValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             setter(null, "abc");
             Assert.Equal("abc", getter(null));
@@ -434,9 +434,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessStaticValueHolderValueTypeProperty()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StaticNotificationIntValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StaticNotificationIntValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             setter(null, 1);
             Assert.Equal(1, getter(null));
@@ -448,9 +448,9 @@ namespace Smart.Reflection
         [Fact]
         public void AccessStaticValueHolderEnumProperty()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StaticNotificationEnumValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StaticNotificationEnumValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             setter(null, MyEnum.One);
             Assert.Equal(MyEnum.One, getter(null));
@@ -462,17 +462,17 @@ namespace Smart.Reflection
         [Fact]
         public void AccessStaticValueHolderStructProperty()
         {
-            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StaticNotificationStructValue));
-            var getter = DynamicDelegateFactory.Default.CreateGetter(pi);
-            var setter = DynamicDelegateFactory.Default.CreateSetter(pi);
+            var pi = typeof(MemberData).GetProperty(nameof(MemberData.StaticNotificationStructValue))!;
+            var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+            var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
 
             setter(null, new MyStruct { X = 1, Y = 2 });
-            var structValue = (MyStruct)getter(null);
+            var structValue = (MyStruct)getter(null)!;
             Assert.Equal(1, structValue.X);
             Assert.Equal(2, structValue.Y);
 
             setter(null, null);
-            structValue = (MyStruct)getter(null);
+            structValue = (MyStruct)getter(null)!;
             Assert.Equal(0, structValue.X);
             Assert.Equal(0, structValue.Y);
         }

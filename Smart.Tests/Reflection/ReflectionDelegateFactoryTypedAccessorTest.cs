@@ -1,4 +1,4 @@
-﻿namespace Smart.Reflection
+namespace Smart.Reflection
 {
     using System;
 
@@ -27,8 +27,8 @@
         [Fact]
         public void TypedAccessClassProperty()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, string>(nameof(MemberData.StringValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, string>(nameof(MemberData.StringValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, string>(nameof(MemberData.StringValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, string>(nameof(MemberData.StringValue))!;
 
             var data = new MemberData();
 
@@ -42,8 +42,8 @@
         [Fact]
         public void TypedAccessValueTypePropertyInt()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, int>(nameof(MemberData.IntValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, int>(nameof(MemberData.IntValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, int>(nameof(MemberData.IntValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, int>(nameof(MemberData.IntValue))!;
 
             var data = new MemberData();
 
@@ -54,8 +54,8 @@
         [Fact]
         public void TypedAccessValueTypePropertyBool()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, bool>(nameof(MemberData.BoolValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, bool>(nameof(MemberData.BoolValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, bool>(nameof(MemberData.BoolValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, bool>(nameof(MemberData.BoolValue))!;
 
             var data = new MemberData();
 
@@ -66,8 +66,8 @@
         [Fact]
         public void TypedAccessValueTypePropertyByte()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, byte>(nameof(MemberData.ByteValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, byte>(nameof(MemberData.ByteValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, byte>(nameof(MemberData.ByteValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, byte>(nameof(MemberData.ByteValue))!;
 
             var data = new MemberData();
 
@@ -78,8 +78,8 @@
         [Fact]
         public void TypedAccessValueTypePropertyChar()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, char>(nameof(MemberData.CharValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, char>(nameof(MemberData.CharValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, char>(nameof(MemberData.CharValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, char>(nameof(MemberData.CharValue))!;
 
             var data = new MemberData();
 
@@ -90,8 +90,8 @@
         [Fact]
         public void TypedAccessValueTypePropertyShort()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, short>(nameof(MemberData.ShortValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, short>(nameof(MemberData.ShortValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, short>(nameof(MemberData.ShortValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, short>(nameof(MemberData.ShortValue))!;
 
             var data = new MemberData();
 
@@ -102,8 +102,8 @@
         [Fact]
         public void TypedAccessValueTypePropertyLong()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, long>(nameof(MemberData.LongValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, long>(nameof(MemberData.LongValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, long>(nameof(MemberData.LongValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, long>(nameof(MemberData.LongValue))!;
 
             var data = new MemberData();
 
@@ -114,8 +114,8 @@
         [Fact]
         public void TypedAccessValueTypePropertyFloat()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, float>(nameof(MemberData.FloatValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, float>(nameof(MemberData.FloatValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, float>(nameof(MemberData.FloatValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, float>(nameof(MemberData.FloatValue))!;
 
             var data = new MemberData();
 
@@ -126,8 +126,8 @@
         [Fact]
         public void TypedAccessValueTypePropertyDouble()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, double>(nameof(MemberData.DoubleValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, double>(nameof(MemberData.DoubleValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, double>(nameof(MemberData.DoubleValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, double>(nameof(MemberData.DoubleValue))!;
 
             var data = new MemberData();
 
@@ -138,8 +138,8 @@
         [Fact]
         public void TypedAccessValueTypePropertyIntPtr()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, IntPtr>(nameof(MemberData.IntPtrValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, IntPtr>(nameof(MemberData.IntPtrValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, IntPtr>(nameof(MemberData.IntPtrValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, IntPtr>(nameof(MemberData.IntPtrValue))!;
 
             var data = new MemberData();
 
@@ -150,8 +150,8 @@
         [Fact]
         public void TypedAccessEnumProperty()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, MyEnum>(nameof(MemberData.EnumValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, MyEnum>(nameof(MemberData.EnumValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, MyEnum>(nameof(MemberData.EnumValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, MyEnum>(nameof(MemberData.EnumValue))!;
 
             var data = new MemberData();
 
@@ -162,8 +162,8 @@
         [Fact]
         public void TypedAccessStructProperty()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, MyStruct>(nameof(MemberData.StructValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, MyStruct>(nameof(MemberData.StructValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, MyStruct>(nameof(MemberData.StructValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, MyStruct>(nameof(MemberData.StructValue))!;
 
             var data = new MemberData();
 
@@ -180,8 +180,8 @@
         [Fact]
         public void TypedAccessValueHolderClassProperty()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, string>(nameof(MemberData.NotificationStringValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, string>(nameof(MemberData.NotificationStringValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, string>(nameof(MemberData.NotificationStringValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, string>(nameof(MemberData.NotificationStringValue))!;
 
             var data = new MemberData();
 
@@ -195,8 +195,8 @@
         [Fact]
         public void TypedAccessValueHolderValueTypeProperty()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, int>(nameof(MemberData.NotificationIntValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, int>(nameof(MemberData.NotificationIntValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, int>(nameof(MemberData.NotificationIntValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, int>(nameof(MemberData.NotificationIntValue))!;
 
             var data = new MemberData();
 
@@ -207,8 +207,8 @@
         [Fact]
         public void TypedAccessValueHolderEnumProperty()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, MyEnum>(nameof(MemberData.NotificationEnumValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, MyEnum>(nameof(MemberData.NotificationEnumValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, MyEnum>(nameof(MemberData.NotificationEnumValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, MyEnum>(nameof(MemberData.NotificationEnumValue))!;
 
             var data = new MemberData();
 
@@ -219,8 +219,8 @@
         [Fact]
         public void TypedAccessValueHolderStructProperty()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, MyStruct>(nameof(MemberData.NotificationStructValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, MyStruct>(nameof(MemberData.NotificationStructValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, MyStruct>(nameof(MemberData.NotificationStructValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, MyStruct>(nameof(MemberData.NotificationStructValue))!;
 
             var data = new MemberData();
 
@@ -237,8 +237,8 @@
         [Fact]
         public void TypedAccessStaticClassProperty()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, string>(nameof(MemberData.StaticStringValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, string>(nameof(MemberData.StaticStringValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, string>(nameof(MemberData.StaticStringValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, string>(nameof(MemberData.StaticStringValue))!;
 
             setter(null, "abc");
             Assert.Equal("abc", getter(null));
@@ -250,8 +250,8 @@
         [Fact]
         public void TypedAccessStaticValueTypePropertyInt()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, int>(nameof(MemberData.StaticIntValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, int>(nameof(MemberData.StaticIntValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, int>(nameof(MemberData.StaticIntValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, int>(nameof(MemberData.StaticIntValue))!;
 
             setter(null, 1);
             Assert.Equal(1, getter(null));
@@ -260,8 +260,8 @@
         [Fact]
         public void TypedAccessStaticEnumProperty()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, MyEnum>(nameof(MemberData.StaticEnumValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, MyEnum>(nameof(MemberData.StaticEnumValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, MyEnum>(nameof(MemberData.StaticEnumValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, MyEnum>(nameof(MemberData.StaticEnumValue))!;
 
             setter(null, MyEnum.One);
             Assert.Equal(MyEnum.One, getter(null));
@@ -270,8 +270,8 @@
         [Fact]
         public void TypedAccessStaticStructProperty()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, MyStruct>(nameof(MemberData.StaticStructValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, MyStruct>(nameof(MemberData.StaticStructValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, MyStruct>(nameof(MemberData.StaticStructValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, MyStruct>(nameof(MemberData.StaticStructValue))!;
 
             setter(null, new MyStruct { X = 1, Y = 2 });
             var structValue = getter(null);
@@ -286,8 +286,8 @@
         [Fact]
         public void TypedAccessStaticValueHolderClassProperty()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, string>(nameof(MemberData.StaticNotificationStringValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, string>(nameof(MemberData.StaticNotificationStringValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, string>(nameof(MemberData.StaticNotificationStringValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, string>(nameof(MemberData.StaticNotificationStringValue))!;
 
             setter(null, "abc");
             Assert.Equal("abc", getter(null));
@@ -299,8 +299,8 @@
         [Fact]
         public void TypedAccessStaticValueHolderValueTypeProperty()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, int>(nameof(MemberData.StaticNotificationIntValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, int>(nameof(MemberData.StaticNotificationIntValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, int>(nameof(MemberData.StaticNotificationIntValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, int>(nameof(MemberData.StaticNotificationIntValue))!;
 
             setter(null, 1);
             Assert.Equal(1, getter(null));
@@ -309,8 +309,8 @@
         [Fact]
         public void TypedAccessStaticValueHolderEnumProperty()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, MyEnum>(nameof(MemberData.StaticNotificationEnumValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, MyEnum>(nameof(MemberData.StaticNotificationEnumValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, MyEnum>(nameof(MemberData.StaticNotificationEnumValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, MyEnum>(nameof(MemberData.StaticNotificationEnumValue))!;
 
             setter(null, MyEnum.One);
             Assert.Equal(MyEnum.One, getter(null));
@@ -319,8 +319,8 @@
         [Fact]
         public void TypedAccessStaticValueHolderStructProperty()
         {
-            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, MyStruct>(nameof(MemberData.StaticNotificationStructValue));
-            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, MyStruct>(nameof(MemberData.StaticNotificationStructValue));
+            var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, MyStruct>(nameof(MemberData.StaticNotificationStructValue))!;
+            var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, MyStruct>(nameof(MemberData.StaticNotificationStructValue))!;
 
             setter(null, new MyStruct { X = 1, Y = 2 });
             var structValue = getter(null);

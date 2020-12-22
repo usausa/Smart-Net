@@ -5,6 +5,7 @@ namespace Smart.Reflection
 
     using Smart.ComponentModel;
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix", Justification = "Ignore")]
     public enum MyEnum
     {
         Zero,

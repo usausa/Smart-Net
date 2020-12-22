@@ -30,25 +30,25 @@ namespace Benchmark.Reflection
         private Func<string?, Data1>? typedFactory1Dynamic;
         private Func<string?, int, Data2>? typedFactory2Dynamic;
 
-        private Func<object, object?>? getterIntDynamic;
-        private Func<object, object?>? getterStringDynamic;
-        private Func<object, object?>? getterHolderIntDynamic;
-        private Func<object, object?>? getterHolderStringDynamic;
+        private Func<object?, object?>? getterIntDynamic;
+        private Func<object?, object?>? getterStringDynamic;
+        private Func<object?, object?>? getterHolderIntDynamic;
+        private Func<object?, object?>? getterHolderStringDynamic;
 
-        private Func<MemberData, int>? typedGetterIntDynamic;
-        private Func<MemberData, string?>? typedGetterStringDynamic;
-        private Func<MemberData, int>? typedGetterHolderIntDynamic;
-        private Func<MemberData, string?>? typedGetterHolderStringDynamic;
+        private Func<MemberData?, int>? typedGetterIntDynamic;
+        private Func<MemberData?, string?>? typedGetterStringDynamic;
+        private Func<MemberData?, int>? typedGetterHolderIntDynamic;
+        private Func<MemberData?, string?>? typedGetterHolderStringDynamic;
 
-        private Action<object, object?>? setterIntDynamic;
-        private Action<object, object?>? setterStringDynamic;
-        private Action<object, object?>? setterHolderIntDynamic;
-        private Action<object, object?>? setterHolderStringDynamic;
+        private Action<object?, object?>? setterIntDynamic;
+        private Action<object?, object?>? setterStringDynamic;
+        private Action<object?, object?>? setterHolderIntDynamic;
+        private Action<object?, object?>? setterHolderStringDynamic;
 
-        private Action<MemberData, int>? typedSetterIntDynamic;
-        private Action<MemberData, string?>? typedSetterStringDynamic;
-        private Action<MemberData, int>? typedSetterHolderIntDynamic;
-        private Action<MemberData, string?>? typedSetterHolderStringDynamic;
+        private Action<MemberData?, int>? typedSetterIntDynamic;
+        private Action<MemberData?, string?>? typedSetterStringDynamic;
+        private Action<MemberData?, int>? typedSetterHolderIntDynamic;
+        private Action<MemberData?, string?>? typedSetterHolderStringDynamic;
 
         // Reflection
         private Func<object>? factory0Reflection;
@@ -60,25 +60,25 @@ namespace Benchmark.Reflection
         private Func<string?, Data1>? typedFactory1Reflection;
         private Func<string?, int, Data2>? typedFactory2Reflection;
 
-        private Func<object, object?>? getterIntReflection;
-        private Func<object, object?>? getterStringReflection;
-        private Func<object, object?>? getterHolderIntReflection;
-        private Func<object, object?>? getterHolderStringReflection;
+        private Func<object?, object?>? getterIntReflection;
+        private Func<object?, object?>? getterStringReflection;
+        private Func<object?, object?>? getterHolderIntReflection;
+        private Func<object?, object?>? getterHolderStringReflection;
 
-        private Func<MemberData, int>? typedGetterIntReflection;
-        private Func<MemberData, string?>? typedGetterStringReflection;
-        private Func<MemberData, int>? typedGetterHolderIntReflection;
-        private Func<MemberData, string?>? typedGetterHolderStringReflection;
+        private Func<MemberData?, int>? typedGetterIntReflection;
+        private Func<MemberData?, string?>? typedGetterStringReflection;
+        private Func<MemberData?, int>? typedGetterHolderIntReflection;
+        private Func<MemberData?, string?>? typedGetterHolderStringReflection;
 
-        private Action<object, object?>? setterIntReflection;
-        private Action<object, object?>? setterStringReflection;
-        private Action<object, object?>? setterHolderIntReflection;
-        private Action<object, object?>? setterHolderStringReflection;
+        private Action<object?, object?>? setterIntReflection;
+        private Action<object?, object?>? setterStringReflection;
+        private Action<object?, object?>? setterHolderIntReflection;
+        private Action<object?, object?>? setterHolderStringReflection;
 
-        private Action<MemberData, int>? typedSetterIntReflection;
-        private Action<MemberData, string?>? typedSetterStringReflection;
-        private Action<MemberData, int>? typedSetterHolderIntReflection;
-        private Action<MemberData, string?>? typedSetterHolderStringReflection;
+        private Action<MemberData?, int>? typedSetterIntReflection;
+        private Action<MemberData?, string?>? typedSetterStringReflection;
+        private Action<MemberData?, int>? typedSetterHolderIntReflection;
+        private Action<MemberData?, string?>? typedSetterHolderStringReflection;
 
         private MemberData? data;
 
