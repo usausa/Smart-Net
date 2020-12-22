@@ -80,7 +80,7 @@ namespace Smart.Collections.Concurrent
             while (next is not null)
             {
                 length++;
-                next = node.Next;
+                next = next.Next;
             }
 
             return length;

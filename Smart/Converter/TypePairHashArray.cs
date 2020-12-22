@@ -51,7 +51,7 @@ namespace Smart.Converter
             while (next is not null)
             {
                 length++;
-                next = node.Next;
+                next = next.Next;
             }
 
             return length;
