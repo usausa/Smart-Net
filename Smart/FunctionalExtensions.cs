@@ -41,7 +41,7 @@ namespace Smart
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T AlsoIf<T>(this T value, NotNullCondition<T> condition, Action<T> action)
+        public static T AlsoIf<T>(this T value, Condition<T> condition, Action<T> action)
         {
             if (condition(value))
             {
@@ -58,7 +58,7 @@ namespace Smart
             action(value);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Task<T> AlsoIfAsync<T>(this T value, NotNullCondition<T> condition, Func<T, Task<T>> action) =>
+        public static Task<T> AlsoIfAsync<T>(this T value, Condition<T> condition, Func<T, Task<T>> action) =>
             condition(value) ? action(value) : Task.FromResult(value);
 
         // Async
@@ -68,7 +68,7 @@ namespace Smart
             action(value);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ValueTask<T> AlsoIfAsync<T>(this T value, NotNullCondition<T> condition, Func<T, ValueTask<T>> action) =>
+        public static ValueTask<T> AlsoIfAsync<T>(this T value, Condition<T> condition, Func<T, ValueTask<T>> action) =>
             condition(value) ? action(value) : new ValueTask<T>(value);
 
         //--------------------------------------------------------------------------------
@@ -80,7 +80,7 @@ namespace Smart
             action(value);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ApplyIf<T>(this T value, NotNullCondition<T> condition, Action<T> action)
+        public static void ApplyIf<T>(this T value, Condition<T> condition, Action<T> action)
         {
             if (condition(value))
             {
@@ -95,7 +95,7 @@ namespace Smart
             action(value);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Task ApplyIfAsync<T>(this T value, NotNullCondition<T> condition, Func<T, Task> action) =>
+        public static Task ApplyIfAsync<T>(this T value, Condition<T> condition, Func<T, Task> action) =>
             condition(value) ? action(value) : Task.CompletedTask;
 
         // Async
@@ -105,7 +105,7 @@ namespace Smart
             action(value);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ValueTask ApplyIfAsync<T>(this T value, NotNullCondition<T> condition, Func<T, ValueTask> action) =>
+        public static ValueTask ApplyIfAsync<T>(this T value, Condition<T> condition, Func<T, ValueTask> action) =>
             condition(value) ? action(value) : default;
 
         //--------------------------------------------------------------------------------
@@ -121,10 +121,10 @@ namespace Smart
         public static TResult? MapOrDefault<T, TResult>(this T? value, Func<T, TResult?> func, TResult? defaultValue) =>
             value is null ? defaultValue : func(value);
 
-        public static TResult? MapIfOrDefault<T, TResult>(this T? value, Condition<T> condition, Func<T?, TResult?> func) =>
+        public static TResult? MapIfOrDefault<T, TResult>(this T? value, NullableCondition<T> condition, Func<T?, TResult?> func) =>
             condition(value) ? func(value) : default;
 
-        public static TResult? MapIfOrDefault<T, TResult>(this T? value, Condition<T> condition, Func<T?, TResult?> func, TResult? defaultValue) =>
+        public static TResult? MapIfOrDefault<T, TResult>(this T? value, NullableCondition<T> condition, Func<T?, TResult?> func, TResult? defaultValue) =>
             condition(value) ? func(value) : defaultValue;
 
         // Async
@@ -138,10 +138,10 @@ namespace Smart
         public static Task<TResult?> MapOrDefault<T, TResult>(this T? value, Func<T, Task<TResult?>> func, TResult? defaultValue) =>
             value is null ? Task.FromResult(defaultValue) : func(value);
 
-        public static Task<TResult?> MapIfOrDefault<T, TResult>(this T? value, Condition<T> condition, Func<T?, Task<TResult?>> func) =>
+        public static Task<TResult?> MapIfOrDefault<T, TResult>(this T? value, NullableCondition<T> condition, Func<T?, Task<TResult?>> func) =>
             condition(value) ? func(value) : Task.FromResult<TResult?>(default);
 
-        public static Task<TResult?> MapIfOrDefault<T, TResult>(this T? value, Condition<T> condition, Func<T?, Task<TResult?>> func, TResult? defaultValue) =>
+        public static Task<TResult?> MapIfOrDefault<T, TResult>(this T? value, NullableCondition<T> condition, Func<T?, Task<TResult?>> func, TResult? defaultValue) =>
             condition(value) ? func(value) : Task.FromResult(defaultValue);
 
         // Async
@@ -155,10 +155,10 @@ namespace Smart
         public static ValueTask<TResult?> MapOrDefault<T, TResult>(this T? value, Func<T, ValueTask<TResult?>> func, TResult? defaultValue) =>
             value is null ? new ValueTask<TResult?>(defaultValue) : func(value);
 
-        public static ValueTask<TResult?> MapIfOrDefault<T, TResult>(this T? value, Condition<T> condition, Func<T?, ValueTask<TResult?>> func) =>
+        public static ValueTask<TResult?> MapIfOrDefault<T, TResult>(this T? value, NullableCondition<T> condition, Func<T?, ValueTask<TResult?>> func) =>
             condition(value) ? func(value) : new ValueTask<TResult?>(default(TResult));
 
-        public static ValueTask<TResult?> MapIfOrDefault<T, TResult>(this T? value, Condition<T> condition, Func<T?, ValueTask<TResult?>> func, TResult? defaultValue) =>
+        public static ValueTask<TResult?> MapIfOrDefault<T, TResult>(this T? value, NullableCondition<T> condition, Func<T?, ValueTask<TResult?>> func, TResult? defaultValue) =>
             condition(value) ? func(value) : new ValueTask<TResult?>(defaultValue);
 
         //--------------------------------------------------------------------------------

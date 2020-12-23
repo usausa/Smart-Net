@@ -10,8 +10,10 @@ namespace Smart
 
         public static Func<bool, bool> Not => x => !x;
 
+        public static Func<bool, bool, bool> And => (x, y) => x && y;
+
         public static Func<bool, bool, bool> Or => (x, y) => x || y;
 
-        public static Func<bool, bool, bool> And => (x, y) => x && y;
+        public static Func<bool, bool, bool> Xor => (x, y) => x ^ y;
     }
 }
