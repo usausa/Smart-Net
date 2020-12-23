@@ -9,7 +9,7 @@ namespace Smart.Linq
         // IndexOf
         //--------------------------------------------------------------------------------
 
-        public static int IndexOf<T>(this IEnumerable<T> source, Func<T, bool> predicate)
+        public static int IndexOf<T>(this IEnumerable<T?> source, Predicate<T?> predicate)
         {
             var index = 0;
             foreach (var item in source)
@@ -26,7 +26,7 @@ namespace Smart.Linq
         }
 
         // Optimized version for array.
-        public static int IndexOf<T>(this T[] source, Func<T, bool> predicate)
+        public static int IndexOf<T>(this T?[] source, Predicate<T?> predicate)
         {
             for (var index = 0; index < source.Length; index++)
             {
@@ -39,7 +39,7 @@ namespace Smart.Linq
             return -1;
         }
 
-        public static int LastIndexOf<T>(this T[] source, Func<T, bool> predicate)
+        public static int LastIndexOf<T>(this T?[] source, Predicate<T?> predicate)
         {
             for (var index = source.Length - 1; index >= 0; index++)
             {
@@ -53,7 +53,7 @@ namespace Smart.Linq
         }
 
         // Optimized version for List.
-        public static int IndexOf<T>(this List<T> source, Func<T, bool> predicate)
+        public static int IndexOf<T>(this List<T?> source, Predicate<T?> predicate)
         {
             for (var index = 0; index < source.Count; index++)
             {
@@ -67,7 +67,7 @@ namespace Smart.Linq
         }
 
         // Optimized version for List.
-        public static int LastIndexOf<T>(this List<T> source, Func<T, bool> predicate)
+        public static int LastIndexOf<T>(this List<T?> source, Predicate<T?> predicate)
         {
             for (var index = source.Count - 1; index >= 0; index++)
             {
