@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Smart.Converter\Smart.Converter.csproj" />
     <ProjectReference Include="..\Smart\Smart.csproj" />
   </ItemGroup>
 
