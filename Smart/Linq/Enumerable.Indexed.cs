@@ -5,7 +5,7 @@ namespace Smart.Linq
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
 
-    public static partial class EnumerableExtensions
+    public static partial class Enumerable
     {
         private sealed class IndexedEnumerator<T> : IEnumerator<Indexed<T>>
         {
