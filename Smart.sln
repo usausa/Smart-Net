@@ -21,8 +21,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Smart.Tests", "Smart.Tests\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Benchmark", "Benchmark\Benchmark.csproj", "{ECFBF3F5-EDC4-4D6F-AA06-F39076835AA4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Smart.Converter", "Smart.Converter\Smart.Converter.csproj", "{90351D69-D8A0-4DC6-AEF5-CCC109C2DF64}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,16 +39,12 @@ Global
 		{ECFBF3F5-EDC4-4D6F-AA06-F39076835AA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ECFBF3F5-EDC4-4D6F-AA06-F39076835AA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ECFBF3F5-EDC4-4D6F-AA06-F39076835AA4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{90351D69-D8A0-4DC6-AEF5-CCC109C2DF64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{90351D69-D8A0-4DC6-AEF5-CCC109C2DF64}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{90351D69-D8A0-4DC6-AEF5-CCC109C2DF64}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{90351D69-D8A0-4DC6-AEF5-CCC109C2DF64}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {61D1ED03-42C8-4F1B-9EAA-2D7CA057778E}
 		        SolutionGuid = {52B63D4F-8BD1-434E-94B0-3A6D17CE9C45}
+		SolutionGuid = {61D1ED03-42C8-4F1B-9EAA-2D7CA057778E}
 	EndGlobalSection
 EndGlobal

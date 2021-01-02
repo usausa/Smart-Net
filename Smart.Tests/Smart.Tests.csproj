@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net50</TargetFramework>
@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Smart.Converter\Smart.Converter.csproj" />
     <ProjectReference Include="..\Smart\Smart.csproj" />
   </ItemGroup>
 
