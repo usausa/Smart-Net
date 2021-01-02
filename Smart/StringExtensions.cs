@@ -9,7 +9,7 @@ namespace Smart
         //--------------------------------------------------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string EmptyIfNull(this string value)
+        public static string EmptyIfNull(this string? value)
         {
             return value ?? string.Empty;
         }
