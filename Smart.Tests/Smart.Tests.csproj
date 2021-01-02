@@ -2,9 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+    <IsPackable>false</IsPackable>
     <RootNamespace>Smart</RootNamespace>
     <CodeAnalysisRuleSet>..\Smart.ruleset</CodeAnalysisRuleSet>
-    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <ItemGroup>
