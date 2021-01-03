@@ -6,16 +6,16 @@ namespace Smart.Text
     public static class Inflector
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string Pascalize(string word) => Camelize(word, true);
+        public static string Pascalize(ReadOnlySpan<char> word) => Camelize(word, true);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string Camelize(string word) => Camelize(word, false);
+        public static string Camelize(ReadOnlySpan<char> word) => Camelize(word, false);
 
-        public static unsafe string Camelize(string word, bool toUpper)
+        public static unsafe string Camelize(ReadOnlySpan<char> word, bool toUpper)
         {
-            if (word.Length == 0)
+            if (word.IsEmpty)
             {
-                return word;
+                return string.Empty;
             }
 
             var buffer = word.Length < 2048 ? stackalloc char[word.Length] : new char[word.Length];
@@ -55,16 +55,13 @@ namespace Smart.Text
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string Underscore(string word)
-        {
-            return Underscore(word, false);
-        }
+        public static string Underscore(ReadOnlySpan<char> word) => Underscore(word, false);
 
-        public static unsafe string Underscore(string word, bool toUpper)
+        public static unsafe string Underscore(ReadOnlySpan<char> word, bool toUpper)
         {
-            if (word.Length == 0)
+            if (word.IsEmpty)
             {
-                return word;
+                return string.Empty;
             }
 
             var bufferSize = word.Length << 1;
