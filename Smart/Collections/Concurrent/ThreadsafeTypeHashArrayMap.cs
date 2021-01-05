@@ -4,6 +4,7 @@ namespace Smart.Collections.Concurrent
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.CompilerServices;
     using System.Threading;
 
@@ -224,7 +225,7 @@ namespace Smart.Collections.Concurrent
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool TryGetValue(Type key, out TValue? value)
+        public bool TryGetValue(Type key, [NotNullWhen(true)] out TValue? value)
         {
             var temp = nodes;
             var node = temp[key.GetHashCode() & (temp.Length - 1)];
