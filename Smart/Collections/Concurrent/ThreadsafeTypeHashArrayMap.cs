@@ -260,7 +260,7 @@ namespace Smart.Collections.Concurrent
             }
         }
 
-        public TValue? AddIfNotExist(Type key, Func<Type, TValue?> valueFactory)
+        public TValue AddIfNotExist(Type key, Func<Type, TValue?> valueFactory)
         {
             lock (sync)
             {
