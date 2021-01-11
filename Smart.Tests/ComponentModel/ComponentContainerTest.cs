@@ -1,4 +1,4 @@
-namespace Smart.ComponentModel
+﻿namespace Smart.ComponentModel
 {
     using System;
     using System.Collections.Generic;
@@ -14,12 +14,10 @@ namespace Smart.ComponentModel
             var config = new ComponentConfig();
             config.Add<SimpleObject>();
 
-            using (var container = config.ToContainer())
-            {
-                var obj = container.Get<SimpleObject>();
+            using var container = config.ToContainer();
+            var obj = container.Get<SimpleObject>();
 
-                Assert.NotNull(obj);
-            }
+            Assert.NotNull(obj);
         }
 
         [Fact]
@@ -29,12 +27,10 @@ namespace Smart.ComponentModel
             config.Add<ICalcService, AddCalcService>();
             config.Add<ICalcService, SubCalcService>();
 
-            using (var container = config.ToContainer())
-            {
-                var services = container.GetAll<ICalcService>();
+            using var container = config.ToContainer();
+            var services = container.GetAll<ICalcService>();
 
-                Assert.Equal(2, services.Count());
-            }
+            Assert.Equal(2, services.Count());
         }
 
         [Fact]
@@ -44,12 +40,10 @@ namespace Smart.ComponentModel
             config.Add<ICalcService, AddCalcService>();
             config.Add<ICalcService, SubCalcService>();
 
-            using (var container = config.ToContainer())
-            {
-                var services = (IEnumerable<ICalcService>?)container.GetService(typeof(IEnumerable<ICalcService>));
+            using var container = config.ToContainer();
+            var services = (IEnumerable<ICalcService>?)container.GetService(typeof(IEnumerable<ICalcService>));
 
-                Assert.Equal(2, services?.Count());
-            }
+            Assert.Equal(2, services?.Count());
         }
 
         [Fact]
@@ -57,12 +51,10 @@ namespace Smart.ComponentModel
         {
             var config = new ComponentConfig();
 
-            using (var container = config.ToContainer())
-            {
-                var obj = container.TryGet<SimpleObject>();
+            using var container = config.ToContainer();
+            var obj = container.TryGet<SimpleObject>();
 
-                Assert.Null(obj);
-            }
+            Assert.Null(obj);
         }
 
         [Fact]
@@ -70,12 +62,10 @@ namespace Smart.ComponentModel
         {
             var config = new ComponentConfig();
 
-            using (var container = config.ToContainer())
-            {
-                var obj = container.GetService(typeof(SimpleObject));
+            using var container = config.ToContainer();
+            var obj = container.GetService(typeof(SimpleObject));
 
-                Assert.Null(obj);
-            }
+            Assert.Null(obj);
         }
 
         [Fact]
@@ -84,13 +74,11 @@ namespace Smart.ComponentModel
             var config = new ComponentConfig();
             config.Add<SimpleObject>();
 
-            using (var container = config.ToContainer())
-            {
-                var obj1 = container.Get<SimpleObject>();
-                var obj2 = container.GetService(typeof(SimpleObject));
+            using var container = config.ToContainer();
+            var obj1 = container.Get<SimpleObject>();
+            var obj2 = container.GetService(typeof(SimpleObject));
 
-                Assert.Same(obj1, obj2);
-            }
+            Assert.Same(obj1, obj2);
         }
 
         [Fact]
@@ -131,12 +119,10 @@ namespace Smart.ComponentModel
             config.Add<ICalcService, AddCalcService>();
             config.Add<ICalcService, SubCalcService>();
 
-            using (var container = config.ToContainer())
-            {
-                var obj = container.Get<ArrayParameterObject>();
+            using var container = config.ToContainer();
+            var obj = container.Get<ArrayParameterObject>();
 
-                Assert.Equal(2, obj.CalcServices.Length);
-            }
+            Assert.Equal(2, obj.CalcServices.Length);
         }
 
         [Fact]
@@ -145,13 +131,11 @@ namespace Smart.ComponentModel
             var config = new ComponentConfig();
             config.Add<MultiConstructorObject>();
 
-            using (var container = config.ToContainer())
-            {
-                var obj = container.Get<MultiConstructorObject>();
+            using var container = config.ToContainer();
+            var obj = container.Get<MultiConstructorObject>();
 
-                Assert.Equal(0, obj.Arguments);
-                Assert.Null(obj.CalcService);
-            }
+            Assert.Equal(0, obj.Arguments);
+            Assert.Null(obj.CalcService);
         }
 
         [Fact]
@@ -161,13 +145,11 @@ namespace Smart.ComponentModel
             config.Add<MultiConstructorObject>();
             config.Add<ICalcService, AddCalcService>();
 
-            using (var container = config.ToContainer())
-            {
-                var obj = container.Get<MultiConstructorObject>();
+            using var container = config.ToContainer();
+            var obj = container.Get<MultiConstructorObject>();
 
-                Assert.Equal(1, obj.Arguments);
-                Assert.NotNull(obj.CalcService);
-            }
+            Assert.Equal(1, obj.Arguments);
+            Assert.NotNull(obj.CalcService);
         }
 
         protected class SimpleObject

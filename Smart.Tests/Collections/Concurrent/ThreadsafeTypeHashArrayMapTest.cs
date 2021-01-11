@@ -75,50 +75,49 @@
         {
             var map = new ThreadsafeTypeHashArrayMap<string>(1);
 
-            using (var evThreadStarted = new CountdownEvent(2))
-            using (var evThread1Completed = new CountdownEvent(1))
+            using var evThreadStarted = new CountdownEvent(2);
+            using var evThread1Completed = new CountdownEvent(1);
+
+            // ReSharper disable AccessToDisposedClosure
+            var t1 = new Thread(() =>
             {
-                // ReSharper disable AccessToDisposedClosure
-                var t1 = new Thread(() =>
-                {
-                    Assert.False(map.ContainsKey(Class01.Type));
+                Assert.False(map.ContainsKey(Class01.Type));
 
-                    evThreadStarted.Signal();
+                evThreadStarted.Signal();
 
-                    var ret = map.AddIfNotExist(Class01.Type, _ => "t1");
+                var ret = map.AddIfNotExist(Class01.Type, _ => "t1");
 
-                    evThread1Completed.Signal();
+                evThread1Completed.Signal();
 
-                    Assert.Equal("t1", ret);
-                })
-                {
-                    IsBackground = true
-                };
+                Assert.Equal("t1", ret);
+            })
+            {
+                IsBackground = true
+            };
 
-                var t2 = new Thread(() =>
-                {
-                    evThreadStarted.Signal();
-                    evThread1Completed.Wait();
+            var t2 = new Thread(() =>
+            {
+                evThreadStarted.Signal();
+                evThread1Completed.Wait();
 
-                    Assert.True(map.ContainsKey(Class01.Type));
+                Assert.True(map.ContainsKey(Class01.Type));
 
-                    var ret = map.AddIfNotExist(Class01.Type, _ => "t2");
+                var ret = map.AddIfNotExist(Class01.Type, _ => "t2");
 
-                    Assert.Equal("t1", ret);
-                })
-                {
-                    IsBackground = true
-                };
+                Assert.Equal("t1", ret);
+            })
+            {
+                IsBackground = true
+            };
 
-                t1.Start();
-                t2.Start();
+            t1.Start();
+            t2.Start();
 
-                evThreadStarted.Wait();
+            evThreadStarted.Wait();
 
-                t1.Join();
-                t2.Join();
-                // ReSharper restore AccessToDisposedClosure
-            }
+            t1.Join();
+            t2.Join();
+            // ReSharper restore AccessToDisposedClosure
         }
     }
 }

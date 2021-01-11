@@ -1,4 +1,4 @@
-namespace Smart
+﻿namespace Smart
 {
     using System;
     using System.Collections;
@@ -129,7 +129,7 @@ namespace Smart
             }
 
             var genericType = Nullable.GetUnderlyingType(type);
-            return genericType is not null &&  genericType.IsEnum ? genericType : null;
+            return genericType is not null && genericType.IsEnum ? genericType : null;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
