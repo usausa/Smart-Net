@@ -44,12 +44,12 @@ namespace Smart
                 if ((index < remain.Length - 1) && (remain[index] == '\r') && (remain[index + 1] == '\n'))
                 {
                     Current = remain.Slice(0, index);
-                    remain = remain.Slice(index + 2);
+                    remain = remain[(index + 2)..];
                     return true;
                 }
 
                 Current = remain.Slice(0, index);
-                remain = remain.Slice(index + 1);
+                remain = remain[(index + 1)..];
                 return true;
             }
         }

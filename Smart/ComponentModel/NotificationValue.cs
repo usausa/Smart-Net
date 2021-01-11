@@ -1,4 +1,4 @@
-namespace Smart.ComponentModel
+﻿namespace Smart.ComponentModel
 {
     public class NotificationValue<T> : NotificationObject, IValueHolder<T>
     {
@@ -22,6 +22,7 @@ namespace Smart.ComponentModel
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2225:OperatorOverloadsHaveNamedAlternates", Justification = "Ignore")]
         public static implicit operator T?(NotificationValue<T> value) => value.Value;
 
-        public override string? ToString() => storage is null ? null : storage.ToString();
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Maintainability", "CA1508", Justification = "Analyzers bug ?")]
+        public override string? ToString() => storage?.ToString();
     }
 }

@@ -54,7 +54,7 @@ namespace Smart
         {
             if (type.IsValueType)
             {
-                if (DefaultValues.TryGetValue(type, out object? value))
+                if (DefaultValues.TryGetValue(type, out var value))
                 {
                     return value;
                 }

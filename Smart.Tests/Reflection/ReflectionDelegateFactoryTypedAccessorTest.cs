@@ -1,4 +1,4 @@
-namespace Smart.Reflection
+﻿namespace Smart.Reflection
 {
     using System;
 
@@ -13,10 +13,10 @@ namespace Smart.Reflection
         [Fact]
         public void TypedAccessReadWriteOnly()
         {
-            var getterWrite = ReflectionDelegateFactory.Default.CreateGetter<ReadWriteOnlyData, String>(nameof(ReadWriteOnlyData.WriteOnly));
-            var setterWrite = ReflectionDelegateFactory.Default.CreateSetter<ReadWriteOnlyData, String>(nameof(ReadWriteOnlyData.WriteOnly));
-            var getterRead = ReflectionDelegateFactory.Default.CreateGetter<ReadWriteOnlyData, String>(nameof(ReadWriteOnlyData.ReadOnly));
-            var setterRead = ReflectionDelegateFactory.Default.CreateSetter<ReadWriteOnlyData, String>(nameof(ReadWriteOnlyData.ReadOnly));
+            var getterWrite = ReflectionDelegateFactory.Default.CreateGetter<ReadWriteOnlyData, string>(nameof(ReadWriteOnlyData.WriteOnly));
+            var setterWrite = ReflectionDelegateFactory.Default.CreateSetter<ReadWriteOnlyData, string>(nameof(ReadWriteOnlyData.WriteOnly));
+            var getterRead = ReflectionDelegateFactory.Default.CreateGetter<ReadWriteOnlyData, string>(nameof(ReadWriteOnlyData.ReadOnly));
+            var setterRead = ReflectionDelegateFactory.Default.CreateSetter<ReadWriteOnlyData, string>(nameof(ReadWriteOnlyData.ReadOnly));
 
             Assert.Null(getterWrite);
             Assert.NotNull(setterWrite);

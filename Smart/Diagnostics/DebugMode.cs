@@ -1,17 +1,11 @@
-namespace Smart.Diagnostics
+﻿namespace Smart.Diagnostics
 {
     public static class DebugMode
     {
-        public static bool IsTrue
-        {
-            get
-            {
 #if DEBUG
-                return true;
+        public static bool IsTrue => true;
 #else
-                return false;
+        public static bool IsTrue => false;
 #endif
-            }
-        }
     }
 }

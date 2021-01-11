@@ -1,4 +1,4 @@
-namespace Smart.Linq
+﻿namespace Smart.Linq
 {
     using System;
     using System.Collections.Generic;
@@ -16,9 +16,9 @@ namespace Smart.Linq
         {
             var source = new Span<int>(new[] { 1, 2, 3, 4, 5 });
             Assert.False(source.All(x => x >= 3));
-            Assert.True(source.Slice(2, 3).All(x => x >= 3));
-            Assert.True(source.Slice(2).All(x => x >= 3));
-            Assert.False(source.Slice(2, 3).All(x => x < 5));
+            Assert.True(source[2..5].All(x => x >= 3));
+            Assert.True(source[2..].All(x => x >= 3));
+            Assert.False(source[2..5].All(x => x < 5));
         }
 
         [Fact]
@@ -50,9 +50,9 @@ namespace Smart.Linq
         {
             var source = new Span<int>(new[] { 1, 2, 3, 4, 5 });
             Assert.True(source.Any(x => x >= 3));
-            Assert.True(source.Slice(2, 3).Any(x => x >= 3));
-            Assert.True(source.Slice(2).Any(x => x >= 3));
-            Assert.False(source.Slice(2, 3).Any(x => x < 3));
+            Assert.True(source[2..5].Any(x => x >= 3));
+            Assert.True(source[2..].Any(x => x >= 3));
+            Assert.False(source[2..5].Any(x => x < 3));
         }
 
         [Fact]

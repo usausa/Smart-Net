@@ -1,4 +1,4 @@
-namespace Smart.Collections.Concurrent
+﻿namespace Smart.Collections.Concurrent
 {
     using System;
     using System.Threading;
@@ -19,7 +19,7 @@ namespace Smart.Collections.Concurrent
 
             // Initial
             Assert.Equal(0, map.Diagnostics.Count);
-            Assert.False(map.TryGetValue(Class01.Type, out string _));
+            Assert.False(map.TryGetValue(Class01.Type, out var _));
             Assert.False(map.ContainsKey(Class01.Type));
             Assert.Null(map.GetValueOrDefault(Class01.Type));
 
@@ -27,7 +27,7 @@ namespace Smart.Collections.Concurrent
             Assert.Equal("1", map.AddIfNotExist(Class01.Type, "1"));
 
             Assert.Equal(1, map.Diagnostics.Count);
-            Assert.True(map.TryGetValue(Class01.Type, out string _));
+            Assert.True(map.TryGetValue(Class01.Type, out var _));
             Assert.True(map.ContainsKey(Class01.Type));
             Assert.Equal("1", map.GetValueOrDefault(Class01.Type));
 
@@ -40,7 +40,7 @@ namespace Smart.Collections.Concurrent
             map.Clear();
 
             Assert.Equal(0, map.Diagnostics.Count);
-            Assert.False(map.TryGetValue(Class01.Type, out string _));
+            Assert.False(map.TryGetValue(Class01.Type, out var _));
         }
 
         [Fact]

@@ -1,4 +1,4 @@
-namespace Smart.Reflection
+﻿namespace Smart.Reflection
 {
     using System;
     using System.Collections.Concurrent;
@@ -266,7 +266,7 @@ namespace Smart.Reflection
             }
 
             il.Emit(OpCodes.Newobj, ci);
-            if ((returnType == typeof(object)) && (ci.DeclaringType!.IsValueType))
+            if ((returnType == typeof(object)) && ci.DeclaringType!.IsValueType)
             {
                 il.Emit(OpCodes.Box, ci.DeclaringType);
             }
@@ -409,7 +409,7 @@ namespace Smart.Reflection
                 il.Emit(OpCodes.Callvirt, tpi.GetGetMethod()!);
             }
 
-            if ((memberType == typeof(object)) && (tpi.PropertyType.IsValueType))
+            if ((memberType == typeof(object)) && tpi.PropertyType.IsValueType)
             {
                 il.Emit(OpCodes.Box, tpi.PropertyType);
             }
