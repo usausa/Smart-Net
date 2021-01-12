@@ -1,13 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="Smart Rules" Description="Smart Rules" ToolsVersion="14.0">
   <IncludeAll Action="Warning" />
-  <Rules AnalyzerId="Microsoft.CodeAnalysis.NetAnalyzers" RuleNamespace="Microsoft.CodeAnalysis.NetAnalyzers">
-    <Rule Id="CA1000" Action="Hidden" />
-    <Rule Id="CA1034" Action="Hidden" />
-    <Rule Id="CA1720" Action="Hidden" />
-    <Rule Id="CA1810" Action="Hidden" />
-    <Rule Id="CA1062" Action="Hidden" />
-  </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id="SA1005" Action="Hidden" />
     <Rule Id="SA1101" Action="Hidden" />
@@ -27,5 +20,12 @@
     <Rule Id="SA1602" Action="Hidden" />
     <Rule Id="SA1633" Action="Hidden" />
     <Rule Id="SA1649" Action="Hidden" />
+  </Rules>
+  <Rules AnalyzerId="Microsoft.CodeAnalysis.NetAnalyzers" RuleNamespace="Microsoft.CodeAnalysis.NetAnalyzers">
+    <Rule Id="CA1000" Action="Hidden" />
+    <Rule Id="CA1034" Action="Hidden" />
+    <Rule Id="CA1720" Action="Hidden" />
+    <Rule Id="CA1810" Action="Hidden" />
+    <Rule Id="CA1062" Action="Hidden" />
   </Rules>
 </RuleSet>
