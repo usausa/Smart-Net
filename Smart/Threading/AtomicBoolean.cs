@@ -1,4 +1,4 @@
-﻿namespace Smart.Threading
+namespace Smart.Threading
 {
     using System.Threading;
 

@@ -1,4 +1,4 @@
-﻿namespace Smart.Linq
+namespace Smart.Linq
 {
     using System;
     using System.Collections.Generic;

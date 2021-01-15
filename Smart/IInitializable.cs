@@ -1,4 +1,4 @@
-﻿namespace Smart
+namespace Smart
 {
     public interface IInitializable
     {

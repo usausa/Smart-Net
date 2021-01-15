@@ -1,4 +1,4 @@
-﻿namespace Smart
+namespace Smart
 {
     using Xunit;
 

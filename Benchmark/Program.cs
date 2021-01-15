@@ -1,4 +1,4 @@
-﻿namespace Benchmark
+namespace Benchmark
 {
     using System.Reflection;
 

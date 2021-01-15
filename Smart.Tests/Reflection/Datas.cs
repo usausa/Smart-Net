@@ -1,4 +1,4 @@
-﻿// ReSharper disable MemberCanBeProtected.Global
+// ReSharper disable MemberCanBeProtected.Global
 namespace Smart.Reflection
 {
     using System;

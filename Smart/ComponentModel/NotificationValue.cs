@@ -1,4 +1,4 @@
-﻿namespace Smart.ComponentModel
+namespace Smart.ComponentModel
 {
     public class NotificationValue<T> : NotificationObject, IValueHolder<T>
     {

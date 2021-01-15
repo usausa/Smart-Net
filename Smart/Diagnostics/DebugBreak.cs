@@ -1,4 +1,4 @@
-﻿namespace Smart.Diagnostics
+namespace Smart.Diagnostics
 {
     using System.Diagnostics;
 
