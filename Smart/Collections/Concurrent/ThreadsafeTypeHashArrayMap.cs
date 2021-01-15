@@ -1,4 +1,4 @@
-namespace Smart.Collections.Concurrent
+﻿namespace Smart.Collections.Concurrent
 {
     using System;
     using System.Collections;

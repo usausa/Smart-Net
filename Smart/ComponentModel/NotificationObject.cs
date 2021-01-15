@@ -1,4 +1,4 @@
-namespace Smart.ComponentModel
+﻿namespace Smart.ComponentModel
 {
     using System.Collections.Generic;
     using System.ComponentModel;
