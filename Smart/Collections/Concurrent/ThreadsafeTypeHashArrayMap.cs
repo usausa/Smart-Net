@@ -4,13 +4,14 @@ namespace Smart.Collections.Concurrent
     using System.Collections;
     using System.Collections.Generic;
     using System.Diagnostics;
+    using System.Diagnostics.CodeAnalysis;
     using System.Runtime.CompilerServices;
     using System.Threading;
 
     [DebuggerDisplay("{" + nameof(Diagnostics) + "}")]
-    public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePair<Type, TValue?>>
+    public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePair<Type, TValue>>
     {
-        private static readonly Node EmptyNode = new(typeof(EmptyKey), default);
+        private static readonly Node EmptyNode = new(typeof(EmptyKey), default!);
 
         private readonly object sync = new();
 
@@ -224,7 +225,7 @@ namespace Smart.Collections.Concurrent
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool TryGetValue(Type key, out TValue? value)
+        public bool TryGetValue(Type key, [MaybeNullWhen(false)] out TValue value)
         {
             var temp = nodes;
             var node = temp[key.GetHashCode() & (temp.Length - 1)];
@@ -232,18 +233,18 @@ namespace Smart.Collections.Concurrent
             {
                 if (node.Key == key)
                 {
-                    value = node.Value;
+                    value = node.Value!;
                     return true;
                 }
                 node = node.Next;
             }
             while (node is not null);
 
-            value = default;
+            value = default!;
             return false;
         }
 
-        public TValue? AddIfNotExist(Type key, TValue? value)
+        public TValue AddIfNotExist(Type key, TValue value)
         {
             lock (sync)
             {
@@ -255,11 +256,11 @@ namespace Smart.Collections.Concurrent
 
                 AddNode(new Node(key, value));
 
-                return value;
+                return value!;
             }
         }
 
-        public TValue? AddIfNotExist(Type key, Func<Type, TValue?> valueFactory)
+        public TValue AddIfNotExist(Type key, Func<Type, TValue> valueFactory)
         {
             lock (sync)
             {
@@ -279,7 +280,7 @@ namespace Smart.Collections.Concurrent
 
                 AddNode(new Node(key, value));
 
-                return value;
+                return value!;
             }
         }
 
@@ -287,7 +288,7 @@ namespace Smart.Collections.Concurrent
         // IEnumerable
         //--------------------------------------------------------------------------------
 
-        public IEnumerator<KeyValuePair<Type, TValue?>> GetEnumerator()
+        public IEnumerator<KeyValuePair<Type, TValue>> GetEnumerator()
         {
             var copy = nodes;
 
@@ -298,7 +299,7 @@ namespace Smart.Collections.Concurrent
                 {
                     do
                     {
-                        yield return new KeyValuePair<Type, TValue?>(node.Key, node.Value);
+                        yield return new KeyValuePair<Type, TValue>(node.Key, node.Value!);
                         node = node.Next;
                     }
                     while (node is not null);
@@ -341,11 +342,11 @@ namespace Smart.Collections.Concurrent
         {
             public readonly Type Key;
 
-            public readonly TValue? Value;
+            public readonly TValue Value;
 
             public Node? Next;
 
-            public Node(Type key, TValue? value)
+            public Node(Type key, TValue value)
             {
                 Key = key;
                 Value = value;
