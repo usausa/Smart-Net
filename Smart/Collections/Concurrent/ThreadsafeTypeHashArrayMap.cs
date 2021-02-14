@@ -233,14 +233,14 @@ namespace Smart.Collections.Concurrent
             {
                 if (node.Key == key)
                 {
-                    value = node.Value!;
+                    value = node.Value;
                     return true;
                 }
                 node = node.Next;
             }
             while (node is not null);
 
-            value = default!;
+            value = default;
             return false;
         }
 
@@ -256,7 +256,7 @@ namespace Smart.Collections.Concurrent
 
                 AddNode(new Node(key, value));
 
-                return value!;
+                return value;
             }
         }
 
@@ -280,7 +280,7 @@ namespace Smart.Collections.Concurrent
 
                 AddNode(new Node(key, value));
 
-                return value!;
+                return value;
             }
         }
 
@@ -299,7 +299,7 @@ namespace Smart.Collections.Concurrent
                 {
                     do
                     {
-                        yield return new KeyValuePair<Type, TValue>(node.Key, node.Value!);
+                        yield return new KeyValuePair<Type, TValue>(node.Key, node.Value);
                         node = node.Next;
                     }
                     while (node is not null);
