@@ -19,6 +19,11 @@ namespace Smart.Text
 #endif
         public static unsafe string Encode(ReadOnlySpan<byte> bytes)
         {
+            if (bytes.IsEmpty)
+            {
+                return string.Empty;
+            }
+
             var length = bytes.Length << 1;
             var buffer = length < 2048 ? stackalloc char[length] : new char[length];
             ref var hex = ref MemoryMarshal.GetReference(HexTable);
@@ -41,6 +46,11 @@ namespace Smart.Text
 
         public static unsafe int Encode(ReadOnlySpan<byte> bytes, Span<char> buffer)
         {
+            if (bytes.IsEmpty)
+            {
+                return 0;
+            }
+
             var length = bytes.Length << 1;
             ref var hex = ref MemoryMarshal.GetReference(HexTable);
 
@@ -65,6 +75,11 @@ namespace Smart.Text
 #endif
         public static unsafe byte[] Decode(ReadOnlySpan<char> code)
         {
+            if (code.IsEmpty)
+            {
+                return Array.Empty<byte>();
+            }
+
             var buffer = new byte[code.Length >> 1];
 
             fixed (char* pCode = code)
@@ -87,6 +102,11 @@ namespace Smart.Text
 
         public static unsafe int Decode(ReadOnlySpan<char> code, Span<byte> buffer)
         {
+            if (code.IsEmpty)
+            {
+                return 0;
+            }
+
             var length = code.Length >> 1;
 
             fixed (char* pCode = code)
