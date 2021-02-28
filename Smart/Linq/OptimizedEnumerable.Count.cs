@@ -11,7 +11,7 @@ namespace Smart.Linq
         //--------------------------------------------------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Count<T>(this Span<T?> source, Func<T?, bool> predicate)
+        public static int Count<T>(this Span<T> source, Func<T, bool> predicate)
         {
             var count = 0;
             for (var i = 0; i < source.Length; i++)
@@ -26,7 +26,7 @@ namespace Smart.Linq
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Count<T>(this T?[] source, Func<T?, bool> predicate)
+        public static int Count<T>(this T[] source, Func<T, bool> predicate)
         {
             var count = 0;
             for (var i = 0; i < source.Length; i++)
@@ -41,7 +41,7 @@ namespace Smart.Linq
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Count<T>(this T?[] source, int start, int length, Func<T?, bool> predicate)
+        public static int Count<T>(this T[] source, int start, int length, Func<T, bool> predicate)
         {
             var count = 0;
             var last = start + length;
@@ -58,7 +58,7 @@ namespace Smart.Linq
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Count<T>(this List<T?> source, Func<T?, bool> predicate)
+        public static int Count<T>(this List<T> source, Func<T, bool> predicate)
         {
             var count = 0;
             for (var i = 0; i < source.Count; i++)
@@ -73,7 +73,7 @@ namespace Smart.Linq
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Count<T>(this List<T?> source, int start, int length, Func<T?, bool> predicate)
+        public static int Count<T>(this List<T> source, int start, int length, Func<T, bool> predicate)
         {
             var count = 0;
             var last = start + length;
@@ -90,7 +90,7 @@ namespace Smart.Linq
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Count<T>(this IList<T?> source, Func<T?, bool> predicate)
+        public static int Count<T>(this IList<T> source, Func<T, bool> predicate)
         {
             var count = 0;
             for (var i = 0; i < source.Count; i++)
@@ -105,7 +105,7 @@ namespace Smart.Linq
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Count<T>(this IList<T?> source, int start, int length, Func<T?, bool> predicate)
+        public static int Count<T>(this IList<T> source, int start, int length, Func<T, bool> predicate)
         {
             var count = 0;
             var last = start + length;
@@ -122,7 +122,7 @@ namespace Smart.Linq
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Count<T>(this IReadOnlyList<T?> source, Func<T?, bool> predicate)
+        public static int Count<T>(this IReadOnlyList<T> source, Func<T, bool> predicate)
         {
             var count = 0;
             for (var i = 0; i < source.Count; i++)
@@ -137,7 +137,7 @@ namespace Smart.Linq
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static int Count<T>(this IReadOnlyList<T?> source, int start, int length, Func<T?, bool> predicate)
+        public static int Count<T>(this IReadOnlyList<T> source, int start, int length, Func<T, bool> predicate)
         {
             var count = 0;
             var last = start + length;

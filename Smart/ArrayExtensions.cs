@@ -8,7 +8,7 @@ namespace Smart
         // Combine
         //--------------------------------------------------------------------------------
 
-        public static T?[] Combine<T>(this T?[] array, params T?[]?[] others)
+        public static T[] Combine<T>(this T[] array, params T[]?[] others)
         {
             var length = array.Length;
             for (var i = 0; i < others.Length; i++)
@@ -25,7 +25,7 @@ namespace Smart
                 return array;
             }
 
-            var result = new T?[length];
+            var result = new T[length];
 
             array.AsSpan().CopyTo(result.AsSpan());
             var offset = array.Length;
@@ -47,9 +47,9 @@ namespace Smart
         // RemoveAt
         //--------------------------------------------------------------------------------
 
-        public static T?[] RemoveAt<T>(this T?[] array, int offset) => RemoveRange(array, offset, 1);
+        public static T[] RemoveAt<T>(this T[] array, int offset) => RemoveRange(array, offset, 1);
 
-        public static T?[] RemoveRange<T>(this T?[] array, int start, int length)
+        public static T[] RemoveRange<T>(this T[] array, int start, int length)
         {
             if ((array.Length == 0) || (length <= 0) || (start >= array.Length))
             {
@@ -58,7 +58,7 @@ namespace Smart
 
             var remainStart = start + length;
             var remainLength = remainStart > array.Length ? 0 : array.Length - remainStart;
-            var result = new T?[start + remainLength];
+            var result = new T[start + remainLength];
 
             if (start > 0)
             {
