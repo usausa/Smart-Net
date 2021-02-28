@@ -13,6 +13,7 @@ namespace Smart.Reflection
         Two
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1815:OverrideEqualsAndOperatorEqualsOnValueTypes", Justification = "Ignore")]
     public struct MyStruct
     {
         public int X { get; init; }
@@ -20,6 +21,7 @@ namespace Smart.Reflection
         public int Y { get; init; }
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1815:OverrideEqualsAndOperatorEqualsOnValueTypes", Justification = "Ignore")]
     public struct StructWithConstructor
     {
         // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
@@ -94,6 +96,7 @@ namespace Smart.Reflection
         public static IValueHolder<MyStruct> StaticNotificationStructValue { get; } = new NotificationValue<MyStruct>();
     }
 
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Ignore")]
     internal class InternalData
     {
     }
@@ -106,6 +109,7 @@ namespace Smart.Reflection
 
         private string? Get() => str;
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1044:PropertiesShouldNotBeWriteOnly", Justification = "Ignore")]
         public string? WriteOnly { set => Set(value); }
 
         public string? ReadOnly => Get();

@@ -96,6 +96,7 @@ namespace Smart.ComponentModel
             Assert.Equal(1, obj.Disposed);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Justification = "Ignore")]
         [Fact]
         public void ComponentAddedConstIsDisposed()
         {
@@ -156,6 +157,7 @@ namespace Smart.ComponentModel
         {
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1040:AvoidEmptyInterfaces", Justification = "Ignore")]
         protected interface ICalcService
         {
         }
@@ -180,6 +182,7 @@ namespace Smart.ComponentModel
 
         protected class ArrayParameterObject
         {
+            [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "Ignore")]
             // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
             public ICalcService[] CalcServices { get; set; }
 

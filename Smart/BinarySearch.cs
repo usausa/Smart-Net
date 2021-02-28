@@ -7,8 +7,6 @@ namespace Smart
     using System.Runtime.InteropServices;
 #endif
 
-    // TODO List not50 ?
-
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1002:DoNotExposeGenericLists", Justification = "Ignore")]
     public static partial class BinarySearch
     {
