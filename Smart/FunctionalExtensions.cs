@@ -14,6 +14,7 @@ namespace Smart
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void IfNotNull<T>(this T? value, Action<T> action)
+            where T : class
         {
             if (value is null)
             {
@@ -23,11 +24,47 @@ namespace Smart
             action(value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static void IfNotNull<T>(this T? value, Action<T> action)
+            where T : struct
+        {
+            if (value is null)
+            {
+                return;
+            }
+
+            action(value.Value);
+        }
+
         // Async
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Task IfNotNullAsync<T>(this T? value, Func<T, Task> action) =>
-            value is null ? Task.CompletedTask : action(value);
+        public static Task IfNotNullAsync<T>(this T? value, Func<T, Task> action)
+            where T : class
+        {
+            return value is null ? Task.CompletedTask : action(value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static Task IfNotNullAsync<T>(this T? value, Func<T, Task> action)
+            where T : struct
+        {
+            return value is null ? Task.CompletedTask : action(value.Value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ValueTask IfNotNullAsync<T>(this T? value, Func<T, ValueTask> action)
+            where T : class
+        {
+            return value is null ? ValueTask.CompletedTask : action(value);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static ValueTask IfNotNullAsync<T>(this T? value, Func<T, ValueTask> action)
+            where T : struct
+        {
+            return value is null ? ValueTask.CompletedTask : action(value.Value);
+        }
 
         //--------------------------------------------------------------------------------
         // Also
@@ -54,22 +91,42 @@ namespace Smart
         // Async
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Task<T> AlsoAsync<T>(this T value, Func<T, Task<T>> action) =>
-            action(value);
+        public static async Task<T> AlsoAsync<T>(this T value, Func<T, Task> action)
+        {
+            await action(value).ConfigureAwait(false);
+            return value;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Task<T> AlsoIfAsync<T>(this T value, Condition<T> condition, Func<T, Task<T>> action) =>
-            condition(value) ? action(value) : Task.FromResult(value);
+        public static async Task<T> AlsoIfAsync<T>(this T value, Condition<T> condition, Func<T, Task> action)
+        {
+            if (condition(value))
+            {
+                await action(value).ConfigureAwait(false);
+            }
+
+            return value;
+        }
 
         // Async
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ValueTask<T> AlsoAsync<T>(this T value, Func<T, ValueTask<T>> action) =>
-            action(value);
+        public static async ValueTask<T> AlsoAsync<T>(this T value, Func<T, ValueTask> action)
+        {
+            await action(value).ConfigureAwait(false);
+            return value;
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ValueTask<T> AlsoIfAsync<T>(this T value, Condition<T> condition, Func<T, ValueTask<T>> action) =>
-            condition(value) ? action(value) : new ValueTask<T>(value);
+        public static async ValueTask<T> AlsoIfAsync<T>(this T value, Condition<T> condition, Func<T, ValueTask> action)
+        {
+            if (condition(value))
+            {
+                await action(value).ConfigureAwait(false);
+            }
+
+            return value;
+        }
 
         //--------------------------------------------------------------------------------
         // Apply
