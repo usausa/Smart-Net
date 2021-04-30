@@ -56,14 +56,14 @@ namespace Smart
         public static ValueTask IfNotNullAsync<T>(this T? value, Func<T, ValueTask> action)
             where T : class
         {
-            return value is null ? ValueTask.CompletedTask : action(value);
+            return value is null ? default : action(value);
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ValueTask IfNotNullAsync<T>(this T? value, Func<T, ValueTask> action)
             where T : struct
         {
-            return value is null ? ValueTask.CompletedTask : action(value.Value);
+            return value is null ? default : action(value.Value);
         }
 
         //--------------------------------------------------------------------------------
@@ -78,7 +78,7 @@ namespace Smart
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static T AlsoIf<T>(this T value, Condition<T> condition, Action<T> action)
+        public static T AlsoIf<T>(this T value, Func<T, bool> condition, Action<T> action)
         {
             if (condition(value))
             {
@@ -98,7 +98,7 @@ namespace Smart
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static async Task<T> AlsoIfAsync<T>(this T value, Condition<T> condition, Func<T, Task> action)
+        public static async Task<T> AlsoIfAsync<T>(this T value, Func<T, bool> condition, Func<T, Task> action)
         {
             if (condition(value))
             {
@@ -118,7 +118,7 @@ namespace Smart
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static async ValueTask<T> AlsoIfAsync<T>(this T value, Condition<T> condition, Func<T, ValueTask> action)
+        public static async ValueTask<T> AlsoIfAsync<T>(this T value, Func<T, bool> condition, Func<T, ValueTask> action)
         {
             if (condition(value))
             {
@@ -137,7 +137,7 @@ namespace Smart
             action(value);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void ApplyIf<T>(this T value, Condition<T> condition, Action<T> action)
+        public static void ApplyIf<T>(this T value, Func<T, bool> condition, Action<T> action)
         {
             if (condition(value))
             {
@@ -148,75 +148,161 @@ namespace Smart
         // Async
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Task ApplyAsync<T>(this T value, Func<T, Task> action) =>
-            action(value);
+        public static async Task ApplyAsync<T>(this T value, Func<T, Task> action)
+        {
+            await action(value).ConfigureAwait(false);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static Task ApplyIfAsync<T>(this T value, Condition<T> condition, Func<T, Task> action) =>
-            condition(value) ? action(value) : Task.CompletedTask;
+        public static async Task ApplyIfAsync<T>(this T value, Func<T, bool> condition, Func<T, Task> action)
+        {
+            if (condition(value))
+            {
+                await action(value).ConfigureAwait(false);
+            }
+        }
 
         // Async
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ValueTask ApplyAsync<T>(this T value, Func<T, ValueTask> action) =>
-            action(value);
+        public static async ValueTask ApplyAsync<T>(this T value, Func<T, ValueTask> action)
+        {
+            await action(value).ConfigureAwait(false);
+        }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static ValueTask ApplyIfAsync<T>(this T value, Condition<T> condition, Func<T, ValueTask> action) =>
-            condition(value) ? action(value) : default;
+        public static async ValueTask ApplyIfAsync<T>(this T value, Func<T, bool> condition, Func<T, ValueTask> action)
+        {
+            if (condition(value))
+            {
+                await action(value).ConfigureAwait(false);
+            }
+        }
 
         //--------------------------------------------------------------------------------
         // Map
         //--------------------------------------------------------------------------------
 
-        public static TResult? Map<T, TResult>(this T? value, Func<T?, TResult?> func) =>
-            func(value);
+        public static TResult Map<T, TResult>(this T value, Func<T, TResult> func)
+        {
+            return func(value);
+        }
 
-        public static TResult? MapOrDefault<T, TResult>(this T? value, Func<T, TResult?> func) =>
-            value is null ? default : func(value);
+        public static TResult MapOrDefault<T, TResult>(this T? value, Func<T, TResult> func)
+            where T : class
+        {
+            return value is null ? default! : func(value);
+        }
 
-        public static TResult? MapOrDefault<T, TResult>(this T? value, Func<T, TResult?> func, TResult? defaultValue) =>
-            value is null ? defaultValue : func(value);
+        public static TResult MapOrDefault<T, TResult>(this T? value, Func<T, TResult> func)
+            where T : struct
+        {
+            return value.HasValue ? func(value.Value) : default!;
+        }
 
-        public static TResult? MapIfOrDefault<T, TResult>(this T? value, NullableCondition<T> condition, Func<T?, TResult?> func) =>
-            condition(value) ? func(value) : default;
+        public static TResult MapOrDefault<T, TResult>(this T? value, Func<T, TResult> func, TResult defaultValue)
+            where T : class
+        {
+            return value is null ? defaultValue : func(value);
+        }
 
-        public static TResult? MapIfOrDefault<T, TResult>(this T? value, NullableCondition<T> condition, Func<T?, TResult?> func, TResult? defaultValue) =>
-            condition(value) ? func(value) : defaultValue;
+        public static TResult MapOrDefault<T, TResult>(this T? value, Func<T, TResult> func, TResult defaultValue)
+            where T : struct
+        {
+            return value.HasValue ? func(value.Value) : defaultValue;
+        }
+
+        public static TResult MapIfOrDefault<T, TResult>(this T value, Func<T, bool> condition, Func<T, TResult> func)
+        {
+            return condition(value) ? func(value) : default!;
+        }
+
+        public static TResult MapIfOrDefault<T, TResult>(this T value, Func<T, bool> condition, Func<T, TResult> func, TResult defaultValue)
+        {
+            return condition(value) ? func(value) : defaultValue;
+        }
 
         // Async
 
-        public static Task<TResult?> MapAsync<T, TResult>(this T? value, Func<T?, Task<TResult?>> func) =>
-            func(value);
+        public static async Task<TResult> MapAsync<T, TResult>(this T value, Func<T, Task<TResult>> func)
+        {
+            return await func(value).ConfigureAwait(false);
+        }
 
-        public static Task<TResult?> MapOrDefault<T, TResult>(this T? value, Func<T, Task<TResult?>> func) =>
-            value is null ? Task.FromResult(default(TResult)) : func(value);
+        public static async Task<TResult> MapOrDefaultAsync<T, TResult>(this T? value, Func<T, Task<TResult>> func)
+            where T : class
+        {
+            return value is null ? default! : await func(value).ConfigureAwait(false);
+        }
 
-        public static Task<TResult?> MapOrDefault<T, TResult>(this T? value, Func<T, Task<TResult?>> func, TResult? defaultValue) =>
-            value is null ? Task.FromResult(defaultValue) : func(value);
+        public static async Task<TResult> MapOrDefaultAsync<T, TResult>(this T? value, Func<T, Task<TResult>> func)
+            where T : struct
+        {
+            return value.HasValue ? await func(value.Value).ConfigureAwait(false) : default!;
+        }
 
-        public static Task<TResult?> MapIfOrDefault<T, TResult>(this T? value, NullableCondition<T> condition, Func<T?, Task<TResult?>> func) =>
-            condition(value) ? func(value) : Task.FromResult<TResult?>(default);
+        public static async Task<TResult> MapOrDefaultAsync<T, TResult>(this T? value, Func<T, Task<TResult>> func, TResult defaultValue)
+            where T : class
+        {
+            return value is null ? defaultValue : await func(value).ConfigureAwait(false);
+        }
 
-        public static Task<TResult?> MapIfOrDefault<T, TResult>(this T? value, NullableCondition<T> condition, Func<T?, Task<TResult?>> func, TResult? defaultValue) =>
-            condition(value) ? func(value) : Task.FromResult(defaultValue);
+        public static async Task<TResult> MapOrDefaultAsync<T, TResult>(this T? value, Func<T, Task<TResult>> func, TResult defaultValue)
+            where T : struct
+        {
+            return value.HasValue ? await func(value.Value).ConfigureAwait(false) : defaultValue;
+        }
+
+        public static async Task<TResult> MapIfOrDefaultAsync<T, TResult>(this T value, Func<T, bool> condition, Func<T, Task<TResult>> func)
+        {
+            return condition(value) ? await func(value).ConfigureAwait(false) : default!;
+        }
+
+        public static async Task<TResult> MapIfOrDefaultAsync<T, TResult>(this T value, Func<T, bool> condition, Func<T, Task<TResult>> func, TResult defaultValue)
+        {
+            return condition(value) ? await func(value).ConfigureAwait(false) : defaultValue;
+        }
 
         // Async
 
-        public static ValueTask<TResult?> MapAsync<T, TResult>(this T? value, Func<T?, ValueTask<TResult?>> func) =>
-            func(value);
+        public static async ValueTask<TResult> MapAsync<T, TResult>(this T value, Func<T, ValueTask<TResult>> func)
+        {
+            return await func(value).ConfigureAwait(false);
+        }
 
-        public static ValueTask<TResult?> MapOrDefault<T, TResult>(this T? value, Func<T, ValueTask<TResult?>> func) =>
-            value is null ? new ValueTask<TResult?>(default(TResult)) : func(value);
+        public static async ValueTask<TResult> MapOrDefaultAsync<T, TResult>(this T? value, Func<T, ValueTask<TResult>> func)
+            where T : class
+        {
+            return value is null ? default! : await func(value).ConfigureAwait(false);
+        }
 
-        public static ValueTask<TResult?> MapOrDefault<T, TResult>(this T? value, Func<T, ValueTask<TResult?>> func, TResult? defaultValue) =>
-            value is null ? new ValueTask<TResult?>(defaultValue) : func(value);
+        public static async ValueTask<TResult> MapOrDefaultAsync<T, TResult>(this T? value, Func<T, ValueTask<TResult>> func)
+            where T : struct
+        {
+            return value.HasValue ? await func(value.Value).ConfigureAwait(false) : default!;
+        }
 
-        public static ValueTask<TResult?> MapIfOrDefault<T, TResult>(this T? value, NullableCondition<T> condition, Func<T?, ValueTask<TResult?>> func) =>
-            condition(value) ? func(value) : new ValueTask<TResult?>(default(TResult));
+        public static async ValueTask<TResult> MapOrDefaultAsync<T, TResult>(this T? value, Func<T, ValueTask<TResult>> func, TResult defaultValue)
+            where T : class
+        {
+            return value is null ? defaultValue : await func(value).ConfigureAwait(false);
+        }
 
-        public static ValueTask<TResult?> MapIfOrDefault<T, TResult>(this T? value, NullableCondition<T> condition, Func<T?, ValueTask<TResult?>> func, TResult? defaultValue) =>
-            condition(value) ? func(value) : new ValueTask<TResult?>(defaultValue);
+        public static async ValueTask<TResult> MapOrDefaultAsync<T, TResult>(this T? value, Func<T, ValueTask<TResult>> func, TResult defaultValue)
+            where T : struct
+        {
+            return value.HasValue ? await func(value.Value).ConfigureAwait(false) : defaultValue;
+        }
+
+        public static async ValueTask<TResult> MapIfOrDefaultAsync<T, TResult>(this T value, Func<T, bool> condition, Func<T, ValueTask<TResult>> func)
+        {
+            return condition(value) ? await func(value).ConfigureAwait(false) : default!;
+        }
+
+        public static async ValueTask<TResult> MapIfOrDefaultAsync<T, TResult>(this T value, Func<T, bool> condition, Func<T, ValueTask<TResult>> func, TResult defaultValue)
+        {
+            return condition(value) ? await func(value).ConfigureAwait(false) : defaultValue;
+        }
 
         //--------------------------------------------------------------------------------
         // Enumerable
@@ -224,10 +310,19 @@ namespace Smart
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IEnumerable<T> FlatOrEmpty<T>(this T? value)
+            where T : class
         {
             return value is null ? Enumerable.Empty<T>() : Flat(value);
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IEnumerable<T> FlatOrEmpty<T>(this T? value)
+            where T : struct
+        {
+            return value.HasValue ? Flat(value.Value) : Enumerable.Empty<T>();
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static IEnumerable<T> Flat<T>(T value)
         {
             yield return value;
