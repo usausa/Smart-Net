@@ -2,6 +2,7 @@ namespace Smart.ComponentModel
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Globalization;
     using System.Linq;
     using System.Runtime.CompilerServices;
@@ -70,10 +71,17 @@ namespace Smart.ComponentModel
         public T Get<T>() => (T)Get(typeof(T));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public T? TryGet<T>()
+        public bool TryGet<T>([NotNullWhen(true)] out T? value)
         {
-            var obj = TryGet(typeof(T), out var result);
-            return result ? (T)obj! : default;
+            var objects = ResolveAll(typeof(T));
+            if (objects.Length > 0)
+            {
+                value = (T)objects[^1]!;
+                return true;
+            }
+
+            value = default;
+            return false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -92,13 +100,17 @@ namespace Smart.ComponentModel
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public object? TryGet(Type componentType) => TryGet(componentType, out _);
-
-        public object? TryGet(Type componentType, out bool result)
+        public bool TryGet(Type componentType, [NotNullWhen(true)] out object? value)
         {
             var objects = ResolveAll(componentType);
-            result = objects.Length > 0;
-            return result ? objects[^1] : null;
+            if (objects.Length > 0)
+            {
+                value = objects[^1];
+                return true;
+            }
+
+            value = null;
+            return false;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -111,7 +123,8 @@ namespace Smart.ComponentModel
                 return ConvertArray(serviceType.GenericTypeArguments[0], GetAll(serviceType.GenericTypeArguments[0]));
             }
 
-            return TryGet(serviceType);
+            var objects = ResolveAll(serviceType);
+            return objects.Length > 0 ? objects[^1] : null;
         }
 
         private object[] ResolveAll(Type componentType)
@@ -154,7 +167,7 @@ namespace Smart.ComponentModel
                     var elementType = GetElementType(pi.ParameterType);
                     if (elementType is null)
                     {
-                        arguments[i] = TryGet(pi.ParameterType, out match);
+                        match = TryGet(pi.ParameterType, out arguments[i]);
                     }
                     else
                     {

@@ -52,9 +52,9 @@ namespace Smart.ComponentModel
             var config = new ComponentConfig();
 
             using var container = config.ToContainer();
-            var obj = container.TryGet<SimpleObject>();
+            var ret = container.TryGet<SimpleObject>(out _);
 
-            Assert.Null(obj);
+            Assert.False(ret);
         }
 
         [Fact]
