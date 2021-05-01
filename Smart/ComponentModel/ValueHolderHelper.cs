@@ -32,7 +32,7 @@ namespace Smart.ComponentModel
 
         public static PropertyInfo? GetValueTypeProperty(Type type)
         {
-            return type.GetRuntimeProperty("Value");
+            return type.GetRuntimeProperty(nameof(IValueHolder<object>.Value));
         }
     }
 }
