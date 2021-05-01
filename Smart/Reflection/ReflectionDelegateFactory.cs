@@ -59,7 +59,7 @@ namespace Smart.Reflection
             }
 
             return ci.GetParameters().Length == 0
-                ? (Func<object?[]?, object>)(_ => Activator.CreateInstance(ci.DeclaringType)!)
+                ? _ => Activator.CreateInstance(ci.DeclaringType)!
                 : ci.Invoke;
         }
 
