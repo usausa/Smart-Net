@@ -101,7 +101,7 @@ namespace Smart.Reflection
         // Etc
         //--------------------------------------------------------------------------------
 
-        public Type? GetExtendedPropertyType(PropertyInfo pi)
+        public Type GetExtendedPropertyType(PropertyInfo pi)
         {
             return Factory.GetExtendedPropertyType(pi);
         }

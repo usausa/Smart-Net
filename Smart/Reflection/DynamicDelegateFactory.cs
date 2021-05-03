@@ -553,11 +553,11 @@ namespace Smart.Reflection
         // Etc
         //--------------------------------------------------------------------------------
 
-        public Type? GetExtendedPropertyType(PropertyInfo pi)
+        public Type GetExtendedPropertyType(PropertyInfo pi)
         {
             var holderType = ValueHolderHelper.FindValueHolderType(pi);
-            var tpi = holderType is null ? pi : ValueHolderHelper.GetValueTypeProperty(holderType);
-            return tpi?.PropertyType;
+            var tpi = holderType is null ? pi : ValueHolderHelper.GetValueTypeProperty(holderType)!;
+            return tpi.PropertyType;
         }
     }
 }

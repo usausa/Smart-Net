@@ -111,6 +111,6 @@ namespace Smart.Reflection
 
         // Etc
 
-        Type? GetExtendedPropertyType(PropertyInfo pi);
+        Type GetExtendedPropertyType(PropertyInfo pi);
     }
 }
