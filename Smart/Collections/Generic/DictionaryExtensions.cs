@@ -1,4 +1,3 @@
-#nullable disable
 namespace Smart.Collections.Generic
 {
     using System;
@@ -8,7 +7,7 @@ namespace Smart.Collections.Generic
     public static class DictionaryExtensions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static TValue GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
+        public static TValue? GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
             return dictionary.TryGetValue(key, out var value) ? value : default;
         }

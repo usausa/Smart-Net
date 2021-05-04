@@ -1,4 +1,3 @@
-#nullable disable
 namespace Smart.Collections.Generic
 {
     using System;
@@ -13,6 +12,10 @@ namespace Smart.Collections.Generic
             this.comparer = comparer;
         }
 
+#if NETSTANDARD2_1
         public int Compare(T x, T y) => comparer(x, y);
+#else
+        public int Compare(T? x, T? y) => comparer(x!, y!);
+#endif
     }
 }

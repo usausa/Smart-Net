@@ -1,8 +1,8 @@
-#nullable disable
 namespace Smart.Collections.Generic
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
 
     public sealed class DelegateEqualityComparer<T> : IEqualityComparer<T>
     {
@@ -16,7 +16,7 @@ namespace Smart.Collections.Generic
             this.getHashCode = getHashCode;
         }
 
-        public bool Equals(T x, T y) => equals(x, y);
+        public bool Equals(T? x, T? y) => equals(x!, y!);
 
         public int GetHashCode(T obj) => getHashCode(obj);
     }

@@ -1,4 +1,3 @@
-#nullable disable
 namespace Smart.Collections.Generic
 {
     using System;
@@ -11,17 +10,18 @@ namespace Smart.Collections.Generic
         private readonly IEqualityComparer<TKey> comparer;
 
         public ProjectionEqualityComparer(Func<TSource, TKey> keySelector)
-            : this(keySelector, null)
         {
+            this.keySelector = keySelector;
+            comparer = EqualityComparer<TKey>.Default;
         }
 
         public ProjectionEqualityComparer(Func<TSource, TKey> keySelector, IEqualityComparer<TKey> comparer)
         {
-            this.comparer = comparer ?? EqualityComparer<TKey>.Default;
             this.keySelector = keySelector;
+            this.comparer = comparer;
         }
 
-        public bool Equals(TSource x, TSource y)
+        public bool Equals(TSource? x, TSource? y)
         {
             if (Object.Equals(x, default(TSource)) && Object.Equals(y, default(TSource)))
             {
@@ -33,9 +33,9 @@ namespace Smart.Collections.Generic
                 return false;
             }
 
-            return comparer.Equals(keySelector(x), keySelector(y));
+            return comparer.Equals(keySelector(x!), keySelector(y!));
         }
 
-        public int GetHashCode(TSource obj) => comparer.GetHashCode(keySelector(obj));
+        public int GetHashCode(TSource obj) => comparer.GetHashCode(keySelector(obj)!);
     }
 }
