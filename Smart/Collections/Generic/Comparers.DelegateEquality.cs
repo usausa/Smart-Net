@@ -2,7 +2,6 @@ namespace Smart.Collections.Generic
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
 
     public sealed class DelegateEqualityComparer<T> : IEqualityComparer<T>
     {
