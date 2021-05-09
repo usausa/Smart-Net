@@ -17,9 +17,10 @@ namespace Smart.Collections.Generic
         public int Compare(T? x, T? y)
 #endif
         {
-            for (var i = 0; i < comparers.Length; i++)
+            var local = comparers;
+            for (var i = 0; i < local.Length; i++)
             {
-                var ret = comparers[i].Compare(x, y);
+                var ret = local[i].Compare(x, y);
                 if (ret != 0)
                 {
                     return ret;
