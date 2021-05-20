@@ -25,6 +25,20 @@ namespace Smart.Linq
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int IndexOf<T>(this ReadOnlySpan<T> source, Func<T, bool> predicate)
+        {
+            for (var i = 0; i < source.Length; i++)
+            {
+                if (predicate(source[i]))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int IndexOf<T>(this T[] source, Func<T, bool> predicate)
         {
             for (var i = 0; i < source.Length; i++)
@@ -150,6 +164,20 @@ namespace Smart.Linq
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int LastIndexOf<T>(this Span<T> source, Func<T, bool> predicate)
+        {
+            for (var i = source.Length - 1; i >= 0; i--)
+            {
+                if (predicate(source[i]))
+                {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int LastIndexOf<T>(this ReadOnlySpan<T> source, Func<T, bool> predicate)
         {
             for (var i = source.Length - 1; i >= 0; i--)
             {

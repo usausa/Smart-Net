@@ -26,6 +26,21 @@ namespace Smart.Linq
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static int Count<T>(this ReadOnlySpan<T> source, Func<T, bool> predicate)
+        {
+            var count = 0;
+            for (var i = 0; i < source.Length; i++)
+            {
+                if (predicate(source[i]))
+                {
+                    count++;
+                }
+            }
+
+            return count;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int Count<T>(this T[] source, Func<T, bool> predicate)
         {
             var count = 0;

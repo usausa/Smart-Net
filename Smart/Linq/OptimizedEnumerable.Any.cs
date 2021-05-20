@@ -25,6 +25,20 @@ namespace Smart.Linq
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static bool Any<T>(this ReadOnlySpan<T> source, Func<T, bool> predicate)
+        {
+            for (var i = 0; i < source.Length; i++)
+            {
+                if (predicate(source[i]))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool Any<T>(this T[] source, Func<T, bool> predicate)
         {
             for (var i = 0; i < source.Length; i++)
