@@ -5,7 +5,7 @@ namespace Smart
 
     public static class DisposableExtensions
     {
-        public static T DisposableBy<T>(this T disposable, ICollection<IDisposable> disposables)
+        public static T AddTo<T>(this T disposable, ICollection<IDisposable> disposables)
             where T : IDisposable
         {
             disposables.Add(disposable);
