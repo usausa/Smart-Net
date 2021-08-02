@@ -77,12 +77,6 @@ namespace Smart
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static bool IsStruct(this Type type)
-        {
-            return type.IsValueType && !type.IsEnum && !type.IsPrimitive && !type.IsNullableType();
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static bool IsAnonymous(this Type type)
         {
             return type.IsDefined(CompilerGeneratedAttributeType, false) &&
