@@ -4,6 +4,7 @@ namespace Smart.Reflection.Emit
     using System.Linq;
     using System.Reflection;
     using System.Reflection.Emit;
+    using System.Runtime.CompilerServices;
 
     public static class ILGeneratorExtensions
     {
@@ -293,6 +294,22 @@ namespace Smart.Reflection.Emit
         {
             var opCode = (method.IsFinal || !method.IsVirtual) ? OpCodes.Call : OpCodes.Callvirt;
             il.Emit(opCode, method);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static T GetDefaultValue<T>() => default!;
+
+        public static void EmitStackDefaultValue(this ILGenerator il, Type type)
+        {
+            if (type.IsClass)
+            {
+                il.Emit(OpCodes.Ldnull);
+            }
+            else
+            {
+                var method = typeof(ILGeneratorExtensions).GetMethod(nameof(GetDefaultValue), BindingFlags.NonPublic | BindingFlags.Static)!.MakeGenericMethod(type);
+                il.Emit(OpCodes.Call, method);
+            }
         }
 
         private static MethodInfo ResolveImplicitMethod(Type targetType, Type parameterType, Type returnType)
