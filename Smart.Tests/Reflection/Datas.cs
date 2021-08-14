@@ -14,7 +14,7 @@ namespace Smart.Reflection
     }
 
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1815:OverrideEqualsAndOperatorEqualsOnValueTypes", Justification = "Ignore")]
-    public struct MyStruct
+    public readonly struct MyStruct
     {
         public int X { get; init; }
 

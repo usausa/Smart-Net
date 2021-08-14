@@ -71,16 +71,16 @@ namespace Smart.ComponentModel
         public T Get<T>() => (T)Get(typeof(T));
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool TryGet<T>([NotNullWhen(true)] out T? value)
+        public bool TryGet<T>([MaybeNullWhen(false)] out T value)
         {
             var objects = ResolveAll(typeof(T));
             if (objects.Length > 0)
             {
-                value = (T)objects[^1]!;
+                value = (T)objects[^1];
                 return true;
             }
 
-            value = default;
+            value = default!;
             return false;
         }
 
