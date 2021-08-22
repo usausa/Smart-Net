@@ -1401,6 +1401,10 @@ namespace Smart.Reflection.Emit
                     return false;
                 }
             }
+            else
+            {
+                return false;
+            }
 
             return true;
         }
