@@ -8,6 +8,10 @@ namespace Smart.Reflection.Emit
 
     public static class ILGeneratorExtensions
     {
+        //--------------------------------------------------------------------------------
+        // Load/Store
+        //--------------------------------------------------------------------------------
+
         public static void EmitLdelem(this ILGenerator il, Type type)
         {
             if (type == typeof(bool))
@@ -278,6 +282,10 @@ namespace Smart.Reflection.Emit
             }
         }
 
+        //--------------------------------------------------------------------------------
+        // Conversion
+        //--------------------------------------------------------------------------------
+
         public static void EmitTypeConversion(this ILGenerator il, Type type)
         {
             if (type.IsValueType)
@@ -290,11 +298,19 @@ namespace Smart.Reflection.Emit
             }
         }
 
+        //--------------------------------------------------------------------------------
+        // Call
+        //--------------------------------------------------------------------------------
+
         public static void EmitCallMethod(this ILGenerator il, MethodInfo method)
         {
             var opCode = (method.IsFinal || !method.IsVirtual) ? OpCodes.Call : OpCodes.Callvirt;
             il.Emit(opCode, method);
         }
+
+        //--------------------------------------------------------------------------------
+        // Default
+        //--------------------------------------------------------------------------------
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static T GetDefaultValue<T>() => default!;
@@ -311,6 +327,36 @@ namespace Smart.Reflection.Emit
                 il.Emit(OpCodes.Call, method);
             }
         }
+
+        //--------------------------------------------------------------------------------
+        // Nullable
+        //--------------------------------------------------------------------------------
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static bool HasValue<T>(T? value)
+            where T : struct
+            => value.HasValue;
+
+        public static void EmitNullableHasValue(this ILGenerator il, Type underlyingType)
+        {
+            var method = typeof(ILGeneratorExtensions).GetMethod(nameof(HasValue), BindingFlags.NonPublic | BindingFlags.Static)!.MakeGenericMethod(underlyingType);
+            il.Emit(OpCodes.Call, method);
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static T GetValue<T>(T? value)
+            where T : struct
+            => value!.Value;
+
+        public static void EmitNullableGetValue(this ILGenerator il, Type underlyingType)
+        {
+            var method = typeof(ILGeneratorExtensions).GetMethod(nameof(GetValue), BindingFlags.NonPublic | BindingFlags.Static)!.MakeGenericMethod(underlyingType);
+            il.Emit(OpCodes.Call, method);
+        }
+
+        //--------------------------------------------------------------------------------
+        // Primitive convert
+        //--------------------------------------------------------------------------------
 
         private static MethodInfo ResolveImplicitMethod(Type targetType, Type parameterType, Type returnType)
         {
