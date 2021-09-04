@@ -73,21 +73,13 @@ namespace Smart.IO
 
         public override long Seek(long offset, SeekOrigin origin)
         {
-            int newPosition;
-            switch (origin)
+            var newPosition = origin switch
             {
-                case SeekOrigin.Begin:
-                    newPosition = (int)offset;
-                    break;
-                case SeekOrigin.End:
-                    newPosition = length - (int)offset;
-                    break;
-                case SeekOrigin.Current:
-                    newPosition = position + (int)offset;
-                    break;
-                default:
-                    throw new ArgumentException("Invalid seek origin.", nameof(origin));
-            }
+                SeekOrigin.Begin => (int)offset,
+                SeekOrigin.End => length - (int)offset,
+                SeekOrigin.Current => position + (int)offset,
+                _ => throw new ArgumentException("Invalid seek origin.", nameof(origin))
+            };
 
             if ((uint)newPosition > (uint)rawBuffer.Length)
             {
