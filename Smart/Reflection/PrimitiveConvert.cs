@@ -16,7 +16,7 @@ namespace Smart.Reflection
                 .ToDictionary(x => (x.GetParameters()[0].ParameterType, x.ReturnType), x => x);
         }
 
-        public static MethodInfo? TryGetMethod(Type parameterType, Type returnType) =>
+        public static MethodInfo? GetMethod(Type parameterType, Type returnType) =>
             Methods.TryGetValue((parameterType, returnType), out var method) ? method : null;
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
