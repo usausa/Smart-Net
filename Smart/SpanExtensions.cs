@@ -1,6 +1,7 @@
 namespace Smart
 {
     using System;
+    using System.Runtime.CompilerServices;
 
     public static class SpanExtensions
     {
@@ -8,6 +9,7 @@ namespace Smart
         // Line
         //--------------------------------------------------------------------------------
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static SplitLinesEnumerator SplitLines(this ReadOnlySpan<char> value) => new(value);
 
         public ref struct SplitLinesEnumerator

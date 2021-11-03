@@ -1,6 +1,7 @@
 namespace Smart
 {
     using System;
+    using System.Runtime.CompilerServices;
 
     public static class ArrayExtensions
     {
@@ -47,6 +48,7 @@ namespace Smart
         // RemoveAt
         //--------------------------------------------------------------------------------
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T[] RemoveAt<T>(this T[] array, int offset) => RemoveRange(array, offset, 1);
 
         public static T[] RemoveRange<T>(this T[] array, int start, int length)
