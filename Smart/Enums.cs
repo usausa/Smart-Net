@@ -1,57 +1,56 @@
-namespace Smart
+namespace Smart;
+
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+
+public static class Enums<T>
+    where T : struct, Enum
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Collections.ObjectModel;
+    private static readonly Type EnumType = typeof(T);
 
-    public static class Enums<T>
-        where T : struct, Enum
+    private static readonly Dictionary<T, string> ValueToNames;
+
+    private static readonly Dictionary<string, T> NameToValues;
+
+    public static ReadOnlyCollection<T> Values { get; }
+
+    public static ReadOnlyCollection<string> Names { get; }
+
+    public static Type UnderlyingType { get; }
+
+    static Enums()
     {
-        private static readonly Type EnumType = typeof(T);
+        var type = typeof(T);
+        var values = (T[])Enum.GetValues(typeof(T));
+        var names = Enum.GetNames(typeof(T));
 
-        private static readonly Dictionary<T, string> ValueToNames;
+        UnderlyingType = Enum.GetUnderlyingType(type);
+        Values = new ReadOnlyCollection<T>(values);
+        Names = new ReadOnlyCollection<string>(names);
 
-        private static readonly Dictionary<string, T> NameToValues;
+        ValueToNames = new Dictionary<T, string>(values.Length);
+        NameToValues = new Dictionary<string, T>(values.Length);
 
-        public static ReadOnlyCollection<T> Values { get; }
-
-        public static ReadOnlyCollection<string> Names { get; }
-
-        public static Type UnderlyingType { get; }
-
-        static Enums()
+        for (var i = 0; i < values.Length; i++)
         {
-            var type = typeof(T);
-            var values = (T[])Enum.GetValues(typeof(T));
-            var names = Enum.GetNames(typeof(T));
-
-            UnderlyingType = Enum.GetUnderlyingType(type);
-            Values = new ReadOnlyCollection<T>(values);
-            Names = new ReadOnlyCollection<string>(names);
-
-            ValueToNames = new Dictionary<T, string>(values.Length);
-            NameToValues = new Dictionary<string, T>(values.Length);
-
-            for (var i = 0; i < values.Length; i++)
-            {
-                ValueToNames[values[i]] = names[i];
-                NameToValues[names[i]] = values[i];
-            }
+            ValueToNames[values[i]] = names[i];
+            NameToValues[names[i]] = values[i];
         }
+    }
 
-        public static string GetName(T value)
-        {
-            return ValueToNames.TryGetValue(value, out var name) ? name : value.ToString();
-        }
+    public static string GetName(T value)
+    {
+        return ValueToNames.TryGetValue(value, out var name) ? name : value.ToString();
+    }
 
-        public static T ParseValue(string name)
-        {
-            return NameToValues.TryGetValue(name, out var value) ? value : (T)Enum.Parse(EnumType, name);
-        }
+    public static T ParseValue(string name)
+    {
+        return NameToValues.TryGetValue(name, out var value) ? value : (T)Enum.Parse(EnumType, name);
+    }
 
-        public static bool TryParseValue(string name, out T value)
-        {
-            return NameToValues.TryGetValue(name, out value) || Enum.TryParse(name, out value);
-        }
+    public static bool TryParseValue(string name, out T value)
+    {
+        return NameToValues.TryGetValue(name, out value) || Enum.TryParse(name, out value);
     }
 }

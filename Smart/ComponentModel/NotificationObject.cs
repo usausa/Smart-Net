@@ -1,53 +1,52 @@
-namespace Smart.ComponentModel
+namespace Smart.ComponentModel;
+
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
+public abstract class NotificationObject : INotifyPropertyChanged, INotifyPropertyChanging
 {
-    using System.Collections.Generic;
-    using System.ComponentModel;
-    using System.Runtime.CompilerServices;
+    public event PropertyChangingEventHandler? PropertyChanging;
 
-    public abstract class NotificationObject : INotifyPropertyChanged, INotifyPropertyChanging
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "Ignore")]
+    protected void RaisePropertyChanging([CallerMemberName] string? propertyName = null)
     {
-        public event PropertyChangingEventHandler? PropertyChanging;
+        PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
+    }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "Ignore")]
+    protected void RaisePropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "Ignore")]
-        protected void RaisePropertyChanging([CallerMemberName] string? propertyName = null)
+    protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
+    {
+        if (EqualityComparer<T>.Default.Equals(storage, value))
         {
-            PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
+            return false;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate", Justification = "Ignore")]
-        protected void RaisePropertyChanged([CallerMemberName] string? propertyName = null)
+        RaisePropertyChanging(propertyName);
+        storage = value;
+        RaisePropertyChanged(propertyName);
+
+        return true;
+    }
+
+    protected bool SetProperty<T>(ref T storage, T value, IEqualityComparer<T> comparer, [CallerMemberName] string? propertyName = null)
+    {
+        if (comparer.Equals(storage, value))
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            return false;
         }
 
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
-        {
-            if (EqualityComparer<T>.Default.Equals(storage, value))
-            {
-                return false;
-            }
+        RaisePropertyChanging(propertyName);
+        storage = value;
+        RaisePropertyChanged(propertyName);
 
-            RaisePropertyChanging(propertyName);
-            storage = value;
-            RaisePropertyChanged(propertyName);
-
-            return true;
-        }
-
-        protected bool SetProperty<T>(ref T storage, T value, IEqualityComparer<T> comparer, [CallerMemberName] string? propertyName = null)
-        {
-            if (comparer.Equals(storage, value))
-            {
-                return false;
-            }
-
-            RaisePropertyChanging(propertyName);
-            storage = value;
-            RaisePropertyChanged(propertyName);
-
-            return true;
-        }
+        return true;
     }
 }

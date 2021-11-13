@@ -1,14 +1,13 @@
-namespace Smart
+namespace Smart;
+
+using System;
+
+public class EventArgs<T> : EventArgs
 {
-    using System;
+    public T Data { get; }
 
-    public class EventArgs<T> : EventArgs
+    public EventArgs(T data)
     {
-        public T Data { get; }
-
-        public EventArgs(T data)
-        {
-            Data = data;
-        }
+        Data = data;
     }
 }

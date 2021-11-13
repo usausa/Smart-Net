@@ -1,33 +1,32 @@
-namespace Smart.Collections.Generic
+namespace Smart.Collections.Generic;
+
+using System.Collections.Generic;
+
+public sealed class ChainComparer<T> : IComparer<T>
 {
-    using System.Collections.Generic;
+    private readonly IComparer<T>[] comparers;
 
-    public sealed class ChainComparer<T> : IComparer<T>
+    public ChainComparer(params IComparer<T>[] comparers)
     {
-        private readonly IComparer<T>[] comparers;
-
-        public ChainComparer(params IComparer<T>[] comparers)
-        {
-            this.comparers = comparers;
-        }
+        this.comparers = comparers;
+    }
 
 #if NETSTANDARD2_1
-        public int Compare(T x, T y)
+    public int Compare(T x, T y)
 #else
-        public int Compare(T? x, T? y)
+    public int Compare(T? x, T? y)
 #endif
+    {
+        var local = comparers;
+        for (var i = 0; i < local.Length; i++)
         {
-            var local = comparers;
-            for (var i = 0; i < local.Length; i++)
+            var ret = local[i].Compare(x, y);
+            if (ret != 0)
             {
-                var ret = local[i].Compare(x, y);
-                if (ret != 0)
-                {
-                    return ret;
-                }
+                return ret;
             }
-
-            return 0;
         }
+
+        return 0;
     }
 }

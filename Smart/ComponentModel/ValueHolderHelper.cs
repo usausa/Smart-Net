@@ -1,38 +1,37 @@
-namespace Smart.ComponentModel
+namespace Smart.ComponentModel;
+
+using System;
+using System.Linq;
+using System.Reflection;
+
+public static class ValueHolderHelper
 {
-    using System;
-    using System.Linq;
-    using System.Reflection;
+    private static readonly Type ValueHolderType = typeof(IValueHolder<>);
 
-    public static class ValueHolderHelper
+    public static bool IsValueHolderType(Type type)
     {
-        private static readonly Type ValueHolderType = typeof(IValueHolder<>);
-
-        public static bool IsValueHolderType(Type type)
+        if (type.IsGenericType && (type.GetGenericTypeDefinition() == ValueHolderType))
         {
-            if (type.IsGenericType && (type.GetGenericTypeDefinition() == ValueHolderType))
-            {
-                return true;
-            }
-
-            return type.GetInterfaces()
-                .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == ValueHolderType);
+            return true;
         }
 
-        public static Type? FindValueHolderType(PropertyInfo pi)
-        {
-            if (pi.PropertyType.IsGenericType && (pi.PropertyType.GetGenericTypeDefinition() == ValueHolderType))
-            {
-                return pi.PropertyType;
-            }
+        return type.GetInterfaces()
+            .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == ValueHolderType);
+    }
 
-            return pi.PropertyType.GetInterfaces()
-                .FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == ValueHolderType);
+    public static Type? FindValueHolderType(PropertyInfo pi)
+    {
+        if (pi.PropertyType.IsGenericType && (pi.PropertyType.GetGenericTypeDefinition() == ValueHolderType))
+        {
+            return pi.PropertyType;
         }
 
-        public static PropertyInfo? GetValueTypeProperty(Type type)
-        {
-            return type.GetRuntimeProperty(nameof(IValueHolder<object>.Value));
-        }
+        return pi.PropertyType.GetInterfaces()
+            .FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == ValueHolderType);
+    }
+
+    public static PropertyInfo? GetValueTypeProperty(Type type)
+    {
+        return type.GetRuntimeProperty(nameof(IValueHolder<object>.Value));
     }
 }

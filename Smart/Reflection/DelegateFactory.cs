@@ -1,109 +1,108 @@
-namespace Smart.Reflection
+namespace Smart.Reflection;
+
+using System;
+using System.Reflection;
+
+public sealed partial class DelegateFactory : IDelegateFactory
 {
-    using System;
-    using System.Reflection;
+    public static DelegateFactory Default { get; } = new();
 
-    public sealed partial class DelegateFactory : IDelegateFactory
+    public IDelegateFactory Factory { get; set; }
+
+    public bool IsCodegenRequired => Factory.IsCodegenRequired;
+
+    public DelegateFactory()
     {
-        public static DelegateFactory Default { get; } = new();
-
-        public IDelegateFactory Factory { get; set; }
-
-        public bool IsCodegenRequired => Factory.IsCodegenRequired;
-
-        public DelegateFactory()
+        if (ReflectionHelper.IsCodegenAllowed)
         {
-            if (ReflectionHelper.IsCodegenAllowed)
-            {
-                Factory = DynamicDelegateFactory.Default;
-            }
-            else
-            {
-                Factory = ReflectionDelegateFactory.Default;
-            }
+            Factory = DynamicDelegateFactory.Default;
         }
-
-        //--------------------------------------------------------------------------------
-        // Array
-        //--------------------------------------------------------------------------------
-
-        public Func<int, Array> CreateArrayAllocator(Type type)
+        else
         {
-            return Factory.CreateArrayAllocator(type);
+            Factory = ReflectionDelegateFactory.Default;
         }
+    }
 
-        //--------------------------------------------------------------------------------
-        // Factory
-        //--------------------------------------------------------------------------------
+    //--------------------------------------------------------------------------------
+    // Array
+    //--------------------------------------------------------------------------------
 
-        public Func<object> CreateFactory(Type type)
-        {
-            return Factory.CreateFactory(type);
-        }
+    public Func<int, Array> CreateArrayAllocator(Type type)
+    {
+        return Factory.CreateArrayAllocator(type);
+    }
 
-        public Func<object?[]?, object> CreateFactory(Type type, Type[] argumentTypes)
-        {
-            return Factory.CreateFactory(type, argumentTypes);
-        }
+    //--------------------------------------------------------------------------------
+    // Factory
+    //--------------------------------------------------------------------------------
 
-        public Func<object?[]?, object> CreateFactory(ConstructorInfo ci)
-        {
-            return Factory.CreateFactory(ci);
-        }
+    public Func<object> CreateFactory(Type type)
+    {
+        return Factory.CreateFactory(type);
+    }
 
-        //--------------------------------------------------------------------------------
-        // Accessor
-        //--------------------------------------------------------------------------------
+    public Func<object?[]?, object> CreateFactory(Type type, Type[] argumentTypes)
+    {
+        return Factory.CreateFactory(type, argumentTypes);
+    }
 
-        public Func<object?, object?>? CreateGetter(PropertyInfo pi)
-        {
-            return Factory.CreateGetter(pi);
-        }
+    public Func<object?[]?, object> CreateFactory(ConstructorInfo ci)
+    {
+        return Factory.CreateFactory(ci);
+    }
 
-        public Func<object?, object?>? CreateGetter(PropertyInfo pi, bool extension)
-        {
-            return Factory.CreateGetter(pi, extension);
-        }
+    //--------------------------------------------------------------------------------
+    // Accessor
+    //--------------------------------------------------------------------------------
 
-        public Action<object?, object?>? CreateSetter(PropertyInfo pi)
-        {
-            return Factory.CreateSetter(pi);
-        }
+    public Func<object?, object?>? CreateGetter(PropertyInfo pi)
+    {
+        return Factory.CreateGetter(pi);
+    }
 
-        public Action<object?, object?>? CreateSetter(PropertyInfo pi, bool extension)
-        {
-            return Factory.CreateSetter(pi, extension);
-        }
+    public Func<object?, object?>? CreateGetter(PropertyInfo pi, bool extension)
+    {
+        return Factory.CreateGetter(pi, extension);
+    }
 
-        // Accessor
+    public Action<object?, object?>? CreateSetter(PropertyInfo pi)
+    {
+        return Factory.CreateSetter(pi);
+    }
 
-        public Func<T?, TMember?>? CreateGetter<T, TMember>(PropertyInfo pi)
-        {
-            return Factory.CreateGetter<T, TMember>(pi);
-        }
+    public Action<object?, object?>? CreateSetter(PropertyInfo pi, bool extension)
+    {
+        return Factory.CreateSetter(pi, extension);
+    }
 
-        public Func<T?, TMember?>? CreateGetter<T, TMember>(PropertyInfo pi, bool extension)
-        {
-            return Factory.CreateGetter<T, TMember>(pi, extension);
-        }
+    // Accessor
 
-        public Action<T?, TMember?>? CreateSetter<T, TMember>(PropertyInfo pi)
-        {
-            return Factory.CreateSetter<T, TMember>(pi);
-        }
+    public Func<T?, TMember?>? CreateGetter<T, TMember>(PropertyInfo pi)
+    {
+        return Factory.CreateGetter<T, TMember>(pi);
+    }
 
-        public Action<T?, TMember?>? CreateSetter<T, TMember>(PropertyInfo pi, bool extension)
-        {
-            return Factory.CreateSetter<T, TMember>(pi, extension);
-        }
+    public Func<T?, TMember?>? CreateGetter<T, TMember>(PropertyInfo pi, bool extension)
+    {
+        return Factory.CreateGetter<T, TMember>(pi, extension);
+    }
 
-        //--------------------------------------------------------------------------------
-        // Etc
-        //--------------------------------------------------------------------------------
+    public Action<T?, TMember?>? CreateSetter<T, TMember>(PropertyInfo pi)
+    {
+        return Factory.CreateSetter<T, TMember>(pi);
+    }
 
-        public Type GetExtendedPropertyType(PropertyInfo pi)
-        {
-            return Factory.GetExtendedPropertyType(pi);
-        }
+    public Action<T?, TMember?>? CreateSetter<T, TMember>(PropertyInfo pi, bool extension)
+    {
+        return Factory.CreateSetter<T, TMember>(pi, extension);
+    }
+
+    //--------------------------------------------------------------------------------
+    // Etc
+    //--------------------------------------------------------------------------------
+
+    public Type GetExtendedPropertyType(PropertyInfo pi)
+    {
+        return Factory.GetExtendedPropertyType(pi);
     }
 }

@@ -1,39 +1,38 @@
-namespace Smart.Threading
+namespace Smart.Threading;
+
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+
+using Smart.ComponentModel;
+
+public sealed class AtomicReference<T> : IValueHolder<T>
+    where T : class
 {
-    using System.Diagnostics.CodeAnalysis;
-    using System.Threading;
+    [AllowNull]
+    private T currentValue;
 
-    using Smart.ComponentModel;
-
-    public sealed class AtomicReference<T> : IValueHolder<T>
-        where T : class
+    public T Value
     {
-        [AllowNull]
-        private T currentValue;
+        get => currentValue;
+        set => Interlocked.Exchange(ref currentValue, value);
+    }
 
-        public T Value
-        {
-            get => currentValue;
-            set => Interlocked.Exchange(ref currentValue, value);
-        }
+    public AtomicReference()
+    {
+    }
 
-        public AtomicReference()
-        {
-        }
+    public AtomicReference(T initialValue)
+    {
+        currentValue = initialValue;
+    }
 
-        public AtomicReference(T initialValue)
-        {
-            currentValue = initialValue;
-        }
+    public T GetAndSet(T value)
+    {
+        return Interlocked.Exchange(ref currentValue, value);
+    }
 
-        public T GetAndSet(T value)
-        {
-            return Interlocked.Exchange(ref currentValue, value);
-        }
-
-        public bool TrySet(T value, T comparand)
-        {
-            return Interlocked.CompareExchange(ref currentValue, value, comparand) == comparand;
-        }
+    public bool TrySet(T value, T comparand)
+    {
+        return Interlocked.CompareExchange(ref currentValue, value, comparand) == comparand;
     }
 }

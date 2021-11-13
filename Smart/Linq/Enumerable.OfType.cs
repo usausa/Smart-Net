@@ -1,23 +1,22 @@
-namespace Smart.Linq
+namespace Smart.Linq;
+
+using System.Collections.Generic;
+
+public static partial class Enumerable
 {
-    using System.Collections.Generic;
+    //--------------------------------------------------------------------------------
+    // OfType
+    //--------------------------------------------------------------------------------
 
-    public static partial class Enumerable
+    public static IEnumerable<TResult> OfType<TSource, TResult>(this IEnumerable<TSource> source)
+        where TSource : class
+        where TResult : TSource
     {
-        //--------------------------------------------------------------------------------
-        // OfType
-        //--------------------------------------------------------------------------------
-
-        public static IEnumerable<TResult> OfType<TSource, TResult>(this IEnumerable<TSource> source)
-            where TSource : class
-            where TResult : TSource
+        foreach (var value in source)
         {
-            foreach (var value in source)
+            if (value is TResult result)
             {
-                if (value is TResult result)
-                {
-                    yield return result;
-                }
+                yield return result;
             }
         }
     }

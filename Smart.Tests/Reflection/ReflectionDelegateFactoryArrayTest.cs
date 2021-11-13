@@ -1,27 +1,26 @@
-namespace Smart.Reflection
+namespace Smart.Reflection;
+
+using Xunit;
+
+public class ReflectionDelegateFactoryArrayTest
 {
-    using Xunit;
-
-    public class ReflectionDelegateFactoryArrayTest
+    [Fact]
+    public void ArrayAllocator()
     {
-        [Fact]
-        public void ArrayAllocator()
-        {
-            var func = ReflectionDelegateFactory.Default.CreateArrayAllocator(typeof(MemberData));
+        var func = ReflectionDelegateFactory.Default.CreateArrayAllocator(typeof(MemberData));
 
-            var array = func(2);
+        var array = func(2);
 
-            Assert.Equal(typeof(MemberData[]), array.GetType());
-        }
+        Assert.Equal(typeof(MemberData[]), array.GetType());
+    }
 
-        [Fact]
-        public void ArrayAllocatorForInternal()
-        {
-            var func = ReflectionDelegateFactory.Default.CreateArrayAllocator(typeof(InternalData));
+    [Fact]
+    public void ArrayAllocatorForInternal()
+    {
+        var func = ReflectionDelegateFactory.Default.CreateArrayAllocator(typeof(InternalData));
 
-            var array = func(2);
+        var array = func(2);
 
-            Assert.Equal(typeof(InternalData[]), array.GetType());
-        }
+        Assert.Equal(typeof(InternalData[]), array.GetType());
     }
 }

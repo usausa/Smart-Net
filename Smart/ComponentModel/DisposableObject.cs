@@ -1,32 +1,31 @@
-namespace Smart.ComponentModel
+namespace Smart.ComponentModel;
+
+using System;
+
+public abstract class DisposableObject : IDisposable
 {
-    using System;
+    private readonly object sync = new();
 
-    public abstract class DisposableObject : IDisposable
+    public bool IsDisposed { get; private set; }
+
+    ~DisposableObject()
     {
-        private readonly object sync = new();
+        Dispose(false);
+    }
 
-        public bool IsDisposed { get; private set; }
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
 
-        ~DisposableObject()
+    protected virtual void Dispose(bool disposing)
+    {
+        lock (sync)
         {
-            Dispose(false);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            lock (sync)
+            if (disposing && !IsDisposed)
             {
-                if (disposing && !IsDisposed)
-                {
-                    IsDisposed = true;
-                }
+                IsDisposed = true;
             }
         }
     }

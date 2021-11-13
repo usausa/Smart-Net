@@ -1,19 +1,18 @@
-namespace Benchmark.Text
+namespace Benchmark.Text;
+
+using BenchmarkDotNet.Attributes;
+
+using Smart.Text;
+
+[Config(typeof(BenchmarkConfig))]
+public class InflectorBenchmark
 {
-    using BenchmarkDotNet.Attributes;
+    [Benchmark]
+    public string Pascalize() => Inflector.Pascalize("aaa_bbb_ccc_ddd");
 
-    using Smart.Text;
+    [Benchmark]
+    public string Camelize() => Inflector.Camelize("aaa_bbb_ccc_ddd");
 
-    [Config(typeof(BenchmarkConfig))]
-    public class InflectorBenchmark
-    {
-        [Benchmark]
-        public string Pascalize() => Inflector.Pascalize("aaa_bbb_ccc_ddd");
-
-        [Benchmark]
-        public string Camelize() => Inflector.Camelize("aaa_bbb_ccc_ddd");
-
-        [Benchmark]
-        public string Underscore() => Inflector.Underscore("aaaBbbCccDdd");
-    }
+    [Benchmark]
+    public string Underscore() => Inflector.Underscore("aaaBbbCccDdd");
 }

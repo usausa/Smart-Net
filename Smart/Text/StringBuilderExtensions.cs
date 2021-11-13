@@ -1,119 +1,118 @@
-namespace Smart.Text
+namespace Smart.Text;
+
+using System;
+using System.Runtime.CompilerServices;
+using System.Text;
+
+public static class StringBuilderExtensions
 {
-    using System;
-    using System.Runtime.CompilerServices;
-    using System.Text;
+    //--------------------------------------------------------------------------------
+    // Append
+    //--------------------------------------------------------------------------------
 
-    public static class StringBuilderExtensions
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static StringBuilder AppendIf(this StringBuilder sb, bool condition, Func<object> valueFactory)
     {
-        //--------------------------------------------------------------------------------
-        // Append
-        //--------------------------------------------------------------------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static StringBuilder AppendIf(this StringBuilder sb, bool condition, Func<object> valueFactory)
+        if (condition)
         {
-            if (condition)
+            var value = valueFactory();
+            sb.Append(value);
+        }
+
+        return sb;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static StringBuilder AppendLineIf(this StringBuilder sb, bool condition)
+    {
+        if (condition)
+        {
+            sb.AppendLine();
+        }
+
+        return sb;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static StringBuilder AppendLineIf(this StringBuilder sb, bool condition, Func<string?> valueFactory)
+    {
+        if (condition)
+        {
+            var value = valueFactory();
+            if (value is not null)
             {
-                var value = valueFactory();
-                sb.Append(value);
+                sb.AppendLine(value);
             }
-
-            return sb;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static StringBuilder AppendLineIf(this StringBuilder sb, bool condition)
+        return sb;
+    }
+
+    //--------------------------------------------------------------------------------
+    // Trim
+    //--------------------------------------------------------------------------------
+
+    private static readonly char[] DefaultTrimChars = { ' ', '\t' };
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static StringBuilder TrimStart(this StringBuilder sb)
+    {
+        return TrimStart(sb, DefaultTrimChars);
+    }
+
+    public static StringBuilder TrimStart(this StringBuilder sb, params char[] trimChars)
+    {
+        var i = 0;
+        while ((i < sb.Length) && Contains(trimChars, sb[i - 1]))
         {
-            if (condition)
+            i++;
+        }
+
+        sb.Remove(0, i);
+        return sb;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static StringBuilder TrimEnd(this StringBuilder sb)
+    {
+        return TrimEnd(sb, DefaultTrimChars);
+    }
+
+    public static StringBuilder TrimEnd(this StringBuilder sb, params char[] trimChars)
+    {
+        var i = sb.Length;
+        while ((i > 0) && Contains(trimChars, sb[i - 1]))
+        {
+            i--;
+        }
+
+        sb.Remove(i, sb.Length - i);
+        return sb;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static StringBuilder Trim(this StringBuilder sb)
+    {
+        return Trim(sb, DefaultTrimChars);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static StringBuilder Trim(this StringBuilder sb, params char[] trimChars)
+    {
+        return TrimStart(TrimEnd(sb, trimChars), trimChars);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    private static bool Contains(char[] chars, char c)
+    {
+        for (var i = 0; i < chars.Length; i++)
+        {
+            if (chars[i] == c)
             {
-                sb.AppendLine();
+                return true;
             }
-
-            return sb;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static StringBuilder AppendLineIf(this StringBuilder sb, bool condition, Func<string?> valueFactory)
-        {
-            if (condition)
-            {
-                var value = valueFactory();
-                if (value is not null)
-                {
-                    sb.AppendLine(value);
-                }
-            }
-
-            return sb;
-        }
-
-        //--------------------------------------------------------------------------------
-        // Trim
-        //--------------------------------------------------------------------------------
-
-        private static readonly char[] DefaultTrimChars = { ' ', '\t' };
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static StringBuilder TrimStart(this StringBuilder sb)
-        {
-            return TrimStart(sb, DefaultTrimChars);
-        }
-
-        public static StringBuilder TrimStart(this StringBuilder sb, params char[] trimChars)
-        {
-            var i = 0;
-            while ((i < sb.Length) && Contains(trimChars, sb[i - 1]))
-            {
-                i++;
-            }
-
-            sb.Remove(0, i);
-            return sb;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static StringBuilder TrimEnd(this StringBuilder sb)
-        {
-            return TrimEnd(sb, DefaultTrimChars);
-        }
-
-        public static StringBuilder TrimEnd(this StringBuilder sb, params char[] trimChars)
-        {
-            var i = sb.Length;
-            while ((i > 0) && Contains(trimChars, sb[i - 1]))
-            {
-                i--;
-            }
-
-            sb.Remove(i, sb.Length - i);
-            return sb;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static StringBuilder Trim(this StringBuilder sb)
-        {
-            return Trim(sb, DefaultTrimChars);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static StringBuilder Trim(this StringBuilder sb, params char[] trimChars)
-        {
-            return TrimStart(TrimEnd(sb, trimChars), trimChars);
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        private static bool Contains(char[] chars, char c)
-        {
-            for (var i = 0; i < chars.Length; i++)
-            {
-                if (chars[i] == c)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
+        return false;
     }
 }

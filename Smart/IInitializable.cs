@@ -1,7 +1,6 @@
-namespace Smart
+namespace Smart;
+
+public interface IInitializable
 {
-    public interface IInitializable
-    {
-        void Initialize();
-    }
+    void Initialize();
 }

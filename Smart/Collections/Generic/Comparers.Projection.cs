@@ -1,44 +1,43 @@
-namespace Smart.Collections.Generic
+namespace Smart.Collections.Generic;
+
+using System;
+using System.Collections.Generic;
+
+public sealed class ProjectionComparer<TSource, TKey> : IComparer<TSource>
 {
-    using System;
-    using System.Collections.Generic;
+    private readonly Func<TSource, TKey> keySelector;
 
-    public sealed class ProjectionComparer<TSource, TKey> : IComparer<TSource>
+    private readonly IComparer<TKey> comparer;
+
+    public ProjectionComparer(Func<TSource, TKey> keySelector)
     {
-        private readonly Func<TSource, TKey> keySelector;
+        this.keySelector = keySelector;
+        comparer = Comparer<TKey>.Default;
+    }
 
-        private readonly IComparer<TKey> comparer;
+    public ProjectionComparer(Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+    {
+        this.keySelector = keySelector;
+        this.comparer = comparer;
+    }
 
-        public ProjectionComparer(Func<TSource, TKey> keySelector)
+    public int Compare(TSource? x, TSource? y)
+    {
+        if (Equals(x, default(TSource)) && Equals(y, default(TSource)))
         {
-            this.keySelector = keySelector;
-            comparer = Comparer<TKey>.Default;
+            return 0;
         }
 
-        public ProjectionComparer(Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+        if (Equals(x, default(TSource)))
         {
-            this.keySelector = keySelector;
-            this.comparer = comparer;
+            return -1;
         }
 
-        public int Compare(TSource? x, TSource? y)
+        if (Equals(y, default(TSource)))
         {
-            if (Equals(x, default(TSource)) && Equals(y, default(TSource)))
-            {
-                return 0;
-            }
-
-            if (Equals(x, default(TSource)))
-            {
-                return -1;
-            }
-
-            if (Equals(y, default(TSource)))
-            {
-                return 1;
-            }
-
-            return comparer.Compare(keySelector(x!), keySelector(y!));
+            return 1;
         }
+
+        return comparer.Compare(keySelector(x!), keySelector(y!));
     }
 }

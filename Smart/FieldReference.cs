@@ -1,4 +1,3 @@
-namespace Smart
-{
-    public delegate ref T FieldReference<T>();
-}
+namespace Smart;
+
+public delegate ref T FieldReference<T>();

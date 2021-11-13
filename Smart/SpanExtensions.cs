@@ -1,59 +1,58 @@
-namespace Smart
+namespace Smart;
+
+using System;
+using System.Runtime.CompilerServices;
+
+public static class SpanExtensions
 {
-    using System;
-    using System.Runtime.CompilerServices;
+    //--------------------------------------------------------------------------------
+    // Line
+    //--------------------------------------------------------------------------------
 
-    public static class SpanExtensions
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static SplitLinesEnumerator SplitLines(this ReadOnlySpan<char> value) => new(value);
+
+    public ref struct SplitLinesEnumerator
     {
-        //--------------------------------------------------------------------------------
-        // Line
-        //--------------------------------------------------------------------------------
+        private ReadOnlySpan<char> remain;
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static SplitLinesEnumerator SplitLines(this ReadOnlySpan<char> value) => new(value);
+        public ReadOnlySpan<char> Current { get; private set; }
 
-        public ref struct SplitLinesEnumerator
+        public SplitLinesEnumerator(ReadOnlySpan<char> remain)
         {
-            private ReadOnlySpan<char> remain;
+            this.remain = remain;
+            Current = default;
+        }
 
-            public ReadOnlySpan<char> Current { get; private set; }
+        public SplitLinesEnumerator GetEnumerator() => this;
 
-            public SplitLinesEnumerator(ReadOnlySpan<char> remain)
+        public bool MoveNext()
+        {
+            // No more
+            if (remain.Length == 0)
             {
-                this.remain = remain;
-                Current = default;
+                return false;
             }
 
-            public SplitLinesEnumerator GetEnumerator() => this;
-
-            public bool MoveNext()
+            // Last
+            var index = remain.IndexOfAny('\r', '\n');
+            if (index == -1)
             {
-                // No more
-                if (remain.Length == 0)
-                {
-                    return false;
-                }
-
-                // Last
-                var index = remain.IndexOfAny('\r', '\n');
-                if (index == -1)
-                {
-                    Current = remain;
-                    remain = ReadOnlySpan<char>.Empty;
-                    return true;
-                }
-
-                if ((index < remain.Length - 1) && (remain[index] == '\r') && (remain[index + 1] == '\n'))
-                {
-                    Current = remain[..index];
-                    remain = remain[(index + 2)..];
-                    return true;
-                }
-
-                Current = remain[..index];
-                remain = remain[(index + 1)..];
+                Current = remain;
+                remain = ReadOnlySpan<char>.Empty;
                 return true;
             }
+
+            if ((index < remain.Length - 1) && (remain[index] == '\r') && (remain[index + 1] == '\n'))
+            {
+                Current = remain[..index];
+                remain = remain[(index + 2)..];
+                return true;
+            }
+
+            Current = remain[..index];
+            remain = remain[(index + 1)..];
+            return true;
         }
     }
 }

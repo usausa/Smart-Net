@@ -1,17 +1,16 @@
-namespace Smart
+namespace Smart;
+
+using System.Runtime.CompilerServices;
+
+public static class StringExtensions
 {
-    using System.Runtime.CompilerServices;
+    //--------------------------------------------------------------------------------
+    // Safe
+    //--------------------------------------------------------------------------------
 
-    public static class StringExtensions
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string EmptyIfNull(this string? value)
     {
-        //--------------------------------------------------------------------------------
-        // Safe
-        //--------------------------------------------------------------------------------
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static string EmptyIfNull(this string? value)
-        {
-            return value ?? string.Empty;
-        }
+        return value ?? string.Empty;
     }
 }

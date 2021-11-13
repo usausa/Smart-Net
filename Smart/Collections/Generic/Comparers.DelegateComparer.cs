@@ -1,21 +1,20 @@
-namespace Smart.Collections.Generic
+namespace Smart.Collections.Generic;
+
+using System;
+using System.Collections.Generic;
+
+public sealed class DelegateComparer<T> : IComparer<T>
 {
-    using System;
-    using System.Collections.Generic;
+    private readonly Func<T, T, int> comparer;
 
-    public sealed class DelegateComparer<T> : IComparer<T>
+    public DelegateComparer(Func<T, T, int> comparer)
     {
-        private readonly Func<T, T, int> comparer;
-
-        public DelegateComparer(Func<T, T, int> comparer)
-        {
-            this.comparer = comparer;
-        }
+        this.comparer = comparer;
+    }
 
 #if NETSTANDARD2_1
-        public int Compare(T x, T y) => comparer(x, y);
+    public int Compare(T x, T y) => comparer(x, y);
 #else
-        public int Compare(T? x, T? y) => comparer(x!, y!);
+    public int Compare(T? x, T? y) => comparer(x!, y!);
 #endif
-    }
 }

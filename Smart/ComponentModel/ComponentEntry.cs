@@ -1,21 +1,20 @@
-namespace Smart.ComponentModel
+namespace Smart.ComponentModel;
+
+using System;
+
+internal class ComponentEntry
 {
-    using System;
+    public object? Constant { get; }
 
-    internal class ComponentEntry
+    public Type? ImplementType { get; }
+
+    public ComponentEntry(object constant)
     {
-        public object? Constant { get; }
+        Constant = constant;
+    }
 
-        public Type? ImplementType { get; }
-
-        public ComponentEntry(object constant)
-        {
-            Constant = constant;
-        }
-
-        public ComponentEntry(Type implementType)
-        {
-            ImplementType = implementType;
-        }
+    public ComponentEntry(Type implementType)
+    {
+        ImplementType = implementType;
     }
 }

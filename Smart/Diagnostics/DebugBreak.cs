@@ -1,17 +1,16 @@
-namespace Smart.Diagnostics
-{
-    using System.Diagnostics;
+namespace Smart.Diagnostics;
 
-    public static class DebugBreak
+using System.Diagnostics;
+
+public static class DebugBreak
+{
+    [DebuggerHidden]
+    [Conditional("DEBUG")]
+    public static void If(bool condition)
     {
-        [DebuggerHidden]
-        [Conditional("DEBUG")]
-        public static void If(bool condition)
+        if (condition)
         {
-            if (condition)
-            {
-                Debugger.Break();
-            }
+            Debugger.Break();
         }
     }
 }

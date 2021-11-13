@@ -1,62 +1,61 @@
-namespace Smart.Text
+namespace Smart.Text;
+
+using System;
+
+using Xunit;
+
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "Ignore")]
+public class HexEncodeTest
 {
-    using System;
+    private readonly byte[] bytes;
 
-    using Xunit;
+    private readonly string hex;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "Ignore")]
-    public class HexEncodeTest
+    public HexEncodeTest()
     {
-        private readonly byte[] bytes;
-
-        private readonly string hex;
-
-        public HexEncodeTest()
+        bytes = new byte[256];
+        for (var i = 0; i < bytes.Length; i++)
         {
-            bytes = new byte[256];
-            for (var i = 0; i < bytes.Length; i++)
-            {
-                bytes[i] = (byte)i;
-            }
-
-            hex = BitConverter.ToString(bytes).Replace("-", string.Empty, StringComparison.Ordinal);
+            bytes[i] = (byte)i;
         }
 
-        [Fact]
-        public void Encode()
-        {
-            Assert.Equal(hex, HexEncoder.Encode(bytes));
-        }
+        hex = BitConverter.ToString(bytes).Replace("-", string.Empty, StringComparison.Ordinal);
+    }
 
-        [Fact]
-        public void Decode()
-        {
-            Assert.Equal(bytes, HexEncoder.Decode(hex));
-            Assert.Equal(bytes, HexEncoder.Decode(hex.ToLowerInvariant()));
-        }
+    [Fact]
+    public void Encode()
+    {
+        Assert.Equal(hex, HexEncoder.Encode(bytes));
+    }
 
-        [Fact]
-        public void EncodeToBuffer()
-        {
-            var buffer = new char[bytes.Length * 2];
+    [Fact]
+    public void Decode()
+    {
+        Assert.Equal(bytes, HexEncoder.Decode(hex));
+        Assert.Equal(bytes, HexEncoder.Decode(hex.ToLowerInvariant()));
+    }
 
-            HexEncoder.Encode(bytes, buffer);
+    [Fact]
+    public void EncodeToBuffer()
+    {
+        var buffer = new char[bytes.Length * 2];
 
-            Assert.Equal(hex, new string(buffer));
-        }
+        HexEncoder.Encode(bytes, buffer);
 
-        [Fact]
-        public void DecodeToBuffer()
-        {
-            var buffer = new byte[bytes.Length];
+        Assert.Equal(hex, new string(buffer));
+    }
 
-            HexEncoder.Decode(hex, buffer);
+    [Fact]
+    public void DecodeToBuffer()
+    {
+        var buffer = new byte[bytes.Length];
 
-            Assert.Equal(bytes, buffer);
+        HexEncoder.Decode(hex, buffer);
 
-            HexEncoder.Decode(hex.ToLowerInvariant(), buffer);
+        Assert.Equal(bytes, buffer);
 
-            Assert.Equal(bytes, buffer);
-        }
+        HexEncoder.Decode(hex.ToLowerInvariant(), buffer);
+
+        Assert.Equal(bytes, buffer);
     }
 }

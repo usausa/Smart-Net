@@ -1,36 +1,35 @@
-namespace Smart.Threading
+namespace Smart.Threading;
+
+using System.Threading;
+
+using Smart.ComponentModel;
+
+public sealed class AtomicInteger : IValueHolder<int>
 {
-    using System.Threading;
+    private int currentValue;
 
-    using Smart.ComponentModel;
-
-    public sealed class AtomicInteger : IValueHolder<int>
+    public int Value
     {
-        private int currentValue;
+        get => currentValue;
+        set => Interlocked.Exchange(ref currentValue, value);
+    }
 
-        public int Value
-        {
-            get => currentValue;
-            set => Interlocked.Exchange(ref currentValue, value);
-        }
+    public AtomicInteger()
+    {
+    }
 
-        public AtomicInteger()
-        {
-        }
+    public AtomicInteger(int initialValue)
+    {
+        currentValue = initialValue;
+    }
 
-        public AtomicInteger(int initialValue)
-        {
-            currentValue = initialValue;
-        }
+    public int GetAndSet(int value)
+    {
+        return Interlocked.Exchange(ref currentValue, value);
+    }
 
-        public int GetAndSet(int value)
-        {
-            return Interlocked.Exchange(ref currentValue, value);
-        }
-
-        public bool TrySet(int value, int comparand)
-        {
-            return Interlocked.CompareExchange(ref currentValue, value, comparand) == comparand;
-        }
+    public bool TrySet(int value, int comparand)
+    {
+        return Interlocked.CompareExchange(ref currentValue, value, comparand) == comparand;
     }
 }

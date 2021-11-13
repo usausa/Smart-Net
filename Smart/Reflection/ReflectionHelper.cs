@@ -1,27 +1,26 @@
-namespace Smart.Reflection
-{
-    using System;
+namespace Smart.Reflection;
 
-    public static class ReflectionHelper
+using System;
+
+public static class ReflectionHelper
+{
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Ignore")]
+    static ReflectionHelper()
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Ignore")]
-        static ReflectionHelper()
+        try
         {
-            try
+            var type = Type.GetType("System.Reflection.Emit.DynamicMethod");
+            if (type is not null)
             {
-                var type = Type.GetType("System.Reflection.Emit.DynamicMethod");
-                if (type is not null)
-                {
-                    Activator.CreateInstance(type, string.Empty, typeof(object), Type.EmptyTypes, true);
-                    IsCodegenAllowed = true;
-                }
-            }
-            catch
-            {
-                // Ignore
+                Activator.CreateInstance(type, string.Empty, typeof(object), Type.EmptyTypes, true);
+                IsCodegenAllowed = true;
             }
         }
-
-        public static bool IsCodegenAllowed { get; }
+        catch
+        {
+            // Ignore
+        }
     }
+
+    public static bool IsCodegenAllowed { get; }
 }
