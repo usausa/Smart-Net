@@ -14,7 +14,7 @@ public static class HexEncoder
         (byte)'C', (byte)'D', (byte)'E', (byte)'F'
     };
 
-#if NET5_0
+#if NET5_0_OR_GREATER
     [SkipLocalsInit]
 #endif
     public static unsafe string Encode(ReadOnlySpan<byte> bytes)
@@ -70,7 +70,7 @@ public static class HexEncoder
         return length;
     }
 
-#if NET5_0
+#if NET5_0_OR_GREATER
     [SkipLocalsInit]
 #endif
     public static unsafe byte[] Decode(ReadOnlySpan<char> code)

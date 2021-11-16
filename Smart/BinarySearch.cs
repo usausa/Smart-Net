@@ -3,7 +3,7 @@ namespace Smart;
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-#if NET5_0
+#if NET5_0_OR_GREATER
 using System.Runtime.InteropServices;
 #endif
 
@@ -16,7 +16,7 @@ public static partial class BinarySearch
 
     // List
 
-#if NET5_0
+#if NET5_0_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T>(List<T> list, Func<T, int> comparer) =>
         Find(CollectionsMarshal.AsSpan(list), comparer);
@@ -68,7 +68,7 @@ public static partial class BinarySearch
 
     // List
 
-#if NET5_0
+#if NET5_0_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T>(List<T> list, Func<T, int> comparer) =>
         FindFirst(CollectionsMarshal.AsSpan(list), comparer);
@@ -121,7 +121,7 @@ public static partial class BinarySearch
 
     // List
 
-#if NET5_0
+#if NET5_0_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(List<T> list, Func<T, int> comparer) =>
         FindLast(CollectionsMarshal.AsSpan(list), comparer);
@@ -174,7 +174,7 @@ public static partial class BinarySearch
 
     // List
 
-#if NET5_0
+#if NET5_0_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T>(List<T> list, T key) =>
         Find(CollectionsMarshal.AsSpan(list), key, Functions<T>.Identify, Comparer<T>.Default);
@@ -294,7 +294,7 @@ public static partial class BinarySearch
 
     // List
 
-#if NET5_0
+#if NET5_0_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T>(List<T> list, T key) =>
         FindFirst(CollectionsMarshal.AsSpan(list), key, Functions<T>.Identify, Comparer<T>.Default);
@@ -415,7 +415,7 @@ public static partial class BinarySearch
 
     // List
 
-#if NET5_0
+#if NET5_0_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(List<T> list, T key) =>
         FindLast(CollectionsMarshal.AsSpan(list), key, Functions<T>.Identify, Comparer<T>.Default);
