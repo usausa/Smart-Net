@@ -41,12 +41,14 @@ public static class NotificationValueExtensions
             cts.SetResult(value.Value);
         }
 
+#pragma warning disable CA2007
         await using var registration = cancel.Register(() =>
         {
             value.PropertyChanged -= ValuePropertyChanged;
             // ReSharper disable once MethodSupportsCancellation
             cts.SetCanceled();
         });
+#pragma warning restore CA2007
 
         value.PropertyChanged += ValuePropertyChanged;
 

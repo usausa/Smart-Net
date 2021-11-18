@@ -38,7 +38,9 @@ public static class StreamExtensions
             return memoryStream.ToArray();
         }
 
+#pragma warning disable CA2007
         await using var ms = new MemoryStream();
+#pragma warning restore CA2007
         await stream.CopyToAsync(ms).ConfigureAwait(false);
         return ms.ToArray();
     }
@@ -50,7 +52,9 @@ public static class StreamExtensions
             return memoryStream.ToArray();
         }
 
+#pragma warning disable CA2007
         await using var ms = new MemoryStream();
+#pragma warning restore CA2007
         await stream.CopyToAsync(ms, cancel).ConfigureAwait(false);
         return ms.ToArray();
     }
