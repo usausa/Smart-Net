@@ -183,7 +183,6 @@ public class ComponentContainerTest
     protected class ArrayParameterObject
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "Ignore")]
-        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
         public ICalcService[] CalcServices { get; set; }
 
         public ArrayParameterObject(ICalcService[] calcServices)
@@ -194,10 +193,8 @@ public class ComponentContainerTest
 
     protected class MultiConstructorObject
     {
-        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
         public int Arguments { get; set; }
 
-        // ReSharper disable once AutoPropertyCanBeMadeGetOnly.Global
         public ICalcService? CalcService { get; set; }
 
         public MultiConstructorObject()

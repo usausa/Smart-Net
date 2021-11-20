@@ -5,7 +5,6 @@ using System.Buffers;
 using System.IO;
 using System.Runtime.CompilerServices;
 
-#pragma warning disable IDE0032
 public sealed class PooledMemoryStream : Stream
 {
     private readonly ArrayPool<byte> pool;
@@ -171,4 +170,3 @@ public sealed class PooledMemoryStream : Stream
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public byte[] GetRawBuffer() => rawBuffer;
 }
-#pragma warning restore IDE0032

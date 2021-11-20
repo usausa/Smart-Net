@@ -3,12 +3,13 @@ namespace Smart.IO;
 using System;
 using System.Runtime.CompilerServices;
 
-#pragma warning disable IDE0032
 public sealed class ByteHolder
 {
     private readonly byte[] rawBuffer;
 
+#pragma warning disable IDE0032
     private readonly int size;
+#pragma warning restore IDE0032
 
     public int Length => size;
 
@@ -48,4 +49,3 @@ public sealed class ByteHolder
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Clear() => rawBuffer.AsSpan().Clear();
 }
-#pragma warning restore IDE0032
