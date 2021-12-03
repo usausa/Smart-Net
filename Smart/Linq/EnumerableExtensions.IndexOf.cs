@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
-public static partial class Enumerable
+public static partial class EnumerableExtensions
 {
     //--------------------------------------------------------------------------------
     // IndexOf

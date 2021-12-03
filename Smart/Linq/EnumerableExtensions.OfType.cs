@@ -2,7 +2,7 @@ namespace Smart.Linq;
 
 using System.Collections.Generic;
 
-public static partial class Enumerable
+public static partial class EnumerableExtensions
 {
     //--------------------------------------------------------------------------------
     // OfType
