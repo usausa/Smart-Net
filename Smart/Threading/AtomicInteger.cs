@@ -10,7 +10,7 @@ public sealed class AtomicInteger : IValueHolder<int>
 
     public int Value
     {
-        get => currentValue;
+        get => Interlocked.Exchange(ref currentValue, currentValue);
         set => Interlocked.Exchange(ref currentValue, value);
     }
 

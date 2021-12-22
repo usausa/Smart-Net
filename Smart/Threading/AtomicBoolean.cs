@@ -13,7 +13,7 @@ public sealed class AtomicBoolean : IValueHolder<bool>
 
     public bool Value
     {
-        get => currentValue == True;
+        get => Interlocked.Exchange(ref currentValue, currentValue);
         set => Interlocked.Exchange(ref currentValue, value ? True : False);
     }
 

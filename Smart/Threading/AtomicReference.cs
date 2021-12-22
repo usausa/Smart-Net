@@ -13,7 +13,7 @@ public sealed class AtomicReference<T> : IValueHolder<T>
 
     public T Value
     {
-        get => currentValue;
+        get => Interlocked.Exchange(ref currentValue, currentValue);
         set => Interlocked.Exchange(ref currentValue, value);
     }
 
