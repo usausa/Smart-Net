@@ -20,10 +20,6 @@ public static partial class ComparerEnumerable
         first.Except(second, Comparers.ProjectionEquality(compareKeySelector));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static IEnumerable<IGrouping<TKey, TSource>> GroupBy<TSource, TKey, TCompareKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TKey, TCompareKey> compareKeySelector) =>
-        source.GroupBy(keySelector, Comparers.ProjectionEquality(compareKeySelector));
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static IEnumerable<TResult> GroupBy<TSource, TKey, TResult, TCompareKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TKey, IEnumerable<TSource>, TResult> resultSelector, Func<TKey, TCompareKey> compareKeySelector) =>
         source.GroupBy(keySelector, resultSelector, Comparers.ProjectionEquality(compareKeySelector));
 
@@ -52,18 +48,9 @@ public static partial class ComparerEnumerable
         first.SequenceEqual(second, Comparers.ProjectionEquality(compareKeySelector));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Dictionary<TKey, TSource> ToDictionary<TSource, TKey, TCompareKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TKey, TCompareKey> compareKeySelector)
-        where TKey : notnull =>
-        source.ToDictionary(keySelector, Comparers.ProjectionEquality(compareKeySelector));
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Dictionary<TKey, TElement> ToDictionary<TSource, TKey, TElement, TCompareKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, Func<TKey, TCompareKey> compareKeySelector)
         where TKey : notnull =>
         source.ToDictionary(keySelector, elementSelector, Comparers.ProjectionEquality(compareKeySelector));
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ILookup<TKey, TSource> ToLookup<TSource, TKey, TCompareKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TKey, TCompareKey> compareKeySelector) =>
-        source.ToLookup(keySelector, Comparers.ProjectionEquality(compareKeySelector));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ILookup<TKey, TElement> ToLookup<TSource, TKey, TElement, TCompareKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TSource, TElement> elementSelector, Func<TKey, TCompareKey> compareKeySelector) =>
