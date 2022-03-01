@@ -1,10 +1,9 @@
 namespace Smart.IO;
 
 using System;
-using System.Buffers;
 using System.Runtime.CompilerServices;
 
-public sealed class ByteBuffer : IBufferWriter<byte>
+public sealed class ByteBuffer
 {
     // position <= limit <= capacity
 
@@ -23,7 +22,7 @@ public sealed class ByteBuffer : IBufferWriter<byte>
         {
             if ((uint)value > (uint)limit)
             {
-                throw new ArgumentException("Position is out of range.", nameof(value));
+                throw new ArgumentOutOfRangeException(nameof(value));
             }
 
             position = value;
@@ -39,7 +38,7 @@ public sealed class ByteBuffer : IBufferWriter<byte>
         {
             if ((uint)value > (uint)Capacity)
             {
-                throw new ArgumentException("Limit is out of range.", nameof(value));
+                throw new ArgumentOutOfRangeException(nameof(value));
             }
 
             limit = value;
@@ -59,7 +58,6 @@ public sealed class ByteBuffer : IBufferWriter<byte>
     public ByteBuffer(int capacity)
     {
         rawBuffer = new byte[capacity];
-        position = 0;
         limit = capacity;
         Capacity = capacity;
     }
@@ -67,7 +65,6 @@ public sealed class ByteBuffer : IBufferWriter<byte>
     public ByteBuffer(byte[] bytes)
     {
         rawBuffer = bytes;
-        position = 0;
         limit = bytes.Length;
         Capacity = limit;
     }
@@ -130,11 +127,15 @@ public sealed class ByteBuffer : IBufferWriter<byte>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Clear() => rawBuffer.AsSpan().Clear();
 
-    public void Advance(int count) => position += count;
-
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public Memory<byte> GetMemory(int sizeHint = 0) => new(rawBuffer, position, limit - position);
+    public void Advance(int count)
+    {
+        var newPosition = position + count;
+        if ((uint)newPosition > (uint)limit)
+        {
+            throw new ArgumentOutOfRangeException(nameof(count));
+        }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public Span<byte> GetSpan(int sizeHint = 0) => new(rawBuffer, position, limit - position);
+        position = newPosition;
+    }
 }
