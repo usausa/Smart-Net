@@ -9,8 +9,7 @@ public static class TextReaderExtensions
 {
     public static IEnumerable<string> ReadLines(this TextReader reader)
     {
-        string? result;
-        while ((result = reader.ReadLine()) is not null)
+        while (reader.ReadLine() is { } result)
         {
             yield return result;
         }
@@ -18,8 +17,7 @@ public static class TextReaderExtensions
 
     public static async IAsyncEnumerable<string> ReadLinesAsync(this TextReader reader)
     {
-        string? result;
-        while ((result = await reader.ReadLineAsync().ConfigureAwait(false)) is not null)
+        while (await reader.ReadLineAsync().ConfigureAwait(false) is { } result)
         {
             yield return result;
         }
@@ -29,8 +27,7 @@ public static class TextReaderExtensions
     {
         cancel.ThrowIfCancellationRequested();
 
-        string? result;
-        while ((result = await reader.ReadLineAsync().ConfigureAwait(false)) is not null)
+        while (await reader.ReadLineAsync().ConfigureAwait(false) is { } result)
         {
             yield return result;
 
