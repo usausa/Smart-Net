@@ -1,8 +1,5 @@
 namespace Smart.Collections.Generic;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.CompilerServices;
 
 public static partial class ComparerEnumerable

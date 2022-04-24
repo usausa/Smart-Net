@@ -1,7 +1,5 @@
 namespace Smart.ComponentModel;
 
-using System;
-
 public abstract class DisposableObject : IDisposable
 {
     private readonly object sync = new();

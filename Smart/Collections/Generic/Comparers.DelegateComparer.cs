@@ -1,8 +1,5 @@
 namespace Smart.Collections.Generic;
 
-using System;
-using System.Collections.Generic;
-
 public sealed class DelegateComparer<T> : IComparer<T>
 {
     private readonly Func<T, T, int> comparer;

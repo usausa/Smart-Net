@@ -1,6 +1,5 @@
 namespace Smart.Reflection.Emit;
 
-using System;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;

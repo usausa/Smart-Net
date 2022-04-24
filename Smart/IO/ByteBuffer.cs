@@ -1,6 +1,5 @@
 namespace Smart.IO;
 
-using System;
 using System.Runtime.CompilerServices;
 
 public sealed class ByteBuffer

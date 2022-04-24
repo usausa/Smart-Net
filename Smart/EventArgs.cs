@@ -1,7 +1,5 @@
 namespace Smart;
 
-using System;
-
 public class EventArgs<T> : EventArgs
 {
     public T Data { get; }

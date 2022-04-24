@@ -1,9 +1,5 @@
 namespace Smart.Threading.Tasks;
 
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2008:DoNotCreateTasksWithoutPassingATaskScheduler", Justification = "Ignore")]
 public static class AsyncHelper
 {

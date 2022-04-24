@@ -1,7 +1,5 @@
 namespace Smart.ComponentModel;
 
-using System;
-
 internal class ComponentEntry
 {
     public object? Constant { get; }

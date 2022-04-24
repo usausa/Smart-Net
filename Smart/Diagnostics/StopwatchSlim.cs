@@ -1,6 +1,5 @@
 namespace Smart.Diagnostics;
 
-using System;
 using System.Diagnostics;
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1815:OverrideEqualsAndOperatorEqualsOnValueTypes", Justification = "Ignore")]

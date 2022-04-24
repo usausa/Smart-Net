@@ -1,7 +1,5 @@
 namespace Smart.Reflection;
 
-using System;
-
 using Xunit;
 
 public class DynamicDelegateFactoryTypedAccessorTest

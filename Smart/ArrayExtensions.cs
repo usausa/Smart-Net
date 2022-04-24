@@ -1,6 +1,5 @@
 namespace Smart;
 
-using System;
 using System.Runtime.CompilerServices;
 
 public static class ArrayExtensions

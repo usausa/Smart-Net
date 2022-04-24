@@ -1,7 +1,5 @@
 namespace Smart.Reflection;
 
-using System;
-
 public static class ReflectionHelper
 {
     [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Ignore")]

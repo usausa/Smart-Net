@@ -1,7 +1,5 @@
 namespace Smart.Threading;
 
-using System.Threading;
-
 using Smart.ComponentModel;
 
 public sealed class AtomicBoolean : IValueHolder<bool>

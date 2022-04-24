@@ -1,8 +1,5 @@
 namespace Benchmark.Text;
 
-using System;
-using System.Linq;
-
 using BenchmarkDotNet.Attributes;
 
 using Smart.Text;

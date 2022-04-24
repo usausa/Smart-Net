@@ -1,8 +1,5 @@
 namespace Smart.Collections.Concurrent;
 
-using System;
-using System.Threading;
-
 using Xunit;
 
 public class ThreadsafeTypeHashArrayMapTest

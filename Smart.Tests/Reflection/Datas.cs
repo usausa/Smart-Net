@@ -1,7 +1,5 @@
 namespace Smart.Reflection;
 
-using System;
-
 using Smart.ComponentModel;
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix", Justification = "Ignore")]

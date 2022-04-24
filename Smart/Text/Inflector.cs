@@ -1,6 +1,5 @@
 namespace Smart.Text;
 
-using System;
 using System.Runtime.CompilerServices;
 
 public static class Inflector

@@ -2,7 +2,6 @@
 #nullable enable
 namespace Smart.Reflection;
 
-using System;
 using System.Reflection;
 
 public sealed partial class DynamicDelegateFactory

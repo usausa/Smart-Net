@@ -1,7 +1,5 @@
 namespace Smart;
 
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 public static class Enums<T>

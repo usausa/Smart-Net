@@ -1,9 +1,5 @@
 namespace Smart.ComponentModel;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 public sealed class ComponentConfig
 {
     private readonly Dictionary<Type, List<ComponentEntry>> mappings = new();

@@ -1,7 +1,5 @@
 namespace Smart.Collections.Generic;
 
-using System;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 public static class Comparers

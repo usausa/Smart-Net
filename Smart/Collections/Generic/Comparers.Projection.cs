@@ -1,8 +1,5 @@
 namespace Smart.Collections.Generic;
 
-using System;
-using System.Collections.Generic;
-
 public sealed class ProjectionComparer<TSource, TKey> : IComparer<TSource>
 {
     private readonly Func<TSource, TKey> keySelector;

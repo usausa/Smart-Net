@@ -1,7 +1,5 @@
 namespace Smart.Text;
 
-using System;
-
 using Xunit;
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1308:NormalizeStringsToUppercase", Justification = "Ignore")]

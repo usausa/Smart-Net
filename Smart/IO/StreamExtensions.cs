@@ -1,10 +1,5 @@
 namespace Smart.IO;
 
-using System;
-using System.IO;
-using System.Threading;
-using System.Threading.Tasks;
-
 public static class StreamExtensions
 {
     public static byte[] ReadAllBytes(this Stream stream)

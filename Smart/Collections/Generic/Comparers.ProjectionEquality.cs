@@ -1,8 +1,5 @@
 namespace Smart.Collections.Generic;
 
-using System;
-using System.Collections.Generic;
-
 public sealed class ProjectionEqualityComparer<TSource, TKey> : IEqualityComparer<TSource>
 {
     private readonly Func<TSource, TKey> keySelector;

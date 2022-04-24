@@ -1,7 +1,5 @@
 namespace Smart.Collections.Generic;
 
-using System.Collections.Generic;
-
 public sealed class ChainComparer<T> : IComparer<T>
 {
     private readonly IComparer<T>[] comparers;

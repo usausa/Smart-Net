@@ -1,7 +1,5 @@
 namespace Smart.Collections.Concurrent;
 
-using System;
-
 public interface IHashArrayMapResizeContext
 {
     int Width { get; }

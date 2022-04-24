@@ -1,6 +1,5 @@
 namespace Smart.Collections.Generic;
 
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 public sealed class ObjectEqualityComparer<T> : IEqualityComparer<T>

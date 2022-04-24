@@ -1,8 +1,6 @@
 namespace Smart.ComponentModel;
 
 using System.ComponentModel;
-using System.Threading;
-using System.Threading.Tasks;
 
 public static class NotificationValueExtensions
 {

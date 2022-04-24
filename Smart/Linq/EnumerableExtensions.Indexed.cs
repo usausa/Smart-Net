@@ -1,8 +1,6 @@
 namespace Smart.Linq;
 
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 public static partial class EnumerableExtensions
