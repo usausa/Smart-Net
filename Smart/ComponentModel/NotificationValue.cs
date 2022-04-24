@@ -1,11 +1,8 @@
 namespace Smart.ComponentModel;
 
-using System.Diagnostics.CodeAnalysis;
-
 public class NotificationValue<T> : NotificationObject, IValueHolder<T>
 {
-    [AllowNull]
-    private T storage;
+    private T storage = default!;
 
     public T Value
     {

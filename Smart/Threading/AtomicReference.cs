@@ -1,6 +1,5 @@
 namespace Smart.Threading;
 
-using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 
 using Smart.ComponentModel;
@@ -8,8 +7,7 @@ using Smart.ComponentModel;
 public sealed class AtomicReference<T> : IValueHolder<T>
     where T : class
 {
-    [AllowNull]
-    private T currentValue;
+    private T currentValue = default!;
 
     public T Value
     {
