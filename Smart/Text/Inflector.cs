@@ -17,7 +17,7 @@ public static class Inflector
             return string.Empty;
         }
 
-        var buffer = word.Length < 2048 ? stackalloc char[word.Length] : new char[word.Length];
+        var buffer = word.Length < 512 ? stackalloc char[word.Length] : new char[word.Length];
         var length = 0;
 
         fixed (char* pBuffer = buffer)
@@ -64,7 +64,7 @@ public static class Inflector
         }
 
         var bufferSize = word.Length << 1;
-        var buffer = bufferSize < 2048 ? stackalloc char[bufferSize] : new char[bufferSize];
+        var buffer = bufferSize < 512 ? stackalloc char[bufferSize] : new char[bufferSize];
         var length = 0;
 
         fixed (char* pBuffer = buffer)

@@ -24,7 +24,7 @@ public static class HexEncoder
         }
 
         var length = bytes.Length << 1;
-        var buffer = length < 2048 ? stackalloc char[length] : new char[length];
+        var buffer = length < 512 ? stackalloc char[length] : new char[length];
         ref var hex = ref MemoryMarshal.GetReference(HexTable);
 
         fixed (char* pBuffer = buffer)
