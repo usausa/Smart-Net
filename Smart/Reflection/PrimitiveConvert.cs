@@ -5,16 +5,20 @@ using System.Runtime.CompilerServices;
 
 public static class PrimitiveConvert
 {
-    private static readonly Dictionary<(Type, Type), MethodInfo> Methods;
+    // ReSharper disable NotAccessedPositionalProperty.Local
+    private readonly record struct RecordKey(Type ParameterType, Type ReturnType);
+    // ReSharper restore NotAccessedPositionalProperty.Local
+
+    private static readonly Dictionary<RecordKey, MethodInfo> Methods;
 
     static PrimitiveConvert()
     {
         Methods = typeof(PrimitiveConvert).GetMethods(BindingFlags.Public | BindingFlags.Static)
-            .ToDictionary(x => (x.GetParameters()[0].ParameterType, x.ReturnType), x => x);
+            .ToDictionary(x => new RecordKey(x.GetParameters()[0].ParameterType, x.ReturnType), x => x);
     }
 
     public static MethodInfo? GetMethod(Type parameterType, Type returnType) =>
-        Methods.TryGetValue((parameterType, returnType), out var method) ? method : null;
+        Methods.TryGetValue(new RecordKey(parameterType, returnType), out var method) ? method : null;
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static sbyte ByteToSByte(byte x) => (sbyte)x;
