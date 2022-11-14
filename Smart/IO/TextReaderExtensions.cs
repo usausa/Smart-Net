@@ -24,7 +24,11 @@ public static class TextReaderExtensions
     {
         cancel.ThrowIfCancellationRequested();
 
+#if NET7_0_OR_GREATER
+        while (await reader.ReadLineAsync(cancel).ConfigureAwait(false) is { } result)
+#else
         while (await reader.ReadLineAsync().ConfigureAwait(false) is { } result)
+#endif
         {
             yield return result;
 
