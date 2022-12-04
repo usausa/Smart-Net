@@ -1,5 +1,6 @@
 namespace Smart.Text;
 
+using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -23,47 +24,41 @@ public static class HexEncoder
             return string.Empty;
         }
 
-        var length = bytes.Length << 1;
-        var buffer = length < 512 ? stackalloc char[length] : new char[length];
+        var length = bytes.Length * 2;
+        var span = length < 512 ? stackalloc char[length] : new char[length];
+        ref var buffer = ref MemoryMarshal.GetReference(span);
         ref var hex = ref MemoryMarshal.GetReference(HexTable);
 
-        fixed (char* pBuffer = buffer)
+        for (var i = 0; i < bytes.Length; i++)
         {
-            var p = pBuffer;
-            for (var i = 0; i < bytes.Length; i++)
-            {
-                var b = bytes[i];
-                *p = (char)Unsafe.Add(ref hex, b >> 4);
-                p++;
-                *p = (char)Unsafe.Add(ref hex, b & 0xF);
-                p++;
-            }
-
-            return new string(pBuffer, 0, length);
+            var b = bytes[i];
+            buffer = (char)Unsafe.Add(ref hex, b >> 4);
+            buffer = ref Unsafe.Add(ref buffer, 1);
+            buffer = (char)Unsafe.Add(ref hex, b & 0xF);
+            buffer = ref Unsafe.Add(ref buffer, 1);
         }
+
+        return new string(span);
     }
 
-    public static unsafe int Encode(ReadOnlySpan<byte> bytes, Span<char> buffer)
+    public static int Encode(ReadOnlySpan<byte> bytes, Span<char> destination)
     {
         if (bytes.IsEmpty)
         {
             return 0;
         }
 
-        var length = bytes.Length << 1;
+        var length = bytes.Length * 2;
+        ref var buffer = ref MemoryMarshal.GetReference(destination);
         ref var hex = ref MemoryMarshal.GetReference(HexTable);
 
-        fixed (char* ptr = buffer)
+        for (var i = 0; i < bytes.Length; i++)
         {
-            var p = ptr;
-            for (var i = 0; i < bytes.Length; i++)
-            {
-                var b = bytes[i];
-                *p = (char)Unsafe.Add(ref hex, b >> 4);
-                p++;
-                *p = (char)Unsafe.Add(ref hex, b & 0xF);
-                p++;
-            }
+            var b = bytes[i];
+            buffer = (char)Unsafe.Add(ref hex, b >> 4);
+            buffer = ref Unsafe.Add(ref buffer, 1);
+            buffer = (char)Unsafe.Add(ref hex, b & 0xF);
+            buffer = ref Unsafe.Add(ref buffer, 1);
         }
 
         return length;
@@ -79,6 +74,7 @@ public static class HexEncoder
             return Array.Empty<byte>();
         }
 
+        // TODO
         var buffer = new byte[code.Length >> 1];
 
         fixed (char* pCode = code)
@@ -99,17 +95,18 @@ public static class HexEncoder
         return buffer;
     }
 
-    public static unsafe int Decode(ReadOnlySpan<char> code, Span<byte> buffer)
+    public static unsafe int Decode(ReadOnlySpan<char> code, Span<byte> destination)
     {
         if (code.IsEmpty)
         {
             return 0;
         }
 
+        // TODO
         var length = code.Length >> 1;
 
         fixed (char* pCode = code)
-        fixed (byte* pBuffer = buffer)
+        fixed (byte* pBuffer = destination)
         {
             var pb = pBuffer;
             var pc = pCode;
