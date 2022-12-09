@@ -432,8 +432,8 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
         { typeof(ulong), il => il.Emit(OpCodes.Ldc_I8, 0L) },   // Simplicity
         { typeof(float), il => il.Emit(OpCodes.Ldc_R4, 0f) },
         { typeof(double), il => il.Emit(OpCodes.Ldc_R8, 0d) },
-        { typeof(IntPtr), il => il.Emit(OpCodes.Ldc_I4_0) },    // Simplicity
-        { typeof(UIntPtr), il => il.Emit(OpCodes.Ldc_I4_0) }    // Simplicity
+        { typeof(nint), il => il.Emit(OpCodes.Ldc_I4_0) },      // Simplicity
+        { typeof(nuint), il => il.Emit(OpCodes.Ldc_I4_0) }      // Simplicity
     };
 
     private static Delegate? CreateSetterInternal(PropertyInfo pi, PropertyInfo tpi, bool isValueHolder, Type targetType, Type memberType)

@@ -52,7 +52,7 @@ public class MemberData
 
     public double DoubleValue { get; set; }
 
-    public IntPtr IntPtrValue { get; set; }
+    public nint IntPtrValue { get; set; }
 
     public MyEnum EnumValue { get; set; }
 
