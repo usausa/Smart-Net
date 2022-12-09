@@ -178,8 +178,8 @@ public class ReflectionDelegateFactoryAccessorTest
 
         var data = new MemberData();
 
-        setter(data, (IntPtr)1);
-        Assert.Equal((IntPtr)1, getter(data));
+        setter(data, 1);
+        Assert.Equal(1, getter(data));
 
         setter(data, null);
         Assert.Equal(IntPtr.Zero, getter(data));
