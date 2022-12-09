@@ -141,8 +141,8 @@ public class DynamicDelegateFactoryTypedAccessorTest
 
         var data = new MemberData();
 
-        setter(data, 1);
-        Assert.Equal(1, getter(data));
+        setter(data, (IntPtr)1);
+        Assert.Equal((IntPtr)1, getter(data));
     }
 
     [Fact]
