@@ -136,13 +136,13 @@ public class ReflectionDelegateFactoryTypedAccessorTest
     [Fact]
     public void TypedAccessValueTypePropertyIntPtr()
     {
-        var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, IntPtr>(nameof(MemberData.IntPtrValue))!;
-        var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, IntPtr>(nameof(MemberData.IntPtrValue))!;
+        var getter = ReflectionDelegateFactory.Default.CreateGetter<MemberData, nint>(nameof(MemberData.IntPtrValue))!;
+        var setter = ReflectionDelegateFactory.Default.CreateSetter<MemberData, nint>(nameof(MemberData.IntPtrValue))!;
 
         var data = new MemberData();
 
-        setter(data, (IntPtr)1);
-        Assert.Equal((IntPtr)1, getter(data));
+        setter(data, 1);
+        Assert.Equal(1, getter(data));
     }
 
     [Fact]

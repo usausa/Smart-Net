@@ -6,13 +6,7 @@ using System.Runtime.InteropServices;
 
 public static class HexEncoder
 {
-    private static ReadOnlySpan<byte> HexTable => new[]
-    {
-        (byte)'0', (byte)'1', (byte)'2', (byte)'3',
-        (byte)'4', (byte)'5', (byte)'6', (byte)'7',
-        (byte)'8', (byte)'9', (byte)'A', (byte)'B',
-        (byte)'C', (byte)'D', (byte)'E', (byte)'F'
-    };
+    private static ReadOnlySpan<byte> HexTable => "0123456789ABCDEF"u8;
 
 #if NET5_0_OR_GREATER
     [SkipLocalsInit]
