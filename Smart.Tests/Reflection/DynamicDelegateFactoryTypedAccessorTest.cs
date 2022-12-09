@@ -136,8 +136,8 @@ public class DynamicDelegateFactoryTypedAccessorTest
     [Fact]
     public void TypedAccessValueTypePropertyIntPtr()
     {
-        var getter = DynamicDelegateFactory.Default.CreateGetter<MemberData, nint>(nameof(MemberData.IntPtrValue))!;
-        var setter = DynamicDelegateFactory.Default.CreateSetter<MemberData, nint>(nameof(MemberData.IntPtrValue))!;
+        var getter = DynamicDelegateFactory.Default.CreateGetter<MemberData, IntPtr>(nameof(MemberData.IntPtrValue))!;
+        var setter = DynamicDelegateFactory.Default.CreateSetter<MemberData, IntPtr>(nameof(MemberData.IntPtrValue))!;
 
         var data = new MemberData();
 
