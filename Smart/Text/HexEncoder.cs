@@ -11,21 +11,22 @@ public static class HexEncoder
 #if NET5_0_OR_GREATER
     [SkipLocalsInit]
 #endif
-    public static unsafe string Encode(ReadOnlySpan<byte> bytes)
+    public static unsafe string Encode(ReadOnlySpan<byte> source)
     {
-        if (bytes.IsEmpty)
+        if (source.IsEmpty)
         {
             return string.Empty;
         }
 
-        var length = bytes.Length * 2;
+        var length = source.Length << 1;
         var span = length < 512 ? stackalloc char[length] : new char[length];
         ref var buffer = ref MemoryMarshal.GetReference(span);
+
         ref var hex = ref MemoryMarshal.GetReference(HexTable);
 
-        for (var i = 0; i < bytes.Length; i++)
+        for (var i = 0; i < source.Length; i++)
         {
-            var b = bytes[i];
+            var b = source[i];
             buffer = (char)Unsafe.Add(ref hex, b >> 4);
             buffer = ref Unsafe.Add(ref buffer, 1);
             buffer = (char)Unsafe.Add(ref hex, b & 0xF);
@@ -35,20 +36,26 @@ public static class HexEncoder
         return new string(span);
     }
 
-    public static int Encode(ReadOnlySpan<byte> bytes, Span<char> destination)
+    public static int Encode(ReadOnlySpan<byte> source, Span<char> destination)
     {
-        if (bytes.IsEmpty)
+        if (source.IsEmpty)
         {
             return 0;
         }
 
-        var length = bytes.Length * 2;
+        var length = source.Length << 1;
+        if (length > destination.Length)
+        {
+            return -1;
+        }
+
         ref var buffer = ref MemoryMarshal.GetReference(destination);
+
         ref var hex = ref MemoryMarshal.GetReference(HexTable);
 
-        for (var i = 0; i < bytes.Length; i++)
+        for (var i = 0; i < source.Length; i++)
         {
-            var b = bytes[i];
+            var b = source[i];
             buffer = (char)Unsafe.Add(ref hex, b >> 4);
             buffer = ref Unsafe.Add(ref buffer, 1);
             buffer = (char)Unsafe.Add(ref hex, b & 0xF);
@@ -61,57 +68,48 @@ public static class HexEncoder
 #if NET5_0_OR_GREATER
     [SkipLocalsInit]
 #endif
-    public static unsafe byte[] Decode(ReadOnlySpan<char> code)
+    public static byte[] Decode(ReadOnlySpan<char> source)
     {
-        if (code.IsEmpty)
+        if (source.IsEmpty)
         {
             return Array.Empty<byte>();
         }
 
-        // TODO
-        var buffer = new byte[code.Length >> 1];
+        var buffer = new byte[source.Length >> 1];
+        ref var sr = ref MemoryMarshal.GetReference(source);
 
-        fixed (char* pCode = code)
-        fixed (byte* pBuffer = &buffer[0])
+        for (var i = 0; i < buffer.Length; i++)
         {
-            var pb = pBuffer;
-            var pc = pCode;
-            for (var i = 0; i < buffer.Length; i++)
-            {
-                var b = CharToNumber(*pc) << 4;
-                pc++;
-                *pb = (byte)(b + CharToNumber(*pc));
-                pc++;
-                pb++;
-            }
+            var b = CharToNumber(sr) << 4;
+            sr = ref Unsafe.Add(ref sr, 1);
+            buffer[i] = (byte)(b + CharToNumber(sr));
+            sr = ref Unsafe.Add(ref sr, 1);
         }
 
         return buffer;
     }
 
-    public static unsafe int Decode(ReadOnlySpan<char> code, Span<byte> destination)
+    public static int Decode(ReadOnlySpan<char> source, Span<byte> destination)
     {
-        if (code.IsEmpty)
+        if (source.IsEmpty)
         {
             return 0;
         }
 
-        // TODO
-        var length = code.Length >> 1;
-
-        fixed (char* pCode = code)
-        fixed (byte* pBuffer = destination)
+        var length = source.Length >> 1;
+        if (length > destination.Length)
         {
-            var pb = pBuffer;
-            var pc = pCode;
-            for (var i = 0; i < length; i++)
-            {
-                var b = CharToNumber(*pc) << 4;
-                pc++;
-                *pb = (byte)(b + CharToNumber(*pc));
-                pc++;
-                pb++;
-            }
+            return -1;
+        }
+
+        ref var sr = ref MemoryMarshal.GetReference(source);
+
+        for (var i = 0; i < length; i++)
+        {
+            var b = CharToNumber(sr) << 4;
+            sr = ref Unsafe.Add(ref sr, 1);
+            destination[i] = (byte)(b + CharToNumber(sr));
+            sr = ref Unsafe.Add(ref sr, 1);
         }
 
         return length;
