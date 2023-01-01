@@ -1,6 +1,6 @@
 namespace Smart.ComponentModel;
 
-internal class ComponentEntry
+internal sealed class ComponentEntry
 {
     public object? Constant { get; }
 

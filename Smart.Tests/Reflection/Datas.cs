@@ -92,7 +92,7 @@ public class MemberData
 }
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Ignore")]
-internal class InternalData
+internal sealed class InternalData
 {
 }
 
