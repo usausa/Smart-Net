@@ -1,12 +1,12 @@
+#if !NET7_0_OR_GREATER
+// ReSharper disable BuiltInTypeReferenceStyle
+// ReSharper disable RedundantCast
+#endif
 namespace Smart.Reflection;
 
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-#if !NET7_0_OR_GREATER
-// ReSharper disable BuiltInTypeReferenceStyle
-// ReSharper disable RedundantCast
-#endif
 #pragma warning disable CA2020
 public static class PrimitiveConvert
 {
@@ -404,7 +404,3 @@ public static class PrimitiveConvert
     public static ushort UIntPtrToUInt16(UIntPtr x) => (ushort)x;
 }
 #pragma warning restore CA2020
-#if !NET7_0_OR_GREATER
-// ReSharper restore RedundantCast
-// ReSharper restore BuiltInTypeReferenceStyle
-#endif

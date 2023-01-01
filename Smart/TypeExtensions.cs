@@ -1,3 +1,6 @@
+#if !NET7_0_OR_GREATER
+// ReSharper disable All
+#endif
 namespace Smart;
 
 using System.Collections;

@@ -1,3 +1,6 @@
+#if !NET7_0_OR_GREATER
+// ReSharper disable BuiltInTypeReferenceStyle
+#endif
 namespace Smart.Reflection;
 
 using Xunit;
