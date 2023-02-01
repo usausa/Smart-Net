@@ -18,20 +18,25 @@ public static class HexEncoder
             return string.Empty;
         }
 
+        ref var sr = ref MemoryMarshal.GetReference(source);
+        ref var end = ref Unsafe.Add(ref sr, source.Length);
+
         var length = source.Length << 1;
         var span = length < 512 ? stackalloc char[length] : new char[length];
         ref var buffer = ref MemoryMarshal.GetReference(span);
 
         ref var hex = ref MemoryMarshal.GetReference(HexTable);
 
-        for (var i = 0; i < source.Length; i++)
+        do
         {
-            var b = source[i];
+            var b = sr;
             buffer = (char)Unsafe.Add(ref hex, b >> 4);
             buffer = ref Unsafe.Add(ref buffer, 1);
             buffer = (char)Unsafe.Add(ref hex, b & 0xF);
             buffer = ref Unsafe.Add(ref buffer, 1);
+            sr = ref Unsafe.Add(ref sr, 1);
         }
+        while (Unsafe.IsAddressLessThan(ref sr, ref end));
 
         return new string(span);
     }
@@ -49,18 +54,23 @@ public static class HexEncoder
             return -1;
         }
 
+        ref var sr = ref MemoryMarshal.GetReference(source);
+        ref var end = ref Unsafe.Add(ref sr, source.Length);
+
         ref var buffer = ref MemoryMarshal.GetReference(destination);
 
         ref var hex = ref MemoryMarshal.GetReference(HexTable);
 
-        for (var i = 0; i < source.Length; i++)
+        do
         {
-            var b = source[i];
+            var b = sr;
             buffer = (char)Unsafe.Add(ref hex, b >> 4);
             buffer = ref Unsafe.Add(ref buffer, 1);
             buffer = (char)Unsafe.Add(ref hex, b & 0xF);
             buffer = ref Unsafe.Add(ref buffer, 1);
+            sr = ref Unsafe.Add(ref sr, 1);
         }
+        while (Unsafe.IsAddressLessThan(ref sr, ref end));
 
         return length;
     }
@@ -75,16 +85,21 @@ public static class HexEncoder
             return Array.Empty<byte>();
         }
 
-        var buffer = new byte[source.Length >> 1];
         ref var sr = ref MemoryMarshal.GetReference(source);
+        ref var end = ref Unsafe.Add(ref sr, source.Length);
 
-        for (var i = 0; i < buffer.Length; i++)
+        var buffer = new byte[source.Length >> 1];
+        ref var dr = ref MemoryMarshal.GetReference(buffer.AsSpan());
+
+        do
         {
             var b = CharToNumber(sr) << 4;
             sr = ref Unsafe.Add(ref sr, 1);
-            buffer[i] = (byte)(b + CharToNumber(sr));
+            dr = (byte)(b + CharToNumber(sr));
+            dr = ref Unsafe.Add(ref dr, 1);
             sr = ref Unsafe.Add(ref sr, 1);
         }
+        while (Unsafe.IsAddressLessThan(ref sr, ref end));
 
         return buffer;
     }
@@ -103,14 +118,19 @@ public static class HexEncoder
         }
 
         ref var sr = ref MemoryMarshal.GetReference(source);
+        ref var end = ref Unsafe.Add(ref sr, source.Length);
 
-        for (var i = 0; i < length; i++)
+        ref var dr = ref MemoryMarshal.GetReference(destination);
+
+        do
         {
             var b = CharToNumber(sr) << 4;
             sr = ref Unsafe.Add(ref sr, 1);
-            destination[i] = (byte)(b + CharToNumber(sr));
+            dr = (byte)(b + CharToNumber(sr));
+            dr = ref Unsafe.Add(ref dr, 1);
             sr = ref Unsafe.Add(ref sr, 1);
         }
+        while (Unsafe.IsAddressLessThan(ref sr, ref end));
 
         return length;
     }
