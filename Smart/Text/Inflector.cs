@@ -57,7 +57,8 @@ public static class Inflector
             }
 
             c = ref Unsafe.Add(ref c, 1);
-        } while (Unsafe.IsAddressLessThan(ref c, ref end));
+        }
+        while (Unsafe.IsAddressLessThan(ref c, ref end));
 
         return new string(buffer[..((int)Unsafe.ByteOffset(ref start, ref b) >> 1)]);
     }
