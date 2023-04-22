@@ -261,12 +261,7 @@ public static partial class BinarySearch
         while (lo <= hi)
         {
             var mid = lo + ((hi - lo) >> 1);
-
-#if NETSTANDARD2_1
-            var c = comparer.Compare(selector(span[mid])!, key!);
-#else
             var c = comparer.Compare(selector(span[mid]), key);
-#endif
 
             if (c == 0)
             {
@@ -382,12 +377,7 @@ public static partial class BinarySearch
         while (lo <= hi)
         {
             var mid = lo + ((hi - lo) >> 1);
-
-#if NETSTANDARD2_1
-            var c = comparer.Compare(selector(span[mid])!, key!);
-#else
             var c = comparer.Compare(selector(span[mid]), key);
-#endif
 
             if (c == 0)
             {
@@ -503,12 +493,7 @@ public static partial class BinarySearch
         while (lo <= hi)
         {
             var mid = lo + ((hi - lo) >> 1);
-
-#if NETSTANDARD2_1
-            var c = comparer.Compare(selector(span[mid])!, key!);
-#else
             var c = comparer.Compare(selector(span[mid]), key);
-#endif
 
             if (c == 0)
             {

@@ -9,9 +9,5 @@ public sealed class ReverseComparer<T> : IComparer<T>
         OriginalComparer = original;
     }
 
-#if NETSTANDARD2_1
-    public int Compare(T x, T y) => OriginalComparer.Compare(y, x);
-#else
     public int Compare(T? x, T? y) => OriginalComparer.Compare(y, x);
-#endif
 }

@@ -9,9 +9,5 @@ public sealed class DelegateComparer<T> : IComparer<T>
         this.comparer = comparer;
     }
 
-#if NETSTANDARD2_1
-    public int Compare(T x, T y) => comparer(x, y);
-#else
     public int Compare(T? x, T? y) => comparer(x!, y!);
-#endif
 }

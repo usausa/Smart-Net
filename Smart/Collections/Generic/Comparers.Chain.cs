@@ -9,11 +9,7 @@ public sealed class ChainComparer<T> : IComparer<T>
         this.comparers = comparers;
     }
 
-#if NETSTANDARD2_1
-    public int Compare(T x, T y)
-#else
     public int Compare(T? x, T? y)
-#endif
     {
         var local = comparers;
         for (var i = 0; i < local.Length; i++)

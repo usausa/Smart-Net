@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' != 'net7.0'">
-      <NoWarn>$(NoWarn),CS8602</NoWarn>
+      <NoWarn>$(NoWarn),CS8602,CS8604</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net7.0'">
       <WarningsAsErrors>nullable</WarningsAsErrors>
