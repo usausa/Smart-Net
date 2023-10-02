@@ -26,6 +26,7 @@
     <Rule Id="CA1000" Action="Hidden" />
     <Rule Id="CA1034" Action="Hidden" />
     <Rule Id="CA1062" Action="Hidden" />
+    <Rule Id="CA1512" Action="Hidden" />
     <Rule Id="CA1720" Action="Hidden" />
     <Rule Id="CA1810" Action="Hidden" />
   </Rules>
