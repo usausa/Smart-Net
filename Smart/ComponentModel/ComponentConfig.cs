@@ -71,6 +71,6 @@ public sealed class ComponentConfig
 
     internal Dictionary<Type, ComponentEntry[]> ToMappings()
     {
-        return mappings.ToDictionary(x => x.Key, x => x.Value.ToArray());
+        return mappings.ToDictionary(static x => x.Key, static x => x.Value.ToArray());
     }
 }

@@ -64,9 +64,9 @@ public class BinarySearchTest
     {
         var array = new[] { 1, 1, 3, 3, 3, 5, 5, 5, 5 };    // 9個
 
-        Assert.Equal(-1, BinarySearch.Find(array, x => x - 0));
-        Assert.Equal(-3, BinarySearch.Find(array, x => x - 2));
-        Assert.Equal(-6, BinarySearch.Find(array, x => x - 4));
-        Assert.Equal(-10, BinarySearch.Find(array, x => x - 6));
+        Assert.Equal(-1, BinarySearch.Find(array, static x => x - 0));
+        Assert.Equal(-3, BinarySearch.Find(array, static x => x - 2));
+        Assert.Equal(-6, BinarySearch.Find(array, static x => x - 4));
+        Assert.Equal(-10, BinarySearch.Find(array, static x => x - 6));
     }
 }

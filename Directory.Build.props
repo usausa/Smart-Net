@@ -5,15 +5,14 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <Deterministic>true</Deterministic>
-    <NoWarn>$(NoWarn),1573,1591,1712</NoWarn>
-    <MSBuildWarningsAsMessages>AD0001;SA0001</MSBuildWarningsAsMessages>
+    <MSBuildWarningsAsMessages>SA0001</MSBuildWarningsAsMessages>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(TargetFramework)' != 'net7.0'">
-      <NoWarn>$(NoWarn),CS8602,CS8604,CS8714</NoWarn>
+  <PropertyGroup Condition="'$(TargetFramework)' != 'net8.0' and '$(TargetFramework)' != 'net7.0'">
+    <NoWarn>$(NoWarn),CS8602,CS8604,CS8714</NoWarn>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(TargetFramework)' == 'net7.0'">
-      <WarningsAsErrors>nullable</WarningsAsErrors>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0' or '$(TargetFramework)' == 'net7.0'">
+    <WarningsAsErrors>nullable</WarningsAsErrors>
   </PropertyGroup>
 
   <PropertyGroup>

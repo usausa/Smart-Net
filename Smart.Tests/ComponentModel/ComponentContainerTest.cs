@@ -92,7 +92,7 @@ public class ComponentContainerTest
         Assert.Equal(1, obj.Disposed);
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Justification = "Ignore")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Justification = "Ignore")]
     [Fact]
     public void ComponentAddedConstIsDisposed()
     {
@@ -153,7 +153,7 @@ public class ComponentContainerTest
     {
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1040:AvoidEmptyInterfaces", Justification = "Ignore")]
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1040:AvoidEmptyInterfaces", Justification = "Ignore")]
     protected interface ICalcService
     {
     }
@@ -176,9 +176,9 @@ public class ComponentContainerTest
         }
     }
 
+#pragma warning disable CA1819
     protected class ArrayParameterObject
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "Ignore")]
         public ICalcService[] CalcServices { get; set; }
 
         public ArrayParameterObject(ICalcService[] calcServices)
@@ -186,6 +186,7 @@ public class ComponentContainerTest
             CalcServices = calcServices;
         }
     }
+#pragma warning restore CA1819
 
     protected class MultiConstructorObject
     {

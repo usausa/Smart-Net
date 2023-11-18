@@ -1,6 +1,6 @@
 namespace Smart.Threading.Tasks;
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Reliability", "CA2008:DoNotCreateTasksWithoutPassingATaskScheduler", Justification = "Ignore")]
+[System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2008:DoNotCreateTasksWithoutPassingATaskScheduler", Justification = "Ignore")]
 public static class AsyncHelper
 {
     private static readonly TaskFactory TaskFactory =

@@ -82,7 +82,7 @@ public class ThreadsafeTypeHashArrayMapTest
 
             evThreadStarted.Signal();
 
-            var ret = map.AddIfNotExist(Class01.Type, _ => "t1");
+            var ret = map.AddIfNotExist(Class01.Type, static _ => "t1");
 
             evThread1Completed.Signal();
 
@@ -99,7 +99,7 @@ public class ThreadsafeTypeHashArrayMapTest
 
             Assert.True(map.ContainsKey(Class01.Type));
 
-            var ret = map.AddIfNotExist(Class01.Type, _ => "t2");
+            var ret = map.AddIfNotExist(Class01.Type, static _ => "t2");
 
             Assert.Equal("t1", ret);
         })

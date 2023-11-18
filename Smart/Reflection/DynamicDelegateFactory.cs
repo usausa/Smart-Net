@@ -93,7 +93,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
         if (type.IsValueType)
         {
             return (Func<object>)defaultStructDelegateCache
-                .GetOrAdd(type, x => CreateDefaultStructFactoryInternal(false, x, Type.EmptyTypes));
+                .GetOrAdd(type, static x => CreateDefaultStructFactoryInternal(false, x, Type.EmptyTypes));
         }
 
         var ci = type.GetConstructor(Type.EmptyTypes);
@@ -103,10 +103,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
         }
 
         return (Func<object>)factoryDelegateCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
-                x,
-                typeof(object),
-                Type.EmptyTypes));
+            .GetOrAdd(ci, static x => CreateFactoryInternal(x, typeof(object), Type.EmptyTypes));
     }
 
     public Func<object?[]?, object> CreateFactory(Type type, Type[] argumentTypes)
@@ -114,7 +111,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
         if (type.IsValueType && (argumentTypes.Length == 0))
         {
             return defaultStructFactoryCache
-                .GetOrAdd(type, x => (Func<object?[]?, object>)CreateDefaultStructFactoryInternal(false, x, new[] { typeof(object?[]) }));
+                .GetOrAdd(type, static x => (Func<object?[]?, object>)CreateDefaultStructFactoryInternal(false, x, new[] { typeof(object?[]) }));
         }
 
         var ci = type.GetConstructor(argumentTypes);
@@ -137,7 +134,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
         if (type.IsValueType)
         {
             return (Func<T>)typedDefaultStructDelegateCache
-                .GetOrAdd(type, x => CreateDefaultStructFactoryInternal(true, x, Type.EmptyTypes));
+                .GetOrAdd(type, static x => CreateDefaultStructFactoryInternal(true, x, Type.EmptyTypes));
         }
 
         var ci = type.GetConstructor(Type.EmptyTypes);
@@ -146,7 +143,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (Func<T>)typedFactoryCache.GetOrAdd(ci, x => CreateFactoryInternal(x, x.DeclaringType!, Type.EmptyTypes));
+        return (Func<T>)typedFactoryCache.GetOrAdd(ci, static x => CreateFactoryInternal(x, x.DeclaringType!, Type.EmptyTypes));
     }
 
     // Factory Helper
@@ -420,20 +417,20 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
 
     private static readonly Dictionary<Type, Action<ILGenerator>> LdcDictionary = new()
     {
-        { typeof(bool), il => il.Emit(OpCodes.Ldc_I4_0) },
-        { typeof(byte), il => il.Emit(OpCodes.Ldc_I4_0) },
-        { typeof(char), il => il.Emit(OpCodes.Ldc_I4_0) },
-        { typeof(short), il => il.Emit(OpCodes.Ldc_I4_0) },
-        { typeof(int), il => il.Emit(OpCodes.Ldc_I4_0) },
-        { typeof(sbyte), il => il.Emit(OpCodes.Ldc_I4_0) },
-        { typeof(ushort), il => il.Emit(OpCodes.Ldc_I4_0) },
-        { typeof(uint), il => il.Emit(OpCodes.Ldc_I4_0) },      // Simplicity
-        { typeof(long), il => il.Emit(OpCodes.Ldc_I8, 0L) },
-        { typeof(ulong), il => il.Emit(OpCodes.Ldc_I8, 0L) },   // Simplicity
-        { typeof(float), il => il.Emit(OpCodes.Ldc_R4, 0f) },
-        { typeof(double), il => il.Emit(OpCodes.Ldc_R8, 0d) },
-        { typeof(nint), il => il.Emit(OpCodes.Ldc_I4_0) },      // Simplicity
-        { typeof(nuint), il => il.Emit(OpCodes.Ldc_I4_0) }      // Simplicity
+        { typeof(bool), static il => il.Emit(OpCodes.Ldc_I4_0) },
+        { typeof(byte), static il => il.Emit(OpCodes.Ldc_I4_0) },
+        { typeof(char), static il => il.Emit(OpCodes.Ldc_I4_0) },
+        { typeof(short), static il => il.Emit(OpCodes.Ldc_I4_0) },
+        { typeof(int), static il => il.Emit(OpCodes.Ldc_I4_0) },
+        { typeof(sbyte), static il => il.Emit(OpCodes.Ldc_I4_0) },
+        { typeof(ushort), static il => il.Emit(OpCodes.Ldc_I4_0) },
+        { typeof(uint), static il => il.Emit(OpCodes.Ldc_I4_0) },      // Simplicity
+        { typeof(long), static il => il.Emit(OpCodes.Ldc_I8, 0L) },
+        { typeof(ulong), static il => il.Emit(OpCodes.Ldc_I8, 0L) },   // Simplicity
+        { typeof(float), static il => il.Emit(OpCodes.Ldc_R4, 0f) },
+        { typeof(double), static il => il.Emit(OpCodes.Ldc_R8, 0d) },
+        { typeof(nint), static il => il.Emit(OpCodes.Ldc_I4_0) },      // Simplicity
+        { typeof(nuint), static il => il.Emit(OpCodes.Ldc_I4_0) }      // Simplicity
     };
 
     private static Delegate? CreateSetterInternal(PropertyInfo pi, PropertyInfo tpi, bool isValueHolder, Type targetType, Type memberType)

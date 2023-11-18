@@ -10,7 +10,7 @@ public sealed partial class DynamicDelegateFactory
     public Func<object<# for (var j = 0; j < i; j++) { #>?, object<# } #>> CreateFactory<#= i #>(ConstructorInfo ci)
     {
         return (Func<object<# for (var j = 0; j < i; j++) { #>?, object<# } #>>)factoryDelegateCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 typeof(object),
                 <# if (i == 0) { #>Type.EmptyTypes<# } else { #>new[] { <# for (var j = 1; j <= i; j++) { #>typeof(object), <# } #>}<# } #>));
@@ -27,7 +27,7 @@ public sealed partial class DynamicDelegateFactory
         }
 
         return (Func<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>?, <# } #>T>)typedFactoryCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 x.DeclaringType!,
                 <# if (i == 0) { #>Type.EmptyTypes<# } else { #>new[] { <# for (var j = 1; j <= i; j++) { #>typeof(TP<#= j #>), <# } #>}<# } #>));

@@ -41,7 +41,7 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
             lock (cache)
             {
                 var disposed = new HashSet<object>();
-                foreach (var instance in cache.Values.SelectMany(x => x))
+                foreach (var instance in cache.Values.SelectMany(static x => x))
                 {
                     if (instance is IDisposable disposable)
                     {
@@ -50,7 +50,7 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
                     }
                 }
 
-                foreach (var entry in mappings.Values.SelectMany(x => x))
+                foreach (var entry in mappings.Values.SelectMany(static x => x))
                 {
                     if ((entry.Constant is IDisposable disposable) && !disposed.Contains(disposable))
                     {
@@ -149,7 +149,7 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
 
     private object CreateInstance(Type type)
     {
-        foreach (var ci in type.GetConstructors().OrderByDescending(c => c.GetParameters().Length))
+        foreach (var ci in type.GetConstructors().OrderByDescending(static c => c.GetParameters().Length))
         {
             if (ci.GetParameters().Length == 0)
             {

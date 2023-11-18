@@ -9,7 +9,7 @@ public sealed partial class DynamicDelegateFactory
     public Func<object> CreateFactory0(ConstructorInfo ci)
     {
         return (Func<object>)factoryDelegateCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 typeof(object),
                 Type.EmptyTypes));
@@ -18,7 +18,7 @@ public sealed partial class DynamicDelegateFactory
     public Func<object?, object> CreateFactory1(ConstructorInfo ci)
     {
         return (Func<object?, object>)factoryDelegateCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 typeof(object),
                 new[] { typeof(object), }));
@@ -27,7 +27,7 @@ public sealed partial class DynamicDelegateFactory
     public Func<object?, object?, object> CreateFactory2(ConstructorInfo ci)
     {
         return (Func<object?, object?, object>)factoryDelegateCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 typeof(object),
                 new[] { typeof(object), typeof(object), }));
@@ -36,7 +36,7 @@ public sealed partial class DynamicDelegateFactory
     public Func<object?, object?, object?, object> CreateFactory3(ConstructorInfo ci)
     {
         return (Func<object?, object?, object?, object>)factoryDelegateCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 typeof(object),
                 new[] { typeof(object), typeof(object), typeof(object), }));
@@ -45,7 +45,7 @@ public sealed partial class DynamicDelegateFactory
     public Func<object?, object?, object?, object?, object> CreateFactory4(ConstructorInfo ci)
     {
         return (Func<object?, object?, object?, object?, object>)factoryDelegateCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 typeof(object),
                 new[] { typeof(object), typeof(object), typeof(object), typeof(object), }));
@@ -54,7 +54,7 @@ public sealed partial class DynamicDelegateFactory
     public Func<object?, object?, object?, object?, object?, object> CreateFactory5(ConstructorInfo ci)
     {
         return (Func<object?, object?, object?, object?, object?, object>)factoryDelegateCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 typeof(object),
                 new[] { typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), }));
@@ -63,7 +63,7 @@ public sealed partial class DynamicDelegateFactory
     public Func<object?, object?, object?, object?, object?, object?, object> CreateFactory6(ConstructorInfo ci)
     {
         return (Func<object?, object?, object?, object?, object?, object?, object>)factoryDelegateCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 typeof(object),
                 new[] { typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), }));
@@ -72,7 +72,7 @@ public sealed partial class DynamicDelegateFactory
     public Func<object?, object?, object?, object?, object?, object?, object?, object> CreateFactory7(ConstructorInfo ci)
     {
         return (Func<object?, object?, object?, object?, object?, object?, object?, object>)factoryDelegateCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 typeof(object),
                 new[] { typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), }));
@@ -81,7 +81,7 @@ public sealed partial class DynamicDelegateFactory
     public Func<object?, object?, object?, object?, object?, object?, object?, object?, object> CreateFactory8(ConstructorInfo ci)
     {
         return (Func<object?, object?, object?, object?, object?, object?, object?, object?, object>)factoryDelegateCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 typeof(object),
                 new[] { typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), }));
@@ -90,7 +90,7 @@ public sealed partial class DynamicDelegateFactory
     public Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object> CreateFactory9(ConstructorInfo ci)
     {
         return (Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object>)factoryDelegateCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 typeof(object),
                 new[] { typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), }));
@@ -99,7 +99,7 @@ public sealed partial class DynamicDelegateFactory
     public Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object> CreateFactory10(ConstructorInfo ci)
     {
         return (Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object>)factoryDelegateCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 typeof(object),
                 new[] { typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), }));
@@ -108,7 +108,7 @@ public sealed partial class DynamicDelegateFactory
     public Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object> CreateFactory11(ConstructorInfo ci)
     {
         return (Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object>)factoryDelegateCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 typeof(object),
                 new[] { typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), }));
@@ -117,7 +117,7 @@ public sealed partial class DynamicDelegateFactory
     public Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object> CreateFactory12(ConstructorInfo ci)
     {
         return (Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object>)factoryDelegateCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 typeof(object),
                 new[] { typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), }));
@@ -126,7 +126,7 @@ public sealed partial class DynamicDelegateFactory
     public Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object> CreateFactory13(ConstructorInfo ci)
     {
         return (Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object>)factoryDelegateCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 typeof(object),
                 new[] { typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), }));
@@ -135,7 +135,7 @@ public sealed partial class DynamicDelegateFactory
     public Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object> CreateFactory14(ConstructorInfo ci)
     {
         return (Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object>)factoryDelegateCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 typeof(object),
                 new[] { typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), }));
@@ -144,7 +144,7 @@ public sealed partial class DynamicDelegateFactory
     public Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object> CreateFactory15(ConstructorInfo ci)
     {
         return (Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object>)factoryDelegateCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 typeof(object),
                 new[] { typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), }));
@@ -153,7 +153,7 @@ public sealed partial class DynamicDelegateFactory
     public Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object> CreateFactory16(ConstructorInfo ci)
     {
         return (Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object>)factoryDelegateCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 typeof(object),
                 new[] { typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), typeof(object), }));
@@ -168,7 +168,7 @@ public sealed partial class DynamicDelegateFactory
         }
 
         return (Func<TP1?, T>)typedFactoryCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 x.DeclaringType!,
                 new[] { typeof(TP1), }));
@@ -183,7 +183,7 @@ public sealed partial class DynamicDelegateFactory
         }
 
         return (Func<TP1?, TP2?, T>)typedFactoryCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 x.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), }));
@@ -198,7 +198,7 @@ public sealed partial class DynamicDelegateFactory
         }
 
         return (Func<TP1?, TP2?, TP3?, T>)typedFactoryCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 x.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), }));
@@ -213,7 +213,7 @@ public sealed partial class DynamicDelegateFactory
         }
 
         return (Func<TP1?, TP2?, TP3?, TP4?, T>)typedFactoryCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 x.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), }));
@@ -228,7 +228,7 @@ public sealed partial class DynamicDelegateFactory
         }
 
         return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, T>)typedFactoryCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 x.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), }));
@@ -243,7 +243,7 @@ public sealed partial class DynamicDelegateFactory
         }
 
         return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, T>)typedFactoryCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 x.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), }));
@@ -258,7 +258,7 @@ public sealed partial class DynamicDelegateFactory
         }
 
         return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, T>)typedFactoryCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 x.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), }));
@@ -273,7 +273,7 @@ public sealed partial class DynamicDelegateFactory
         }
 
         return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, T>)typedFactoryCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 x.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), }));
@@ -288,7 +288,7 @@ public sealed partial class DynamicDelegateFactory
         }
 
         return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, T>)typedFactoryCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 x.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), }));
@@ -303,7 +303,7 @@ public sealed partial class DynamicDelegateFactory
         }
 
         return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, T>)typedFactoryCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 x.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), }));
@@ -318,7 +318,7 @@ public sealed partial class DynamicDelegateFactory
         }
 
         return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, T>)typedFactoryCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 x.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), }));
@@ -333,7 +333,7 @@ public sealed partial class DynamicDelegateFactory
         }
 
         return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, T>)typedFactoryCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 x.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), }));
@@ -348,7 +348,7 @@ public sealed partial class DynamicDelegateFactory
         }
 
         return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, T>)typedFactoryCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 x.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), }));
@@ -363,7 +363,7 @@ public sealed partial class DynamicDelegateFactory
         }
 
         return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, T>)typedFactoryCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 x.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), }));
@@ -378,7 +378,7 @@ public sealed partial class DynamicDelegateFactory
         }
 
         return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, T>)typedFactoryCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 x.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), typeof(TP15), }));
@@ -393,7 +393,7 @@ public sealed partial class DynamicDelegateFactory
         }
 
         return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, TP16?, T>)typedFactoryCache
-            .GetOrAdd(ci, x => CreateFactoryInternal(
+            .GetOrAdd(ci, static x => CreateFactoryInternal(
                 x,
                 x.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), typeof(TP15), typeof(TP16), }));
