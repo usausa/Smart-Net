@@ -22,7 +22,7 @@ public static class PrimitiveConvert
     }
 
     public static MethodInfo? GetMethod(Type parameterType, Type returnType) =>
-        Methods.TryGetValue(new RecordKey(parameterType, returnType), out var method) ? method : null;
+        Methods.GetValueOrDefault(new RecordKey(parameterType, returnType));
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static sbyte ByteToSByte(byte x) => (sbyte)x;

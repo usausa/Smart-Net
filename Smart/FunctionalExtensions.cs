@@ -144,35 +144,39 @@ public static class FunctionalExtensions
     // Async
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static async Task ApplyAsync<T>(this T value, Func<T, Task> action)
-    {
-        await action(value).ConfigureAwait(false);
-    }
+    public static Task ApplyAsync<T>(this T value, Func<T, Task> action) =>
+        action(value);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static async Task ApplyIfAsync<T>(this T value, Func<T, bool> condition, Func<T, Task> action)
+    public static Task ApplyIfAsync<T>(this T value, Func<T, bool> condition, Func<T, Task> action)
     {
         if (condition(value))
         {
-            await action(value).ConfigureAwait(false);
+            return action(value);
         }
+
+        return Task.CompletedTask;
     }
 
     // Async
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static async ValueTask ApplyAsync<T>(this T value, Func<T, ValueTask> action)
-    {
-        await action(value).ConfigureAwait(false);
-    }
+    public static ValueTask ApplyAsync<T>(this T value, Func<T, ValueTask> action) =>
+        action(value);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static async ValueTask ApplyIfAsync<T>(this T value, Func<T, bool> condition, Func<T, ValueTask> action)
+    public static ValueTask ApplyIfAsync<T>(this T value, Func<T, bool> condition, Func<T, ValueTask> action)
     {
         if (condition(value))
         {
-            await action(value).ConfigureAwait(false);
+            return action(value);
         }
+
+#if NETSTANDARD
+        return default!;
+#else
+        return ValueTask.CompletedTask;
+#endif
     }
 
     //--------------------------------------------------------------------------------
@@ -220,9 +224,9 @@ public static class FunctionalExtensions
 
     // Async
 
-    public static async Task<TResult> MapAsync<T, TResult>(this T value, Func<T, Task<TResult>> func)
+    public static Task<TResult> MapAsync<T, TResult>(this T value, Func<T, Task<TResult>> func)
     {
-        return await func(value).ConfigureAwait(false);
+        return func(value);
     }
 
     public static async Task<TResult> MapOrDefaultAsync<T, TResult>(this T? value, Func<T, Task<TResult>> func)
@@ -261,9 +265,9 @@ public static class FunctionalExtensions
 
     // Async
 
-    public static async ValueTask<TResult> MapAsync<T, TResult>(this T value, Func<T, ValueTask<TResult>> func)
+    public static ValueTask<TResult> MapAsync<T, TResult>(this T value, Func<T, ValueTask<TResult>> func)
     {
-        return await func(value).ConfigureAwait(false);
+        return func(value);
     }
 
     public static async ValueTask<TResult> MapOrDefaultAsync<T, TResult>(this T? value, Func<T, ValueTask<TResult>> func)

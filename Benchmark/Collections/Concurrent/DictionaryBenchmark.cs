@@ -33,14 +33,14 @@ public class DictionaryBenchmark
     {
         lock (dictionary)
         {
-            return dictionary.TryGetValue(key, out var obj) ? obj : null;
+            return dictionary.GetValueOrDefault(key);
         }
     }
 
     [Benchmark]
     public object? ConcurrentDictionary()
     {
-        return concurrentDictionary.TryGetValue(key, out var obj) ? obj : null;
+        return concurrentDictionary.GetValueOrDefault(key);
     }
 
     [Benchmark]
