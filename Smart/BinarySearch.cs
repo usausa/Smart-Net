@@ -1,9 +1,7 @@
 namespace Smart;
 
 using System.Runtime.CompilerServices;
-#if NET5_0_OR_GREATER
 using System.Runtime.InteropServices;
-#endif
 
 [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1002:DoNotExposeGenericLists", Justification = "Ignore")]
 public static partial class BinarySearch
@@ -14,7 +12,6 @@ public static partial class BinarySearch
 
     // List
 
-#if NET5_0_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T>(List<T> list, Func<T, int> comparer) =>
         Find(CollectionsMarshal.AsSpan(list), comparer);
@@ -22,7 +19,6 @@ public static partial class BinarySearch
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T>(List<T> list, int start, int length, Func<T, int> comparer) =>
         Find(CollectionsMarshal.AsSpan(list).Slice(start, length), comparer);
-#endif
 
     // Array
 
@@ -66,7 +62,6 @@ public static partial class BinarySearch
 
     // List
 
-#if NET5_0_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T>(List<T> list, Func<T, int> comparer) =>
         FindFirst(CollectionsMarshal.AsSpan(list), comparer);
@@ -74,7 +69,6 @@ public static partial class BinarySearch
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T>(List<T> list, int start, int length, Func<T, int> comparer) =>
         FindFirst(CollectionsMarshal.AsSpan(list).Slice(start, length), comparer);
-#endif
 
     // Array
 
@@ -119,7 +113,6 @@ public static partial class BinarySearch
 
     // List
 
-#if NET5_0_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(List<T> list, Func<T, int> comparer) =>
         FindLast(CollectionsMarshal.AsSpan(list), comparer);
@@ -127,7 +120,6 @@ public static partial class BinarySearch
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(List<T> list, int start, int length, Func<T, int> comparer) =>
         FindLast(CollectionsMarshal.AsSpan(list).Slice(start, length), comparer);
-#endif
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(T[] array, Func<T, int> comparer) =>
@@ -172,7 +164,6 @@ public static partial class BinarySearch
 
     // List
 
-#if NET5_0_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T>(List<T> list, T key) =>
         Find(CollectionsMarshal.AsSpan(list), key, Functions<T>.Identify, Comparer<T>.Default);
@@ -204,7 +195,6 @@ public static partial class BinarySearch
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T, TKey>(List<T> list, int start, int length, TKey? key, Func<T, TKey?> selector, IComparer<TKey> comparer) =>
         Find(CollectionsMarshal.AsSpan(list).Slice(start, length), key, selector, comparer);
-#endif
 
     // Array
 
@@ -287,7 +277,6 @@ public static partial class BinarySearch
 
     // List
 
-#if NET5_0_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T>(List<T> list, T key) =>
         FindFirst(CollectionsMarshal.AsSpan(list), key, Functions<T>.Identify, Comparer<T>.Default);
@@ -319,7 +308,6 @@ public static partial class BinarySearch
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T, TKey>(List<T> list, int start, int length, TKey? key, Func<T, TKey?> selector, IComparer<TKey> comparer) =>
         FindFirst(CollectionsMarshal.AsSpan(list).Slice(start, length), key, selector, comparer);
-#endif
 
     // Array
 
@@ -403,7 +391,6 @@ public static partial class BinarySearch
 
     // List
 
-#if NET5_0_OR_GREATER
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(List<T> list, T key) =>
         FindLast(CollectionsMarshal.AsSpan(list), key, Functions<T>.Identify, Comparer<T>.Default);
@@ -435,7 +422,6 @@ public static partial class BinarySearch
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T, TKey>(List<T> list, int start, int length, TKey? key, Func<T, TKey?> selector, IComparer<TKey> comparer) =>
         FindLast(CollectionsMarshal.AsSpan(list).Slice(start, length), key, selector, comparer);
-#endif
 
     // Array
 

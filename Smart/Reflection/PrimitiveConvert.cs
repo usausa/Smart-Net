@@ -1,6 +1,3 @@
-#if !NET7_0_OR_GREATER
-// ReSharper disable RedundantCast
-#endif
 namespace Smart.Reflection;
 
 using System.Reflection;

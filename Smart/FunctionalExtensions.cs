@@ -172,11 +172,7 @@ public static class FunctionalExtensions
             return action(value);
         }
 
-#if NETSTANDARD
-        return default!;
-#else
         return ValueTask.CompletedTask;
-#endif
     }
 
     //--------------------------------------------------------------------------------
