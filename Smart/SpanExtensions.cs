@@ -24,7 +24,7 @@ public static class SpanExtensions
             Current = default;
         }
 
-        public SplitLinesEnumerator GetEnumerator() => this;
+        public readonly SplitLinesEnumerator GetEnumerator() => this;
 
         public bool MoveNext()
         {
@@ -39,7 +39,7 @@ public static class SpanExtensions
             if (index == -1)
             {
                 Current = remain;
-                remain = ReadOnlySpan<char>.Empty;
+                remain = [];
                 return true;
             }
 

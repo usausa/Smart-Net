@@ -21,7 +21,7 @@ public class DynamicDelegateFactoryActivatorTest
     [Fact]
     public void FactoryStructTypeWithParameter()
     {
-        var factory = DynamicDelegateFactory.Default.CreateFactory(typeof(StructWithConstructor), new[] { typeof(int), typeof(int) });
+        var factory = DynamicDelegateFactory.Default.CreateFactory(typeof(StructWithConstructor), [typeof(int), typeof(int)]);
 
         var data = (StructWithConstructor)factory(new object[] { 1, 2 });
         Assert.Equal(1, data.X);

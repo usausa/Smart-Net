@@ -11,7 +11,7 @@ public class OptimizedEnumerableTest
     [Fact]
     public void TestAllSpan()
     {
-        var source = new Span<int>(new[] { 1, 2, 3, 4, 5 });
+        var source = new Span<int>([1, 2, 3, 4, 5]);
         Assert.False(source.All(static x => x >= 3));
         Assert.True(source[2..5].All(static x => x >= 3));
         Assert.True(source[2..].All(static x => x >= 3));
@@ -45,7 +45,7 @@ public class OptimizedEnumerableTest
     [Fact]
     public void TestAnySpan()
     {
-        var source = new Span<int>(new[] { 1, 2, 3, 4, 5 });
+        var source = new Span<int>([1, 2, 3, 4, 5]);
         Assert.True(source.Any(static x => x >= 3));
         Assert.True(source[2..5].Any(static x => x >= 3));
         Assert.True(source[2..].Any(static x => x >= 3));

@@ -12,9 +12,9 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
 
     private static readonly Type ListType = typeof(IList<>);
 
-    private static readonly object[] EmptyResult = Array.Empty<object>();
+    private static readonly object[] EmptyResult = [];
 
-    private readonly Dictionary<Type, object[]> cache = new();
+    private readonly Dictionary<Type, object[]> cache = [];
 
     private readonly Dictionary<Type, ComponentEntry[]> mappings;
 

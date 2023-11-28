@@ -1,4 +1,6 @@
-#if !NET8_0_OR_GREATER
+#if NET8_0_OR_GREATER
+#pragma warning disable IDE0004
+#else
 // ReSharper disable RedundantCast
 #endif
 namespace Smart.Reflection;
@@ -6,7 +8,9 @@ namespace Smart.Reflection;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
+#if NET8_0_OR_GREATER
 #pragma warning disable CA2020
+#endif
 public static class PrimitiveConvert
 {
     // ReSharper disable NotAccessedPositionalProperty.Local

@@ -2,7 +2,7 @@ namespace Smart.ComponentModel;
 
 public sealed class ComponentConfig
 {
-    private readonly Dictionary<Type, List<ComponentEntry>> mappings = new();
+    private readonly Dictionary<Type, List<ComponentEntry>> mappings = [];
 
     private List<ComponentEntry> GetEntries(Type componentType)
     {
@@ -11,7 +11,7 @@ public sealed class ComponentConfig
             return entries;
         }
 
-        entries = new List<ComponentEntry>();
+        entries = [];
         mappings[componentType] = entries;
 
         return entries;

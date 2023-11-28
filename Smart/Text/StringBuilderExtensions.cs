@@ -51,7 +51,7 @@ public static class StringBuilderExtensions
     // Trim
     //--------------------------------------------------------------------------------
 
-    private static readonly char[] DefaultTrimChars = { ' ', '\t' };
+    private static readonly char[] DefaultTrimChars = [' ', '\t'];
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static StringBuilder TrimStart(this StringBuilder sb)

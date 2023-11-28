@@ -10,7 +10,6 @@
     <PackageId>Usa.Smart.Core</PackageId>
     <Title>Smart.Core</Title>
     <Description>Smart fundation library</Description>
-    <Summary>Smart fundation library</Summary>
     <PackageTags>smart</PackageTags>
   </PropertyGroup>
 

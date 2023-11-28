@@ -9,7 +9,7 @@ using Smart.Collections.Concurrent;
 [Config(typeof(BenchmarkConfig))]
 public class DictionaryBenchmark
 {
-    private readonly Dictionary<Type, object?> dictionary = new();
+    private readonly Dictionary<Type, object?> dictionary = [];
 
     private readonly ConcurrentDictionary<Type, object?> concurrentDictionary = new();
 

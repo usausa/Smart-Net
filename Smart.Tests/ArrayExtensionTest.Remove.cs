@@ -2,6 +2,7 @@ namespace Smart;
 
 using Xunit;
 
+#pragma warning disable IDE0300
 public class ArrayExtensionTest
 {
     [Fact]
@@ -22,3 +23,4 @@ public class ArrayExtensionTest
         Assert.Equal(new[] { 1, 2, 3 }, new[] { 1, 2, 3, 4 }.RemoveRange(3, 2));
     }
 }
+#pragma warning restore IDE0300

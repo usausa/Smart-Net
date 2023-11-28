@@ -74,7 +74,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
 
     private static Func<int, Array> CreateArrayAllocatorInternal(Type type)
     {
-        var dynamicMethod = new DynamicMethod(string.Empty, typeof(Array), new[] { typeof(object), typeof(int) }, true);
+        var dynamicMethod = new DynamicMethod(string.Empty, typeof(Array), [typeof(object), typeof(int)], true);
         var il = dynamicMethod.GetILGenerator();
 
         il.Emit(OpCodes.Ldarg_1);
@@ -111,7 +111,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
         if (type.IsValueType && (argumentTypes.Length == 0))
         {
             return defaultStructFactoryCache
-                .GetOrAdd(type, static x => (Func<object?[]?, object>)CreateDefaultStructFactoryInternal(false, x, new[] { typeof(object?[]) }));
+                .GetOrAdd(type, static x => (Func<object?[]?, object>)CreateDefaultStructFactoryInternal(false, x, [typeof(object?[])]));
         }
 
         var ci = type.GetConstructor(argumentTypes);
@@ -185,7 +185,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
     {
         var returnType = ci.DeclaringType!.IsValueType ? typeof(object) : ci.DeclaringType;
 
-        var dynamicMethod = new DynamicMethod(string.Empty, returnType, new[] { typeof(object), typeof(object?[]) }, true);
+        var dynamicMethod = new DynamicMethod(string.Empty, returnType, [typeof(object), typeof(object?[])], true);
         var il = dynamicMethod.GetILGenerator();
 
         for (var i = 0; i < ci.GetParameters().Length; i++)
@@ -255,7 +255,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             else if (ci.GetParameters()[i].ParameterType.IsNullableType() && !argumentTypes[i].IsNullableType())
             {
                 var underlyingType = Nullable.GetUnderlyingType(ci.GetParameters()[i].ParameterType);
-                var nullableCtor = ci.GetParameters()[i].ParameterType.GetConstructor(new[] { underlyingType! })!;
+                var nullableCtor = ci.GetParameters()[i].ParameterType.GetConstructor([underlyingType!])!;
                 il.Emit(OpCodes.Newobj, nullableCtor);
             }
         }
@@ -385,7 +385,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             return null;
         }
 
-        var dynamicMethod = new DynamicMethod(string.Empty, memberType, new[] { typeof(object), targetType }, true);
+        var dynamicMethod = new DynamicMethod(string.Empty, memberType, [typeof(object), targetType], true);
         var il = dynamicMethod.GetILGenerator();
 
         if (!pi.GetGetMethod()!.IsStatic)
@@ -447,7 +447,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
 
         var isStatic = isValueHolder ? pi.GetGetMethod()!.IsStatic : pi.GetSetMethod()!.IsStatic;
 
-        var dynamicMethod = new DynamicMethod(string.Empty, typeof(void), new[] { typeof(object), targetType, memberType }, true);
+        var dynamicMethod = new DynamicMethod(string.Empty, typeof(void), [typeof(object), targetType, memberType], true);
         var il = dynamicMethod.GetILGenerator();
 
         if ((memberType == typeof(object)) && tpi.PropertyType.IsValueType)

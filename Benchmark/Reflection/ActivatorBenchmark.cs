@@ -7,9 +7,9 @@ using Smart.Reflection;
 [Config(typeof(BenchmarkConfig))]
 public class ActivatorBenchmark
 {
-    private static readonly object[] Parameter1 = { "x" };
+    private static readonly object[] Parameter1 = ["x"];
 
-    private static readonly object[] Parameter8 = { "x", "x", "x", "x", "x", "x", "x", "x" };
+    private static readonly object[] Parameter8 = ["x", "x", "x", "x", "x", "x", "x", "x"];
 
     private Func<object?[]?, object>? newFactory0;
     private Func<object?[]?, object>? dynamicFactory0A;
