@@ -92,12 +92,13 @@ public class ComponentContainerTest
         Assert.Equal(1, obj.Disposed);
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2000:DisposeObjectsBeforeLosingScope", Justification = "Ignore")]
     [Fact]
     public void ComponentAddedConstIsDisposed()
     {
         var config = new ComponentConfig();
+#pragma warning disable CA2000
         config.Add(new DisposableObject());
+#pragma warning restore CA2000
 
         DisposableObject obj;
         using (var container = config.ToContainer())
@@ -153,10 +154,11 @@ public class ComponentContainerTest
     {
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1040:AvoidEmptyInterfaces", Justification = "Ignore")]
+#pragma warning disable CA1040
     protected interface ICalcService
     {
     }
+#pragma warning restore CA1040
 
     protected class AddCalcService : ICalcService
     {

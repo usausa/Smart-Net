@@ -3,7 +3,7 @@ namespace Smart;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1002:DoNotExposeGenericLists", Justification = "Ignore")]
+#pragma warning disable CA1002
 public static partial class BinarySearch
 {
     //--------------------------------------------------------------------------------
@@ -499,3 +499,4 @@ public static partial class BinarySearch
         return find >= 0 ? find : ~lo;
     }
 }
+#pragma warning restore CA1002

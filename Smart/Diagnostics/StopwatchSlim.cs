@@ -2,7 +2,7 @@ namespace Smart.Diagnostics;
 
 using System.Diagnostics;
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1815:OverrideEqualsAndOperatorEqualsOnValueTypes", Justification = "Ignore")]
+#pragma warning disable CA1815
 public readonly struct StopwatchSlim
 {
     private static readonly double TimestampToTicks = TimeSpan.TicksPerSecond / (double)Stopwatch.Frequency;
@@ -18,3 +18,4 @@ public readonly struct StopwatchSlim
 
     public TimeSpan Elapsed => new((long)(TimestampToTicks * (Stopwatch.GetTimestamp() - start)));
 }
+#pragma warning restore CA1815

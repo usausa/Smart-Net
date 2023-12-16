@@ -9,17 +9,19 @@ public abstract class NotificationObject : INotifyPropertyChanged, INotifyProper
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1030:UseEventsWhereAppropriate", Justification = "Ignore")]
+#pragma warning disable CA1030
     protected void RaisePropertyChanging([CallerMemberName] string? propertyName = null)
     {
         PropertyChanging?.Invoke(this, new PropertyChangingEventArgs(propertyName));
     }
+#pragma warning restore CA1030
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1030:UseEventsWhereAppropriate", Justification = "Ignore")]
+#pragma warning disable CA1030
     protected void RaisePropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
+#pragma warning restore CA1030
 
     protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string? propertyName = null)
     {

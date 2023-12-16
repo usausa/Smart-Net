@@ -245,7 +245,7 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
     {
         lock (sync)
         {
-            // Double checked locking
+            // Double-checked locking
             if (TryGetValue(key, out var currentValue))
             {
                 return currentValue;
@@ -261,7 +261,7 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
     {
         lock (sync)
         {
-            // Double checked locking
+            // Double-checked locking
             if (TryGetValue(key, out var currentValue))
             {
                 return currentValue;
@@ -329,12 +329,13 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
     // Inner
     //--------------------------------------------------------------------------------
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Framework only")]
+#pragma warning disable CA1812
     private sealed class EmptyKey
     {
     }
+#pragma warning restore CA1812
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("StyleCop.CSharp.MaintainabilityRules", "SA1401:FieldsMustBePrivate", Justification = "Performance")]
+#pragma warning disable SA1401
     private sealed class Node
     {
         public readonly Type Key;
@@ -349,6 +350,7 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
             Value = value;
         }
     }
+#pragma warning restore SA1401
 
     private sealed class AddResizeContext : IHashArrayMapResizeContext
     {

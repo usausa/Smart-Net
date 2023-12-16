@@ -2,9 +2,9 @@ namespace Smart.Reflection;
 
 public static class ReflectionHelper
 {
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Ignore")]
     static ReflectionHelper()
     {
+#pragma warning disable CA1031
         try
         {
             var type = Type.GetType("System.Reflection.Emit.DynamicMethod");
@@ -18,6 +18,7 @@ public static class ReflectionHelper
         {
             // Ignore
         }
+#pragma warning restore CA1031
     }
 
     public static bool IsCodegenAllowed { get; }

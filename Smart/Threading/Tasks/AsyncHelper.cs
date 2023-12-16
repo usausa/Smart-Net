@@ -1,6 +1,6 @@
 namespace Smart.Threading.Tasks;
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Reliability", "CA2008:DoNotCreateTasksWithoutPassingATaskScheduler", Justification = "Ignore")]
+#pragma warning disable CA2008
 public static class AsyncHelper
 {
     private static readonly TaskFactory TaskFactory =
@@ -20,3 +20,4 @@ public static class AsyncHelper
             .GetAwaiter()
             .GetResult();
 }
+#pragma warning restore CA2008

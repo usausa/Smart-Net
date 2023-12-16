@@ -2,23 +2,25 @@ namespace Smart.Reflection;
 
 using Smart.ComponentModel;
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "CA1711:IdentifiersShouldNotHaveIncorrectSuffix", Justification = "Ignore")]
+#pragma warning disable CA1711
 public enum MyEnum
 {
     Zero,
     One,
     Two
 }
+#pragma warning restore CA1711
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1815:OverrideEqualsAndOperatorEqualsOnValueTypes", Justification = "Ignore")]
+#pragma warning disable CA1815
 public readonly struct MyStruct
 {
     public int X { get; init; }
 
     public int Y { get; init; }
 }
+#pragma warning restore CA1815
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1815:OverrideEqualsAndOperatorEqualsOnValueTypes", Justification = "Ignore")]
+#pragma warning disable CA1815
 public struct StructWithConstructor
 {
     public int X { get; set; }
@@ -31,6 +33,7 @@ public struct StructWithConstructor
         Y = y;
     }
 }
+#pragma warning restore CA1815
 
 public class MemberData
 {
@@ -91,11 +94,13 @@ public class MemberData
     public static IValueHolder<MyStruct> StaticNotificationStructValue { get; } = new NotificationValue<MyStruct>();
 }
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1812:AvoidUninstantiatedInternalClasses", Justification = "Ignore")]
+#pragma warning disable CA1812
 internal sealed class InternalData
 {
 }
+#pragma warning restore CA1812
 
+#pragma warning disable CA1044
 public class ReadWriteOnlyData
 {
     private string? str;
@@ -104,11 +109,11 @@ public class ReadWriteOnlyData
 
     private string? Get() => str;
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1044:PropertiesShouldNotBeWriteOnly", Justification = "Ignore")]
     public string? WriteOnly { set => Set(value); }
 
     public string? ReadOnly => Get();
 }
+#pragma warning restore CA1044
 
 public class NullableParameterClass
 {

@@ -1,3 +1,4 @@
+// ReSharper disable MissingBlankLines
 namespace Benchmark.Reflection;
 
 using System.Reflection;

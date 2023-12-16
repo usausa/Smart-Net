@@ -1,6 +1,6 @@
 namespace Smart.Linq;
 
-[System.Diagnostics.CodeAnalysis.SuppressMessage("Performance", "CA1815:OverrideEqualsAndOperatorEqualsOnValueTypes", Justification = "Ignore")]
+#pragma warning disable CA1815
 public readonly struct Indexed<T>
 {
     public T Item { get; }
@@ -18,3 +18,4 @@ public readonly struct Indexed<T>
         return Item is null ? Index : Item.GetHashCode() ^ Index;
     }
 }
+#pragma warning restore CA1815

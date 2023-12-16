@@ -19,9 +19,9 @@ public class NotificationValue<T> : NotificationObject, IValueHolder<T>
         storage = value;
     }
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA2225:OperatorOverloadsHaveNamedAlternates", Justification = "Ignore")]
+#pragma warning disable CA2225
     public static implicit operator T(NotificationValue<T> value) => value.Value;
+#pragma warning restore CA2225
 
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Maintainability", "CA1508", Justification = "Analyzers bug ?")]
     public override string? ToString() => storage?.ToString();
 }
