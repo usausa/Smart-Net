@@ -6,7 +6,7 @@ for (var i = 1; i <= 10; i++)
 {
 #>
 
-public class Class<#= $"{i:D2}" #>
+public sealed class Class<#= $"{i:D2}" #>
 {
     public static Type Type { get; } = typeof(Class<#= $"{i:D2}" #>);
 }

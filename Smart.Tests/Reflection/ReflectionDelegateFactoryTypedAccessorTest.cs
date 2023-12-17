@@ -2,7 +2,7 @@ namespace Smart.Reflection;
 
 using Xunit;
 
-public class ReflectionDelegateFactoryTypedAccessorTest
+public sealed class ReflectionDelegateFactoryTypedAccessorTest
 {
     //--------------------------------------------------------------------------------
     // Non static

@@ -2,7 +2,7 @@ namespace Smart.Reflection;
 
 using Xunit;
 
-public class DynamicDelegateFactoryTypedFactoryTest
+public sealed class DynamicDelegateFactoryTypedFactoryTest
 {
     [Fact]
     public void FactoryStruct()

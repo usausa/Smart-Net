@@ -2,7 +2,7 @@ namespace Smart.Reflection;
 
 using Xunit;
 
-public class DynamicDelegateFactoryArrayTest
+public sealed class DynamicDelegateFactoryArrayTest
 {
     [Fact]
     public void ArrayAllocator()

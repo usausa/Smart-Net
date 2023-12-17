@@ -2,52 +2,52 @@
 namespace Smart.Collections.Concurrent;
 
 
-public class Class01
+public sealed class Class01
 {
     public static Type Type { get; } = typeof(Class01);
 }
 
-public class Class02
+public sealed class Class02
 {
     public static Type Type { get; } = typeof(Class02);
 }
 
-public class Class03
+public sealed class Class03
 {
     public static Type Type { get; } = typeof(Class03);
 }
 
-public class Class04
+public sealed class Class04
 {
     public static Type Type { get; } = typeof(Class04);
 }
 
-public class Class05
+public sealed class Class05
 {
     public static Type Type { get; } = typeof(Class05);
 }
 
-public class Class06
+public sealed class Class06
 {
     public static Type Type { get; } = typeof(Class06);
 }
 
-public class Class07
+public sealed class Class07
 {
     public static Type Type { get; } = typeof(Class07);
 }
 
-public class Class08
+public sealed class Class08
 {
     public static Type Type { get; } = typeof(Class08);
 }
 
-public class Class09
+public sealed class Class09
 {
     public static Type Type { get; } = typeof(Class09);
 }
 
-public class Class10
+public sealed class Class10
 {
     public static Type Type { get; } = typeof(Class10);
 }

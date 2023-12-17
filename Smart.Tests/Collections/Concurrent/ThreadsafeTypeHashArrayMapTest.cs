@@ -2,7 +2,7 @@ namespace Smart.Collections.Concurrent;
 
 using Xunit;
 
-public class ThreadsafeTypeHashArrayMapTest
+public sealed class ThreadsafeTypeHashArrayMapTest
 {
     private static string Factory(Type type)
     {

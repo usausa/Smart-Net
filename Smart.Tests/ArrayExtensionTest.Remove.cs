@@ -3,7 +3,7 @@ namespace Smart;
 using Xunit;
 
 #pragma warning disable IDE0300
-public class ArrayExtensionTest
+public sealed class ArrayExtensionTest
 {
     [Fact]
     public void TestArrayRemoveAt()

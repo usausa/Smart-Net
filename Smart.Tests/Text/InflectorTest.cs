@@ -2,7 +2,7 @@ namespace Smart.Text;
 
 using Xunit;
 
-public class InflectorTest
+public sealed class InflectorTest
 {
     [Fact]
     public void ToUnderscore()

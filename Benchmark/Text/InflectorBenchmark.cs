@@ -5,7 +5,7 @@ using BenchmarkDotNet.Attributes;
 using Smart.Text;
 
 [Config(typeof(BenchmarkConfig))]
-public class InflectorBenchmark
+public sealed class InflectorBenchmark
 {
     [Benchmark]
     public string Pascalize() => Inflector.Pascalize("aaa_bbb_ccc_ddd");

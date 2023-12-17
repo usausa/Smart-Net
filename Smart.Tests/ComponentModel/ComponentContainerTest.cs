@@ -2,7 +2,7 @@ namespace Smart.ComponentModel;
 
 using Xunit;
 
-public class ComponentContainerTest
+public sealed class ComponentContainerTest
 {
     [Fact]
     public void ComponentIsResolved()
@@ -150,25 +150,25 @@ public class ComponentContainerTest
         Assert.NotNull(obj.CalcService);
     }
 
-    protected class SimpleObject
+    public sealed class SimpleObject
     {
     }
 
 #pragma warning disable CA1040
-    protected interface ICalcService
+    public interface ICalcService
     {
     }
 #pragma warning restore CA1040
 
-    protected class AddCalcService : ICalcService
+    public sealed class AddCalcService : ICalcService
     {
     }
 
-    protected class SubCalcService : ICalcService
+    public sealed class SubCalcService : ICalcService
     {
     }
 
-    protected sealed class DisposableObject : IDisposable
+    public sealed class DisposableObject : IDisposable
     {
         public int Disposed { get; set; }
 
@@ -179,7 +179,7 @@ public class ComponentContainerTest
     }
 
 #pragma warning disable CA1819
-    protected class ArrayParameterObject
+    public sealed class ArrayParameterObject
     {
         public ICalcService[] CalcServices { get; set; }
 
@@ -190,7 +190,7 @@ public class ComponentContainerTest
     }
 #pragma warning restore CA1819
 
-    protected class MultiConstructorObject
+    public sealed class MultiConstructorObject
     {
         public int Arguments { get; set; }
 

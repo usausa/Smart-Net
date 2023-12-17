@@ -9,7 +9,7 @@ using Smart.ComponentModel;
 using Smart.Reflection;
 
 [Config(typeof(BenchmarkConfig))]
-public class DelegateFactoryBenchmark
+public sealed class DelegateFactoryBenchmark
 {
     private static readonly ConstructorInfo Ci0 = typeof(Data0).GetConstructors()[0];
     private static readonly ConstructorInfo Ci1 = typeof(Data1).GetConstructors()[0];
@@ -282,7 +282,7 @@ public class DelegateFactoryBenchmark
 
     // Data
 
-    public class MemberData
+    public sealed class MemberData
     {
         public int IntValue { get; set; }
 
@@ -293,11 +293,11 @@ public class DelegateFactoryBenchmark
         public IValueHolder<int> NotificationIntValue { get; } = new NotificationValue<int>();
     }
 
-    public class Data0
+    public sealed class Data0
     {
     }
 
-    public class Data1
+    public sealed class Data1
     {
         public string? P1 { get; }
 
@@ -307,7 +307,7 @@ public class DelegateFactoryBenchmark
         }
     }
 
-    public class Data2
+    public sealed class Data2
     {
         public string? P1 { get; }
 

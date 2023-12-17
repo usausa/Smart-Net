@@ -1,6 +1,6 @@
 namespace Smart.ComponentModel;
 
-public class NotificationValue<T> : NotificationObject, IValueHolder<T>
+public sealed class NotificationValue<T> : NotificationObject, IValueHolder<T>
 {
     private T storage = default!;
 

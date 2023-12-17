@@ -2,7 +2,7 @@ namespace Smart.Linq;
 
 using Xunit;
 
-public class OptimizedEnumerableTest
+public sealed class OptimizedEnumerableTest
 {
     //--------------------------------------------------------------------------------
     // All

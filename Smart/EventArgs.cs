@@ -1,6 +1,6 @@
 namespace Smart;
 
-public class EventArgs<T> : EventArgs
+public sealed class EventArgs<T> : EventArgs
 {
     public T Data { get; }
 

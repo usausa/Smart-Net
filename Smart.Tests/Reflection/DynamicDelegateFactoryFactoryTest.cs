@@ -2,7 +2,7 @@ namespace Smart.Reflection;
 
 using Xunit;
 
-public class DynamicDelegateFactoryActivatorTest
+public sealed class DynamicDelegateFactoryActivatorTest
 {
     //--------------------------------------------------------------------------------
     // Struct
