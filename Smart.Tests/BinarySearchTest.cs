@@ -1,7 +1,5 @@
 namespace Smart;
 
-using Xunit;
-
 public sealed class BinarySearchTest
 {
     private static void AssertIndex(IList<int> expects, IList<int> actuals)

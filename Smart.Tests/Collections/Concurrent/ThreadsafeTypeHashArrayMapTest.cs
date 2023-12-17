@@ -1,7 +1,5 @@
 namespace Smart.Collections.Concurrent;
 
-using Xunit;
-
 public sealed class ThreadsafeTypeHashArrayMapTest
 {
     private static string Factory(Type type)

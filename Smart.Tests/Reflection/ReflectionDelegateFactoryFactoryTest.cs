@@ -1,7 +1,5 @@
 namespace Smart.Reflection;
 
-using Xunit;
-
 public sealed class ReflectionDelegateFactoryActivatorTest
 {
     //--------------------------------------------------------------------------------

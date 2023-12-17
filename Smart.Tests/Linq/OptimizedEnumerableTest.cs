@@ -1,7 +1,5 @@
 namespace Smart.Linq;
 
-using Xunit;
-
 public sealed class OptimizedEnumerableTest
 {
     //--------------------------------------------------------------------------------

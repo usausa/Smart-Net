@@ -1,7 +1,5 @@
 namespace Smart;
 
-using Xunit;
-
 #pragma warning disable IDE0300
 public sealed class ArrayExtensionTest
 {

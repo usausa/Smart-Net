@@ -1,7 +1,5 @@
 namespace Smart.Text;
 
-using Xunit;
-
 public sealed class InflectorTest
 {
     [Fact]

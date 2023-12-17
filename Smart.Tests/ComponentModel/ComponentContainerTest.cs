@@ -1,7 +1,5 @@
 namespace Smart.ComponentModel;
 
-using Xunit;
-
 public sealed class ComponentContainerTest
 {
     [Fact]
