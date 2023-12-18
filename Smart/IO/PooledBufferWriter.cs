@@ -34,6 +34,7 @@ public sealed class PooledBufferWriter<T> : IBufferWriter<T>, IDisposable
         }
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Clear()
     {
         index = 0;
