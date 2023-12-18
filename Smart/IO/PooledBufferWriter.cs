@@ -23,7 +23,6 @@ public sealed class PooledBufferWriter<T> : IBufferWriter<T>, IDisposable
     public PooledBufferWriter(int initialCapacity)
     {
         buffer = ArrayPool<T>.Shared.Rent(initialCapacity);
-        buffer.AsSpan().Clear();
     }
 
     public void Dispose()
