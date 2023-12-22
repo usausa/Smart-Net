@@ -21,7 +21,7 @@ public sealed class DynamicDelegateFactoryActivatorTest
     {
         var factory = DynamicDelegateFactory.Default.CreateFactory(typeof(StructWithConstructor), [typeof(int), typeof(int)]);
 
-        var data = (StructWithConstructor)factory(new object[] { 1, 2 });
+        var data = (StructWithConstructor)factory([1, 2]);
         Assert.Equal(1, data.X);
         Assert.Equal(2, data.Y);
     }
@@ -41,7 +41,7 @@ public sealed class DynamicDelegateFactoryActivatorTest
     {
         var factory = DynamicDelegateFactory.Default.CreateFactory(typeof(StructWithConstructor).GetConstructors().First());
 
-        var data = (StructWithConstructor)factory(new object[] { 1, 2 });
+        var data = (StructWithConstructor)factory([1, 2]);
         Assert.Equal(1, data.X);
         Assert.Equal(2, data.Y);
     }
@@ -94,7 +94,7 @@ public sealed class DynamicDelegateFactoryActivatorTest
     {
         var factory = DynamicDelegateFactory.Default.CreateFactory(typeof(Data1).GetConstructors().First());
 
-        var data = (Data1)factory(new object[] { 1 });
+        var data = (Data1)factory([1]);
         Assert.NotNull(data);
         Assert.Equal(1, data.Param1);
     }
@@ -104,7 +104,7 @@ public sealed class DynamicDelegateFactoryActivatorTest
     {
         var factory = DynamicDelegateFactory.Default.CreateFactory(typeof(Data17).GetConstructors().First());
 
-        var data = (Data17)factory(new object[] { 1, "2", 3, "4", 5, "6", 7, "8", 9, "10", 11, "12", 13, "14", 15, "16", 17 });
+        var data = (Data17)factory([1, "2", 3, "4", 5, "6", 7, "8", 9, "10", 11, "12", 13, "14", 15, "16", 17]);
         Assert.NotNull(data);
         Assert.Equal(1, data.Param1);
         Assert.Equal("2", data.Param2);

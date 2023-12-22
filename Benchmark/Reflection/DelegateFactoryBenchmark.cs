@@ -161,7 +161,7 @@ public sealed class DelegateFactoryBenchmark
     [Benchmark]
     public object Factory2Dynamic() => factory2Dynamic!(string.Empty, 0);
     [Benchmark]
-    public object Factory2BDynamic() => factory2BDynamic!(new object[] { string.Empty, 0 });
+    public object Factory2BDynamic() => factory2BDynamic!([string.Empty, 0]);
 
     // TypedFactory
 
@@ -225,7 +225,7 @@ public sealed class DelegateFactoryBenchmark
     [Benchmark]
     public object Factory2Reflection() => factory2Reflection!(string.Empty, 0);
     [Benchmark]
-    public object Factory2BReflection() => factory2BReflection!(new object[] { string.Empty, 0 });
+    public object Factory2BReflection() => factory2BReflection!([string.Empty, 0]);
 
     // TypedFactory
 
