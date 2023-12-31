@@ -6,12 +6,6 @@ using System.Runtime.CompilerServices;
 
 public sealed class ComponentContainer : IDisposable, IServiceProvider
 {
-    private static readonly Type EnumerableType = typeof(IEnumerable<>);
-
-    private static readonly Type CollectionType = typeof(ICollection<>);
-
-    private static readonly Type ListType = typeof(IList<>);
-
     private static readonly object[] EmptyResult = [];
 
     private readonly Dictionary<Type, object[]> cache = [];
@@ -115,7 +109,7 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
 
     public object? GetService(Type serviceType)
     {
-        if (serviceType.IsGenericType && serviceType.GetGenericTypeDefinition() == EnumerableType)
+        if (serviceType.IsGenericType && serviceType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
         {
             return ConvertArray(serviceType.GenericTypeArguments[0], GetAll(serviceType.GenericTypeArguments[0]));
         }
@@ -199,7 +193,9 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
         if (type.IsGenericType)
         {
             var genericType = type.GetGenericTypeDefinition();
-            if ((genericType == EnumerableType) || (genericType == CollectionType) || (genericType == ListType))
+            if ((genericType == typeof(IEnumerable<>)) ||
+                (genericType == typeof(ICollection<>)) ||
+                (genericType == typeof(IList<>)))
             {
                 return type.GenericTypeArguments[0];
             }

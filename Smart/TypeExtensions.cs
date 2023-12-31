@@ -9,18 +9,6 @@ using Smart.ComponentModel;
 
 public static class TypeExtensions
 {
-    private static readonly Type NullableType = typeof(Nullable<>);
-
-    private static readonly Type CompilerGeneratedAttributeType = typeof(CompilerGeneratedAttribute);
-
-    private static readonly Type GenericEnumerableType = typeof(IEnumerable<>);
-
-    private static readonly Type EnumerableType = typeof(IEnumerable);
-
-    private static readonly Type ObjectType = typeof(object);
-
-    private static readonly Type ValueHolderType = typeof(IValueHolder<>);
-
     private static readonly ThreadsafeTypeHashArrayMap<object?> DefaultValues = new();
 
     private static readonly Func<Type, object?> NullFactory = _ => null;
@@ -70,13 +58,13 @@ public static class TypeExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsNullableType(this Type type)
     {
-        return type.IsGenericType && (type.GetGenericTypeDefinition() == NullableType);
+        return type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(Nullable<>));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool IsAnonymous(this Type type)
     {
-        return type.IsDefined(CompilerGeneratedAttributeType, false) &&
+        return type.IsDefined(typeof(CompilerGeneratedAttribute), false) &&
             type.IsGenericType &&
             type.Name.Contains("AnonymousType", StringComparison.Ordinal) &&
             (type.Name.StartsWith("<>", StringComparison.Ordinal) || type.Name.StartsWith("VB$", StringComparison.Ordinal)) &&
@@ -91,20 +79,21 @@ public static class TypeExtensions
             return type.GetElementType();
         }
 
-        if (type.IsGenericType && type.GetGenericTypeDefinition() == GenericEnumerableType)
+        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
         {
             return type.GenericTypeArguments[0];
         }
 
-        var enumerableType = type.GetInterfaces().FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == GenericEnumerableType);
+        var enumerableType = type.GetInterfaces()
+            .FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>));
         if (enumerableType is not null)
         {
             return enumerableType.GenericTypeArguments[0];
         }
 
-        if (EnumerableType.IsAssignableFrom(type.GetTypeInfo()))
+        if (typeof(IEnumerable).IsAssignableFrom(type.GetTypeInfo()))
         {
-            return ObjectType;
+            return typeof(object);
         }
 
         return null;
@@ -125,12 +114,12 @@ public static class TypeExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static Type? GetValueHolderType(this Type type)
     {
-        if (type.IsGenericType && type.GetGenericTypeDefinition() == ValueHolderType)
+        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IValueHolder<>))
         {
             return type;
         }
 
-        return type.GetInterfaces().FirstOrDefault(it => it.IsGenericType && it.GetGenericTypeDefinition() == ValueHolderType);
+        return type.GetInterfaces().FirstOrDefault(static it => it.IsGenericType && it.GetGenericTypeDefinition() == typeof(IValueHolder<>));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

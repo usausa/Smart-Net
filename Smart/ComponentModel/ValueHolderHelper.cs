@@ -4,28 +4,26 @@ using System.Reflection;
 
 public static class ValueHolderHelper
 {
-    private static readonly Type ValueHolderType = typeof(IValueHolder<>);
-
     public static bool IsValueHolderType(Type type)
     {
-        if (type.IsGenericType && (type.GetGenericTypeDefinition() == ValueHolderType))
+        if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(IValueHolder<>)))
         {
             return true;
         }
 
         return type.GetInterfaces()
-            .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == ValueHolderType);
+            .Any(static i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IValueHolder<>));
     }
 
     public static Type? FindValueHolderType(PropertyInfo pi)
     {
-        if (pi.PropertyType.IsGenericType && (pi.PropertyType.GetGenericTypeDefinition() == ValueHolderType))
+        if (pi.PropertyType.IsGenericType && (pi.PropertyType.GetGenericTypeDefinition() == typeof(IValueHolder<>)))
         {
             return pi.PropertyType;
         }
 
         return pi.PropertyType.GetInterfaces()
-            .FirstOrDefault(i => i.IsGenericType && i.GetGenericTypeDefinition() == ValueHolderType);
+            .FirstOrDefault(static i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IValueHolder<>));
     }
 
     public static PropertyInfo? GetValueTypeProperty(Type type)
