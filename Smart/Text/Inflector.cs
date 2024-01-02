@@ -11,6 +11,7 @@ public static class Inflector
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string Camelize(ReadOnlySpan<char> word) => Camelize(word, false);
 
+    [SkipLocalsInit]
     public static unsafe string Camelize(ReadOnlySpan<char> word, bool toUpper)
     {
         if (word.IsEmpty)
@@ -66,6 +67,7 @@ public static class Inflector
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string Underscore(ReadOnlySpan<char> word) => Underscore(word, false);
 
+    [SkipLocalsInit]
     public static unsafe string Underscore(ReadOnlySpan<char> word, bool toUpper)
     {
         if (word.IsEmpty)
