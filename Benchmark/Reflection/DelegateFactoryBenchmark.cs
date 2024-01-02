@@ -9,7 +9,7 @@ using Smart.ComponentModel;
 using Smart.Reflection;
 
 [Config(typeof(BenchmarkConfig))]
-public sealed class DelegateFactoryBenchmark
+public class DelegateFactoryBenchmark
 {
     private static readonly ConstructorInfo Ci0 = typeof(Data0).GetConstructors()[0];
     private static readonly ConstructorInfo Ci1 = typeof(Data1).GetConstructors()[0];

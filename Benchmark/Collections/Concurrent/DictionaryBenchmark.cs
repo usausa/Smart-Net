@@ -7,7 +7,7 @@ using BenchmarkDotNet.Attributes;
 using Smart.Collections.Concurrent;
 
 [Config(typeof(BenchmarkConfig))]
-public sealed class DictionaryBenchmark
+public class DictionaryBenchmark
 {
     private readonly Dictionary<Type, object?> dictionary = [];
 

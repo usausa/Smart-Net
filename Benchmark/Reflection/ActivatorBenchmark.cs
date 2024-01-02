@@ -5,7 +5,7 @@ using BenchmarkDotNet.Attributes;
 using Smart.Reflection;
 
 [Config(typeof(BenchmarkConfig))]
-public sealed class ActivatorBenchmark
+public class ActivatorBenchmark
 {
     private static readonly object[] Parameter1 = ["x"];
 
