@@ -308,14 +308,14 @@ public static class FunctionalExtensions
     public static IEnumerable<T> FlatOrEmpty<T>(this T? value)
         where T : class
     {
-        return value is null ? Enumerable.Empty<T>() : Flat(value);
+        return value is null ? [] : Flat(value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static IEnumerable<T> FlatOrEmpty<T>(this T? value)
         where T : struct
     {
-        return value.HasValue ? Flat(value.Value) : Enumerable.Empty<T>();
+        return value.HasValue ? Flat(value.Value) : [];
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
