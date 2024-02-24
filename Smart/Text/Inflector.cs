@@ -65,10 +65,19 @@ public static class Inflector
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static string Underscore(ReadOnlySpan<char> word) => Underscore(word, false);
+    public static string Underscore(ReadOnlySpan<char> word) => SplitJoin(word, '_', false);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string Underscore(ReadOnlySpan<char> word, bool toUpper) => SplitJoin(word, '_', toUpper);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string Kebab(ReadOnlySpan<char> word) => SplitJoin(word, '-', false);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static string Kebab(ReadOnlySpan<char> word, bool toUpper) => SplitJoin(word, '-', toUpper);
 
     [SkipLocalsInit]
-    public static unsafe string Underscore(ReadOnlySpan<char> word, bool toUpper)
+    private static unsafe string SplitJoin(ReadOnlySpan<char> word, char splitter, bool toUpper)
     {
         if (word.IsEmpty)
         {
@@ -104,7 +113,7 @@ public static class Inflector
             {
                 if (Char.IsUpper(c))
                 {
-                    b = '_';
+                    b = splitter;
                     b = ref Unsafe.Add(ref b, 1);
                     b = c;
                     b = ref Unsafe.Add(ref b, 1);
@@ -137,7 +146,7 @@ public static class Inflector
             {
                 if (Char.IsUpper(c))
                 {
-                    b = '_';
+                    b = splitter;
                     b = ref Unsafe.Add(ref b, 1);
                     b = Char.ToLowerInvariant(c);
                     b = ref Unsafe.Add(ref b, 1);

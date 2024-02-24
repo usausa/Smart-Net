@@ -12,6 +12,15 @@ public sealed class InflectorTest
     }
 
     [Fact]
+    public void ToKebab()
+    {
+        Assert.Equal("abc-xyz", Inflector.Kebab("AbcXyz"));
+        Assert.Equal("ABC-XYZ", Inflector.Kebab("AbcXyz", true));
+        Assert.Equal("abc-xyz", Inflector.Kebab("abc-xyz"));
+        Assert.Equal("ABC-XYZ", Inflector.Kebab("abc-xyz", true));
+    }
+
+    [Fact]
     public void ToPascal()
     {
         Assert.Equal("AbcXyz", Inflector.Pascalize("AbcXyz"));
