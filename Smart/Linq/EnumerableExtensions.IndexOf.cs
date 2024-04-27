@@ -38,6 +38,10 @@ public static partial class EnumerableExtensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int IndexOf<T>(this T[] source, Func<T, bool> predicate) =>
+        source.AsSpan().IndexOf(predicate);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int IndexOf<T>(this T[] source, int start, int length, Func<T, bool> predicate) =>
         source.AsSpan(start, length).IndexOf(predicate);
 
@@ -141,79 +145,21 @@ public static partial class EnumerableExtensions
         return -1;
     }
 
-    // TODO
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int LastIndexOf<T>(this T[] source, Func<T, bool> predicate)
-    {
-        for (var i = source.Length - 1; i >= 0; i--)
-        {
-            if (predicate(source[i]))
-            {
-                return i;
-            }
-        }
+    public static int LastIndexOf<T>(this T[] source, Func<T, bool> predicate) =>
+        source.AsSpan().LastIndexOf(predicate);
 
-        return -1;
-    }
-
-    // TODO
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int LastIndexOf<T>(this T[] source, int start, int length, Func<T, bool> predicate)
-    {
-        var last = start + length;
-        var max = last > source.Length ? source.Length : last;
-        if (start < 0)
-        {
-            start = 0;
-        }
+    public static int LastIndexOf<T>(this T[] source, int start, int length, Func<T, bool> predicate) =>
+        source.AsSpan(start, length).LastIndexOf(predicate);
 
-        for (var i = max - 1; i >= start; i--)
-        {
-            if (predicate(source[i]))
-            {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
-    // TODO
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int LastIndexOf<T>(this List<T> source, Func<T, bool> predicate)
-    {
-        for (var i = source.Count - 1; i >= 0; i--)
-        {
-            if (predicate(source[i]))
-            {
-                return i;
-            }
-        }
+    public static int LastIndexOf<T>(this List<T> source, Func<T, bool> predicate) =>
+        CollectionsMarshal.AsSpan(source).LastIndexOf(predicate);
 
-        return -1;
-    }
-
-    // TODO
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int LastIndexOf<T>(this List<T> source, int start, int length, Func<T, bool> predicate)
-    {
-        var last = start + length;
-        var max = last > source.Count ? source.Count : last;
-        if (start < 0)
-        {
-            start = 0;
-        }
-
-        for (var i = max - 1; i >= start; i--)
-        {
-            if (predicate(source[i]))
-            {
-                return i;
-            }
-        }
-
-        return -1;
-    }
+    public static int LastIndexOf<T>(this List<T> source, int start, int length, Func<T, bool> predicate) =>
+        CollectionsMarshal.AsSpan(source).Slice(start, length).LastIndexOf(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int LastIndexOf<T>(this IList<T> source, Func<T, bool> predicate)

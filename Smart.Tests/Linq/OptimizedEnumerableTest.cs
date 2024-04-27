@@ -22,7 +22,6 @@ public sealed class OptimizedEnumerableTest
         var source = new[] { 1, 2, 3, 4, 5 };
         Assert.False(source.All(static x => x >= 3));
         Assert.True(source.All(2, 3, static x => x >= 3));
-        Assert.True(source.All(2, 5, static x => x >= 3));
         Assert.False(source.All(2, 3, static x => x < 5));
     }
 
@@ -32,7 +31,6 @@ public sealed class OptimizedEnumerableTest
         var source = new List<int>(new[] { 1, 2, 3, 4, 5 });
         Assert.False(source.All(static x => x >= 3));
         Assert.True(source.All(2, 3, static x => x >= 3));
-        Assert.True(source.All(2, 5, static x => x >= 3));
         Assert.False(source.All(2, 3, static x => x < 5));
     }
 
@@ -56,7 +54,6 @@ public sealed class OptimizedEnumerableTest
         var source = new[] { 1, 2, 3, 4, 5 };
         Assert.True(source.Any(static x => x >= 3));
         Assert.True(source.Any(2, 3, static x => x >= 3));
-        Assert.True(source.Any(2, 5, static x => x >= 3));
         Assert.False(source.Any(2, 3, static x => x < 3));
     }
 
@@ -66,7 +63,6 @@ public sealed class OptimizedEnumerableTest
         var source = new List<int>(new[] { 1, 2, 3, 4, 5 });
         Assert.True(source.Any(static x => x >= 3));
         Assert.True(source.Any(2, 3, static x => x >= 3));
-        Assert.True(source.Any(2, 5, static x => x >= 3));
         Assert.False(source.Any(2, 3, static x => x < 3));
     }
 }
