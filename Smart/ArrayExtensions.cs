@@ -73,4 +73,54 @@ public static class ArrayExtensions
 
         return result;
     }
+
+    //--------------------------------------------------------------------------------
+    // Convert
+    //--------------------------------------------------------------------------------
+
+    public static TResult[] ToArray<TSource, TResult>(this TSource[] source, Func<TSource, TResult> selector)
+    {
+        var destination = new TResult[source.Length];
+        for (var i = 0; i < source.Length; i++)
+        {
+            destination[i] = selector(source[i]);
+        }
+        return destination;
+    }
+
+    public static TResult[] ToArray<TSource, TState, TResult>(this TSource[] source, TState state, Func<TSource, TState, TResult> selector)
+    {
+        var destination = new TResult[source.Length];
+        for (var i = 0; i < source.Length; i++)
+        {
+            destination[i] = selector(source[i], state);
+        }
+        return destination;
+    }
+
+#pragma warning disable CA1002
+    public static List<TResult> ToList<TSource, TResult>(this TSource[] source, Func<TSource, TResult> selector)
+    {
+        var destination = new List<TResult>(source.Length);
+        // ReSharper disable once ForCanBeConvertedToForeach
+        for (var i = 0; i < source.Length; i++)
+        {
+            destination.Add(selector(source[i]));
+        }
+        return destination;
+    }
+#pragma warning restore CA1002
+
+#pragma warning disable CA1002
+    public static List<TResult> ToList<TSource, TState, TResult>(this TSource[] source, TState state, Func<TSource, TState, TResult> selector)
+    {
+        var destination = new List<TResult>(source.Length);
+        // ReSharper disable once ForCanBeConvertedToForeach
+        for (var i = 0; i < source.Length; i++)
+        {
+            destination.Add(selector(source[i], state));
+        }
+        return destination;
+    }
+#pragma warning restore CA1002
 }
