@@ -1,6 +1,7 @@
 namespace Smart.Linq;
 
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 public static partial class EnumerableExtensions
 {
@@ -37,64 +38,16 @@ public static partial class EnumerableExtensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int IndexOf<T>(this T[] source, Func<T, bool> predicate)
-    {
-        for (var i = 0; i < source.Length; i++)
-        {
-            if (predicate(source[i]))
-            {
-                return i;
-            }
-        }
-
-        return -1;
-    }
+    public static int IndexOf<T>(this T[] source, int start, int length, Func<T, bool> predicate) =>
+        source.AsSpan(start, length).IndexOf(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int IndexOf<T>(this T[] source, int start, int length, Func<T, bool> predicate)
-    {
-        var last = start + length;
-        var max = last > source.Length ? source.Length : last;
-        for (var i = start; i < max; i++)
-        {
-            if (predicate(source[i]))
-            {
-                return i;
-            }
-        }
-
-        return -1;
-    }
+    public static int IndexOf<T>(this List<T> source, Func<T, bool> predicate) =>
+        CollectionsMarshal.AsSpan(source).IndexOf(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int IndexOf<T>(this List<T> source, Func<T, bool> predicate)
-    {
-        for (var i = 0; i < source.Count; i++)
-        {
-            if (predicate(source[i]))
-            {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int IndexOf<T>(this List<T> source, int start, int length, Func<T, bool> predicate)
-    {
-        var last = start + length;
-        var max = last > source.Count ? source.Count : last;
-        for (var i = start; i < max; i++)
-        {
-            if (predicate(source[i]))
-            {
-                return i;
-            }
-        }
-
-        return -1;
-    }
+    public static int IndexOf<T>(this List<T> source, int start, int length, Func<T, bool> predicate) =>
+        CollectionsMarshal.AsSpan(source).Slice(start, length).IndexOf(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int IndexOf<T>(this IList<T> source, Func<T, bool> predicate)
@@ -188,6 +141,7 @@ public static partial class EnumerableExtensions
         return -1;
     }
 
+    // TODO
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int LastIndexOf<T>(this T[] source, Func<T, bool> predicate)
     {
@@ -202,6 +156,7 @@ public static partial class EnumerableExtensions
         return -1;
     }
 
+    // TODO
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int LastIndexOf<T>(this T[] source, int start, int length, Func<T, bool> predicate)
     {
@@ -223,6 +178,7 @@ public static partial class EnumerableExtensions
         return -1;
     }
 
+    // TODO
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int LastIndexOf<T>(this List<T> source, Func<T, bool> predicate)
     {
@@ -237,6 +193,7 @@ public static partial class EnumerableExtensions
         return -1;
     }
 
+    // TODO
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int LastIndexOf<T>(this List<T> source, int start, int length, Func<T, bool> predicate)
     {
