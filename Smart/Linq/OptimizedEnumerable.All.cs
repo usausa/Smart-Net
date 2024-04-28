@@ -71,8 +71,7 @@ public static partial class OptimizedEnumerable
     public static bool All<T>(this IList<T> source, int start, int length, Func<T, bool> predicate)
     {
         var last = start + length;
-        var max = last > source.Count ? source.Count : last;
-        for (var i = start; i < max; i++)
+        for (var i = start; i < last; i++)
         {
             if (!predicate(source[i]))
             {
@@ -101,8 +100,7 @@ public static partial class OptimizedEnumerable
     public static bool All<T>(this IReadOnlyList<T> source, int start, int length, Func<T, bool> predicate)
     {
         var last = start + length;
-        var max = last > source.Count ? source.Count : last;
-        for (var i = start; i < max; i++)
+        for (var i = start; i < last; i++)
         {
             if (!predicate(source[i]))
             {
@@ -179,8 +177,7 @@ public static partial class OptimizedEnumerable
     public static bool All<T, TState>(this IList<T> source, int start, int length, TState state, Func<T, TState, bool> predicate)
     {
         var last = start + length;
-        var max = last > source.Count ? source.Count : last;
-        for (var i = start; i < max; i++)
+        for (var i = start; i < last; i++)
         {
             if (!predicate(source[i], state))
             {
@@ -209,8 +206,7 @@ public static partial class OptimizedEnumerable
     public static bool All<T, TState>(this IReadOnlyList<T> source, int start, int length, TState state, Func<T, TState, bool> predicate)
     {
         var last = start + length;
-        var max = last > source.Count ? source.Count : last;
-        for (var i = start; i < max; i++)
+        for (var i = start; i < last; i++)
         {
             if (!predicate(source[i], state))
             {

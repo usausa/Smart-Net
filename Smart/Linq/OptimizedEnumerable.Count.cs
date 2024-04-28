@@ -75,8 +75,7 @@ public static partial class OptimizedEnumerable
     {
         var count = 0;
         var last = start + length;
-        var max = last > source.Count ? source.Count : last;
-        for (var i = start; i < max; i++)
+        for (var i = start; i < last; i++)
         {
             if (predicate(source[i]))
             {
@@ -107,8 +106,7 @@ public static partial class OptimizedEnumerable
     {
         var count = 0;
         var last = start + length;
-        var max = last > source.Count ? source.Count : last;
-        for (var i = start; i < max; i++)
+        for (var i = start; i < last; i++)
         {
             if (predicate(source[i]))
             {
@@ -189,8 +187,7 @@ public static partial class OptimizedEnumerable
     {
         var count = 0;
         var last = start + length;
-        var max = last > source.Count ? source.Count : last;
-        for (var i = start; i < max; i++)
+        for (var i = start; i < last; i++)
         {
             if (predicate(source[i], state))
             {
@@ -221,8 +218,7 @@ public static partial class OptimizedEnumerable
     {
         var count = 0;
         var last = start + length;
-        var max = last > source.Count ? source.Count : last;
-        for (var i = start; i < max; i++)
+        for (var i = start; i < last; i++)
         {
             if (predicate(source[i], state))
             {
