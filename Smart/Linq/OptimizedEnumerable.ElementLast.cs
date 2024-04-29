@@ -10,14 +10,14 @@ public static partial class OptimizedEnumerable
     //--------------------------------------------------------------------------------
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T>(this Span<T> source, Func<T, bool> predicate)
+    public static TSource Last<TSource>(this Span<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = source.Length - 1; i >= 0; i--)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -25,14 +25,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T>(this ReadOnlySpan<T> source, Func<T, bool> predicate)
+    public static TSource Last<TSource>(this ReadOnlySpan<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = source.Length - 1; i >= 0; i--)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -40,30 +40,30 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T>(this T[] source, Func<T, bool> predicate) =>
+    public static TSource Last<TSource>(this TSource[] source, Func<TSource, bool> predicate) =>
         source.AsSpan().Last(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T>(this T[] source, int start, int length, Func<T, bool> predicate) =>
+    public static TSource Last<TSource>(this TSource[] source, int start, int length, Func<TSource, bool> predicate) =>
         source.AsSpan(start, length).Last(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T>(this List<T> source, Func<T, bool> predicate) =>
+    public static TSource Last<TSource>(this List<TSource> source, Func<TSource, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Last(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T>(this List<T> source, int start, int length, Func<T, bool> predicate) =>
+    public static TSource Last<TSource>(this List<TSource> source, int start, int length, Func<TSource, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).Last(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T>(this IList<T> source, Func<T, bool> predicate)
+    public static TSource Last<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = source.Count - 1; i >= 0; i--)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -71,14 +71,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T>(this IList<T> source, int start, int length, Func<T, bool> predicate)
+    public static TSource Last<TSource>(this IList<TSource> source, int start, int length, Func<TSource, bool> predicate)
     {
         for (var i = start + length - 1; i >= start; i--)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -86,14 +86,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T>(this IReadOnlyList<T> source, Func<T, bool> predicate)
+    public static TSource Last<TSource>(this IReadOnlyList<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = source.Count - 1; i >= 0; i--)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -101,14 +101,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T>(this IReadOnlyList<T> source, int start, int length, Func<T, bool> predicate)
+    public static TSource Last<TSource>(this IReadOnlyList<TSource> source, int start, int length, Func<TSource, bool> predicate)
     {
         for (var i = start + length - 1; i >= start; i--)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -120,14 +120,14 @@ public static partial class OptimizedEnumerable
     //--------------------------------------------------------------------------------
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T, TState>(this Span<T> source, TState state, Func<T, TState, bool> predicate)
+    public static TSource Last<TSource, TState>(this Span<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = source.Length - 1; i >= 0; i--)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -135,14 +135,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T, TState>(this ReadOnlySpan<T> source, TState state, Func<T, TState, bool> predicate)
+    public static TSource Last<TSource, TState>(this ReadOnlySpan<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = source.Length - 1; i >= 0; i--)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -150,30 +150,30 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T, TState>(this T[] source, TState state, Func<T, TState, bool> predicate) =>
+    public static TSource Last<TSource, TState>(this TSource[] source, TState state, Func<TSource, TState, bool> predicate) =>
         source.AsSpan().Last(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T, TState>(this T[] source, int start, int length, TState state, Func<T, TState, bool> predicate) =>
+    public static TSource Last<TSource, TState>(this TSource[] source, int start, int length, TState state, Func<TSource, TState, bool> predicate) =>
         source.AsSpan(start, length).Last(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T, TState>(this List<T> source, TState state, Func<T, TState, bool> predicate) =>
+    public static TSource Last<TSource, TState>(this List<TSource> source, TState state, Func<TSource, TState, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Last(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T, TState>(this List<T> source, int start, int length, TState state, Func<T, TState, bool> predicate) =>
+    public static TSource Last<TSource, TState>(this List<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).Last(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T, TState>(this IList<T> source, TState state, Func<T, TState, bool> predicate)
+    public static TSource Last<TSource, TState>(this IList<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = source.Count - 1; i >= 0; i--)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -181,14 +181,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T, TState>(this IList<T> source, int start, int length, TState state, Func<T, TState, bool> predicate)
+    public static TSource Last<TSource, TState>(this IList<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = start + length - 1; i >= start; i--)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -196,14 +196,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T, TState>(this IReadOnlyList<T> source, TState state, Func<T, TState, bool> predicate)
+    public static TSource Last<TSource, TState>(this IReadOnlyList<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = source.Count - 1; i >= 0; i--)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -211,14 +211,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T Last<T, TState>(this IReadOnlyList<T> source, int start, int length, TState state, Func<T, TState, bool> predicate)
+    public static TSource Last<TSource, TState>(this IReadOnlyList<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = start + length - 1; i >= start; i--)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -230,14 +230,14 @@ public static partial class OptimizedEnumerable
     //--------------------------------------------------------------------------------
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T>(this Span<T> source, Func<T, bool> predicate)
+    public static TSource? LastOrDefault<TSource>(this Span<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = source.Length - 1; i >= 0; i--)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -245,14 +245,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T>(this ReadOnlySpan<T> source, Func<T, bool> predicate)
+    public static TSource? LastOrDefault<TSource>(this ReadOnlySpan<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = source.Length - 1; i >= 0; i--)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -260,30 +260,30 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T>(this T[] source, Func<T, bool> predicate) =>
+    public static TSource? LastOrDefault<TSource>(this TSource[] source, Func<TSource, bool> predicate) =>
         source.AsSpan().LastOrDefault(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T>(this T[] source, int start, int length, Func<T, bool> predicate) =>
+    public static TSource? LastOrDefault<TSource>(this TSource[] source, int start, int length, Func<TSource, bool> predicate) =>
         source.AsSpan(start, length).LastOrDefault(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T>(this List<T> source, Func<T, bool> predicate) =>
+    public static TSource? LastOrDefault<TSource>(this List<TSource> source, Func<TSource, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).LastOrDefault(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T>(this List<T> source, int start, int length, Func<T, bool> predicate) =>
+    public static TSource? LastOrDefault<TSource>(this List<TSource> source, int start, int length, Func<TSource, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).LastOrDefault(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T>(this IList<T> source, Func<T, bool> predicate)
+    public static TSource? LastOrDefault<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = source.Count - 1; i >= 0; i--)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -291,14 +291,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T>(this IList<T> source, int start, int length, Func<T, bool> predicate)
+    public static TSource? LastOrDefault<TSource>(this IList<TSource> source, int start, int length, Func<TSource, bool> predicate)
     {
         for (var i = start + length - 1; i >= start; i--)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -306,14 +306,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T>(this IReadOnlyList<T> source, Func<T, bool> predicate)
+    public static TSource? LastOrDefault<TSource>(this IReadOnlyList<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = source.Count - 1; i >= 0; i--)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -321,14 +321,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T>(this IReadOnlyList<T> source, int start, int length, Func<T, bool> predicate)
+    public static TSource? LastOrDefault<TSource>(this IReadOnlyList<TSource> source, int start, int length, Func<TSource, bool> predicate)
     {
         for (var i = start + length - 1; i >= start; i--)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -340,14 +340,14 @@ public static partial class OptimizedEnumerable
     //--------------------------------------------------------------------------------
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T, TState>(this Span<T> source, TState state, Func<T, TState, bool> predicate)
+    public static TSource? LastOrDefault<TSource, TState>(this Span<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = source.Length - 1; i >= 0; i--)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -355,14 +355,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T, TState>(this ReadOnlySpan<T> source, TState state, Func<T, TState, bool> predicate)
+    public static TSource? LastOrDefault<TSource, TState>(this ReadOnlySpan<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = source.Length - 1; i >= 0; i--)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -370,30 +370,30 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T, TState>(this T[] source, TState state, Func<T, TState, bool> predicate) =>
+    public static TSource? LastOrDefault<TSource, TState>(this TSource[] source, TState state, Func<TSource, TState, bool> predicate) =>
         source.AsSpan().LastOrDefault(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T, TState>(this T[] source, int start, int length, TState state, Func<T, TState, bool> predicate) =>
+    public static TSource? LastOrDefault<TSource, TState>(this TSource[] source, int start, int length, TState state, Func<TSource, TState, bool> predicate) =>
         source.AsSpan(start, length).LastOrDefault(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T, TState>(this List<T> source, TState state, Func<T, TState, bool> predicate) =>
+    public static TSource? LastOrDefault<TSource, TState>(this List<TSource> source, TState state, Func<TSource, TState, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).LastOrDefault(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T, TState>(this List<T> source, int start, int length, TState state, Func<T, TState, bool> predicate) =>
+    public static TSource? LastOrDefault<TSource, TState>(this List<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).LastOrDefault(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T, TState>(this IList<T> source, TState state, Func<T, TState, bool> predicate)
+    public static TSource? LastOrDefault<TSource, TState>(this IList<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = source.Count - 1; i >= 0; i--)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -401,14 +401,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T, TState>(this IList<T> source, int start, int length, TState state, Func<T, TState, bool> predicate)
+    public static TSource? LastOrDefault<TSource, TState>(this IList<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = start + length - 1; i >= start; i--)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -416,14 +416,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T, TState>(this IReadOnlyList<T> source, TState state, Func<T, TState, bool> predicate)
+    public static TSource? LastOrDefault<TSource, TState>(this IReadOnlyList<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = source.Count - 1; i >= 0; i--)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -431,14 +431,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? LastOrDefault<T, TState>(this IReadOnlyList<T> source, int start, int length, TState state, Func<T, TState, bool> predicate)
+    public static TSource? LastOrDefault<TSource, TState>(this IReadOnlyList<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = start + length - 1; i >= start; i--)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 

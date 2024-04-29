@@ -10,7 +10,7 @@ public static partial class OptimizedEnumerable
     //--------------------------------------------------------------------------------
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T>(this Span<T> source, Func<T, bool> predicate)
+    public static int Count<TSource>(this Span<TSource> source, Func<TSource, bool> predicate)
     {
         var count = 0;
         for (var i = 0; i < source.Length; i++)
@@ -25,7 +25,7 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T>(this ReadOnlySpan<T> source, Func<T, bool> predicate)
+    public static int Count<TSource>(this ReadOnlySpan<TSource> source, Func<TSource, bool> predicate)
     {
         var count = 0;
         for (var i = 0; i < source.Length; i++)
@@ -40,23 +40,23 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T>(this T[] source, Func<T, bool> predicate) =>
+    public static int Count<TSource>(this TSource[] source, Func<TSource, bool> predicate) =>
         source.AsSpan().Count(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T>(this T[] source, int start, int length, Func<T, bool> predicate) =>
+    public static int Count<TSource>(this TSource[] source, int start, int length, Func<TSource, bool> predicate) =>
         source.AsSpan(start, length).Count(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T>(this List<T> source, Func<T, bool> predicate) =>
+    public static int Count<TSource>(this List<TSource> source, Func<TSource, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Count(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T>(this List<T> source, int start, int length, Func<T, bool> predicate) =>
+    public static int Count<TSource>(this List<TSource> source, int start, int length, Func<TSource, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).Count(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T>(this IList<T> source, Func<T, bool> predicate)
+    public static int Count<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
     {
         var count = 0;
         for (var i = 0; i < source.Count; i++)
@@ -71,7 +71,7 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T>(this IList<T> source, int start, int length, Func<T, bool> predicate)
+    public static int Count<TSource>(this IList<TSource> source, int start, int length, Func<TSource, bool> predicate)
     {
         var count = 0;
         var last = start + length;
@@ -87,7 +87,7 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T>(this IReadOnlyList<T> source, Func<T, bool> predicate)
+    public static int Count<TSource>(this IReadOnlyList<TSource> source, Func<TSource, bool> predicate)
     {
         var count = 0;
         for (var i = 0; i < source.Count; i++)
@@ -102,7 +102,7 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T>(this IReadOnlyList<T> source, int start, int length, Func<T, bool> predicate)
+    public static int Count<TSource>(this IReadOnlyList<TSource> source, int start, int length, Func<TSource, bool> predicate)
     {
         var count = 0;
         var last = start + length;
@@ -122,7 +122,7 @@ public static partial class OptimizedEnumerable
     //--------------------------------------------------------------------------------
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T, TState>(this Span<T> source, TState state, Func<T, TState, bool> predicate)
+    public static int Count<TSource, TState>(this Span<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         var count = 0;
         for (var i = 0; i < source.Length; i++)
@@ -137,7 +137,7 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T, TState>(this ReadOnlySpan<T> source, TState state, Func<T, TState, bool> predicate)
+    public static int Count<TSource, TState>(this ReadOnlySpan<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         var count = 0;
         for (var i = 0; i < source.Length; i++)
@@ -152,23 +152,23 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T, TState>(this T[] source, TState state, Func<T, TState, bool> predicate) =>
+    public static int Count<TSource, TState>(this TSource[] source, TState state, Func<TSource, TState, bool> predicate) =>
         source.AsSpan().Count(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T, TState>(this T[] source, int start, int length, TState state, Func<T, TState, bool> predicate) =>
+    public static int Count<TSource, TState>(this TSource[] source, int start, int length, TState state, Func<TSource, TState, bool> predicate) =>
         source.AsSpan(start, length).Count(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T, TState>(this List<T> source, TState state, Func<T, TState, bool> predicate) =>
+    public static int Count<TSource, TState>(this List<TSource> source, TState state, Func<TSource, TState, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Count(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T, TState>(this List<T> source, int start, int length, TState state, Func<T, TState, bool> predicate) =>
+    public static int Count<TSource, TState>(this List<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).Count(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T, TState>(this IList<T> source, TState state, Func<T, TState, bool> predicate)
+    public static int Count<TSource, TState>(this IList<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         var count = 0;
         for (var i = 0; i < source.Count; i++)
@@ -183,7 +183,7 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T, TState>(this IList<T> source, int start, int length, TState state, Func<T, TState, bool> predicate)
+    public static int Count<TSource, TState>(this IList<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate)
     {
         var count = 0;
         var last = start + length;
@@ -199,7 +199,7 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T, TState>(this IReadOnlyList<T> source, TState state, Func<T, TState, bool> predicate)
+    public static int Count<TSource, TState>(this IReadOnlyList<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         var count = 0;
         for (var i = 0; i < source.Count; i++)
@@ -214,7 +214,7 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int Count<T, TState>(this IReadOnlyList<T> source, int start, int length, TState state, Func<T, TState, bool> predicate)
+    public static int Count<TSource, TState>(this IReadOnlyList<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate)
     {
         var count = 0;
         var last = start + length;

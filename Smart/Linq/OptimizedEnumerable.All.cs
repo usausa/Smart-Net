@@ -10,7 +10,7 @@ public static partial class OptimizedEnumerable
     //--------------------------------------------------------------------------------
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T>(this Span<T> source, Func<T, bool> predicate)
+    public static bool All<TSource>(this Span<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = 0; i < source.Length; i++)
         {
@@ -24,7 +24,7 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T>(this ReadOnlySpan<T> source, Func<T, bool> predicate)
+    public static bool All<TSource>(this ReadOnlySpan<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = 0; i < source.Length; i++)
         {
@@ -38,23 +38,23 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T>(this T[] source, Func<T, bool> predicate) =>
+    public static bool All<TSource>(this TSource[] source, Func<TSource, bool> predicate) =>
         source.AsSpan().All(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T>(this T[] source, int start, int length, Func<T, bool> predicate) =>
+    public static bool All<TSource>(this TSource[] source, int start, int length, Func<TSource, bool> predicate) =>
         source.AsSpan(start, length).All(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T>(this List<T> source, Func<T, bool> predicate) =>
+    public static bool All<TSource>(this List<TSource> source, Func<TSource, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).All(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T>(this List<T> source, int start, int length, Func<T, bool> predicate) =>
+    public static bool All<TSource>(this List<TSource> source, int start, int length, Func<TSource, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).All(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T>(this IList<T> source, Func<T, bool> predicate)
+    public static bool All<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = 0; i < source.Count; i++)
         {
@@ -68,7 +68,7 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T>(this IList<T> source, int start, int length, Func<T, bool> predicate)
+    public static bool All<TSource>(this IList<TSource> source, int start, int length, Func<TSource, bool> predicate)
     {
         var last = start + length;
         for (var i = start; i < last; i++)
@@ -83,7 +83,7 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T>(this IReadOnlyList<T> source, Func<T, bool> predicate)
+    public static bool All<TSource>(this IReadOnlyList<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = 0; i < source.Count; i++)
         {
@@ -97,7 +97,7 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T>(this IReadOnlyList<T> source, int start, int length, Func<T, bool> predicate)
+    public static bool All<TSource>(this IReadOnlyList<TSource> source, int start, int length, Func<TSource, bool> predicate)
     {
         var last = start + length;
         for (var i = start; i < last; i++)
@@ -116,7 +116,7 @@ public static partial class OptimizedEnumerable
     //--------------------------------------------------------------------------------
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T, TState>(this Span<T> source, TState state, Func<T, TState, bool> predicate)
+    public static bool All<TSource, TState>(this Span<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = 0; i < source.Length; i++)
         {
@@ -130,7 +130,7 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T, TState>(this ReadOnlySpan<T> source, TState state, Func<T, TState, bool> predicate)
+    public static bool All<TSource, TState>(this ReadOnlySpan<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = 0; i < source.Length; i++)
         {
@@ -144,23 +144,23 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T, TState>(this T[] source, TState state, Func<T, TState, bool> predicate) =>
+    public static bool All<TSource, TState>(this TSource[] source, TState state, Func<TSource, TState, bool> predicate) =>
         source.AsSpan().All(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T, TState>(this T[] source, int start, int length, TState state, Func<T, TState, bool> predicate) =>
+    public static bool All<TSource, TState>(this TSource[] source, int start, int length, TState state, Func<TSource, TState, bool> predicate) =>
         source.AsSpan(start, length).All(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T, TState>(this List<T> source, TState state, Func<T, TState, bool> predicate) =>
+    public static bool All<TSource, TState>(this List<TSource> source, TState state, Func<TSource, TState, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).All(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T, TState>(this List<T> source, int start, int length, TState state, Func<T, TState, bool> predicate) =>
+    public static bool All<TSource, TState>(this List<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).All(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T, TState>(this IList<T> source, TState state, Func<T, TState, bool> predicate)
+    public static bool All<TSource, TState>(this IList<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = 0; i < source.Count; i++)
         {
@@ -174,7 +174,7 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T, TState>(this IList<T> source, int start, int length, TState state, Func<T, TState, bool> predicate)
+    public static bool All<TSource, TState>(this IList<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate)
     {
         var last = start + length;
         for (var i = start; i < last; i++)
@@ -189,7 +189,7 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T, TState>(this IReadOnlyList<T> source, TState state, Func<T, TState, bool> predicate)
+    public static bool All<TSource, TState>(this IReadOnlyList<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = 0; i < source.Count; i++)
         {
@@ -203,7 +203,7 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static bool All<T, TState>(this IReadOnlyList<T> source, int start, int length, TState state, Func<T, TState, bool> predicate)
+    public static bool All<TSource, TState>(this IReadOnlyList<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate)
     {
         var last = start + length;
         for (var i = start; i < last; i++)

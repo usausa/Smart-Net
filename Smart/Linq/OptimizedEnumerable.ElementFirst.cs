@@ -10,14 +10,14 @@ public static partial class OptimizedEnumerable
     //--------------------------------------------------------------------------------
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T>(this Span<T> source, Func<T, bool> predicate)
+    public static TSource First<TSource>(this Span<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = 0; i < source.Length; i++)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -25,14 +25,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T>(this ReadOnlySpan<T> source, Func<T, bool> predicate)
+    public static TSource First<TSource>(this ReadOnlySpan<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = 0; i < source.Length; i++)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -40,30 +40,30 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T>(this T[] source, Func<T, bool> predicate) =>
+    public static TSource First<TSource>(this TSource[] source, Func<TSource, bool> predicate) =>
         source.AsSpan().First(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T>(this T[] source, int start, int length, Func<T, bool> predicate) =>
+    public static TSource First<TSource>(this TSource[] source, int start, int length, Func<TSource, bool> predicate) =>
         source.AsSpan(start, length).First(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T>(this List<T> source, Func<T, bool> predicate) =>
+    public static TSource First<TSource>(this List<TSource> source, Func<TSource, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).First(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T>(this List<T> source, int start, int length, Func<T, bool> predicate) =>
+    public static TSource First<TSource>(this List<TSource> source, int start, int length, Func<TSource, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).First(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T>(this IList<T> source, Func<T, bool> predicate)
+    public static TSource First<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = 0; i < source.Count; i++)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -71,15 +71,15 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T>(this IList<T> source, int start, int length, Func<T, bool> predicate)
+    public static TSource First<TSource>(this IList<TSource> source, int start, int length, Func<TSource, bool> predicate)
     {
         var last = start + length;
         for (var i = start; i < last; i++)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -87,14 +87,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T>(this IReadOnlyList<T> source, Func<T, bool> predicate)
+    public static TSource First<TSource>(this IReadOnlyList<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = 0; i < source.Count; i++)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -102,15 +102,15 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T>(this IReadOnlyList<T> source, int start, int length, Func<T, bool> predicate)
+    public static TSource First<TSource>(this IReadOnlyList<TSource> source, int start, int length, Func<TSource, bool> predicate)
     {
         var last = start + length;
         for (var i = start; i < last; i++)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -122,14 +122,14 @@ public static partial class OptimizedEnumerable
     //--------------------------------------------------------------------------------
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T, TState>(this Span<T> source, TState state, Func<T, TState, bool> predicate)
+    public static TSource First<TSource, TState>(this Span<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = 0; i < source.Length; i++)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -137,14 +137,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T, TState>(this ReadOnlySpan<T> source, TState state, Func<T, TState, bool> predicate)
+    public static TSource First<TSource, TState>(this ReadOnlySpan<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = 0; i < source.Length; i++)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -152,30 +152,30 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T, TState>(this T[] source, TState state, Func<T, TState, bool> predicate) =>
+    public static TSource First<TSource, TState>(this TSource[] source, TState state, Func<TSource, TState, bool> predicate) =>
         source.AsSpan().First(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T, TState>(this T[] source, int start, int length, TState state, Func<T, TState, bool> predicate) =>
+    public static TSource First<TSource, TState>(this TSource[] source, int start, int length, TState state, Func<TSource, TState, bool> predicate) =>
         source.AsSpan(start, length).First(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T, TState>(this List<T> source, TState state, Func<T, TState, bool> predicate) =>
+    public static TSource First<TSource, TState>(this List<TSource> source, TState state, Func<TSource, TState, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).First(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T, TState>(this List<T> source, int start, int length, TState state, Func<T, TState, bool> predicate) =>
+    public static TSource First<TSource, TState>(this List<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).First(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T, TState>(this IList<T> source, TState state, Func<T, TState, bool> predicate)
+    public static TSource First<TSource, TState>(this IList<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = 0; i < source.Count; i++)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -183,15 +183,15 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T, TState>(this IList<T> source, int start, int length, TState state, Func<T, TState, bool> predicate)
+    public static TSource First<TSource, TState>(this IList<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate)
     {
         var last = start + length;
         for (var i = start; i < last; i++)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -199,14 +199,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T, TState>(this IReadOnlyList<T> source, TState state, Func<T, TState, bool> predicate)
+    public static TSource First<TSource, TState>(this IReadOnlyList<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = 0; i < source.Count; i++)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -214,15 +214,15 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T First<T, TState>(this IReadOnlyList<T> source, int start, int length, TState state, Func<T, TState, bool> predicate)
+    public static TSource First<TSource, TState>(this IReadOnlyList<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate)
     {
         var last = start + length;
         for (var i = start; i < last; i++)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -234,14 +234,14 @@ public static partial class OptimizedEnumerable
     //--------------------------------------------------------------------------------
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T>(this Span<T> source, Func<T, bool> predicate)
+    public static TSource? FirstOrDefault<TSource>(this Span<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = 0; i < source.Length; i++)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -249,14 +249,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T>(this ReadOnlySpan<T> source, Func<T, bool> predicate)
+    public static TSource? FirstOrDefault<TSource>(this ReadOnlySpan<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = 0; i < source.Length; i++)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -264,30 +264,30 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T>(this T[] source, Func<T, bool> predicate) =>
+    public static TSource? FirstOrDefault<TSource>(this TSource[] source, Func<TSource, bool> predicate) =>
         source.AsSpan().FirstOrDefault(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T>(this T[] source, int start, int length, Func<T, bool> predicate) =>
+    public static TSource? FirstOrDefault<TSource>(this TSource[] source, int start, int length, Func<TSource, bool> predicate) =>
         source.AsSpan(start, length).FirstOrDefault(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T>(this List<T> source, Func<T, bool> predicate) =>
+    public static TSource? FirstOrDefault<TSource>(this List<TSource> source, Func<TSource, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).FirstOrDefault(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T>(this List<T> source, int start, int length, Func<T, bool> predicate) =>
+    public static TSource? FirstOrDefault<TSource>(this List<TSource> source, int start, int length, Func<TSource, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).FirstOrDefault(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T>(this IList<T> source, Func<T, bool> predicate)
+    public static TSource? FirstOrDefault<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = 0; i < source.Count; i++)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -295,15 +295,15 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T>(this IList<T> source, int start, int length, Func<T, bool> predicate)
+    public static TSource? FirstOrDefault<TSource>(this IList<TSource> source, int start, int length, Func<TSource, bool> predicate)
     {
         var last = start + length;
         for (var i = start; i < last; i++)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -311,14 +311,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T>(this IReadOnlyList<T> source, Func<T, bool> predicate)
+    public static TSource? FirstOrDefault<TSource>(this IReadOnlyList<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = 0; i < source.Count; i++)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -326,15 +326,15 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T>(this IReadOnlyList<T> source, int start, int length, Func<T, bool> predicate)
+    public static TSource? FirstOrDefault<TSource>(this IReadOnlyList<TSource> source, int start, int length, Func<TSource, bool> predicate)
     {
         var last = start + length;
         for (var i = start; i < last; i++)
         {
-            var result = source[i];
-            if (predicate(result))
+            var element = source[i];
+            if (predicate(element))
             {
-                return result;
+                return element;
             }
         }
 
@@ -346,14 +346,14 @@ public static partial class OptimizedEnumerable
     //--------------------------------------------------------------------------------
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T, TState>(this Span<T> source, TState state, Func<T, TState, bool> predicate)
+    public static TSource? FirstOrDefault<TSource, TState>(this Span<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = 0; i < source.Length; i++)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -361,14 +361,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T, TState>(this ReadOnlySpan<T> source, TState state, Func<T, TState, bool> predicate)
+    public static TSource? FirstOrDefault<TSource, TState>(this ReadOnlySpan<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = 0; i < source.Length; i++)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -376,30 +376,30 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T, TState>(this T[] source, TState state, Func<T, TState, bool> predicate) =>
+    public static TSource? FirstOrDefault<TSource, TState>(this TSource[] source, TState state, Func<TSource, TState, bool> predicate) =>
         source.AsSpan().FirstOrDefault(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T, TState>(this T[] source, int start, int length, TState state, Func<T, TState, bool> predicate) =>
+    public static TSource? FirstOrDefault<TSource, TState>(this TSource[] source, int start, int length, TState state, Func<TSource, TState, bool> predicate) =>
         source.AsSpan(start, length).FirstOrDefault(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T, TState>(this List<T> source, TState state, Func<T, TState, bool> predicate) =>
+    public static TSource? FirstOrDefault<TSource, TState>(this List<TSource> source, TState state, Func<TSource, TState, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).FirstOrDefault(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T, TState>(this List<T> source, int start, int length, TState state, Func<T, TState, bool> predicate) =>
+    public static TSource? FirstOrDefault<TSource, TState>(this List<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).FirstOrDefault(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T, TState>(this IList<T> source, TState state, Func<T, TState, bool> predicate)
+    public static TSource? FirstOrDefault<TSource, TState>(this IList<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = 0; i < source.Count; i++)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -407,15 +407,15 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T, TState>(this IList<T> source, int start, int length, TState state, Func<T, TState, bool> predicate)
+    public static TSource? FirstOrDefault<TSource, TState>(this IList<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate)
     {
         var last = start + length;
         for (var i = start; i < last; i++)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -423,14 +423,14 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T, TState>(this IReadOnlyList<T> source, TState state, Func<T, TState, bool> predicate)
+    public static TSource? FirstOrDefault<TSource, TState>(this IReadOnlyList<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = 0; i < source.Count; i++)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
@@ -438,15 +438,15 @@ public static partial class OptimizedEnumerable
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T? FirstOrDefault<T, TState>(this IReadOnlyList<T> source, int start, int length, TState state, Func<T, TState, bool> predicate)
+    public static TSource? FirstOrDefault<TSource, TState>(this IReadOnlyList<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate)
     {
         var last = start + length;
         for (var i = start; i < last; i++)
         {
-            var result = source[i];
-            if (predicate(result, state))
+            var element = source[i];
+            if (predicate(element, state))
             {
-                return result;
+                return element;
             }
         }
 
