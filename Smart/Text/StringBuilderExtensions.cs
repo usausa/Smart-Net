@@ -47,6 +47,35 @@ public static class StringBuilderExtensions
         return sb;
     }
 
+    // With state
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static StringBuilder AppendIf<TState>(this StringBuilder sb, bool condition, TState state, Func<TState, object> valueFactory)
+    {
+        if (condition)
+        {
+            var value = valueFactory(state);
+            sb.Append(value);
+        }
+
+        return sb;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static StringBuilder AppendLineIf<TState>(this StringBuilder sb, bool condition, TState state, Func<TState, string?> valueFactory)
+    {
+        if (condition)
+        {
+            var value = valueFactory(state);
+            if (value is not null)
+            {
+                sb.AppendLine(value);
+            }
+        }
+
+        return sb;
+    }
+
     //--------------------------------------------------------------------------------
     // Trim
     //--------------------------------------------------------------------------------

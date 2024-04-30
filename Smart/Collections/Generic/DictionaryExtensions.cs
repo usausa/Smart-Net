@@ -24,6 +24,24 @@ public static class DictionaryExtensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TValue GetOr<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> valueFactory)
+    {
+        return dictionary.TryGetValue(key, out var value) ? value : valueFactory(key);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TValue GetOr<TKey, TState, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TState state, Func<TState, TValue> valueFactory)
+    {
+        return dictionary.TryGetValue(key, out var value) ? value : valueFactory(state);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TValue GetOr<TKey, TState, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TState state, Func<TKey, TState, TValue> valueFactory)
+    {
+        return dictionary.TryGetValue(key, out var value) ? value : valueFactory(key, state);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
     {
         if (dictionary.TryGetValue(key, out var ret))
@@ -46,6 +64,48 @@ public static class DictionaryExtensions
         }
 
         ret = valueFactory();
+        dictionary[key] = ret;
+
+        return ret;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> valueFactory)
+    {
+        if (dictionary.TryGetValue(key, out var ret))
+        {
+            return ret;
+        }
+
+        ret = valueFactory(key);
+        dictionary[key] = ret;
+
+        return ret;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TValue GetOrAdd<TKey, TState, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TState state, Func<TState, TValue> valueFactory)
+    {
+        if (dictionary.TryGetValue(key, out var ret))
+        {
+            return ret;
+        }
+
+        ret = valueFactory(state);
+        dictionary[key] = ret;
+
+        return ret;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TValue GetOrAdd<TKey, TState, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TState state, Func<TKey, TState, TValue> valueFactory)
+    {
+        if (dictionary.TryGetValue(key, out var ret))
+        {
+            return ret;
+        }
+
+        ret = valueFactory(key, state);
         dictionary[key] = ret;
 
         return ret;

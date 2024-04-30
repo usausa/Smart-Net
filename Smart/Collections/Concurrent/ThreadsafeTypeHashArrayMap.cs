@@ -281,6 +281,30 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
         }
     }
 
+    public TValue AddIfNotExist<TState>(Type key, TState state, Func<Type, TState, TValue> valueFactory)
+    {
+        lock (sync)
+        {
+            // Double-checked locking
+            if (TryGetValue(key, out var currentValue))
+            {
+                return currentValue;
+            }
+
+            var value = valueFactory(key, state);
+
+            // Check if added by recursive
+            if (TryGetValue(key, out currentValue))
+            {
+                return currentValue;
+            }
+
+            AddNode(new Node(key, value));
+
+            return value;
+        }
+    }
+
     //--------------------------------------------------------------------------------
     // IEnumerable
     //--------------------------------------------------------------------------------
