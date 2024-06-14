@@ -28,7 +28,7 @@ public sealed class OptimizedEnumerableTest
     [Fact]
     public void TestAllList()
     {
-        var source = new List<int>(new[] { 1, 2, 3, 4, 5 });
+        var source = new List<int>([1, 2, 3, 4, 5]);
         Assert.False(source.All(static x => x >= 3));
         Assert.True(source.All(2, 3, static x => x >= 3));
         Assert.False(source.All(2, 3, static x => x < 5));
@@ -60,7 +60,7 @@ public sealed class OptimizedEnumerableTest
     [Fact]
     public void TestAnyList()
     {
-        var source = new List<int>(new[] { 1, 2, 3, 4, 5 });
+        var source = new List<int>([1, 2, 3, 4, 5]);
         Assert.True(source.Any(static x => x >= 3));
         Assert.True(source.Any(2, 3, static x => x >= 3));
         Assert.False(source.Any(2, 3, static x => x < 3));
