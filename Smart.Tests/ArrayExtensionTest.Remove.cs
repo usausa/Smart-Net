@@ -1,6 +1,5 @@
 namespace Smart;
 
-#pragma warning disable IDE0300
 public sealed class ArrayExtensionTest
 {
     [Fact]
@@ -21,4 +20,3 @@ public sealed class ArrayExtensionTest
         Assert.Equal(new[] { 1, 2, 3 }, new[] { 1, 2, 3, 4 }.RemoveRange(3, 2));
     }
 }
-#pragma warning restore IDE0300
