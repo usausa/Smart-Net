@@ -1,7 +1,6 @@
 // ReSharper disable MissingBlankLines
 #if NET8_0_OR_GREATER
 #pragma warning disable IDE0004
-#else
 // ReSharper disable RedundantCast
 #endif
 namespace Smart.Reflection;
