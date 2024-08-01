@@ -30,7 +30,7 @@ public ref struct SpanSplitEnumerator
         }
 
         var index = span[start..].IndexOf(separator);
-        length = index > 0 ? index : span.Length - start;
+        length = index >= 0 ? index : span.Length - start;
 
         return true;
     }
