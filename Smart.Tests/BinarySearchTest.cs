@@ -2,7 +2,7 @@ namespace Smart;
 
 public sealed class BinarySearchTest
 {
-    private static void AssertIndex(IList<int> expects, IList<int> actuals)
+    private static void AssertIndex(List<int> expects, List<int> actuals)
     {
         for (var i = 0; i < actuals.Count; i++)
         {

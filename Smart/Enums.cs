@@ -20,8 +20,8 @@ public static class Enums<T>
     static Enums()
     {
         var type = typeof(T);
-        var values = (T[])Enum.GetValues(typeof(T));
-        var names = Enum.GetNames(typeof(T));
+        var values = Enum.GetValues<T>();
+        var names = Enum.GetNames<T>();
 
         UnderlyingType = Enum.GetUnderlyingType(type);
         Values = new ReadOnlyCollection<T>(values);

@@ -10,7 +10,11 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
 {
     private static readonly Node EmptyNode = new(typeof(EmptyKey), default!);
 
+#if NET9_0_OR_GREATER
+    private readonly Lock sync = new();
+#else
     private readonly object sync = new();
+#endif
 
     private readonly IHashArrayMapStrategy strategy;
 

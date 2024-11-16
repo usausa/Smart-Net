@@ -2,7 +2,11 @@ namespace Smart.ComponentModel;
 
 public abstract class DisposableObject : IDisposable
 {
+#if NET9_0_OR_GREATER
+    private readonly Lock sync = new();
+#else
     private readonly object sync = new();
+#endif
 
     public bool IsDisposed { get; private set; }
 
