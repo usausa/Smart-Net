@@ -42,13 +42,13 @@ public class ActivatorBenchmark
         dynamicFactory0B = DynamicDelegateFactory.Default.CreateFactory0(ctor0);
         reflectionFactory0B = ReflectionDelegateFactory.Default.CreateFactory0(ctor0);
 
-        newFactory1 = args => new Data1((string?)args![0]);
+        newFactory1 = static args => new Data1((string?)args![0]);
         dynamicFactory1A = DynamicDelegateFactory.Default.CreateFactory(ctor1);
         reflectionFactory1A = ReflectionDelegateFactory.Default.CreateFactory(ctor1);
         dynamicFactory1B = DynamicDelegateFactory.Default.CreateFactory1(ctor1);
         reflectionFactory1B = ReflectionDelegateFactory.Default.CreateFactory1(ctor1);
 
-        newFactory8 = args => new Data8((string?)args![0], (string?)args[1], (string?)args[2], (string?)args[3], (string?)args[4], (string?)args[5], (string?)args[6], (string?)args[7]);
+        newFactory8 = static args => new Data8((string?)args![0], (string?)args[1], (string?)args[2], (string?)args[3], (string?)args[4], (string?)args[5], (string?)args[6], (string?)args[7]);
         dynamicFactory8A = DynamicDelegateFactory.Default.CreateFactory(ctor8);
         reflectionFactory8A = ReflectionDelegateFactory.Default.CreateFactory(ctor8);
         dynamicFactory8B = DynamicDelegateFactory.Default.CreateFactory8(ctor8);

@@ -22,7 +22,7 @@ public static class PrimitiveConvert
     static PrimitiveConvert()
     {
         Methods = typeof(PrimitiveConvert).GetMethods(BindingFlags.Public | BindingFlags.Static)
-            .ToDictionary(x => new RecordKey(x.GetParameters()[0].ParameterType, x.ReturnType), x => x);
+            .ToDictionary(static x => new RecordKey(x.GetParameters()[0].ParameterType, x.ReturnType), x => x);
     }
 
     public static MethodInfo? GetMethod(Type parameterType, Type returnType) =>

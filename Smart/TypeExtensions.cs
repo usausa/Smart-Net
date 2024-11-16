@@ -11,7 +11,7 @@ public static class TypeExtensions
 {
     private static readonly ThreadsafeTypeHashArrayMap<object?> DefaultValues = new();
 
-    private static readonly Func<Type, object?> NullFactory = _ => null;
+    private static readonly Func<Type, object?> NullFactory = static _ => null;
 
     private static readonly Func<Type, object?> ValueFactory = Activator.CreateInstance;
 
@@ -85,7 +85,7 @@ public static class TypeExtensions
         }
 
         var enumerableType = type.GetInterfaces()
-            .FirstOrDefault(t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>));
+            .FirstOrDefault(static t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>));
         if (enumerableType is not null)
         {
             return enumerableType.GenericTypeArguments[0];
