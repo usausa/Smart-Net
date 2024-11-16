@@ -1,16 +1,10 @@
 // ReSharper disable MissingBlankLines
-#if NET8_0_OR_GREATER
-#pragma warning disable IDE0004
-// ReSharper disable RedundantCast
-#endif
 namespace Smart.Reflection;
 
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-#if NET8_0_OR_GREATER
 #pragma warning disable CA2020
-#endif
 public static class PrimitiveConvert
 {
     // ReSharper disable NotAccessedPositionalProperty.Local
@@ -43,9 +37,9 @@ public static class PrimitiveConvert
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint ByteToUInt32(byte x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static IntPtr ByteToIntPtr(byte x) => (IntPtr)x;
+    public static IntPtr ByteToIntPtr(byte x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static UIntPtr ByteToUIntPtr(byte x) => (UIntPtr)x;
+    public static UIntPtr ByteToUIntPtr(byte x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static long ByteToInt64(byte x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -70,7 +64,7 @@ public static class PrimitiveConvert
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint SByteToUInt32(sbyte x) => (uint)x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static IntPtr SByteToIntPtr(sbyte x) => (IntPtr)x;
+    public static IntPtr SByteToIntPtr(sbyte x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static UIntPtr SByteToUIntPtr(sbyte x) => (UIntPtr)x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -97,9 +91,9 @@ public static class PrimitiveConvert
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint CharToUInt32(char x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static IntPtr CharToIntPtr(char x) => (IntPtr)x;
+    public static IntPtr CharToIntPtr(char x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static UIntPtr CharToUIntPtr(char x) => (UIntPtr)x;
+    public static UIntPtr CharToUIntPtr(char x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static long CharToInt64(char x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -126,7 +120,7 @@ public static class PrimitiveConvert
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint Int16ToUInt32(short x) => (uint)x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static IntPtr Int16ToIntPtr(short x) => (IntPtr)x;
+    public static IntPtr Int16ToIntPtr(short x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static UIntPtr Int16ToUIntPtr(short x) => (UIntPtr)x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -153,9 +147,9 @@ public static class PrimitiveConvert
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint UInt16ToUInt32(ushort x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static IntPtr UInt16ToIntPtr(ushort x) => (IntPtr)x;
+    public static IntPtr UInt16ToIntPtr(ushort x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static UIntPtr UInt16ToUIntPtr(ushort x) => (UIntPtr)x;
+    public static UIntPtr UInt16ToUIntPtr(ushort x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static long UInt16ToInt64(ushort x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -178,7 +172,7 @@ public static class PrimitiveConvert
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint Int32ToUInt32(int x) => (uint)x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static IntPtr Int32ToIntPtr(int x) => (IntPtr)x;
+    public static IntPtr Int32ToIntPtr(int x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static UIntPtr Int32ToUIntPtr(int x) => (UIntPtr)x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -207,7 +201,7 @@ public static class PrimitiveConvert
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static IntPtr UInt32ToIntPtr(uint x) => (IntPtr)x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static UIntPtr UInt32ToUIntPtr(uint x) => (UIntPtr)x;
+    public static UIntPtr UInt32ToUIntPtr(uint x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static long UInt32ToInt64(uint x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -359,19 +353,19 @@ public static class PrimitiveConvert
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static char IntPtrToChar(IntPtr x) => (char)x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static decimal IntPtrToDecimal(IntPtr x) => (decimal)x;
+    public static decimal IntPtrToDecimal(IntPtr x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static double IntPtrToDouble(IntPtr x) => (double)x;
+    public static double IntPtrToDouble(IntPtr x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float IntPtrToSingle(IntPtr x) => (float)x;
+    public static float IntPtrToSingle(IntPtr x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int IntPtrToInt32(IntPtr x) => (int)x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint IntPtrToUInt32(IntPtr x) => (uint)x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static UIntPtr IntPtrToUIntPtr(IntPtr x) => (UIntPtr)(long)x;
+    public static UIntPtr IntPtrToUIntPtr(IntPtr x) => (UIntPtr)x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static long IntPtrToInt64(IntPtr x) => (long)x;
+    public static long IntPtrToInt64(IntPtr x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static ulong IntPtrToUInt64(IntPtr x) => (ulong)x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -386,21 +380,21 @@ public static class PrimitiveConvert
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static char UIntPtrToChar(UIntPtr x) => (char)x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static decimal UIntPtrToDecimal(UIntPtr x) => (decimal)x;
+    public static decimal UIntPtrToDecimal(UIntPtr x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static double UIntPtrToDouble(UIntPtr x) => (double)x;
+    public static double UIntPtrToDouble(UIntPtr x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static float UIntPtrToSingle(UIntPtr x) => (float)x;
+    public static float UIntPtrToSingle(UIntPtr x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int UIntPtrToInt32(UIntPtr x) => (int)x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static uint UIntPtrToUInt32(UIntPtr x) => (uint)x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static IntPtr UIntPtrToIntPtr(UIntPtr x) => (IntPtr)(ulong)x;
+    public static IntPtr UIntPtrToIntPtr(UIntPtr x) => (IntPtr)x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static long UIntPtrToInt64(UIntPtr x) => (long)x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static ulong UIntPtrToUInt64(UIntPtr x) => (ulong)x;
+    public static ulong UIntPtrToUInt64(UIntPtr x) => x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static short UIntPtrToInt16(UIntPtr x) => (short)x;
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

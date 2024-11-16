@@ -26,9 +26,7 @@ public sealed class ReusableCancellationTokenSource : IDisposable
 
     public void Cancel(bool throwOnFirstException) => cts.Cancel(throwOnFirstException);
 
-#if NET8_0_OR_GREATER
     public Task CancelAsync() => cts.CancelAsync();
-#endif
 
     public void CancelAfter(TimeSpan delay) => cts.CancelAfter(delay);
 
