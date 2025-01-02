@@ -14,7 +14,7 @@ trim_trailing_whitespace = true
 
 [*.sln]
 indent_style = tab
-indent_size = 2
+indent_size = 4
 
 [*.csproj]
 indent_size = 2
@@ -22,7 +22,10 @@ indent_size = 2
 [*.{props,targets}]
 indent_size = 2
 
-[*.{cs,razor}]
+[*.cs}]
+indent_size = 4
+
+[*.razor]
 indent_size = 4
 
 [*.xaml]
