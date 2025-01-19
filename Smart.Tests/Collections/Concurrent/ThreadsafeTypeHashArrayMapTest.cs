@@ -1,5 +1,6 @@
 namespace Smart.Collections.Concurrent;
 
+#pragma warning disable xUnit1051
 public sealed class ThreadsafeTypeHashArrayMapTest
 {
     private static string Factory(Type type)
