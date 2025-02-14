@@ -12,6 +12,6 @@
     <File Path="test.runsettings" />
   </Folder>
   <Project Path="Benchmark/Benchmark.csproj" />
-  <Project Path="Smart.Tests/Smart.Tests.csproj" />
   <Project Path="Smart/Smart.csproj" />
+  <Project Path="Smart.Tests/Smart.Tests.csproj" />
 </Solution>
