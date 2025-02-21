@@ -3,6 +3,7 @@ namespace Smart.Reflection;
 using System.Collections.Concurrent;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Runtime.CompilerServices;
 
 using Smart.ComponentModel;
 using Smart.Reflection.Emit;
@@ -92,8 +93,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
     {
         if (type.IsValueType)
         {
-            return (Func<object>)defaultStructDelegateCache
-                .GetOrAdd(type, static x => CreateDefaultStructFactoryInternal(false, x, Type.EmptyTypes));
+            return Unsafe.As<Func<object>>(defaultStructDelegateCache.GetOrAdd(type, static x => CreateDefaultStructFactoryInternal(false, x, Type.EmptyTypes)));
         }
 
         var ci = type.GetConstructor(Type.EmptyTypes);
@@ -102,16 +102,14 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             throw new ArgumentException("Constructor not found.");
         }
 
-        return (Func<object>)factoryDelegateCache
-            .GetOrAdd(ci, static x => CreateFactoryInternal(x, typeof(object), Type.EmptyTypes));
+        return Unsafe.As<Func<object>>(factoryDelegateCache.GetOrAdd(ci, static x => CreateFactoryInternal(x, typeof(object), Type.EmptyTypes)));
     }
 
     public Func<object?[]?, object> CreateFactory(Type type, Type[] argumentTypes)
     {
         if (type.IsValueType && (argumentTypes.Length == 0))
         {
-            return defaultStructFactoryCache
-                .GetOrAdd(type, static x => (Func<object?[]?, object>)CreateDefaultStructFactoryInternal(false, x, [typeof(object?[])]));
+            return defaultStructFactoryCache.GetOrAdd(type, static x => Unsafe.As<Func<object?[]?, object>>(CreateDefaultStructFactoryInternal(false, x, [typeof(object?[])])));
         }
 
         var ci = type.GetConstructor(argumentTypes);
@@ -133,8 +131,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
         var type = typeof(T);
         if (type.IsValueType)
         {
-            return (Func<T>)typedDefaultStructDelegateCache
-                .GetOrAdd(type, static x => CreateDefaultStructFactoryInternal(true, x, Type.EmptyTypes));
+            return Unsafe.As<Func<T>>(typedDefaultStructDelegateCache.GetOrAdd(type, static x => CreateDefaultStructFactoryInternal(true, x, Type.EmptyTypes)));
         }
 
         var ci = type.GetConstructor(Type.EmptyTypes);
@@ -143,7 +140,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (Func<T>)typedFactoryCache.GetOrAdd(ci, static x => CreateFactoryInternal(x, x.DeclaringType!, Type.EmptyTypes));
+        return Unsafe.As<Func<T>>(typedFactoryCache.GetOrAdd(ci, static x => CreateFactoryInternal(x, x.DeclaringType!, Type.EmptyTypes)));
     }
 
     // Factory Helper
@@ -292,8 +289,8 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
         var memberType = tpi.PropertyType.IsValueType ? typeof(object) : tpi.PropertyType;
 
         return extension
-            ? extensionGetterCache.GetOrAdd(pi, x => (Func<object?, object?>?)CreateGetterInternal(x, tpi, isValueHolder, typeof(object), memberType))
-            : getterCache.GetOrAdd(pi, x => (Func<object?, object?>?)CreateGetterInternal(x, tpi, false, typeof(object), memberType));
+            ? extensionGetterCache.GetOrAdd(pi, x => Unsafe.As<Func<object?, object?>?>(CreateGetterInternal(x, tpi, isValueHolder, typeof(object), memberType)))
+            : getterCache.GetOrAdd(pi, x => Unsafe.As<Func<object?, object?>?>(CreateGetterInternal(x, tpi, false, typeof(object), memberType)));
     }
 
     public Action<object?, object?>? CreateSetter(PropertyInfo pi)
@@ -313,8 +310,8 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
         var tpi = isValueHolder ? ValueHolderHelper.GetValueTypeProperty(holderType!)! : pi;
 
         return extension
-            ? extensionSetterCache.GetOrAdd(pi, x => (Action<object?, object?>?)CreateSetterInternal(x, tpi, isValueHolder, typeof(object), typeof(object)))
-            : setterCache.GetOrAdd(pi, x => (Action<object?, object?>?)CreateSetterInternal(x, tpi, false, typeof(object), typeof(object)));
+            ? extensionSetterCache.GetOrAdd(pi, x => Unsafe.As<Action<object?, object?>?>(CreateSetterInternal(x, tpi, isValueHolder, typeof(object), typeof(object))))
+            : setterCache.GetOrAdd(pi, x => Unsafe.As<Action<object?, object?>?>(CreateSetterInternal(x, tpi, false, typeof(object), typeof(object))));
     }
 
     // Accessor
@@ -340,7 +337,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
         }
 
-        return (Func<T?, TMember?>?)(extension
+        return Unsafe.As<Func<T?, TMember?>?>(extension
             ? typedExtensionGetterCache.GetOrAdd(pi, x => CreateGetterInternal(x, tpi, isValueHolder, typeof(T), typeof(TMember)))
             : typedGetterCache.GetOrAdd(pi, x => CreateGetterInternal(x, tpi, false, typeof(T), typeof(TMember))));
     }
@@ -366,7 +363,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
         }
 
-        return (Action<T?, TMember?>?)(extension
+        return Unsafe.As<Action<T?, TMember?>?>(extension
             ? typedExtensionSetterCache.GetOrAdd(pi, x => CreateSetterInternal(x, tpi, isValueHolder, typeof(T), typeof(TMember)))
             : typedSetterCache.GetOrAdd(pi, x => CreateSetterInternal(x, tpi, false, typeof(T), typeof(TMember))));
     }
