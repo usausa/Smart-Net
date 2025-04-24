@@ -28,6 +28,6 @@ public static class ValueHolderHelper
 
     public static PropertyInfo? GetValueTypeProperty(Type type)
     {
-        return type.GetRuntimeProperty(nameof(IValueHolder<object>.Value));
+        return type.GetRuntimeProperty(nameof(IValueHolder<>.Value));
     }
 }

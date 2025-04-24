@@ -10,7 +10,7 @@ public static class NotificationValueExtensions
 
         void ValuePropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName != nameof(IValueHolder<T>.Value))
+            if (e.PropertyName != nameof(IValueHolder<>.Value))
             {
                 return;
             }
@@ -30,7 +30,7 @@ public static class NotificationValueExtensions
 
         void ValuePropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName != nameof(IValueHolder<T>.Value))
+            if (e.PropertyName != nameof(IValueHolder<>.Value))
             {
                 return;
             }
