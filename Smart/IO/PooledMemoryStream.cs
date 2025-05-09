@@ -83,6 +83,7 @@ public sealed class PooledMemoryStream : Stream
             throw new ArgumentOutOfRangeException(nameof(offset));
         }
 
+        position = newPosition;
         return position;
     }
 
