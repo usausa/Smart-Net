@@ -1,5 +1,6 @@
 namespace Smart.Linq;
 
+using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -54,6 +55,37 @@ public static partial class OptimizedEnumerable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TSource First<TSource>(this List<TSource> source, int start, int length, Func<TSource, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).First(predicate);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TSource First<TSource>(this ObservableCollection<TSource> source, Func<TSource, bool> predicate)
+    {
+        for (var i = 0; i < source.Count; i++)
+        {
+            var element = source[i];
+            if (predicate(element))
+            {
+                return element;
+            }
+        }
+
+        throw new InvalidOperationException("Sequence contains no matching element");
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TSource First<TSource>(this ObservableCollection<TSource> source, int start, int length, Func<TSource, bool> predicate)
+    {
+        var last = start + length;
+        for (var i = start; i < last; i++)
+        {
+            var element = source[i];
+            if (predicate(element))
+            {
+                return element;
+            }
+        }
+
+        throw new InvalidOperationException("Sequence contains no matching element");
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TSource First<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
@@ -168,6 +200,37 @@ public static partial class OptimizedEnumerable
         CollectionsMarshal.AsSpan(source).Slice(start, length).First(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TSource First<TSource, TState>(this ObservableCollection<TSource> source, TState state, Func<TSource, TState, bool> predicate)
+    {
+        for (var i = 0; i < source.Count; i++)
+        {
+            var element = source[i];
+            if (predicate(element, state))
+            {
+                return element;
+            }
+        }
+
+        throw new InvalidOperationException("Sequence contains no matching element");
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TSource First<TSource, TState>(this ObservableCollection<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate)
+    {
+        var last = start + length;
+        for (var i = start; i < last; i++)
+        {
+            var element = source[i];
+            if (predicate(element, state))
+            {
+                return element;
+            }
+        }
+
+        throw new InvalidOperationException("Sequence contains no matching element");
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TSource First<TSource, TState>(this IList<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = 0; i < source.Count; i++)
@@ -280,6 +343,37 @@ public static partial class OptimizedEnumerable
         CollectionsMarshal.AsSpan(source).Slice(start, length).FirstOrDefault(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TSource? FirstOrDefault<TSource>(this ObservableCollection<TSource> source, Func<TSource, bool> predicate)
+    {
+        for (var i = 0; i < source.Count; i++)
+        {
+            var element = source[i];
+            if (predicate(element))
+            {
+                return element;
+            }
+        }
+
+        return default;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TSource? FirstOrDefault<TSource>(this ObservableCollection<TSource> source, int start, int length, Func<TSource, bool> predicate)
+    {
+        var last = start + length;
+        for (var i = start; i < last; i++)
+        {
+            var element = source[i];
+            if (predicate(element))
+            {
+                return element;
+            }
+        }
+
+        return default;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TSource? FirstOrDefault<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = 0; i < source.Count; i++)
@@ -390,6 +484,37 @@ public static partial class OptimizedEnumerable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TSource? FirstOrDefault<TSource, TState>(this List<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).FirstOrDefault(state, predicate);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TSource? FirstOrDefault<TSource, TState>(this ObservableCollection<TSource> source, TState state, Func<TSource, TState, bool> predicate)
+    {
+        for (var i = 0; i < source.Count; i++)
+        {
+            var element = source[i];
+            if (predicate(element, state))
+            {
+                return element;
+            }
+        }
+
+        return default;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static TSource? FirstOrDefault<TSource, TState>(this ObservableCollection<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate)
+    {
+        var last = start + length;
+        for (var i = start; i < last; i++)
+        {
+            var element = source[i];
+            if (predicate(element, state))
+            {
+                return element;
+            }
+        }
+
+        return default;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TSource? FirstOrDefault<TSource, TState>(this IList<TSource> source, TState state, Func<TSource, TState, bool> predicate)

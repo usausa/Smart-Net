@@ -1,5 +1,6 @@
 namespace Smart.Linq;
 
+using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -52,6 +53,35 @@ public static partial class OptimizedEnumerable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindIndex<TSource>(this List<TSource> source, int start, int length, Func<TSource, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).FindIndex(predicate);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int FindIndex<TSource>(this ObservableCollection<TSource> source, Func<TSource, bool> predicate)
+    {
+        for (var i = 0; i < source.Count; i++)
+        {
+            if (predicate(source[i]))
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int FindIndex<TSource>(this ObservableCollection<TSource> source, int start, int length, Func<TSource, bool> predicate)
+    {
+        var last = start + length;
+        for (var i = start; i < last; i++)
+        {
+            if (predicate(source[i]))
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindIndex<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
@@ -160,6 +190,35 @@ public static partial class OptimizedEnumerable
         CollectionsMarshal.AsSpan(source).Slice(start, length).FindIndex(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int FindIndex<TSource, TState>(this ObservableCollection<TSource> source, TState state, Func<TSource, TState, bool> predicate)
+    {
+        for (var i = 0; i < source.Count; i++)
+        {
+            if (predicate(source[i], state))
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int FindIndex<TSource, TState>(this ObservableCollection<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate)
+    {
+        var last = start + length;
+        for (var i = start; i < last; i++)
+        {
+            if (predicate(source[i], state))
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindIndex<TSource, TState>(this IList<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         for (var i = 0; i < source.Count; i++)
@@ -266,6 +325,34 @@ public static partial class OptimizedEnumerable
         CollectionsMarshal.AsSpan(source).Slice(start, length).FindLastIndex(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int FindLastIndex<TSource>(this ObservableCollection<TSource> source, Func<TSource, bool> predicate)
+    {
+        for (var i = source.Count - 1; i >= 0; i--)
+        {
+            if (predicate(source[i]))
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int FindLastIndex<TSource>(this ObservableCollection<TSource> source, int start, int length, Func<TSource, bool> predicate)
+    {
+        for (var i = start + length - 1; i >= start; i--)
+        {
+            if (predicate(source[i]))
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLastIndex<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
     {
         for (var i = source.Count - 1; i >= 0; i--)
@@ -368,6 +455,34 @@ public static partial class OptimizedEnumerable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLastIndex<TSource, TState>(this List<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).FindLastIndex(state, predicate);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int FindLastIndex<TSource, TState>(this ObservableCollection<TSource> source, TState state, Func<TSource, TState, bool> predicate)
+    {
+        for (var i = source.Count - 1; i >= 0; i--)
+        {
+            if (predicate(source[i], state))
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int FindLastIndex<TSource, TState>(this ObservableCollection<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate)
+    {
+        for (var i = start + length - 1; i >= start; i--)
+        {
+            if (predicate(source[i], state))
+            {
+                return i;
+            }
+        }
+
+        return -1;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLastIndex<TSource, TState>(this IList<TSource> source, TState state, Func<TSource, TState, bool> predicate)

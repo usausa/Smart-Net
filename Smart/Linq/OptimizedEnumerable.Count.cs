@@ -1,5 +1,6 @@
 namespace Smart.Linq;
 
+using System.Collections.ObjectModel;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
@@ -54,6 +55,37 @@ public static partial class OptimizedEnumerable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Count<TSource>(this List<TSource> source, int start, int length, Func<TSource, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).Count(predicate);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int Count<TSource>(this ObservableCollection<TSource> source, Func<TSource, bool> predicate)
+    {
+        var count = 0;
+        for (var i = 0; i < source.Count; i++)
+        {
+            if (predicate(source[i]))
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int Count<TSource>(this ObservableCollection<TSource> source, int start, int length, Func<TSource, bool> predicate)
+    {
+        var count = 0;
+        var last = start + length;
+        for (var i = start; i < last; i++)
+        {
+            if (predicate(source[i]))
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Count<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
@@ -166,6 +198,37 @@ public static partial class OptimizedEnumerable
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Count<TSource, TState>(this List<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).Count(state, predicate);
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int Count<TSource, TState>(this ObservableCollection<TSource> source, TState state, Func<TSource, TState, bool> predicate)
+    {
+        var count = 0;
+        for (var i = 0; i < source.Count; i++)
+        {
+            if (predicate(source[i], state))
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static int Count<TSource, TState>(this ObservableCollection<TSource> source, int start, int length, TState state, Func<TSource, TState, bool> predicate)
+    {
+        var count = 0;
+        var last = start + length;
+        for (var i = start; i < last; i++)
+        {
+            if (predicate(source[i], state))
+            {
+                count++;
+            }
+        }
+
+        return count;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Count<TSource, TState>(this IList<TSource> source, TState state, Func<TSource, TState, bool> predicate)

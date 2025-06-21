@@ -1,5 +1,6 @@
 namespace Smart.Linq;
 
+using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 
 public static partial class OptimizedEnumerable
@@ -39,6 +40,27 @@ public static partial class OptimizedEnumerable
 
     public static TResult[] MapToArray<TSource, TResult>(this List<TSource> source, int start, int length, Func<TSource, TResult> selector) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).MapToArray(selector);
+
+    public static TResult[] MapToArray<TSource, TResult>(this ObservableCollection<TSource> source, Func<TSource, TResult> selector)
+    {
+        var destination = new TResult[source.Count];
+        for (var i = 0; i < source.Count; i++)
+        {
+            destination[i] = selector(source[i]);
+        }
+        return destination;
+    }
+
+    public static TResult[] MapToArray<TSource, TResult>(this ObservableCollection<TSource> source, int start, int length, Func<TSource, TResult> selector)
+    {
+        var destination = new TResult[length];
+        var last = start + length;
+        for (var i = start; i < last; i++)
+        {
+            destination[i] = selector(source[i]);
+        }
+        return destination;
+    }
 
     public static TResult[] MapToArray<TSource, TResult>(this IList<TSource> source, Func<TSource, TResult> selector)
     {
@@ -139,6 +161,27 @@ public static partial class OptimizedEnumerable
         return destination;
     }
 
+    public static TResult[] MapToArray<TSource, TState, TResult>(this ObservableCollection<TSource> source, TState state, Func<TSource, TState, TResult> selector)
+    {
+        var destination = new TResult[source.Count];
+        for (var i = 0; i < source.Count; i++)
+        {
+            destination[i] = selector(source[i], state);
+        }
+        return destination;
+    }
+
+    public static TResult[] MapToArray<TSource, TState, TResult>(this ObservableCollection<TSource> source, int start, int length, TState state, Func<TSource, TState, TResult> selector)
+    {
+        var destination = new TResult[length];
+        var last = start + length;
+        for (var i = start; i < last; i++)
+        {
+            destination[i] = selector(source[i], state);
+        }
+        return destination;
+    }
+
     public static TResult[] MapToArray<TSource, TState, TResult>(this IReadOnlyList<TSource> source, TState state, Func<TSource, TState, TResult> selector)
     {
         var destination = new TResult[source.Count];
@@ -198,6 +241,27 @@ public static partial class OptimizedEnumerable
 
     public static List<TResult> MapToList<TSource, TResult>(this List<TSource> source, int start, int length, Func<TSource, TResult> selector) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).MapToList(selector);
+
+    public static List<TResult> MapToList<TSource, TResult>(this ObservableCollection<TSource> source, Func<TSource, TResult> selector)
+    {
+        var destination = new List<TResult>(source.Count);
+        for (var i = 0; i < source.Count; i++)
+        {
+            destination.Add(selector(source[i]));
+        }
+        return destination;
+    }
+
+    public static List<TResult> MapToList<TSource, TResult>(this ObservableCollection<TSource> source, int start, int length, Func<TSource, TResult> selector)
+    {
+        var destination = new List<TResult>(length);
+        var last = start + length;
+        for (var i = start; i < last; i++)
+        {
+            destination.Add(selector(source[i]));
+        }
+        return destination;
+    }
 
     public static List<TResult> MapToList<TSource, TResult>(this IList<TSource> source, Func<TSource, TResult> selector)
     {
@@ -282,6 +346,28 @@ public static partial class OptimizedEnumerable
 
     public static List<TResult> MapToList<TSource, TState, TResult>(this List<TSource> source, int start, int length, TState state, Func<TSource, TState, TResult> selector) =>
         CollectionsMarshal.AsSpan(source).Slice(start, length).MapToList(state, selector);
+
+    public static List<TResult> MapToList<TSource, TState, TResult>(this ObservableCollection<TSource> source, TState state, Func<TSource, TState, TResult> selector)
+    {
+        var destination = new List<TResult>(source.Count);
+        // ReSharper disable once ForCanBeConvertedToForeach
+        for (var i = 0; i < source.Count; i++)
+        {
+            destination.Add(selector(source[i], state));
+        }
+        return destination;
+    }
+
+    public static List<TResult> MapToList<TSource, TState, TResult>(this ObservableCollection<TSource> source, int start, int length, TState state, Func<TSource, TState, TResult> selector)
+    {
+        var destination = new List<TResult>(length);
+        var last = start + length;
+        for (var i = start; i < last; i++)
+        {
+            destination.Add(selector(source[i], state));
+        }
+        return destination;
+    }
 
     public static List<TResult> MapToList<TSource, TState, TResult>(this IList<TSource> source, TState state, Func<TSource, TState, TResult> selector)
     {
