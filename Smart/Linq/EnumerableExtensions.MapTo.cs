@@ -54,10 +54,9 @@ public static partial class EnumerableExtensions
     public static TResult[] MapToArray<TSource, TResult>(this ObservableCollection<TSource> source, int start, int length, Func<TSource, TResult> selector)
     {
         var destination = new TResult[length];
-        var last = start + length;
-        for (var i = start; i < last; i++)
+        for (var i = 0; i < length; i++)
         {
-            destination[i] = selector(source[i]);
+            destination[i] = selector(source[i + start]);
         }
         return destination;
     }
@@ -75,10 +74,9 @@ public static partial class EnumerableExtensions
     public static TResult[] MapToArray<TSource, TResult>(this IList<TSource> source, int start, int length, Func<TSource, TResult> selector)
     {
         var destination = new TResult[length];
-        var last = start + length;
-        for (var i = start; i < last; i++)
+        for (var i = 0; i < length; i++)
         {
-            destination[i] = selector(source[i]);
+            destination[i] = selector(source[i + start]);
         }
         return destination;
     }
@@ -132,10 +130,9 @@ public static partial class EnumerableExtensions
     public static TResult[] MapToArray<TSource, TState, TResult>(this ObservableCollection<TSource> source, int start, int length, TState state, Func<TSource, TState, TResult> selector)
     {
         var destination = new TResult[length];
-        var last = start + length;
-        for (var i = start; i < last; i++)
+        for (var i = 0; i < length; i++)
         {
-            destination[i] = selector(source[i], state);
+            destination[i] = selector(source[i + start], state);
         }
         return destination;
     }
@@ -153,10 +150,9 @@ public static partial class EnumerableExtensions
     public static TResult[] MapToArray<TSource, TState, TResult>(this IList<TSource> source, int start, int length, TState state, Func<TSource, TState, TResult> selector)
     {
         var destination = new TResult[length];
-        var last = start + length;
-        for (var i = start; i < last; i++)
+        for (var i = 0; i < length; i++)
         {
-            destination[i] = selector(source[i], state);
+            destination[i] = selector(source[i + start], state);
         }
         return destination;
     }
