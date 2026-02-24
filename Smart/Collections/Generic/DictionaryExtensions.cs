@@ -114,7 +114,7 @@ public static class DictionaryExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void CopyTo<TKey, TValue>(this IDictionary<TKey, TValue> src, IDictionary<TKey, TValue> dst)
     {
-        CopyTo(src, dst, false);
+        src.CopyTo(dst, false);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

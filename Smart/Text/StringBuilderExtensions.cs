@@ -85,7 +85,7 @@ public static class StringBuilderExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static StringBuilder TrimStart(this StringBuilder sb)
     {
-        return TrimStart(sb, DefaultTrimChars);
+        return sb.TrimStart(DefaultTrimChars);
     }
 
     public static StringBuilder TrimStart(this StringBuilder sb, params char[] trimChars)
@@ -103,7 +103,7 @@ public static class StringBuilderExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static StringBuilder TrimEnd(this StringBuilder sb)
     {
-        return TrimEnd(sb, DefaultTrimChars);
+        return sb.TrimEnd(DefaultTrimChars);
     }
 
     public static StringBuilder TrimEnd(this StringBuilder sb, params char[] trimChars)
@@ -121,13 +121,13 @@ public static class StringBuilderExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static StringBuilder Trim(this StringBuilder sb)
     {
-        return Trim(sb, DefaultTrimChars);
+        return sb.Trim(DefaultTrimChars);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static StringBuilder Trim(this StringBuilder sb, params char[] trimChars)
     {
-        return TrimStart(TrimEnd(sb, trimChars), trimChars);
+        return sb.TrimEnd(trimChars).TrimStart(trimChars);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

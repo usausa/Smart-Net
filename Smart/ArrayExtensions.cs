@@ -48,7 +48,7 @@ public static class ArrayExtensions
     //--------------------------------------------------------------------------------
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static T[] RemoveAt<T>(this T[] array, int offset) => RemoveRange(array, offset, 1);
+    public static T[] RemoveAt<T>(this T[] array, int offset) => array.RemoveRange(offset, 1);
 
     public static T[] RemoveRange<T>(this T[] array, int start, int length)
     {
