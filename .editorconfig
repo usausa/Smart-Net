@@ -289,7 +289,7 @@ dotnet_naming_style.begins_with_i.capitalization = pascal_case
 dotnet_diagnostic.IDE0001.severity = warning
 
 # Simplify member access
-dotnet_diagnostic.IDE0002.severity = none
+dotnet_diagnostic.IDE0002.severity = warning
 
 # dotnet_style_qualification_for_event
 # dotnet_style_qualification_for_field
@@ -360,7 +360,7 @@ dotnet_diagnostic.IDE0030.severity = warning
 dotnet_diagnostic.IDE0270.severity = none
 
 # dotnet_style_null_propagation
-dotnet_diagnostic.IDE0031.severity = warning
+dotnet_diagnostic.IDE0031.severity = none
 
 # dotnet_style_prefer_auto_properties
 dotnet_diagnostic.IDE0032.severity = warning
@@ -420,14 +420,14 @@ dotnet_diagnostic.IDE0051.severity = warning
 dotnet_diagnostic.IDE0052.severity = warning
 
 # csharp_style_expression_bodied_lambdas
-dotnet_diagnostic.IDE0053.severity = none
+dotnet_diagnostic.IDE0053.severity = suggestion
 
 # dotnet_style_prefer_compound_assignment
 dotnet_diagnostic.IDE0054.severity = warning
 dotnet_diagnostic.IDE0074.severity = warning
 
 # Formatting rule
-dotnet_diagnostic.IDE0055.severity = warning
+dotnet_diagnostic.IDE0055.severity = none
 
 # csharp_style_prefer_index_operator
 dotnet_diagnostic.IDE0056.severity = warning
@@ -569,7 +569,7 @@ dotnet_diagnostic.IDE0304.severity = warning
 dotnet_diagnostic.IDE0305.severity = none
 
 # csharp_prefer_static_anonymous_function
-dotnet_diagnostic.IDE0320.severity = warning
+dotnet_diagnostic.IDE0320.severity = none
 
 # csharp_prefer_system_threading_lock
 dotnet_diagnostic.IDE0330.severity = warning
