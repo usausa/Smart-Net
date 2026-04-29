@@ -1,5 +1,7 @@
 namespace Smart.Text;
 
+using System.Runtime.CompilerServices;
+
 public ref struct SpanSplitEnumerator
 {
     private readonly ReadOnlySpan<char> span;
@@ -20,17 +22,20 @@ public ref struct SpanSplitEnumerator
 
     public readonly ReadOnlySpan<char> Current => span.Slice(start, length);
 
+    [SkipLocalsInit]
+    [MethodImpl(MethodImplOptions.AggressiveOptimization)]
     public bool MoveNext()
     {
         start = start + length + 1;
 
-        if (span.Length < start)
+        if ((uint)start > (uint)span.Length)
         {
             return false;
         }
 
-        var index = span[start..].IndexOf(separator);
-        length = index >= 0 ? index : span.Length - start;
+        var remain = span[start..];
+        var index = remain.IndexOf(separator);
+        length = index >= 0 ? index : remain.Length;
 
         return true;
     }
