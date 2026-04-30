@@ -9,8 +9,8 @@ public sealed class AtomicReference<T> : IValueHolder<T>
 
     public T Value
     {
-        get => Interlocked.Exchange(ref currentValue, currentValue);
-        set => Interlocked.Exchange(ref currentValue, value);
+        get => Volatile.Read(ref currentValue);
+        set => Volatile.Write(ref currentValue, value);
     }
 
     public AtomicReference()

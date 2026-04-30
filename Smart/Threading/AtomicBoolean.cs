@@ -11,8 +11,8 @@ public sealed class AtomicBoolean : IValueHolder<bool>
 
     public bool Value
     {
-        get => Interlocked.Exchange(ref currentValue, currentValue) == True;
-        set => Interlocked.Exchange(ref currentValue, value ? True : False);
+        get => Volatile.Read(ref currentValue) == True;
+        set => Volatile.Write(ref currentValue, value ? True : False);
     }
 
     public AtomicBoolean()

@@ -2,6 +2,8 @@ namespace Smart.Collections.Generic;
 
 public sealed class ProjectionComparer<TSource, TKey> : IComparer<TSource>
 {
+    private static readonly EqualityComparer<TSource> EqualityComparer = EqualityComparer<TSource>.Default;
+
     private readonly Func<TSource, TKey> keySelector;
 
     private readonly IComparer<TKey> comparer;
@@ -20,17 +22,17 @@ public sealed class ProjectionComparer<TSource, TKey> : IComparer<TSource>
 
     public int Compare(TSource? x, TSource? y)
     {
-        if (Equals(x, default(TSource)) && Equals(y, default(TSource)))
+        if (EqualityComparer.Equals(x!, default!) && EqualityComparer.Equals(y!, default!))
         {
             return 0;
         }
 
-        if (Equals(x, default(TSource)))
+        if (EqualityComparer.Equals(x!, default!))
         {
             return -1;
         }
 
-        if (Equals(y, default(TSource)))
+        if (EqualityComparer.Equals(y!, default!))
         {
             return 1;
         }

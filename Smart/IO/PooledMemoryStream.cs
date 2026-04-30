@@ -28,7 +28,7 @@ public sealed class PooledMemoryStream : Stream
         get => position;
         set
         {
-            if (value > rawBuffer.Length)
+            if ((ulong)value > (uint)rawBuffer.Length)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -106,7 +106,7 @@ public sealed class PooledMemoryStream : Stream
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void EnsureCapacity(int size)
     {
-        if (rawBuffer.Length < size)
+        if ((uint)rawBuffer.Length < (uint)size)
         {
             var tmp = pool.Rent(size);
             rawBuffer.AsSpan().CopyTo(tmp);

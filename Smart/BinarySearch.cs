@@ -34,13 +34,14 @@ public static partial class BinarySearch
 
     public static int Find<T>(Span<T> span, Func<T, int> comparer)
     {
+        ref var head = ref MemoryMarshal.GetReference(span);
         var lo = 0;
         var hi = span.Length - 1;
         while (lo <= hi)
         {
             var mid = lo + ((hi - lo) >> 1);
 
-            var c = comparer(span[mid]);
+            var c = comparer(Unsafe.Add(ref head, mid));
 
             if (c == 0)
             {
@@ -84,6 +85,7 @@ public static partial class BinarySearch
 
     public static int FindFirst<T>(Span<T> span, Func<T, int> comparer)
     {
+        ref var head = ref MemoryMarshal.GetReference(span);
         var find = -1;
         var lo = 0;
         var hi = span.Length - 1;
@@ -91,7 +93,7 @@ public static partial class BinarySearch
         {
             var mid = lo + ((hi - lo) >> 1);
 
-            var c = comparer(span[mid]);
+            var c = comparer(Unsafe.Add(ref head, mid));
 
             if (c == 0)
             {
@@ -131,6 +133,7 @@ public static partial class BinarySearch
 
     public static int FindLast<T>(Span<T> span, Func<T, int> comparer)
     {
+        ref var head = ref MemoryMarshal.GetReference(span);
         var find = -1;
         var lo = 0;
         var hi = span.Length - 1;
@@ -138,7 +141,7 @@ public static partial class BinarySearch
         {
             var mid = lo + ((hi - lo) >> 1);
 
-            var c = comparer(span[mid]);
+            var c = comparer(Unsafe.Add(ref head, mid));
 
             if (c == 0)
             {

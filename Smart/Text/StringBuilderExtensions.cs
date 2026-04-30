@@ -91,7 +91,7 @@ public static class StringBuilderExtensions
     public static StringBuilder TrimStart(this StringBuilder sb, params char[] trimChars)
     {
         var i = 0;
-        while ((i < sb.Length) && Contains(trimChars, sb[i - 1]))
+        while ((i < sb.Length) && Contains(trimChars, sb[i]))
         {
             i++;
         }

@@ -8,8 +8,8 @@ public sealed class AtomicInteger : IValueHolder<int>
 
     public int Value
     {
-        get => Interlocked.Exchange(ref currentValue, currentValue);
-        set => Interlocked.Exchange(ref currentValue, value);
+        get => Volatile.Read(ref currentValue);
+        set => Volatile.Write(ref currentValue, value);
     }
 
     public AtomicInteger()

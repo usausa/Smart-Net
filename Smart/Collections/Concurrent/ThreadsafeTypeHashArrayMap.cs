@@ -229,7 +229,8 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
     public bool TryGetValue(Type key, [MaybeNullWhen(false)] out TValue value)
     {
         var temp = nodes;
-        var node = temp[key.GetHashCode() & (temp.Length - 1)];
+        var hash = key.GetHashCode();
+        var node = temp[hash & (temp.Length - 1)];
         do
         {
             if (node.Key == key)
