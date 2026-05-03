@@ -19,7 +19,7 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
 
     private readonly IHashArrayMapStrategy strategy;
 
-    private Node[] nodes;
+    private volatile Node[] nodes;
 
     private int depth;
 
@@ -167,8 +167,6 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
 
             UpdateLink(ref newNodes[node.Key.GetHashCode() & (newNodes.Length - 1)], node);
 
-            Interlocked.MemoryBarrier();
-
             nodes = newNodes;
             depth = CalculateDepth(newNodes);
             count = CalculateCount(newNodes);
@@ -204,8 +202,6 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
         lock (sync)
         {
             var newNodes = CreateInitialTable();
-
-            Interlocked.MemoryBarrier();
 
             nodes = newNodes;
             count = 0;
