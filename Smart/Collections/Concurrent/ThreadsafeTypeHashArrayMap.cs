@@ -3,6 +3,7 @@ namespace Smart.Collections.Concurrent;
 using System.Collections;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 
 [DebuggerDisplay("{" + nameof(Diagnostics) + "}")]
@@ -45,14 +46,7 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
 
     private static int CalculateSize(int requestSize)
     {
-        uint size = 0;
-
-        for (var i = 1L; i < requestSize; i *= 2)
-        {
-            size = (size << 1) + 1;
-        }
-
-        return (int)(size + 1);
+        return (int)BitOperations.RoundUpToPowerOf2((uint)requestSize);
     }
 
     private static int CalculateCount(Node[] targetNodes)
@@ -108,12 +102,7 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
     {
         var size = CalculateSize(strategy.CalculateInitialSize());
         var newNodes = new Node[size];
-
-        for (var i = 0; i < newNodes.Length; i++)
-        {
-            newNodes[i] = EmptyNode;
-        }
-
+        newNodes.AsSpan().Fill(EmptyNode);
         return newNodes;
     }
 
@@ -140,9 +129,10 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
         }
     }
 
-    private static void RelocateNodes(Node[] nodes, Node[] oldNodes)
+    private static void RelocateNodes(Node[] nodes, Node[] oldNodes, int count)
     {
-        for (var i = 0; i < oldNodes.Length; i++)
+        var remaining = count;
+        for (var i = 0; (i < oldNodes.Length) && (remaining > 0); i++)
         {
             var node = oldNodes[i];
             if (node == EmptyNode)
@@ -158,6 +148,7 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
                 UpdateLink(ref nodes[node.Key.GetHashCode() & (nodes.Length - 1)], node);
 
                 node = next;
+                remaining--;
             }
             while (node is not null);
         }
@@ -170,12 +161,9 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
         if (size > nodes.Length)
         {
             var newNodes = new Node[size];
-            for (var i = 0; i < newNodes.Length; i++)
-            {
-                newNodes[i] = EmptyNode;
-            }
+            newNodes.AsSpan().Fill(EmptyNode);
 
-            RelocateNodes(newNodes, nodes);
+            RelocateNodes(newNodes, nodes, count);
 
             UpdateLink(ref newNodes[node.Key.GetHashCode() & (newNodes.Length - 1)], node);
 
@@ -225,6 +213,7 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
         }
     }
 
+    [SkipLocalsInit]
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool TryGetValue(Type key, [MaybeNullWhen(false)] out TValue value)
     {
