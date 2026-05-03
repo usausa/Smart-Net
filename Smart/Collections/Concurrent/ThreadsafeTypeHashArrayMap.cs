@@ -129,41 +129,40 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
         }
     }
 
-    private static void RelocateNodes(Node[] nodes, Node[] oldNodes, int count)
+    private static void RelocateNodes(Node[] newNodes, Node[] oldNodes, int count)
     {
         var remaining = count;
         for (var i = 0; (i < oldNodes.Length) && (remaining > 0); i++)
         {
-            var node = oldNodes[i];
-            if (node == EmptyNode)
+            var current = oldNodes[i];
+            if (current == EmptyNode)
             {
                 continue;
             }
 
             do
             {
-                var next = node.Next;
-                node.Next = null;
+                UpdateLink(ref newNodes[current.Key.GetHashCode() & (newNodes.Length - 1)], new Node(current.Key, current.Value));
 
-                UpdateLink(ref nodes[node.Key.GetHashCode() & (nodes.Length - 1)], node);
-
-                node = next;
+                current = current.Next;
                 remaining--;
             }
-            while (node is not null);
+            while (current is not null);
         }
     }
 
     private void AddNode(Node node)
     {
-        var requestSize = strategy.CalculateRequestSize(new AddResizeContext(nodes.Length, depth, count, 1));
+        var currentNodes = nodes;
+
+        var requestSize = strategy.CalculateRequestSize(new AddResizeContext(currentNodes.Length, depth, count, 1));
         var size = CalculateSize(requestSize);
-        if (size > nodes.Length)
+        if (size > currentNodes.Length)
         {
             var newNodes = new Node[size];
             newNodes.AsSpan().Fill(EmptyNode);
 
-            RelocateNodes(newNodes, nodes, count);
+            RelocateNodes(newNodes, currentNodes, count);
 
             UpdateLink(ref newNodes[node.Key.GetHashCode() & (newNodes.Length - 1)], node);
 
@@ -175,9 +174,9 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
         {
             Interlocked.MemoryBarrier();
 
-            UpdateLink(ref nodes[node.Key.GetHashCode() & (nodes.Length - 1)], node);
+            UpdateLink(ref currentNodes[node.Key.GetHashCode() & (currentNodes.Length - 1)], node);
 
-            depth = Math.Max(CalculateDepth(nodes[node.Key.GetHashCode() & (nodes.Length - 1)]), depth);
+            depth = Math.Max(CalculateDepth(currentNodes[node.Key.GetHashCode() & (currentNodes.Length - 1)]), depth);
             count++;
         }
     }
