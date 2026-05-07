@@ -27,7 +27,7 @@ public ref struct SpanTokenizer<T>
     public readonly ReadOnlySpan<T> Current
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        get => span.Slice(start, end - start);
+        get => span[start..end];
     }
 
     [SkipLocalsInit]

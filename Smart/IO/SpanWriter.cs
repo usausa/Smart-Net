@@ -107,7 +107,6 @@ public ref struct SpanWriter<T>
         return result;
     }
 
-    /// <summary>Fills all remaining capacity with a single value.</summary>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Fill(T value)
     {

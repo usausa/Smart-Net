@@ -29,7 +29,7 @@ public sealed class BitwiseComparer<T> : IEqualityComparer<T>, IComparer<T>
     public static int GetHashCodeStatic(in T value)
     {
         var bytes = MemoryMarshal.AsBytes(MemoryMarshal.CreateReadOnlySpan(in value, 1));
-        var hash = new HashCode();
+        var hash = default(HashCode);
         hash.AddBytes(bytes);
         return hash.ToHashCode();
     }

@@ -6,9 +6,9 @@ using System.Runtime.CompilerServices;
 #pragma warning disable IDE0032
 public sealed class MemoryOwner<T> : IMemoryOwner<T>
 {
-    private T[]? array;
-
     private readonly int length;
+
+    private T[]? array;
 
     public int Length => length;
 
