@@ -36,9 +36,6 @@ public ref struct SpanReader<T>
 
     public readonly int Remaining => length - position;
 
-    public readonly ReadOnlySpan<T> Span =>
-        MemoryMarshal.CreateReadOnlySpan(ref reference, length);
-
     public readonly ReadOnlySpan<T> ConsumedSpan =>
         MemoryMarshal.CreateReadOnlySpan(ref reference, position);
 

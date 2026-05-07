@@ -36,11 +36,7 @@ public ref struct SpanWriter<T>
 
     public readonly int FreeCapacity => length - position;
 
-    public readonly Span<T> Span => MemoryMarshal.CreateSpan(ref reference, length);
-
     public readonly Span<T> WrittenSpan => MemoryMarshal.CreateSpan(ref reference, position);
-
-    public readonly Span<T> RemainingSpan => MemoryMarshal.CreateSpan(ref Unsafe.Add(ref reference, position), length - position);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Write(T value)
