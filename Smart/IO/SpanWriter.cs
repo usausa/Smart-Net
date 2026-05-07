@@ -106,7 +106,8 @@ public ref struct SpanWriter<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public void Fill(T value)
     {
-        RemainingSpan.Fill(value);
+        var remainingSpan = MemoryMarshal.CreateSpan(ref Unsafe.Add(ref reference, position), length - position);
+        remainingSpan.Fill(value);
         position = length;
     }
 
