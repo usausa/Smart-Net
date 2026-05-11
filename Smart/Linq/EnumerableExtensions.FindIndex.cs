@@ -2,7 +2,6 @@ namespace Smart.Linq;
 
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 
 public static partial class EnumerableExtensions
 {
@@ -13,10 +12,9 @@ public static partial class EnumerableExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindIndex<TSource>(this Span<TSource> source, Func<TSource, bool> predicate)
     {
-        ref var head = ref MemoryMarshal.GetReference(source);
         for (var i = 0; i < source.Length; i++)
         {
-            if (predicate(Unsafe.Add(ref head, i)))
+            if (predicate(source[i]))
             {
                 return i;
             }
@@ -28,10 +26,9 @@ public static partial class EnumerableExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindIndex<TSource>(this ReadOnlySpan<TSource> source, Func<TSource, bool> predicate)
     {
-        ref readonly var head = ref MemoryMarshal.GetReference(source);
         for (var i = 0; i < source.Length; i++)
         {
-            if (predicate(Unsafe.Add(ref Unsafe.AsRef(in head), i)))
+            if (predicate(source[i]))
             {
                 return i;
             }
@@ -113,10 +110,9 @@ public static partial class EnumerableExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindIndex<TSource, TState>(this Span<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
-        ref var head = ref MemoryMarshal.GetReference(source);
         for (var i = 0; i < source.Length; i++)
         {
-            if (predicate(Unsafe.Add(ref head, i), state))
+            if (predicate(source[i], state))
             {
                 return i;
             }
@@ -128,10 +124,9 @@ public static partial class EnumerableExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindIndex<TSource, TState>(this ReadOnlySpan<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
-        ref readonly var head = ref MemoryMarshal.GetReference(source);
         for (var i = 0; i < source.Length; i++)
         {
-            if (predicate(Unsafe.Add(ref Unsafe.AsRef(in head), i), state))
+            if (predicate(source[i], state))
             {
                 return i;
             }
@@ -213,10 +208,9 @@ public static partial class EnumerableExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLastIndex<TSource>(this Span<TSource> source, Func<TSource, bool> predicate)
     {
-        ref var head = ref MemoryMarshal.GetReference(source);
         for (var i = source.Length - 1; i >= 0; i--)
         {
-            if (predicate(Unsafe.Add(ref head, i)))
+            if (predicate(source[i]))
             {
                 return i;
             }
@@ -228,10 +222,9 @@ public static partial class EnumerableExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLastIndex<TSource>(this ReadOnlySpan<TSource> source, Func<TSource, bool> predicate)
     {
-        ref readonly var head = ref MemoryMarshal.GetReference(source);
         for (var i = source.Length - 1; i >= 0; i--)
         {
-            if (predicate(Unsafe.Add(ref Unsafe.AsRef(in head), i)))
+            if (predicate(source[i]))
             {
                 return i;
             }
@@ -311,10 +304,9 @@ public static partial class EnumerableExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLastIndex<TSource, TState>(this Span<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
-        ref var head = ref MemoryMarshal.GetReference(source);
         for (var i = source.Length - 1; i >= 0; i--)
         {
-            if (predicate(Unsafe.Add(ref head, i), state))
+            if (predicate(source[i], state))
             {
                 return i;
             }
@@ -326,10 +318,9 @@ public static partial class EnumerableExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLastIndex<TSource, TState>(this ReadOnlySpan<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
-        ref readonly var head = ref MemoryMarshal.GetReference(source);
         for (var i = source.Length - 1; i >= 0; i--)
         {
-            if (predicate(Unsafe.Add(ref Unsafe.AsRef(in head), i), state))
+            if (predicate(source[i], state))
             {
                 return i;
             }

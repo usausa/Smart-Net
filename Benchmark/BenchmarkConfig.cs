@@ -18,7 +18,7 @@ public sealed class BenchmarkConfig : ManualConfig
             StatisticColumn.P90,
             StatisticColumn.Error,
             StatisticColumn.StdDev);
-        AddDiagnoser(MemoryDiagnoser.Default);
+        AddDiagnoser(MemoryDiagnoser.Default, new DisassemblyDiagnoser(new DisassemblyDiagnoserConfig(maxDepth: 3, printSource: true, printInstructionAddresses: true, exportDiff: true)));
         AddExporter(MarkdownExporter.Default, MarkdownExporter.GitHub);
         AddExporter(CsvExporter.Default);
         //AddExporter(CsvMeasurementsExporter.Default);
