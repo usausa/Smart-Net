@@ -27,8 +27,10 @@ public static class Enums<T>
         Values = new ReadOnlyCollection<T>(values);
         Names = new ReadOnlyCollection<string>(names);
 
+#pragma warning disable IDE0028
         ValueToNames = new Dictionary<T, string>(values.Length);
         NameToValues = new Dictionary<string, T>(values.Length);
+#pragma warning restore IDE0028
 
         for (var i = 0; i < values.Length; i++)
         {
