@@ -1,6 +1,7 @@
 namespace Smart;
 
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -13,7 +14,8 @@ public static class TypeExtensions
 
     private static readonly Func<Type, object?> NullFactory = static _ => null;
 
-    private static readonly Func<Type, object?> ValueFactory = Activator.CreateInstance;
+    [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2067", Justification = "GetDefaultValue only calls Activator.CreateInstance for value types whose parameterless constructor is preserved by the DynamicallyAccessedMembers annotation on the type parameter.")]
+    private static readonly Func<Type, object?> ValueFactory = static type => Activator.CreateInstance(type);
 
     static TypeExtensions()
     {
@@ -35,7 +37,7 @@ public static class TypeExtensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static object? GetDefaultValue(this Type type)
+    public static object? GetDefaultValue([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicParameterlessConstructor)] this Type type)
     {
         if (type.IsValueType)
         {
@@ -72,7 +74,7 @@ public static class TypeExtensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Type? GetCollectionElementType(this Type type)
+    public static Type? GetCollectionElementType([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] this Type type)
     {
         if (type.HasElementType)
         {
@@ -112,7 +114,9 @@ public static class TypeExtensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static Type? GetValueHolderType(this Type type)
+    [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2073", Justification = "Enumerable.FirstOrDefault cannot propagate DynamicallyAccessedMembers; IValueHolder<> interfaces are preserved via the input type annotation.")]
+    [return: DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
+    public static Type? GetValueHolderType([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces | DynamicallyAccessedMemberTypes.PublicProperties)] this Type type)
     {
         if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IValueHolder<>))
         {
@@ -123,7 +127,7 @@ public static class TypeExtensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static PropertyInfo? GetValueHolderProperty(this Type type)
+    public static PropertyInfo? GetValueHolderProperty([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces | DynamicallyAccessedMemberTypes.PublicProperties)] this Type type)
     {
         return type.GetValueHolderType()?.GetRuntimeProperty("Value");
     }

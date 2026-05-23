@@ -1,5 +1,6 @@
 namespace Smart.Reflection;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 using Smart.ComponentModel;
@@ -20,6 +21,7 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
     // Array
     //--------------------------------------------------------------------------------
 
+    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Array.CreateInstance is used for array allocation; the element type is supplied by the caller.")]
     public Func<int, Array> CreateArrayAllocator(Type type)
     {
         return length => Array.CreateInstance(type, length);
@@ -29,12 +31,12 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
     // Factory
     //--------------------------------------------------------------------------------
 
-    public Func<object> CreateFactory(Type type)
+    public Func<object> CreateFactory([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type)
     {
         return () => Activator.CreateInstance(type)!;
     }
 
-    public Func<object?[]?, object> CreateFactory(Type type, Type[] argumentTypes)
+    public Func<object?[]?, object> CreateFactory([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type, Type[] argumentTypes)
     {
         if (type.IsValueType && (argumentTypes.Length == 0))
         {
@@ -58,7 +60,7 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
         }
 
         return ci.GetParameters().Length == 0
-            ? _ => Activator.CreateInstance(ci.DeclaringType)!
+            ? _ => ci.Invoke(null)
             : ci.Invoke;
     }
 
@@ -70,10 +72,10 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
         }
 
         // specialized
-        return () => Activator.CreateInstance(ci.DeclaringType)!;
+        return () => ci.Invoke(null);
     }
 
-    public Func<T> CreateFactory<T>()
+    public Func<T> CreateFactory<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
         return Activator.CreateInstance<T>;
     }

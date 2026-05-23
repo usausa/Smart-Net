@@ -1,5 +1,6 @@
 namespace Smart.Reflection.Emit;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
@@ -313,6 +314,7 @@ public static class ILGeneratorExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private static T GetDefaultValue<T>() => default!;
 
+    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "ILGeneratorExtensions is only used from DynamicDelegateFactory which requires dynamic code.")]
     public static void EmitStackDefaultValue(this ILGenerator il, Type type)
     {
         if (type.IsClass)
@@ -335,6 +337,9 @@ public static class ILGeneratorExtensions
         where T : struct
         => value.HasValue;
 
+    [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2070", Justification = "ILGeneratorExtensions is only used from DynamicDelegateFactory which requires dynamic code.")]
+    [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2071", Justification = "ILGeneratorExtensions is only used from DynamicDelegateFactory which requires dynamic code.")]
+    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "ILGeneratorExtensions is only used from DynamicDelegateFactory which requires dynamic code.")]
     public static void EmitNullableHasValue(this ILGenerator il, Type underlyingType)
     {
         var method = typeof(ILGeneratorExtensions).GetMethod(nameof(HasValue), BindingFlags.NonPublic | BindingFlags.Static)!.MakeGenericMethod(underlyingType);
@@ -346,6 +351,9 @@ public static class ILGeneratorExtensions
         where T : struct
         => value!.Value;
 
+    [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2070", Justification = "ILGeneratorExtensions is only used from DynamicDelegateFactory which requires dynamic code.")]
+    [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2071", Justification = "ILGeneratorExtensions is only used from DynamicDelegateFactory which requires dynamic code.")]
+    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "ILGeneratorExtensions is only used from DynamicDelegateFactory which requires dynamic code.")]
     public static void EmitNullableGetValue(this ILGenerator il, Type underlyingType)
     {
         var method = typeof(ILGeneratorExtensions).GetMethod(nameof(GetValue), BindingFlags.NonPublic | BindingFlags.Static)!.MakeGenericMethod(underlyingType);

@@ -1,5 +1,7 @@
 namespace Smart.ComponentModel;
 
+using System.Diagnostics.CodeAnalysis;
+
 public sealed class ComponentConfig
 {
     private readonly Dictionary<Type, List<ComponentEntry>> mappings = [];
@@ -17,21 +19,23 @@ public sealed class ComponentConfig
         return entries;
     }
 
-    public void Add<TComponent, TImplement>()
+    public void Add<TComponent, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplement>()
         where TImplement : TComponent
     {
         Add(typeof(TComponent), typeof(TImplement));
     }
 
-    public void Add<TComponent>()
+    public void Add<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TComponent>()
     {
         var type = typeof(TComponent);
         Add(type, type);
     }
 
-    public void Add(Type componentType) => Add(componentType, componentType);
+    public void Add([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type componentType) => Add(componentType, componentType);
 
-    public void Add(Type componentType, Type implementType) => GetEntries(componentType).Add(new ComponentEntry(implementType));
+    public void Add(
+        Type componentType,
+        [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type implementType) => GetEntries(componentType).Add(new ComponentEntry(implementType));
 
     public void Add<TComponent>(TComponent constant)
         where TComponent : notnull

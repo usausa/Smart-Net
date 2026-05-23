@@ -2,6 +2,7 @@
 #nullable enable
 namespace Smart.Reflection;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 public sealed partial class ReflectionDelegateFactory
@@ -166,7 +167,7 @@ public sealed partial class ReflectionDelegateFactory
         return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16) => ci.Invoke(new[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16 });
     }
 
-    public Func<TP1?, T> CreateFactory<TP1, T>()
+    public Func<TP1?, T> CreateFactory<TP1, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1) });
         if (ci is null)
@@ -177,7 +178,7 @@ public sealed partial class ReflectionDelegateFactory
         return (p1) => (T)ci.Invoke(new object?[] { p1 });
     }
 
-    public Func<TP1?, TP2?, T> CreateFactory<TP1, TP2, T>()
+    public Func<TP1?, TP2?, T> CreateFactory<TP1, TP2, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2) });
         if (ci is null)
@@ -188,7 +189,7 @@ public sealed partial class ReflectionDelegateFactory
         return (p1, p2) => (T)ci.Invoke(new object?[] { p1, p2 });
     }
 
-    public Func<TP1?, TP2?, TP3?, T> CreateFactory<TP1, TP2, TP3, T>()
+    public Func<TP1?, TP2?, TP3?, T> CreateFactory<TP1, TP2, TP3, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3) });
         if (ci is null)
@@ -199,7 +200,7 @@ public sealed partial class ReflectionDelegateFactory
         return (p1, p2, p3) => (T)ci.Invoke(new object?[] { p1, p2, p3 });
     }
 
-    public Func<TP1?, TP2?, TP3?, TP4?, T> CreateFactory<TP1, TP2, TP3, TP4, T>()
+    public Func<TP1?, TP2?, TP3?, TP4?, T> CreateFactory<TP1, TP2, TP3, TP4, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4) });
         if (ci is null)
@@ -210,7 +211,7 @@ public sealed partial class ReflectionDelegateFactory
         return (p1, p2, p3, p4) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4 });
     }
 
-    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, T>()
+    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5) });
         if (ci is null)
@@ -221,7 +222,7 @@ public sealed partial class ReflectionDelegateFactory
         return (p1, p2, p3, p4, p5) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5 });
     }
 
-    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, T>()
+    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6) });
         if (ci is null)
@@ -232,7 +233,7 @@ public sealed partial class ReflectionDelegateFactory
         return (p1, p2, p3, p4, p5, p6) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6 });
     }
 
-    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, T>()
+    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7) });
         if (ci is null)
@@ -243,7 +244,7 @@ public sealed partial class ReflectionDelegateFactory
         return (p1, p2, p3, p4, p5, p6, p7) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6, p7 });
     }
 
-    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, T>()
+    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8) });
         if (ci is null)
@@ -254,7 +255,7 @@ public sealed partial class ReflectionDelegateFactory
         return (p1, p2, p3, p4, p5, p6, p7, p8) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6, p7, p8 });
     }
 
-    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, T>()
+    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9) });
         if (ci is null)
@@ -265,7 +266,7 @@ public sealed partial class ReflectionDelegateFactory
         return (p1, p2, p3, p4, p5, p6, p7, p8, p9) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6, p7, p8, p9 });
     }
 
-    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, T>()
+    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10) });
         if (ci is null)
@@ -276,7 +277,7 @@ public sealed partial class ReflectionDelegateFactory
         return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10 });
     }
 
-    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, T>()
+    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11) });
         if (ci is null)
@@ -287,7 +288,7 @@ public sealed partial class ReflectionDelegateFactory
         return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11 });
     }
 
-    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, T>()
+    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12) });
         if (ci is null)
@@ -298,7 +299,7 @@ public sealed partial class ReflectionDelegateFactory
         return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12 });
     }
 
-    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, T>()
+    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13) });
         if (ci is null)
@@ -309,7 +310,7 @@ public sealed partial class ReflectionDelegateFactory
         return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13 });
     }
 
-    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, T>()
+    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14) });
         if (ci is null)
@@ -320,7 +321,7 @@ public sealed partial class ReflectionDelegateFactory
         return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14 });
     }
 
-    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, T>()
+    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), typeof(TP15) });
         if (ci is null)
@@ -331,7 +332,7 @@ public sealed partial class ReflectionDelegateFactory
         return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15 });
     }
 
-    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, TP16?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, T>()
+    public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, TP16?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), typeof(TP15), typeof(TP16) });
         if (ci is null)

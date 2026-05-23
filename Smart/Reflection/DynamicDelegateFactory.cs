@@ -1,6 +1,7 @@
 namespace Smart.Reflection;
 
 using System.Collections.Concurrent;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
@@ -8,6 +9,8 @@ using System.Runtime.CompilerServices;
 using Smart.ComponentModel;
 using Smart.Reflection.Emit;
 
+[RequiresDynamicCode("DynamicDelegateFactory uses Reflection.Emit which is not supported in AOT environments.")]
+[RequiresUnreferencedCode("DynamicDelegateFactory uses reflection that may be incompatible with trimming.")]
 public sealed partial class DynamicDelegateFactory : IDelegateFactory
 {
     // Array cache
@@ -89,7 +92,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
     // Factory
     //--------------------------------------------------------------------------------
 
-    public Func<object> CreateFactory(Type type)
+    public Func<object> CreateFactory([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type)
     {
         if (type.IsValueType)
         {
@@ -105,7 +108,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
         return Unsafe.As<Func<object>>(factoryDelegateCache.GetOrAdd(ci, static x => CreateFactoryInternal(x, typeof(object), Type.EmptyTypes)));
     }
 
-    public Func<object?[]?, object> CreateFactory(Type type, Type[] argumentTypes)
+    public Func<object?[]?, object> CreateFactory([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type, Type[] argumentTypes)
     {
         if (type.IsValueType && (argumentTypes.Length == 0))
         {
@@ -126,7 +129,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
         return factoryCache.GetOrAdd(ci, CreateFactoryInternal);
     }
 
-    public Func<T> CreateFactory<T>()
+    public Func<T> CreateFactory<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
         var type = typeof(T);
         if (type.IsValueType)

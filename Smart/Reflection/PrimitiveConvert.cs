@@ -1,10 +1,12 @@
 // ReSharper disable MissingBlankLines
 namespace Smart.Reflection;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
 #pragma warning disable CA2020
+[RequiresUnreferencedCode("PrimitiveConvert uses reflection to build method dictionary; members may be trimmed in AOT environments.")]
 public static class PrimitiveConvert
 {
     // ReSharper disable NotAccessedPositionalProperty.Local
@@ -19,6 +21,7 @@ public static class PrimitiveConvert
             .ToDictionary(static x => new RecordKey(x.GetParameters()[0].ParameterType, x.ReturnType), static x => x);
     }
 
+    [RequiresUnreferencedCode("PrimitiveConvert uses reflection to build method dictionary; members may be trimmed in AOT environments.")]
     public static MethodInfo? GetMethod(Type parameterType, Type returnType) =>
         Methods.GetValueOrDefault(new RecordKey(parameterType, returnType));
 

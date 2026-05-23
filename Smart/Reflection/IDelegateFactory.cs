@@ -1,5 +1,6 @@
 namespace Smart.Reflection;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 public interface IDelegateFactory
@@ -12,9 +13,9 @@ public interface IDelegateFactory
 
     // Factory
 
-    Func<object> CreateFactory(Type type);
+    Func<object> CreateFactory([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type);
 
-    Func<object?[]?, object> CreateFactory(Type type, Type[] argumentTypes);
+    Func<object?[]?, object> CreateFactory([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type, Type[] argumentTypes);
 
     Func<object?[]?, object> CreateFactory(ConstructorInfo ci);
 
@@ -54,39 +55,39 @@ public interface IDelegateFactory
 
     // Factory
 
-    Func<T> CreateFactory<T>();
+    Func<T> CreateFactory<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>();
 
-    Func<TP1?, T> CreateFactory<TP1, T>();
+    Func<TP1?, T> CreateFactory<TP1, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>();
 
-    Func<TP1?, TP2?, T> CreateFactory<TP1, TP2, T>();
+    Func<TP1?, TP2?, T> CreateFactory<TP1, TP2, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>();
 
-    Func<TP1?, TP2?, TP3?, T> CreateFactory<TP1, TP2, TP3, T>();
+    Func<TP1?, TP2?, TP3?, T> CreateFactory<TP1, TP2, TP3, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>();
 
-    Func<TP1?, TP2?, TP3?, TP4?, T> CreateFactory<TP1, TP2, TP3, TP4, T>();
+    Func<TP1?, TP2?, TP3?, TP4?, T> CreateFactory<TP1, TP2, TP3, TP4, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>();
 
-    Func<TP1?, TP2?, TP3?, TP4?, TP5?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, T>();
+    Func<TP1?, TP2?, TP3?, TP4?, TP5?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>();
 
-    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, T>();
+    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>();
 
-    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, T>();
+    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>();
 
-    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, T>();
+    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>();
 
-    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, T>();
+    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>();
 
-    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, T>();
+    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>();
 
-    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, T>();
+    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>();
 
-    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, T>();
+    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>();
 
-    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, T>();
+    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>();
 
-    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, T>();
+    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>();
 
-    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, T>();
+    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>();
 
-    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, TP16?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, T>();
+    Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, TP16?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>();
 
     // Accessor
 

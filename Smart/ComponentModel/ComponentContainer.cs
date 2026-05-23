@@ -141,7 +141,7 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
         }
     }
 
-    private object CreateInstance(Type type)
+    private object CreateInstance([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type)
     {
         foreach (var ci in type.GetConstructors().OrderByDescending(static c => c.GetParameters().Length))
         {
@@ -204,6 +204,7 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
         return null;
     }
 
+    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Array.CreateInstance is used for component resolution; element types are registered by the caller who is responsible for AOT compatibility.")]
     private static Array ConvertArray(Type elementType, IEnumerable<object> source)
     {
         var sourceArray = source.ToArray();

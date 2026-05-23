@@ -1,6 +1,8 @@
 namespace Smart.Reflection;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 
 public sealed partial class DelegateFactory : IDelegateFactory
 {
@@ -10,9 +12,11 @@ public sealed partial class DelegateFactory : IDelegateFactory
 
     public bool IsCodegenRequired => Factory.IsCodegenRequired;
 
+    [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2026", Justification = "DynamicDelegateFactory is only used when RuntimeFeature.IsDynamicCodeSupported is true.")]
+    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "DynamicDelegateFactory is only used when RuntimeFeature.IsDynamicCodeSupported is true.")]
     public DelegateFactory()
     {
-        if (ReflectionHelper.IsCodegenAllowed)
+        if (RuntimeFeature.IsDynamicCodeSupported)
         {
             Factory = DynamicDelegateFactory.Default;
         }
@@ -35,12 +39,12 @@ public sealed partial class DelegateFactory : IDelegateFactory
     // Factory
     //--------------------------------------------------------------------------------
 
-    public Func<object> CreateFactory(Type type)
+    public Func<object> CreateFactory([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type)
     {
         return Factory.CreateFactory(type);
     }
 
-    public Func<object?[]?, object> CreateFactory(Type type, Type[] argumentTypes)
+    public Func<object?[]?, object> CreateFactory([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type, Type[] argumentTypes)
     {
         return Factory.CreateFactory(type, argumentTypes);
     }
