@@ -337,8 +337,8 @@ public static class ILGeneratorExtensions
         where T : struct
         => value.HasValue;
 
-    [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2070", Justification = "ILGeneratorExtensions is only used from DynamicDelegateFactory which requires dynamic code.")]
-    [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2071", Justification = "ILGeneratorExtensions is only used from DynamicDelegateFactory which requires dynamic code.")]
+    [UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "ILGeneratorExtensions is only used from DynamicDelegateFactory which requires dynamic code.")]
+    [UnconditionalSuppressMessage("Trimming", "IL2071", Justification = "ILGeneratorExtensions is only used from DynamicDelegateFactory which requires dynamic code.")]
     [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "ILGeneratorExtensions is only used from DynamicDelegateFactory which requires dynamic code.")]
     public static void EmitNullableHasValue(this ILGenerator il, Type underlyingType)
     {
@@ -351,8 +351,8 @@ public static class ILGeneratorExtensions
         where T : struct
         => value!.Value;
 
-    [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2070", Justification = "ILGeneratorExtensions is only used from DynamicDelegateFactory which requires dynamic code.")]
-    [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2071", Justification = "ILGeneratorExtensions is only used from DynamicDelegateFactory which requires dynamic code.")]
+    [UnconditionalSuppressMessage("Trimming", "IL2070", Justification = "ILGeneratorExtensions is only used from DynamicDelegateFactory which requires dynamic code.")]
+    [UnconditionalSuppressMessage("Trimming", "IL2071", Justification = "ILGeneratorExtensions is only used from DynamicDelegateFactory which requires dynamic code.")]
     [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "ILGeneratorExtensions is only used from DynamicDelegateFactory which requires dynamic code.")]
     public static void EmitNullableGetValue(this ILGenerator il, Type underlyingType)
     {

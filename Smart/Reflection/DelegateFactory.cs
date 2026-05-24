@@ -12,7 +12,7 @@ public sealed partial class DelegateFactory : IDelegateFactory
 
     public bool IsCodegenRequired => Factory.IsCodegenRequired;
 
-    [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2026", Justification = "DynamicDelegateFactory is only used when RuntimeFeature.IsDynamicCodeSupported is true.")]
+    [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "DynamicDelegateFactory is only used when RuntimeFeature.IsDynamicCodeSupported is true.")]
     [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "DynamicDelegateFactory is only used when RuntimeFeature.IsDynamicCodeSupported is true.")]
     public DelegateFactory()
     {

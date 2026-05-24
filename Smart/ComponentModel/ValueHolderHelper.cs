@@ -16,8 +16,8 @@ public static class ValueHolderHelper
             .Any(static i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IValueHolder<>));
     }
 
-    [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2075", Justification = "PropertyInfo.PropertyType cannot be annotated; IValueHolder<> is a known framework type and its interfaces are preserved.")]
-    [UnconditionalSuppressMessage("ReflectionAnalysis", "IL2073", Justification = "PropertyInfo.PropertyType and FirstOrDefault cannot propagate DynamicallyAccessedMembers; IValueHolder<> is a known type whose properties are preserved.")]
+    [UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "PropertyInfo.PropertyType cannot be annotated; IValueHolder<> is a known framework type and its interfaces are preserved.")]
+    [UnconditionalSuppressMessage("Trimming", "IL2073", Justification = "PropertyInfo.PropertyType and FirstOrDefault cannot propagate DynamicallyAccessedMembers; IValueHolder<> is a known type whose properties are preserved.")]
     [return: DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
     public static Type? FindValueHolderType(PropertyInfo pi)
     {
