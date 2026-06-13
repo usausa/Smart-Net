@@ -42,8 +42,11 @@ public static partial class EnumerableExtensions
         source.AsSpan().FindIndex(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int FindIndex<TSource>(this TSource[] source, int start, int length, Func<TSource, bool> predicate) =>
-        source.AsSpan(start, length).FindIndex(predicate);
+    public static int FindIndex<TSource>(this TSource[] source, int start, int length, Func<TSource, bool> predicate)
+    {
+        var index = source.AsSpan(start, length).FindIndex(predicate);
+        return index < 0 ? -1 : start + index;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindIndex<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
@@ -140,8 +143,11 @@ public static partial class EnumerableExtensions
         source.AsSpan().FindIndex(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int FindIndex<TSource, TState>(this TSource[] source, int start, int length, TState state, Func<TSource, TState, bool> predicate) =>
-        source.AsSpan(start, length).FindIndex(state, predicate);
+    public static int FindIndex<TSource, TState>(this TSource[] source, int start, int length, TState state, Func<TSource, TState, bool> predicate)
+    {
+        var index = source.AsSpan(start, length).FindIndex(state, predicate);
+        return index < 0 ? -1 : start + index;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindIndex<TSource, TState>(this IList<TSource> source, TState state, Func<TSource, TState, bool> predicate)
@@ -238,8 +244,11 @@ public static partial class EnumerableExtensions
         source.AsSpan().FindLastIndex(predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int FindLastIndex<TSource>(this TSource[] source, int start, int length, Func<TSource, bool> predicate) =>
-        source.AsSpan(start, length).FindLastIndex(predicate);
+    public static int FindLastIndex<TSource>(this TSource[] source, int start, int length, Func<TSource, bool> predicate)
+    {
+        var index = source.AsSpan(start, length).FindLastIndex(predicate);
+        return index < 0 ? -1 : start + index;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLastIndex<TSource>(this IList<TSource> source, Func<TSource, bool> predicate)
@@ -334,8 +343,11 @@ public static partial class EnumerableExtensions
         source.AsSpan().FindLastIndex(state, predicate);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static int FindLastIndex<TSource, TState>(this TSource[] source, int start, int length, TState state, Func<TSource, TState, bool> predicate) =>
-        source.AsSpan(start, length).FindLastIndex(state, predicate);
+    public static int FindLastIndex<TSource, TState>(this TSource[] source, int start, int length, TState state, Func<TSource, TState, bool> predicate)
+    {
+        var index = source.AsSpan(start, length).FindLastIndex(state, predicate);
+        return index < 0 ? -1 : start + index;
+    }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLastIndex<TSource, TState>(this IList<TSource> source, TState state, Func<TSource, TState, bool> predicate)

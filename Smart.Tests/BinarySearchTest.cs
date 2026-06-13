@@ -20,7 +20,7 @@ public sealed class BinarySearchTest
     [Fact]
     public void TestFindFirst()
     {
-        var array = new[] { 1, 1, 3, 3, 3, 5, 5, 5, 5 };    // 9個
+        var array = new[] { 1, 1, 3, 3, 3, 5, 5, 5, 5 };    // 9
         var list = array.ToList();
         var keys = Enumerable.Range(0, 7);                  // 0-6
 
@@ -40,7 +40,7 @@ public sealed class BinarySearchTest
     [Fact]
     public void TestFindLast()
     {
-        var array = new[] { 1, 1, 3, 3, 3, 5, 5, 5, 5 };    // 9個
+        var array = new[] { 1, 1, 3, 3, 3, 5, 5, 5, 5 };    // 9
         var list = array.ToList();
         var keys = Enumerable.Range(0, 7);                  // 0-6
 
@@ -60,11 +60,33 @@ public sealed class BinarySearchTest
     [Fact]
     public void TestFindInsertIndex()
     {
-        var array = new[] { 1, 1, 3, 3, 3, 5, 5, 5, 5 };    // 9個
+        var array = new[] { 1, 1, 3, 3, 3, 5, 5, 5, 5 };    // 9
 
         Assert.Equal(-1, BinarySearch.Find(array, static x => x - 0));
         Assert.Equal(-3, BinarySearch.Find(array, static x => x - 2));
         Assert.Equal(-6, BinarySearch.Find(array, static x => x - 4));
         Assert.Equal(-10, BinarySearch.Find(array, static x => x - 6));
+    }
+
+    [Fact]
+    public void FindWithStartLengthReturnsAbsoluteIndex()
+    {
+        var array = new[] { 1, 1, 3, 3, 3, 5, 5, 5, 5 };    // 9
+        var list = array.ToList();
+
+        Assert.Equal(5, BinarySearch.FindFirst(array, 3, 4, static x => x - 5));
+        Assert.Equal(5, BinarySearch.FindFirst(list, 3, 4, static x => x - 5));
+        Assert.Equal(5, BinarySearch.FindFirst((IList<int>)array, 3, 4, static x => x - 5));
+    }
+
+    [Fact]
+    public void FindWithStartLengthNotFoundReturnsAbsoluteInsertionPoint()
+    {
+        var array = new[] { 1, 1, 3, 3, 3, 5, 5, 5, 5 };    // 9
+        var list = array.ToList();
+
+        Assert.Equal(~5, BinarySearch.Find(array, 2, 3, static x => x - 4));
+        Assert.Equal(~5, BinarySearch.Find(list, 2, 3, static x => x - 4));
+        Assert.Equal(~5, BinarySearch.Find((IList<int>)array, 2, 3, static x => x - 4));
     }
 }

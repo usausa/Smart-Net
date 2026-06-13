@@ -90,10 +90,7 @@ public sealed class EnumerableExtensionsFindIndexTest
     public void FindIndexArrayWithStartLength()
     {
         var arr = new[] { 1, 2, 3, 4, 5 };
-        // The array overload delegates to AsSpan(start, length).FindIndex, which returns
-        // the span-relative index, NOT the original-array absolute index.
-        // Slice [1..4) = [2, 3, 4]; element 3 is at span-relative index 1.
-        Assert.Equal(1, arr.FindIndex(1, 3, static x => x == 3));
+        Assert.Equal(2, arr.FindIndex(1, 3, static x => x == 3));
     }
 
     [Fact]
@@ -200,8 +197,7 @@ public sealed class EnumerableExtensionsFindIndexTest
     public void FindIndexWithStateArrayStartLength()
     {
         var arr = new[] { 1, 2, 3, 4, 5 };
-        // Slice [1..4) = [2, 3, 4]; element 4 is at span-relative index 2.
-        Assert.Equal(2, arr.FindIndex(1, 3, 4, static (x, state) => x == state));
+        Assert.Equal(3, arr.FindIndex(1, 3, 4, static (x, state) => x == state));
     }
 
     //--------------------------------------------------------------------------------
@@ -262,10 +258,7 @@ public sealed class EnumerableExtensionsFindIndexTest
     public void FindLastIndexArrayWithStartLength()
     {
         var arr = new[] { 1, 2, 3, 2, 1 };
-        // The array overload delegates to AsSpan(start, length).FindLastIndex, which returns
-        // the span-relative index, NOT the original-array absolute index.
-        // Slice [2..5) = [3, 2, 1]; last element 2 is at span-relative index 1.
-        Assert.Equal(1, arr.FindLastIndex(2, 3, static x => x == 2));
+        Assert.Equal(3, arr.FindLastIndex(2, 3, static x => x == 2));
     }
 
     //--------------------------------------------------------------------------------
