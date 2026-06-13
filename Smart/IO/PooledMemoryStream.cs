@@ -15,11 +15,11 @@ public sealed class PooledMemoryStream : Stream
 
     private int length;
 
-    public override bool CanRead => true;
+    public override bool CanRead => !disposed;
 
-    public override bool CanWrite => true;
+    public override bool CanWrite => !disposed;
 
-    public override bool CanSeek => true;
+    public override bool CanSeek => !disposed;
 
     public override long Length => length;
 
@@ -73,7 +73,7 @@ public sealed class PooledMemoryStream : Stream
         var newPosition = origin switch
         {
             SeekOrigin.Begin => (int)offset,
-            SeekOrigin.End => length - (int)offset,
+            SeekOrigin.End => length + (int)offset,
             SeekOrigin.Current => position + (int)offset,
             _ => throw new ArgumentException("Invalid seek origin.", nameof(origin))
         };
