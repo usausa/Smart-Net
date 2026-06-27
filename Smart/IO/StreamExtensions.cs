@@ -9,6 +9,13 @@ public static class StreamExtensions
             return memoryStream.ToArray();
         }
 
+        if (TryGetSeekableLength(stream, out var length))
+        {
+            var buffer = new byte[length];
+            stream.ReadExactly(buffer);
+            return buffer;
+        }
+
         using var ms = new MemoryStream();
         stream.CopyTo(ms);
         return ms.ToArray();
@@ -19,6 +26,13 @@ public static class StreamExtensions
         if (stream is MemoryStream memoryStream)
         {
             return memoryStream.ToArray();
+        }
+
+        if (TryGetSeekableLength(stream, out var length))
+        {
+            var buffer = new byte[length];
+            stream.ReadExactly(buffer);
+            return buffer;
         }
 
         using var ms = new MemoryStream();
@@ -33,6 +47,13 @@ public static class StreamExtensions
             return memoryStream.ToArray();
         }
 
+        if (TryGetSeekableLength(stream, out var length))
+        {
+            var buffer = new byte[length];
+            await stream.ReadExactlyAsync(buffer).ConfigureAwait(false);
+            return buffer;
+        }
+
 #pragma warning disable CA2007
         await using var ms = new MemoryStream();
 #pragma warning restore CA2007
@@ -45,6 +66,13 @@ public static class StreamExtensions
         if (stream is MemoryStream memoryStream)
         {
             return memoryStream.ToArray();
+        }
+
+        if (TryGetSeekableLength(stream, out var length))
+        {
+            var buffer = new byte[length];
+            await stream.ReadExactlyAsync(buffer, cancel).ConfigureAwait(false);
+            return buffer;
         }
 
 #pragma warning disable CA2007
@@ -106,5 +134,21 @@ public static class StreamExtensions
         }
 
         return buffer;
+    }
+
+    private static bool TryGetSeekableLength(Stream stream, out int length)
+    {
+        if (stream.CanSeek)
+        {
+            var remaining = stream.Length - stream.Position;
+            if ((remaining >= 0) && (remaining <= Array.MaxLength))
+            {
+                length = (int)remaining;
+                return true;
+            }
+        }
+
+        length = 0;
+        return false;
     }
 }
