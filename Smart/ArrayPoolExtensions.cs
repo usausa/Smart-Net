@@ -18,7 +18,7 @@ public static class ArrayPoolExtensions
     {
         if (buffer is not null)
         {
-            pool.Return(buffer);
+            pool.Return(buffer, RuntimeHelpers.IsReferenceOrContainsReferences<T>());
         }
     }
 }

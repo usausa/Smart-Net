@@ -44,7 +44,7 @@ public sealed class MemoryOwner<T> : IMemoryOwner<T>
         array = null;
         if (toReturn is not null)
         {
-            ArrayPool<T>.Shared.Return(toReturn);
+            ArrayPool<T>.Shared.Return(toReturn, RuntimeHelpers.IsReferenceOrContainsReferences<T>());
         }
     }
 

@@ -29,7 +29,7 @@ public sealed class PooledBufferWriter<T> : IBufferWriter<T>, IDisposable
     {
         if (buffer.Length > 0)
         {
-            ArrayPool<T>.Shared.Return(buffer);
+            ArrayPool<T>.Shared.Return(buffer, RuntimeHelpers.IsReferenceOrContainsReferences<T>());
             buffer = [];
         }
     }
@@ -73,7 +73,7 @@ public sealed class PooledBufferWriter<T> : IBufferWriter<T>, IDisposable
         {
             var newBuffer = ArrayPool<T>.Shared.Rent(newSize);
             buffer[..index].CopyTo(newBuffer.AsSpan());
-            ArrayPool<T>.Shared.Return(buffer);
+            ArrayPool<T>.Shared.Return(buffer, RuntimeHelpers.IsReferenceOrContainsReferences<T>());
             buffer = newBuffer;
         }
     }
