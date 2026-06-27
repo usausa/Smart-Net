@@ -145,16 +145,17 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
     {
         foreach (var ci in type.GetConstructors().OrderByDescending(static c => c.GetParameters().Length))
         {
-            if (ci.GetParameters().Length == 0)
+            var parameters = ci.GetParameters();
+            if (parameters.Length == 0)
             {
                 return ci.Invoke(null);
             }
 
             var match = true;
-            var arguments = new object?[ci.GetParameters().Length];
+            var arguments = new object?[parameters.Length];
             for (var i = 0; i < arguments.Length; i++)
             {
-                var pi = ci.GetParameters()[i];
+                var pi = parameters[i];
                 var elementType = GetElementType(pi.ParameterType);
                 if (elementType is null)
                 {
@@ -207,7 +208,7 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
     [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Array.CreateInstance is used for component resolution; element types are registered by the caller who is responsible for AOT compatibility.")]
     private static Array ConvertArray(Type elementType, IEnumerable<object> source)
     {
-        var sourceArray = source.ToArray();
+        var sourceArray = source as object[] ?? source.ToArray();
         var array = Array.CreateInstance(elementType, sourceArray.Length);
         Array.Copy(sourceArray, 0, array, 0, sourceArray.Length);
         return array;
