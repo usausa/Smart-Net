@@ -39,7 +39,7 @@ public ref struct BufferWriterSlim<T>
         buffer = null;
         if (toReturn is not null)
         {
-            ArrayPool<T>.Shared.Return(toReturn);
+            ArrayPool<T>.Shared.Return(toReturn, RuntimeHelpers.IsReferenceOrContainsReferences<T>());
         }
 
         capacity = initialBuffer.Length;
@@ -118,7 +118,7 @@ public ref struct BufferWriterSlim<T>
 
         if (buffer is not null)
         {
-            ArrayPool<T>.Shared.Return(buffer);
+            ArrayPool<T>.Shared.Return(buffer, RuntimeHelpers.IsReferenceOrContainsReferences<T>());
         }
 
         buffer = newBuffer;
