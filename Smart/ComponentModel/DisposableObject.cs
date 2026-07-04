@@ -10,11 +10,6 @@ public abstract class DisposableObject : IDisposable
 
     public bool IsDisposed { get; private set; }
 
-    ~DisposableObject()
-    {
-        Dispose(false);
-    }
-
     public void Dispose()
     {
         Dispose(true);

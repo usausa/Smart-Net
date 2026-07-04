@@ -17,11 +17,6 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
         mappings = config.ToMappings();
     }
 
-    ~ComponentContainer()
-    {
-        Dispose(false);
-    }
-
     public void Dispose()
     {
         Dispose(true);
