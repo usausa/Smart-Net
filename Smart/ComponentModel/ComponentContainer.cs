@@ -19,37 +19,28 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
 
     public void Dispose()
     {
-        Dispose(true);
-        GC.SuppressFinalize(this);
-    }
-
-    private void Dispose(bool disposing)
-    {
-        if (disposing)
+        lock (cache)
         {
-            lock (cache)
+            var disposed = new HashSet<object>();
+            foreach (var instance in cache.Values.SelectMany(static x => x))
             {
-                var disposed = new HashSet<object>();
-                foreach (var instance in cache.Values.SelectMany(static x => x))
+                if (instance is IDisposable disposable)
                 {
-                    if (instance is IDisposable disposable)
-                    {
-                        disposable.Dispose();
-                        disposed.Add(instance);
-                    }
+                    disposable.Dispose();
+                    disposed.Add(instance);
                 }
-
-                foreach (var entry in mappings.Values.SelectMany(static x => x))
-                {
-                    if ((entry.Constant is IDisposable disposable) && !disposed.Contains(disposable))
-                    {
-                        disposable.Dispose();
-                    }
-                }
-
-                cache.Clear();
-                mappings.Clear();
             }
+
+            foreach (var entry in mappings.Values.SelectMany(static x => x))
+            {
+                if ((entry.Constant is IDisposable disposable) && !disposed.Contains(disposable))
+                {
+                    disposable.Dispose();
+                }
+            }
+
+            cache.Clear();
+            mappings.Clear();
         }
     }
 
