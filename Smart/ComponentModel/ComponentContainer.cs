@@ -1,46 +1,73 @@
 namespace Smart.ComponentModel;
 
 using System.Diagnostics.CodeAnalysis;
-using System.Globalization;
 using System.Runtime.CompilerServices;
 
 public sealed class ComponentContainer : IDisposable, IServiceProvider
 {
     private static readonly object[] EmptyResult = [];
 
-    private readonly Dictionary<Type, object[]> cache = [];
+#if NET9_0_OR_GREATER
+    private readonly Lock sync = new();
+#else
+    private readonly object sync = new();
+#endif
 
-    private readonly Dictionary<Type, ComponentEntry[]> mappings;
+    private readonly Dictionary<Type, Slot> slots;
+
+    private volatile Dictionary<Type, Slot> enumerableSlots = [];
+
+    private int disposed;
 
     public ComponentContainer(ComponentConfig config)
     {
-        mappings = config.ToMappings();
+        slots = config.ToMappings().ToDictionary(static x => x.Key, static x => new Slot(x.Value));
     }
 
     public void Dispose()
     {
-        lock (cache)
+        if (Interlocked.CompareExchange(ref disposed, 1, 0) == 1)
         {
-            var disposed = new HashSet<object>();
-            foreach (var instance in cache.Values.SelectMany(static x => x))
+            return;
+        }
+
+        lock (sync)
+        {
+            var released = new HashSet<object>(ReferenceEqualityComparer.Instance);
+
+            foreach (var slot in slots.Values)
             {
-                if (instance is IDisposable disposable)
+                var instances = slot.GetInstances();
+                if (instances is null)
                 {
-                    disposable.Dispose();
-                    disposed.Add(instance);
+                    continue;
+                }
+
+                foreach (var instance in instances)
+                {
+                    if ((instance is IDisposable disposable) && released.Add(instance))
+                    {
+                        disposable.Dispose();
+                    }
                 }
             }
 
-            foreach (var entry in mappings.Values.SelectMany(static x => x))
+            foreach (var slot in slots.Values)
             {
-                if ((entry.Constant is IDisposable disposable) && !disposed.Contains(disposable))
+                foreach (var entry in slot.Entries)
                 {
-                    disposable.Dispose();
+                    if ((entry.Constant is IDisposable disposable) && released.Add(disposable))
+                    {
+                        disposable.Dispose();
+                    }
                 }
             }
 
-            cache.Clear();
-            mappings.Clear();
+            foreach (var slot in slots.Values)
+            {
+                slot.SetTyped(null);
+                slot.SetInstances(EmptyResult);
+            }
         }
     }
 
@@ -61,16 +88,27 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
         return false;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public IEnumerable<T> GetAll<T>() => GetAll(typeof(T)).Cast<T>();
+    public IEnumerable<T> GetAll<T>()
+    {
+        if (!slots.TryGetValue(typeof(T), out var slot))
+        {
+            return Array.Empty<T>();
+        }
+
+        if (slot.GetTyped() is T[] cached)
+        {
+            return cached;
+        }
+
+        return CreateTyped<T>(slot);
+    }
 
     public object Get(Type componentType)
     {
         var objects = ResolveAll(componentType);
         if (objects.Length == 0)
         {
-            throw new InvalidOperationException(
-                String.Format(CultureInfo.InvariantCulture, "No such component registered. component type = {0}", componentType.Name));
+            throw new InvalidOperationException($"No such component registered. type=[{componentType.Name}]");
         }
 
         return objects[^1];
@@ -95,35 +133,113 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
 
     public object? GetService(Type serviceType)
     {
-        if (serviceType.IsGenericType && serviceType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+        if (serviceType.IsGenericType)
         {
-            return ConvertArray(serviceType.GenericTypeArguments[0], GetAll(serviceType.GenericTypeArguments[0]));
+            if (enumerableSlots.TryGetValue(serviceType, out var enumerableSlot))
+            {
+                return enumerableSlot.GetTyped() ?? ResolveEnumerable(serviceType);
+            }
+
+            if (serviceType.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+            {
+                return ResolveEnumerable(serviceType);
+            }
         }
 
-        var objects = ResolveAll(serviceType);
+        if (!slots.TryGetValue(serviceType, out var slot))
+        {
+            return null;
+        }
+
+        var objects = slot.GetInstances() ?? CreateInstances(slot);
         return objects.Length > 0 ? objects[^1] : null;
     }
 
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private object[] ResolveAll(Type componentType)
     {
-        lock (cache)
+        if (!slots.TryGetValue(componentType, out var slot))
         {
-            if (cache.TryGetValue(componentType, out var objects))
+            return EmptyResult;
+        }
+
+        return slot.GetInstances() ?? CreateInstances(slot);
+    }
+
+    private object[] CreateInstances(Slot slot)
+    {
+        lock (sync)
+        {
+            var published = slot.GetInstances();
+            if (published is not null)
             {
-                return objects;
+                return published;
             }
 
-            if (!mappings.TryGetValue(componentType, out var entries))
+            var entries = slot.Entries;
+            var objects = new object[entries.Length];
+            for (var i = 0; i < entries.Length; i++)
             {
-                return EmptyResult;
+                var entry = entries[i];
+                objects[i] = entry.Constant ?? CreateInstance(entry.ImplementType!);
             }
 
-            objects = entries
-                .Select(entry => entry.Constant ?? CreateInstance(entry.ImplementType!))
-                .ToArray();
-            cache[componentType] = objects;
+            published = slot.GetInstances();
+            if (published is not null)
+            {
+                return published;
+            }
 
+            slot.SetInstances(objects);
             return objects;
+        }
+    }
+
+    private T[] CreateTyped<T>(Slot slot)
+    {
+        lock (sync)
+        {
+            if (slot.GetTyped() is T[] cached)
+            {
+                return cached;
+            }
+
+            var objects = slot.GetInstances() ?? CreateInstances(slot);
+            var typed = new T[objects.Length];
+            for (var i = 0; i < objects.Length; i++)
+            {
+                typed[i] = (T)objects[i];
+            }
+
+            slot.SetTyped(typed);
+            return typed;
+        }
+    }
+
+    private Array ResolveEnumerable(Type serviceType)
+    {
+        var elementType = serviceType.GenericTypeArguments[0];
+
+        lock (sync)
+        {
+            if (!slots.TryGetValue(elementType, out var slot))
+            {
+                return CreateArray(elementType, EmptyResult);
+            }
+
+            var typed = slot.GetTyped();
+            if (typed is null)
+            {
+                typed = CreateArray(elementType, slot.GetInstances() ?? CreateInstances(slot));
+                slot.SetTyped(typed);
+            }
+
+            if (!enumerableSlots.ContainsKey(serviceType))
+            {
+                enumerableSlots = new Dictionary<Type, Slot>(enumerableSlots) { [serviceType] = slot };
+            }
+
+            return typed;
         }
     }
 
@@ -149,7 +265,7 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
                 }
                 else
                 {
-                    arguments[i] = ConvertArray(elementType, GetAll(elementType));
+                    arguments[i] = CreateArray(elementType, ResolveAll(elementType));
                 }
 
                 if (!match)
@@ -166,8 +282,7 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
             return ci.Invoke(arguments);
         }
 
-        throw new InvalidOperationException(
-            String.Format(CultureInfo.InvariantCulture, "Constructor parameter unresolved. implementation type = {0}", type.Name));
+        throw new InvalidOperationException($"Constructor parameter unresolved. type=[{type.Name}]");
     }
 
     private static Type? GetElementType(Type type)
@@ -192,11 +307,32 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
     }
 
     [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Array.CreateInstance is used for component resolution; element types are registered by the caller who is responsible for AOT compatibility.")]
-    private static Array ConvertArray(Type elementType, IEnumerable<object> source)
+    private static Array CreateArray(Type elementType, object[] source)
     {
-        var sourceArray = source as object[] ?? source.ToArray();
-        var array = Array.CreateInstance(elementType, sourceArray.Length);
-        Array.Copy(sourceArray, 0, array, 0, sourceArray.Length);
+        var array = Array.CreateInstance(elementType, source.Length);
+        Array.Copy(source, 0, array, 0, source.Length);
         return array;
+    }
+
+    private sealed class Slot
+    {
+        private volatile object[]? instances;
+
+        private volatile Array? typed;
+
+        public ComponentEntry[] Entries { get; }
+
+        public Slot(ComponentEntry[] entries)
+        {
+            Entries = entries;
+        }
+
+        public object[]? GetInstances() => instances;
+
+        public void SetInstances(object[] value) => instances = value;
+
+        public Array? GetTyped() => typed;
+
+        public void SetTyped(Array? value) => typed = value;
     }
 }
