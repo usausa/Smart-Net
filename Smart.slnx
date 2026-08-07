@@ -15,5 +15,5 @@
   </Folder>
   <Project Path="Smart/Smart.csproj" />
   <Project Path="Smart.Tests/Smart.Tests.csproj" />
-  <Project Path="Benchmark/Benchmark.csproj" />
+  <Project Path="Benchmark/Benchmark.csproj" DefaultStartup="true" />
 </Solution>
