@@ -65,7 +65,7 @@ public ref struct BufferWriterSlim<T>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void Write(ReadOnlySpan<T> source)
+    public void Write(scoped ReadOnlySpan<T> source)
     {
         if (position + source.Length > capacity)
         {

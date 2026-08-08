@@ -14,7 +14,8 @@ Foundation library for building other Smart libraries.
 ### Collections
 
 * `ThreadsafeTypeHashArrayMap<TValue>` — lock-minimized thread-safe dictionary keyed by `Type`
-* Extension methods for `ICollection`, `IDictionary`, `IEnumerable`
+* `ProjectionReadOnlyList<TSource, TResult>` — lazily converted read-only list view
+* Extension methods for `ICollection`, `IDictionary`, `IEnumerable` (`ForEach`, `JoinToString` etc.)
 
 ### ComponentModel
 
@@ -29,6 +30,7 @@ Foundation library for building other Smart libraries.
 * `BufferWriterSlim<T>` — stack-friendly `IBufferWriter<T>` implementation
 * `PooledBufferWriter<T>` / `PooledMemoryStream` — `ArrayPool`-backed writer and stream
 * `MemoryOwner<T>` — `IMemoryOwner<T>` wrapper for `ArrayPool`
+* `BufferWriterSlim<char>` string building extensions — `WriteLine` / `WriteFormattable` / interpolated `Append` / `ToStringAndClear`
 * Extension methods for `Stream`, `IBufferWriter<byte>`, `TextReader`
 
 ### Text
@@ -36,6 +38,10 @@ Foundation library for building other Smart libraries.
 * `SpanTokenizer` — zero-allocation span-based string tokenizer
 * `Inflector` — English word inflection (pluralize / singularize / camelize etc.)
 * `JsonKeyCamelCaseNamingPolicy` — `System.Text.Json` naming policy
+
+### Threading
+
+* `TaskExtensions` — `Forget` (fire-and-forget) and `TryWaitAsync` (timeout-aware wait) for `Task` / `ValueTask`
 
 ### Algorithms
 
