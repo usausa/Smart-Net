@@ -46,7 +46,7 @@ public sealed class TaskExtensionsTest
     {
         var tcs = new TaskCompletionSource<(Exception Exception, string State)>(TaskCreationOptions.RunContinuationsAsynchronously);
 
-        FailAsync().Forget("state", (ex, state) => tcs.TrySetResult((ex, state)));
+        FailAsync().Forget("state", (ex, s) => tcs.TrySetResult((ex, s)));
 
         var (exception, state) = await tcs.Task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken).ConfigureAwait(true);
         Assert.IsType<InvalidOperationException>(exception);
