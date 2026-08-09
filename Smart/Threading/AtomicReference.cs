@@ -29,6 +29,8 @@ public sealed class AtomicReference<T> : IValueHolder<T>
 
     public bool TrySet(T value, T comparand)
     {
+#pragma warning disable CS8601
         return Interlocked.CompareExchange(ref currentValue, value, comparand) == comparand;
+#pragma warning restore CS8601
     }
 }

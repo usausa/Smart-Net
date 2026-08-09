@@ -153,6 +153,7 @@ public sealed class EnumerableExtensionsNotNullTest
     // ReSharper restore PossibleMultipleEnumeration
 
     // ReSharper disable PossibleMultipleEnumeration
+#pragma warning disable CA1851
     [Fact]
     public void NestedEnumerationIsIndependent()
     {
@@ -170,6 +171,7 @@ public sealed class EnumerableExtensionsNotNullTest
 
         Assert.Equal([(1, 1), (1, 2), (2, 1), (2, 2)], pairs);
     }
+#pragma warning restore CA1851
     // ReSharper restore PossibleMultipleEnumeration
 
     [Fact]
