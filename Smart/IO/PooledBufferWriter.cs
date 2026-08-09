@@ -71,7 +71,7 @@ public sealed class PooledBufferWriter<T> : IBufferWriter<T>, IDisposable
         var newSize = index + sizeHint;
         if ((uint)newSize > (uint)buffer.Length)
         {
-            var newBuffer = ArrayPool<T>.Shared.Rent(newSize);
+            var newBuffer = ArrayPool<T>.Shared.Rent(Math.Max(newSize, buffer.Length * 2));
             buffer[..index].CopyTo(newBuffer.AsSpan());
             ArrayPool<T>.Shared.Return(buffer, RuntimeHelpers.IsReferenceOrContainsReferences<T>());
             buffer = newBuffer;

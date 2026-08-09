@@ -79,4 +79,4 @@ public static class Enums<T>
 #endif
     }
 }
-#pragma warning disable CA1000
+#pragma warning restore CA1000

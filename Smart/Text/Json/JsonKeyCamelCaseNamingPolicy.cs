@@ -5,7 +5,7 @@ using System.Text.Json;
 
 public sealed class JsonKeyCamelCaseNamingPolicy : JsonNamingPolicy
 {
-    public static JsonKeyCamelCaseNamingPolicy Instance => new();
+    public static JsonKeyCamelCaseNamingPolicy Instance { get; } = new();
 
     private JsonKeyCamelCaseNamingPolicy()
     {

@@ -10,7 +10,7 @@ public readonly struct DelegateDisposable : IDisposable
         this.action = action;
     }
 
-    public void Dispose() => action();
+    public void Dispose() => action?.Invoke();
 }
 #pragma warning restore CA1815
 
@@ -24,6 +24,6 @@ public readonly struct AsyncDelegateDisposable : IAsyncDisposable
         this.func = func;
     }
 
-    public ValueTask DisposeAsync() => func();
+    public ValueTask DisposeAsync() => func?.Invoke() ?? default;
 }
 #pragma warning restore CA1815

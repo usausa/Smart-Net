@@ -2,7 +2,7 @@ namespace Smart.Collections.Generic;
 
 using System.Runtime.CompilerServices;
 
-public static partial class ComparerEnumerable
+public static partial class ComparersEnumerable
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static bool Contains<TSource, TCompareKey>(this IEnumerable<TSource> source, TSource value, Func<TSource, TCompareKey> compareKeySelector) =>

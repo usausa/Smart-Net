@@ -80,18 +80,10 @@ public static class StringBuilderExtensions
     // Trim
     //--------------------------------------------------------------------------------
 
-    private static readonly char[] DefaultTrimChars = [' ', '\t'];
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static StringBuilder TrimStart(this StringBuilder sb)
     {
-        return sb.TrimStart(DefaultTrimChars);
-    }
-
-    public static StringBuilder TrimStart(this StringBuilder sb, params char[] trimChars)
-    {
         var i = 0;
-        while ((i < sb.Length) && Contains(trimChars, sb[i]))
+        while ((i < sb.Length) && Char.IsWhiteSpace(sb[i]))
         {
             i++;
         }
@@ -100,16 +92,68 @@ public static class StringBuilderExtensions
         return sb;
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static StringBuilder TrimEnd(this StringBuilder sb)
+    public static StringBuilder TrimStart(this StringBuilder sb, char trimChar)
     {
-        return sb.TrimEnd(DefaultTrimChars);
+        var i = 0;
+        while ((i < sb.Length) && (sb[i] == trimChar))
+        {
+            i++;
+        }
+
+        sb.Remove(0, i);
+        return sb;
     }
 
-    public static StringBuilder TrimEnd(this StringBuilder sb, params char[] trimChars)
+    public static StringBuilder TrimStart(this StringBuilder sb, params ReadOnlySpan<char> trimChars)
+    {
+        if (trimChars.IsEmpty)
+        {
+            return sb.TrimStart();
+        }
+
+        var i = 0;
+        while ((i < sb.Length) && trimChars.Contains(sb[i]))
+        {
+            i++;
+        }
+
+        sb.Remove(0, i);
+        return sb;
+    }
+
+    public static StringBuilder TrimEnd(this StringBuilder sb)
     {
         var i = sb.Length;
-        while ((i > 0) && Contains(trimChars, sb[i - 1]))
+        while ((i > 0) && Char.IsWhiteSpace(sb[i - 1]))
+        {
+            i--;
+        }
+
+        sb.Remove(i, sb.Length - i);
+        return sb;
+    }
+
+    public static StringBuilder TrimEnd(this StringBuilder sb, char trimChar)
+    {
+        var i = sb.Length;
+        while ((i > 0) && (sb[i - 1] == trimChar))
+        {
+            i--;
+        }
+
+        sb.Remove(i, sb.Length - i);
+        return sb;
+    }
+
+    public static StringBuilder TrimEnd(this StringBuilder sb, params ReadOnlySpan<char> trimChars)
+    {
+        if (trimChars.IsEmpty)
+        {
+            return sb.TrimEnd();
+        }
+
+        var i = sb.Length;
+        while ((i > 0) && trimChars.Contains(sb[i - 1]))
         {
             i--;
         }
@@ -121,26 +165,18 @@ public static class StringBuilderExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static StringBuilder Trim(this StringBuilder sb)
     {
-        return sb.Trim(DefaultTrimChars);
+        return sb.TrimEnd().TrimStart();
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public static StringBuilder Trim(this StringBuilder sb, params char[] trimChars)
+    public static StringBuilder Trim(this StringBuilder sb, char trimChar)
+    {
+        return sb.TrimEnd(trimChar).TrimStart(trimChar);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static StringBuilder Trim(this StringBuilder sb, params ReadOnlySpan<char> trimChars)
     {
         return sb.TrimEnd(trimChars).TrimStart(trimChars);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    private static bool Contains(char[] chars, char c)
-    {
-        for (var i = 0; i < chars.Length; i++)
-        {
-            if (chars[i] == c)
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

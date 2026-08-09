@@ -6,7 +6,7 @@ public static class NotificationValueExtensions
 {
     public static Task<T> WaitValueChangedAsync<T>(this NotificationValue<T> value)
     {
-        var cts = new TaskCompletionSource<T>();
+        var tcs = new TaskCompletionSource<T>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         void ValuePropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
@@ -16,17 +16,17 @@ public static class NotificationValueExtensions
             }
 
             value.PropertyChanged -= ValuePropertyChanged;
-            cts.SetResult(value.Value);
+            tcs.TrySetResult(value.Value);
         }
 
         value.PropertyChanged += ValuePropertyChanged;
 
-        return cts.Task;
+        return tcs.Task;
     }
 
     public static async Task<T> WaitValueChangedAsync<T>(this NotificationValue<T> value, CancellationToken cancel)
     {
-        var cts = new TaskCompletionSource<T>();
+        var tcs = new TaskCompletionSource<T>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         void ValuePropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
@@ -36,22 +36,19 @@ public static class NotificationValueExtensions
             }
 
             value.PropertyChanged -= ValuePropertyChanged;
-            cts.SetResult(value.Value);
+            tcs.TrySetResult(value.Value);
         }
+
+        value.PropertyChanged += ValuePropertyChanged;
 
 #pragma warning disable CA2007
         await using var registration = cancel.Register(() =>
         {
             value.PropertyChanged -= ValuePropertyChanged;
-            // ReSharper disable once MethodSupportsCancellation
-            cts.SetCanceled();
+            tcs.TrySetCanceled(cancel);
         });
 #pragma warning restore CA2007
 
-        value.PropertyChanged += ValuePropertyChanged;
-
-        var ret = await cts.Task.ConfigureAwait(false);
-
-        return ret;
+        return await tcs.Task.ConfigureAwait(false);
     }
 }

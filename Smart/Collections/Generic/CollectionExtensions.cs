@@ -20,13 +20,31 @@ public static class CollectionExtensions
         }
     }
 
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void RemoveWhere<T>(this ICollection<T> source, Func<T, bool> predicate)
     {
-        var deleteItems = source.Where(predicate).ToList();
-        foreach (var item in deleteItems)
+        switch (source)
         {
-            source.Remove(item);
+            case List<T> list:
+                list.RemoveAll(predicate.Invoke);
+                break;
+            case HashSet<T> set:
+                set.RemoveWhere(predicate.Invoke);
+                break;
+            case IList<T> list:
+                for (var i = list.Count - 1; i >= 0; i--)
+                {
+                    if (predicate(list[i]))
+                    {
+                        list.RemoveAt(i);
+                    }
+                }
+                break;
+            default:
+                foreach (var item in source.Where(predicate).ToList())
+                {
+                    source.Remove(item);
+                }
+                break;
         }
     }
 }

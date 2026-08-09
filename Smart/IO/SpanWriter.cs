@@ -59,15 +59,6 @@ public ref struct SpanWriter<T>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public void WriteUnmanaged<TValue>(TValue value)
-        where TValue : unmanaged
-    {
-        var size = Unsafe.SizeOf<TValue>();
-        var span = Slide(size);
-        Unsafe.WriteUnaligned(ref Unsafe.As<T, byte>(ref MemoryMarshal.GetReference(span)), value);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool TryWrite(T value)
     {
         if ((uint)position < (uint)length)

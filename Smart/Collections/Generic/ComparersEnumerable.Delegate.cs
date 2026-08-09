@@ -2,7 +2,7 @@ namespace Smart.Collections.Generic;
 
 using System.Runtime.CompilerServices;
 
-public static partial class ComparerEnumerable
+public static partial class ComparersEnumerable
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Func<TKey, TKey, int> compare) =>

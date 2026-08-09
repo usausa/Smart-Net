@@ -3,7 +3,7 @@ namespace Smart.Threading;
 using Smart.ComponentModel;
 
 public sealed class AtomicReference<T> : IValueHolder<T>
-    where T : class
+    where T : class?
 {
     private T currentValue = default!;
 

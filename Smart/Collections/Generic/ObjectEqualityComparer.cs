@@ -1,13 +1,18 @@
 namespace Smart.Collections.Generic;
 
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 
 public sealed class ObjectEqualityComparer<T> : IEqualityComparer<T>
     where T : class
 {
-    public static IEqualityComparer<T> Default { get; } = new ObjectEqualityComparer<T>();
+    public static ObjectEqualityComparer<T> Instance { get; } = new();
+
+    private ObjectEqualityComparer()
+    {
+    }
 
     public bool Equals(T? x, T? y) => x == y;
 
-    public int GetHashCode([DisallowNull] T obj) => obj.GetHashCode();
+    public int GetHashCode([DisallowNull] T obj) => RuntimeHelpers.GetHashCode(obj);
 }

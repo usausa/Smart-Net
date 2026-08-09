@@ -6,7 +6,6 @@ public static class DictionaryExtensions
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static TValue? GetOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
-        where TKey : notnull
     {
         return dictionary.TryGetValue(key, out var value) ? value : default;
     }
@@ -120,11 +119,11 @@ public static class DictionaryExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void CopyTo<TKey, TValue>(this IDictionary<TKey, TValue> src, IDictionary<TKey, TValue> dst, bool replace)
     {
-        foreach (var key in src.Keys)
+        foreach (var (key, value) in src)
         {
             if (replace || !dst.ContainsKey(key))
             {
-                dst[key] = src[key];
+                dst[key] = value;
             }
         }
     }

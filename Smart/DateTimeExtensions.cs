@@ -25,6 +25,12 @@ public static class DateTimeExtensions
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static DateTime OfTime(this DateTime date, int hour, int minute, int second)
     {
-        return new(date.Year, date.Month, date.Day, hour, minute, second);
+        return new(date.Year, date.Month, date.Day, hour, minute, second, date.Kind);
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static DateTime OfTime(this DateTime date, int hour, int minute, int second, int millisecond)
+    {
+        return new(date.Year, date.Month, date.Day, hour, minute, second, millisecond, date.Kind);
     }
 }

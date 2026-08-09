@@ -2,13 +2,9 @@ namespace Smart.ComponentModel;
 
 public abstract class DisposableObject : IDisposable
 {
-#if NET9_0_OR_GREATER
-    private readonly Lock sync = new();
-#else
-    private readonly object sync = new();
-#endif
+    private bool disposed;
 
-    public bool IsDisposed { get; private set; }
+    public bool IsDisposed => Volatile.Read(ref disposed);
 
     public void Dispose()
     {
@@ -18,12 +14,9 @@ public abstract class DisposableObject : IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        lock (sync)
+        if (disposing)
         {
-            if (disposing && !IsDisposed)
-            {
-                IsDisposed = true;
-            }
+            Volatile.Write(ref disposed, true);
         }
     }
 }

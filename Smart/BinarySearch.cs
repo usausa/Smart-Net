@@ -173,11 +173,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T>(List<T> list, T key) =>
-        Find(CollectionsMarshal.AsSpan(list), key, Functions<T>.Identify, Comparer<T>.Default);
+        Find(CollectionsMarshal.AsSpan(list), key, Functions<T>.Identity, Comparer<T>.Default);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T>(List<T> list, T key, IComparer<T> comparer) =>
-        Find(CollectionsMarshal.AsSpan(list), key, Functions<T>.Identify, comparer);
+        Find(CollectionsMarshal.AsSpan(list), key, Functions<T>.Identity, comparer);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T, TKey>(List<T> list, TKey? key, Func<T, TKey?> selector) =>
@@ -189,11 +189,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T>(List<T> list, int start, int length, T key) =>
-        ToAbsolute(Find(CollectionsMarshal.AsSpan(list).Slice(start, length), key, Functions<T>.Identify, Comparer<T>.Default), start);
+        ToAbsolute(Find(CollectionsMarshal.AsSpan(list).Slice(start, length), key, Functions<T>.Identity, Comparer<T>.Default), start);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T>(List<T> list, int start, int length, T key, IComparer<T> comparer) =>
-        ToAbsolute(Find(CollectionsMarshal.AsSpan(list).Slice(start, length), key, Functions<T>.Identify, comparer), start);
+        ToAbsolute(Find(CollectionsMarshal.AsSpan(list).Slice(start, length), key, Functions<T>.Identity, comparer), start);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T, TKey>(List<T> list, int start, int length, TKey? key, Func<T, TKey?> selector) =>
@@ -207,11 +207,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T>(T[] array, T key) =>
-        Find(array.AsSpan(), key, Functions<T>.Identify, Comparer<T>.Default);
+        Find(array.AsSpan(), key, Functions<T>.Identity, Comparer<T>.Default);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T>(T[] array, T key, IComparer<T> comparer) =>
-        Find(array.AsSpan(), key, Functions<T>.Identify, comparer);
+        Find(array.AsSpan(), key, Functions<T>.Identity, comparer);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T, TKey>(T[] array, TKey? key, Func<T, TKey?> selector) =>
@@ -223,11 +223,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T>(T[] array, int start, int length, T key) =>
-        ToAbsolute(Find(array.AsSpan(start, length), key, Functions<T>.Identify, Comparer<T>.Default), start);
+        ToAbsolute(Find(array.AsSpan(start, length), key, Functions<T>.Identity, Comparer<T>.Default), start);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T>(T[] array, int start, int length, T key, IComparer<T> comparer) =>
-        ToAbsolute(Find(array.AsSpan(start, length), key, Functions<T>.Identify, comparer), start);
+        ToAbsolute(Find(array.AsSpan(start, length), key, Functions<T>.Identity, comparer), start);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T, TKey>(T[] array, int start, int length, TKey? key, Func<T, TKey?> selector) =>
@@ -241,11 +241,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T>(Span<T> span, T key) =>
-        Find(span, key, Functions<T>.Identify, Comparer<T>.Default);
+        Find(span, key, Functions<T>.Identity, Comparer<T>.Default);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T>(Span<T> span, T key, IComparer<T> comparer) =>
-        Find(span, key, Functions<T>.Identify, comparer);
+        Find(span, key, Functions<T>.Identity, comparer);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T, TKey>(Span<T> span, TKey? key, Func<T, TKey?> selector) =>
@@ -286,11 +286,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T>(List<T> list, T key) =>
-        FindFirst(CollectionsMarshal.AsSpan(list), key, Functions<T>.Identify, Comparer<T>.Default);
+        FindFirst(CollectionsMarshal.AsSpan(list), key, Functions<T>.Identity, Comparer<T>.Default);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T>(List<T> list, T key, IComparer<T> comparer) =>
-        FindFirst(CollectionsMarshal.AsSpan(list), key, Functions<T>.Identify, comparer);
+        FindFirst(CollectionsMarshal.AsSpan(list), key, Functions<T>.Identity, comparer);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T, TKey>(List<T> list, TKey? key, Func<T, TKey?> selector) =>
@@ -302,11 +302,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T>(List<T> list, int start, int length, T key) =>
-        ToAbsolute(FindFirst(CollectionsMarshal.AsSpan(list).Slice(start, length), key, Functions<T>.Identify, Comparer<T>.Default), start);
+        ToAbsolute(FindFirst(CollectionsMarshal.AsSpan(list).Slice(start, length), key, Functions<T>.Identity, Comparer<T>.Default), start);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T>(List<T> list, int start, int length, T key, IComparer<T> comparer) =>
-        ToAbsolute(FindFirst(CollectionsMarshal.AsSpan(list).Slice(start, length), key, Functions<T>.Identify, comparer), start);
+        ToAbsolute(FindFirst(CollectionsMarshal.AsSpan(list).Slice(start, length), key, Functions<T>.Identity, comparer), start);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T, TKey>(List<T> list, int start, int length, TKey? key, Func<T, TKey?> selector) =>
@@ -320,11 +320,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T>(T[] array, T key) =>
-        FindFirst(array.AsSpan(), key, Functions<T>.Identify, Comparer<T>.Default);
+        FindFirst(array.AsSpan(), key, Functions<T>.Identity, Comparer<T>.Default);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T>(T[] array, T key, IComparer<T> comparer) =>
-        FindFirst(array.AsSpan(), key, Functions<T>.Identify, comparer);
+        FindFirst(array.AsSpan(), key, Functions<T>.Identity, comparer);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T, TKey>(T[] array, TKey? key, Func<T, TKey?> selector) =>
@@ -336,11 +336,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T>(T[] array, int start, int length, T key) =>
-        ToAbsolute(FindFirst(array.AsSpan(start, length), key, Functions<T>.Identify, Comparer<T>.Default), start);
+        ToAbsolute(FindFirst(array.AsSpan(start, length), key, Functions<T>.Identity, Comparer<T>.Default), start);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T>(T[] array, int start, int length, T key, IComparer<T> comparer) =>
-        ToAbsolute(FindFirst(array.AsSpan(start, length), key, Functions<T>.Identify, comparer), start);
+        ToAbsolute(FindFirst(array.AsSpan(start, length), key, Functions<T>.Identity, comparer), start);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T, TKey>(T[] array, int start, int length, TKey? key, Func<T, TKey?> selector) =>
@@ -354,11 +354,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T>(Span<T> span, T key) =>
-        FindFirst(span, key, Functions<T>.Identify, Comparer<T>.Default);
+        FindFirst(span, key, Functions<T>.Identity, Comparer<T>.Default);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T>(Span<T> span, T key, IComparer<T> comparer) =>
-        FindFirst(span, key, Functions<T>.Identify, comparer);
+        FindFirst(span, key, Functions<T>.Identity, comparer);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T, TKey>(Span<T> span, TKey? key, Func<T, TKey?> selector) =>
@@ -400,11 +400,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(List<T> list, T key) =>
-        FindLast(CollectionsMarshal.AsSpan(list), key, Functions<T>.Identify, Comparer<T>.Default);
+        FindLast(CollectionsMarshal.AsSpan(list), key, Functions<T>.Identity, Comparer<T>.Default);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(List<T> list, T key, IComparer<T> comparer) =>
-        FindLast(CollectionsMarshal.AsSpan(list), key, Functions<T>.Identify, comparer);
+        FindLast(CollectionsMarshal.AsSpan(list), key, Functions<T>.Identity, comparer);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T, TKey>(List<T> list, TKey? key, Func<T, TKey?> selector) =>
@@ -416,11 +416,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(List<T> list, int start, int length, T key) =>
-        ToAbsolute(FindLast(CollectionsMarshal.AsSpan(list).Slice(start, length), key, Functions<T>.Identify, Comparer<T>.Default), start);
+        ToAbsolute(FindLast(CollectionsMarshal.AsSpan(list).Slice(start, length), key, Functions<T>.Identity, Comparer<T>.Default), start);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(List<T> list, int start, int length, T key, IComparer<T> comparer) =>
-        ToAbsolute(FindLast(CollectionsMarshal.AsSpan(list).Slice(start, length), key, Functions<T>.Identify, comparer), start);
+        ToAbsolute(FindLast(CollectionsMarshal.AsSpan(list).Slice(start, length), key, Functions<T>.Identity, comparer), start);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T, TKey>(List<T> list, int start, int length, TKey? key, Func<T, TKey?> selector) =>
@@ -434,11 +434,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(T[] array, T key) =>
-        FindLast(array.AsSpan(), key, Functions<T>.Identify, Comparer<T>.Default);
+        FindLast(array.AsSpan(), key, Functions<T>.Identity, Comparer<T>.Default);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(T[] array, T key, IComparer<T> comparer) =>
-        FindLast(array.AsSpan(), key, Functions<T>.Identify, comparer);
+        FindLast(array.AsSpan(), key, Functions<T>.Identity, comparer);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T, TKey>(T[] array, TKey? key, Func<T, TKey?> selector) =>
@@ -450,11 +450,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(T[] array, int start, int length, T key) =>
-        ToAbsolute(FindLast(array.AsSpan(start, length), key, Functions<T>.Identify, Comparer<T>.Default), start);
+        ToAbsolute(FindLast(array.AsSpan(start, length), key, Functions<T>.Identity, Comparer<T>.Default), start);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(T[] array, int start, int length, T key, IComparer<T> comparer) =>
-        ToAbsolute(FindLast(array.AsSpan(start, length), key, Functions<T>.Identify, comparer), start);
+        ToAbsolute(FindLast(array.AsSpan(start, length), key, Functions<T>.Identity, comparer), start);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T, TKey>(T[] array, int start, int length, TKey? key, Func<T, TKey?> selector) =>
@@ -468,11 +468,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(Span<T> span, T key) =>
-        FindLast(span, key, Functions<T>.Identify, Comparer<T>.Default);
+        FindLast(span, key, Functions<T>.Identity, Comparer<T>.Default);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(Span<T> span, T key, IComparer<T> comparer) =>
-        FindLast(span, key, Functions<T>.Identify, comparer);
+        FindLast(span, key, Functions<T>.Identity, comparer);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T, TKey>(Span<T> span, TKey? key, Func<T, TKey?> selector) =>

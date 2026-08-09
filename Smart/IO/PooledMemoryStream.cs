@@ -28,7 +28,7 @@ public sealed class PooledMemoryStream : Stream
         get => position;
         set
         {
-            if ((ulong)value > (uint)rawBuffer.Length)
+            if ((ulong)value > int.MaxValue)
             {
                 throw new ArgumentOutOfRangeException(nameof(value));
             }
@@ -78,7 +78,7 @@ public sealed class PooledMemoryStream : Stream
             _ => throw new ArgumentException("Invalid seek origin.", nameof(origin))
         };
 
-        if ((ulong)newPosition > (uint)rawBuffer.Length)
+        if ((ulong)newPosition > int.MaxValue)
         {
             throw new ArgumentOutOfRangeException(nameof(offset));
         }
@@ -96,6 +96,11 @@ public sealed class PooledMemoryStream : Stream
 
         var newLength = (int)value;
         EnsureCapacity(newLength);
+
+        if (newLength > length)
+        {
+            rawBuffer.AsSpan(length, newLength - length).Clear();
+        }
 
         length = newLength;
         if (position > length)
@@ -159,6 +164,11 @@ public sealed class PooledMemoryStream : Stream
     {
         var newPosition = position + buffer.Length;
         EnsureCapacity(newPosition);
+
+        if (position > length)
+        {
+            rawBuffer.AsSpan(length, position - length).Clear();
+        }
 
         buffer.CopyTo(rawBuffer.AsSpan(position));
 

@@ -110,8 +110,21 @@ public sealed class PooledMemoryStreamTest
     {
         using var ms = new PooledMemoryStream(16);
 
-        // Seeking beyond capacity should throw
-        Assert.Throws<ArgumentOutOfRangeException>(() => ms.Seek(int.MaxValue, SeekOrigin.Begin));
+        Assert.Throws<ArgumentOutOfRangeException>(() => ms.Seek(-1, SeekOrigin.Begin));
+    }
+
+    [Fact]
+    public void SeekPastLengthIsAllowed()
+    {
+        using var ms = new PooledMemoryStream(16);
+        ms.Write([1, 2, 3], 0, 3);
+
+        // MemoryStream contract: position may exceed length; read at that position returns 0
+        var result = ms.Seek(100, SeekOrigin.Begin);
+        Assert.Equal(100L, result);
+
+        var buf = new byte[1];
+        Assert.Equal(0, ms.Read(buf, 0, 1));
     }
 
     [Fact]
@@ -156,6 +169,39 @@ public sealed class PooledMemoryStreamTest
     {
         using var ms = new PooledMemoryStream();
         Assert.Throws<ArgumentOutOfRangeException>(() => ms.SetLength(-1L));
+    }
+
+    [Fact]
+    public void SetLengthExpansionZeroFillsGap()
+    {
+        using var ms = new PooledMemoryStream();
+        ms.Write([1, 2, 3, 4], 0, 4);
+
+        // Shrink then grow again: the re-exposed region must not contain the old data
+        ms.SetLength(0);
+        ms.SetLength(4);
+
+        ms.Position = 0;
+        var buf = new byte[4];
+        ms.ReadExactly(buf, 0, 4);
+        Assert.Equal(new byte[4], buf);
+    }
+
+    [Fact]
+    public void WritePastLengthZeroFillsGap()
+    {
+        using var ms = new PooledMemoryStream();
+        ms.Write([1, 2, 3, 4], 0, 4);
+        ms.SetLength(2);
+
+        ms.Position = 6;
+        ms.Write([9], 0, 1);
+
+        Assert.Equal(7L, ms.Length);
+        ms.Position = 0;
+        var buf = new byte[7];
+        ms.ReadExactly(buf, 0, 7);
+        Assert.Equal(new byte[] { 1, 2, 0, 0, 0, 0, 9 }, buf);
     }
 
     //--------------------------------------------------------------------------------

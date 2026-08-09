@@ -111,11 +111,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T>(IList<T> list, T key) =>
-        Find(list, 0, list.Count, key, Functions<T>.Identify, Comparer<T>.Default);
+        Find(list, 0, list.Count, key, Functions<T>.Identity, Comparer<T>.Default);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T>(IList<T> list, T key, IComparer<T> comparer) =>
-        Find(list, 0, list.Count, key, Functions<T>.Identify, comparer);
+        Find(list, 0, list.Count, key, Functions<T>.Identity, comparer);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T, TKey>(IList<T> list, TKey? key, Func<T, TKey?> selector) =>
@@ -127,11 +127,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T>(IList<T> list, int index, int length, T key) =>
-        Find(list, index, length, key, Functions<T>.Identify, Comparer<T>.Default);
+        Find(list, index, length, key, Functions<T>.Identity, Comparer<T>.Default);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T>(IList<T> list, int index, int length, T key, IComparer<T> comparer) =>
-        Find(list, index, length, key, Functions<T>.Identify, comparer);
+        Find(list, index, length, key, Functions<T>.Identity, comparer);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int Find<T, TKey>(IList<T> list, int index, int length, TKey? key, Func<T, TKey?> selector) =>
@@ -171,11 +171,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T>(IList<T> list, T key) =>
-        FindFirst(list, 0, list.Count, key, Functions<T>.Identify, Comparer<T>.Default);
+        FindFirst(list, 0, list.Count, key, Functions<T>.Identity, Comparer<T>.Default);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T>(IList<T> list, T key, IComparer<T> comparer) =>
-        FindFirst(list, 0, list.Count, key, Functions<T>.Identify, comparer);
+        FindFirst(list, 0, list.Count, key, Functions<T>.Identity, comparer);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T, TKey>(IList<T> list, TKey? key, Func<T, TKey?> selector) =>
@@ -187,11 +187,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T>(IList<T> list, int index, int length, T key) =>
-        FindFirst(list, index, length, key, Functions<T>.Identify, Comparer<T>.Default);
+        FindFirst(list, index, length, key, Functions<T>.Identity, Comparer<T>.Default);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T>(IList<T> list, int index, int length, T key, IComparer<T> comparer) =>
-        FindFirst(list, index, length, key, Functions<T>.Identify, comparer);
+        FindFirst(list, index, length, key, Functions<T>.Identity, comparer);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindFirst<T, TKey>(IList<T> list, int index, int length, TKey? key, Func<T, TKey?> selector) =>
@@ -231,11 +231,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(IList<T> list, T key) =>
-        FindLast(list, 0, list.Count, key, Functions<T>.Identify, Comparer<T>.Default);
+        FindLast(list, 0, list.Count, key, Functions<T>.Identity, Comparer<T>.Default);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(IList<T> list, T key, IComparer<T> comparer) =>
-        FindLast(list, 0, list.Count, key, Functions<T>.Identify, comparer);
+        FindLast(list, 0, list.Count, key, Functions<T>.Identity, comparer);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T, TKey>(IList<T> list, TKey? key, Func<T, TKey?> selector) =>
@@ -247,11 +247,11 @@ public static partial class BinarySearch
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(IList<T> list, int index, int length, T key) =>
-        FindLast(list, index, length, key, Functions<T>.Identify, Comparer<T>.Default);
+        FindLast(list, index, length, key, Functions<T>.Identity, Comparer<T>.Default);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T>(IList<T> list, int index, int length, T key, IComparer<T> comparer) =>
-        FindLast(list, index, length, key, Functions<T>.Identify, comparer);
+        FindLast(list, index, length, key, Functions<T>.Identity, comparer);
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static int FindLast<T, TKey>(IList<T> list, int index, int length, TKey? key, Func<T, TKey?> selector) =>

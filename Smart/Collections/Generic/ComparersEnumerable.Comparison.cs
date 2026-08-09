@@ -1,6 +1,6 @@
 namespace Smart.Collections.Generic;
 
-public static partial class ComparerEnumerable
+public static partial class ComparersEnumerable
 {
     public static IOrderedEnumerable<TSource> OrderBy<TSource, TKey>(this IEnumerable<TSource> source, Func<TSource, TKey> keySelector, Comparison<TKey> comparison) =>
         source.OrderBy(keySelector, Comparers.Comparison(comparison));

@@ -3,8 +3,6 @@ namespace Smart.Reflection;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
-using Smart.ComponentModel;
-
 public sealed partial class ReflectionDelegateFactory : IDelegateFactory
 {
     public static ReflectionDelegateFactory Default { get; } = new();
@@ -46,7 +44,7 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
         var ci = type.GetConstructor(argumentTypes);
         if (ci is null)
         {
-            throw new ArgumentException("Constructor not found.");
+            throw new ArgumentException($"Constructor not found. type=[{type}]", nameof(type));
         }
 
         return CreateFactory(ci);
@@ -96,7 +94,7 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
         }
 
-        var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
+        var holderType = !extension ? null : pi.GetValueHolderType();
         if (holderType is null)
         {
             if (!pi.CanRead)
@@ -112,7 +110,7 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
         }
 
-        var vpi = ValueHolderHelper.GetValueTypeProperty(holderType)!;
+        var vpi = holderType.GetValueHolderProperty()!;
         return obj =>
         {
             var holder = pi.GetValue(obj, null);
@@ -132,7 +130,7 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
         }
 
-        var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
+        var holderType = !extension ? null : pi.GetValueHolderType();
         if (holderType is null)
         {
             if (!pi.CanWrite)
@@ -148,7 +146,7 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
         }
 
-        var vpi = ValueHolderHelper.GetValueTypeProperty(holderType)!;
+        var vpi = holderType.GetValueHolderProperty()!;
         return (obj, value) =>
         {
             var holder = pi.GetValue(obj, null);
@@ -170,7 +168,7 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
         }
 
-        var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
+        var holderType = !extension ? null : pi.GetValueHolderType();
         if (holderType is null)
         {
             if (!pi.CanRead)
@@ -186,7 +184,7 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
         }
 
-        var vpi = ValueHolderHelper.GetValueTypeProperty(holderType)!;
+        var vpi = holderType.GetValueHolderProperty()!;
         return obj =>
         {
             var holder = pi.GetValue(obj, null);
@@ -206,7 +204,7 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
         }
 
-        var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
+        var holderType = !extension ? null : pi.GetValueHolderType();
         if (holderType is null)
         {
             if (!pi.CanWrite)
@@ -222,7 +220,7 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
         }
 
-        var vpi = ValueHolderHelper.GetValueTypeProperty(holderType)!;
+        var vpi = holderType.GetValueHolderProperty()!;
         return (obj, value) =>
         {
             var holder = pi.GetValue(obj, null);
@@ -236,8 +234,8 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
 
     public Type GetExtendedPropertyType(PropertyInfo pi)
     {
-        var holderType = ValueHolderHelper.FindValueHolderType(pi);
-        var tpi = holderType is null ? pi : ValueHolderHelper.GetValueTypeProperty(holderType)!;
+        var holderType = pi.GetValueHolderType();
+        var tpi = holderType is null ? pi : holderType.GetValueHolderProperty()!;
         return tpi.PropertyType;
     }
 }

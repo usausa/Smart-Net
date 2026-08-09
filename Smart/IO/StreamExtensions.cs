@@ -6,7 +6,7 @@ public static class StreamExtensions
     {
         if (stream is MemoryStream memoryStream)
         {
-            return memoryStream.ToArray();
+            return ReadRemaining(memoryStream);
         }
 
         if (TryGetSeekableLength(stream, out var length))
@@ -25,7 +25,7 @@ public static class StreamExtensions
     {
         if (stream is MemoryStream memoryStream)
         {
-            return memoryStream.ToArray();
+            return ReadRemaining(memoryStream);
         }
 
         if (TryGetSeekableLength(stream, out var length))
@@ -44,7 +44,7 @@ public static class StreamExtensions
     {
         if (stream is MemoryStream memoryStream)
         {
-            return memoryStream.ToArray();
+            return ReadRemaining(memoryStream);
         }
 
         if (TryGetSeekableLength(stream, out var length))
@@ -65,7 +65,7 @@ public static class StreamExtensions
     {
         if (stream is MemoryStream memoryStream)
         {
-            return memoryStream.ToArray();
+            return ReadRemaining(memoryStream);
         }
 
         if (TryGetSeekableLength(stream, out var length))
@@ -82,7 +82,34 @@ public static class StreamExtensions
         return ms.ToArray();
     }
 
-    public static byte[]? ReadBytes(this Stream stream, int size)
+    private static byte[] ReadRemaining(MemoryStream stream)
+    {
+        var length = (int)stream.Length;
+        var position = (int)stream.Position;
+        if (position >= length)
+        {
+            return [];
+        }
+
+        stream.Position = length;
+
+        if (position == 0)
+        {
+            return stream.ToArray();
+        }
+
+        if (stream.TryGetBuffer(out var segment))
+        {
+            return segment.AsSpan(position, length - position).ToArray();
+        }
+
+        var buffer = new byte[length - position];
+        stream.Position = position;
+        stream.ReadExactly(buffer);
+        return buffer;
+    }
+
+    public static byte[] ReadBytes(this Stream stream, int size)
     {
         var buffer = new byte[size];
         var offset = 0;
@@ -91,7 +118,7 @@ public static class StreamExtensions
             var read = stream.Read(buffer, offset, size - offset);
             if (read == 0)
             {
-                return null;
+                return buffer[..offset];
             }
 
             offset += read;
@@ -100,7 +127,7 @@ public static class StreamExtensions
         return buffer;
     }
 
-    public static async ValueTask<byte[]?> ReadBytesAsync(this Stream stream, int size)
+    public static async ValueTask<byte[]> ReadBytesAsync(this Stream stream, int size)
     {
         var buffer = new byte[size];
         var offset = 0;
@@ -109,7 +136,7 @@ public static class StreamExtensions
             var read = await stream.ReadAsync(buffer.AsMemory(offset, size - offset)).ConfigureAwait(false);
             if (read == 0)
             {
-                return null;
+                return buffer[..offset];
             }
 
             offset += read;
@@ -118,7 +145,7 @@ public static class StreamExtensions
         return buffer;
     }
 
-    public static async ValueTask<byte[]?> ReadBytesAsync(this Stream stream, int size, CancellationToken cancel)
+    public static async ValueTask<byte[]> ReadBytesAsync(this Stream stream, int size, CancellationToken cancel)
     {
         var buffer = new byte[size];
         var offset = 0;
@@ -127,7 +154,7 @@ public static class StreamExtensions
             var read = await stream.ReadAsync(buffer.AsMemory(offset, size - offset), cancel).ConfigureAwait(false);
             if (read == 0)
             {
-                return null;
+                return buffer[..offset];
             }
 
             offset += read;

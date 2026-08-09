@@ -65,16 +65,6 @@ public ref struct SpanReader<T>
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
-    public TValue ReadUnmanaged<TValue>()
-        where TValue : unmanaged
-    {
-        var size = Unsafe.SizeOf<TValue>();
-        var span = Read(size);
-        ref var byteRef = ref Unsafe.As<T, byte>(ref Unsafe.AsRef(in MemoryMarshal.GetReference(span)));
-        return Unsafe.ReadUnaligned<TValue>(ref byteRef);
-    }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public bool TryRead(out T value)
     {
         if ((uint)position < (uint)length)

@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 
-using Smart.ComponentModel;
 using Smart.Reflection.Emit;
 
 [RequiresDynamicCode("DynamicDelegateFactory uses Reflection.Emit which is not supported in AOT environments.")]
@@ -102,7 +101,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
         var ci = type.GetConstructor(Type.EmptyTypes);
         if (ci is null)
         {
-            throw new ArgumentException("Constructor not found.");
+            throw new ArgumentException($"Constructor not found. type=[{type}]", nameof(type));
         }
 
         return Unsafe.As<Func<object>>(factoryDelegateCache.GetOrAdd(ci, static x => CreateFactoryInternal(x, typeof(object), Type.EmptyTypes)));
@@ -118,7 +117,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
         var ci = type.GetConstructor(argumentTypes);
         if (ci?.DeclaringType is null)
         {
-            throw new ArgumentException("Constructor type parameter is invalid.");
+            throw new ArgumentException($"Constructor not found. type=[{type}]", nameof(type));
         }
 
         return CreateFactory(ci);
@@ -140,7 +139,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
         var ci = type.GetConstructor(Type.EmptyTypes);
         if (ci?.DeclaringType is null)
         {
-            throw new ArgumentException("Constructor type parameter is invalid.");
+            throw new ArgumentException($"Constructor not found. type=[{type}]", nameof(type));
         }
 
         return Unsafe.As<Func<T>>(typedFactoryCache.GetOrAdd(ci, static x => CreateFactoryInternal(x, x.DeclaringType!, Type.EmptyTypes)));
@@ -286,9 +285,9 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
         }
 
-        var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
+        var holderType = !extension ? null : pi.GetValueHolderType();
         var isValueHolder = holderType is not null;
-        var tpi = isValueHolder ? ValueHolderHelper.GetValueTypeProperty(holderType!)! : pi;
+        var tpi = isValueHolder ? holderType!.GetValueHolderProperty()! : pi;
         var memberType = tpi.PropertyType.IsValueType ? typeof(object) : tpi.PropertyType;
 
         return extension
@@ -308,9 +307,9 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
         }
 
-        var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
+        var holderType = !extension ? null : pi.GetValueHolderType();
         var isValueHolder = holderType is not null;
-        var tpi = isValueHolder ? ValueHolderHelper.GetValueTypeProperty(holderType!)! : pi;
+        var tpi = isValueHolder ? holderType!.GetValueHolderProperty()! : pi;
 
         return extension
             ? extensionSetterCache.GetOrAdd(pi, x => Unsafe.As<Action<object?, object?>?>(CreateSetterInternal(x, tpi, isValueHolder, typeof(object), typeof(object))))
@@ -331,9 +330,9 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
         }
 
-        var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
+        var holderType = !extension ? null : pi.GetValueHolderType();
         var isValueHolder = holderType is not null;
-        var tpi = isValueHolder ? ValueHolderHelper.GetValueTypeProperty(holderType!)! : pi;
+        var tpi = isValueHolder ? holderType!.GetValueHolderProperty()! : pi;
 
         if (tpi.PropertyType != typeof(TMember))
         {
@@ -357,9 +356,9 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
         }
 
-        var holderType = !extension ? null : ValueHolderHelper.FindValueHolderType(pi);
+        var holderType = !extension ? null : pi.GetValueHolderType();
         var isValueHolder = holderType is not null;
-        var tpi = isValueHolder ? ValueHolderHelper.GetValueTypeProperty(holderType!)! : pi;
+        var tpi = isValueHolder ? holderType!.GetValueHolderProperty()! : pi;
 
         if (tpi.PropertyType != typeof(TMember))
         {
@@ -550,8 +549,8 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
 
     public Type GetExtendedPropertyType(PropertyInfo pi)
     {
-        var holderType = ValueHolderHelper.FindValueHolderType(pi);
-        var tpi = holderType is null ? pi : ValueHolderHelper.GetValueTypeProperty(holderType)!;
+        var holderType = pi.GetValueHolderType();
+        var tpi = holderType is null ? pi : holderType.GetValueHolderProperty()!;
         return tpi.PropertyType;
     }
 }

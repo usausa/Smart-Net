@@ -114,8 +114,19 @@ public static class TypeExtensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public static bool IsValueHolderType([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces)] this Type type)
+    {
+        if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(IValueHolder<>)))
+        {
+            return true;
+        }
+
+        return type.GetInterfaces().Any(static it => it.IsGenericType && it.GetGenericTypeDefinition() == typeof(IValueHolder<>));
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [UnconditionalSuppressMessage("Trimming", "IL2073", Justification = "Enumerable.FirstOrDefault cannot propagate DynamicallyAccessedMembers; IValueHolder<> interfaces are preserved via the input type annotation.")]
-    [return: DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)]
+    [return: DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces | DynamicallyAccessedMemberTypes.PublicProperties)]
     public static Type? GetValueHolderType([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces | DynamicallyAccessedMemberTypes.PublicProperties)] this Type type)
     {
         if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IValueHolder<>))
@@ -127,8 +138,16 @@ public static class TypeExtensions
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    [UnconditionalSuppressMessage("Trimming", "IL2072", Justification = "PropertyInfo.PropertyType cannot be annotated; IValueHolder<> is a known framework type and its interfaces are preserved.")]
+    [return: DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces | DynamicallyAccessedMemberTypes.PublicProperties)]
+    public static Type? GetValueHolderType(this PropertyInfo pi)
+    {
+        return pi.PropertyType.GetValueHolderType();
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static PropertyInfo? GetValueHolderProperty([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces | DynamicallyAccessedMemberTypes.PublicProperties)] this Type type)
     {
-        return type.GetValueHolderType()?.GetRuntimeProperty("Value");
+        return type.GetValueHolderType()?.GetRuntimeProperty(nameof(IValueHolder<>.Value));
     }
 }
