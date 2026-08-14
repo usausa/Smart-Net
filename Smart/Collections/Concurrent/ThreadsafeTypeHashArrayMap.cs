@@ -142,7 +142,7 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
 
             do
             {
-                UpdateLink(ref newNodes[current.Key.GetHashCode() & (newNodes.Length - 1)], new Node(current.Key, current.Value));
+                UpdateLink(ref newNodes[RuntimeHelpers.GetHashCode(current.Key) & (newNodes.Length - 1)], new Node(current.Key, current.Value));
 
                 current = current.Next;
                 remaining--;
@@ -164,7 +164,7 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
 
             RelocateNodes(newNodes, currentNodes, count);
 
-            UpdateLink(ref newNodes[node.Key.GetHashCode() & (newNodes.Length - 1)], node);
+            UpdateLink(ref newNodes[RuntimeHelpers.GetHashCode(node.Key) & (newNodes.Length - 1)], node);
 
             nodes = newNodes;
             depth = CalculateDepth(newNodes);
@@ -174,9 +174,9 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
         {
             Interlocked.MemoryBarrier();
 
-            UpdateLink(ref currentNodes[node.Key.GetHashCode() & (currentNodes.Length - 1)], node);
+            UpdateLink(ref currentNodes[RuntimeHelpers.GetHashCode(node.Key) & (currentNodes.Length - 1)], node);
 
-            depth = Math.Max(CalculateDepth(currentNodes[node.Key.GetHashCode() & (currentNodes.Length - 1)]), depth);
+            depth = Math.Max(CalculateDepth(currentNodes[RuntimeHelpers.GetHashCode(node.Key) & (currentNodes.Length - 1)]), depth);
             count++;
         }
     }
@@ -213,7 +213,7 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
     public bool TryGetValue(Type key, [MaybeNullWhen(false)] out TValue value)
     {
         var temp = nodes;
-        var hash = key.GetHashCode();
+        var hash = RuntimeHelpers.GetHashCode(key);
         var node = temp[hash & (temp.Length - 1)];
         do
         {
