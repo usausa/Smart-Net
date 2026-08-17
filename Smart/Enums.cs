@@ -27,8 +27,8 @@ public static class Enums<T>
         var names = Enum.GetNames<T>();
 
         UnderlyingType = Enum.GetUnderlyingType(type);
-        Values = new ReadOnlyCollection<T>(values);
-        Names = new ReadOnlyCollection<string>(names);
+        Values = [with(values)];
+        Names = [with(names)];
 
 #pragma warning disable IDE0028
         ValueToNames = new Dictionary<T, string>(values.Length);

@@ -32,5 +32,5 @@ public sealed class ProjectionReadOnlyList<TSource, TResult> : IReadOnlyList<TRe
 public static class ProjectionReadOnlyListExtensions
 {
     public static ProjectionReadOnlyList<TSource, TResult> AsProjection<TSource, TResult>(this IReadOnlyList<TSource> source, Func<TSource, TResult> selector) =>
-        new(source, selector);
+        [with(source, selector)];
 }
