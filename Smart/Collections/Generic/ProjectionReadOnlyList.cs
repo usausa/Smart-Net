@@ -31,8 +31,10 @@ public sealed class ProjectionReadOnlyList<TSource, TResult> : IReadOnlyList<TRe
 
 public static class ProjectionReadOnlyListExtensions
 {
+    // ReSharper disable UseCollectionExpression
 #pragma warning disable IDE0028
     public static ProjectionReadOnlyList<TSource, TResult> AsProjection<TSource, TResult>(this IReadOnlyList<TSource> source, Func<TSource, TResult> selector) =>
         new(source, selector);
 #pragma warning restore IDE0028
+    // ReSharper restore UseCollectionExpression
 }

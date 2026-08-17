@@ -20,6 +20,7 @@ public static class Enums<T>
 
     public static Type UnderlyingType { get; }
 
+    // ReSharper disable UseCollectionExpression
     static Enums()
     {
         var type = typeof(T);
@@ -47,6 +48,7 @@ public static class Enums<T>
         NameToValuesLookup = NameToValues.GetAlternateLookup<ReadOnlySpan<char>>();
 #endif
     }
+    // ReSharper restore UseCollectionExpression
 
     public static string GetName(T value)
     {
