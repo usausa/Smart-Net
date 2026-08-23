@@ -11,6 +11,7 @@ public static class Inflector
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string Camelize(ReadOnlySpan<char> word) => Camelize(word, false);
 
+    // ReSharper disable once RedundantUnsafeContext
     [SkipLocalsInit]
     public static unsafe string Camelize(ReadOnlySpan<char> word, bool toUpper)
     {
@@ -76,6 +77,7 @@ public static class Inflector
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string Kebab(ReadOnlySpan<char> word, bool toUpper) => SplitJoin(word, '-', toUpper);
 
+    // ReSharper disable once RedundantUnsafeContext
     [SkipLocalsInit]
     private static unsafe string SplitJoin(ReadOnlySpan<char> word, char splitter, bool toUpper)
     {
