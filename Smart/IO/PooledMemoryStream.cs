@@ -132,7 +132,7 @@ public sealed class PooledMemoryStream : Stream
     }
 
     [SkipLocalsInit]
-    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int ReadInternal(Span<byte> buffer)
     {
         var remain = length - position;
@@ -159,7 +159,7 @@ public sealed class PooledMemoryStream : Stream
     }
 
     [SkipLocalsInit]
-    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     private void WriteInternal(ReadOnlySpan<byte> buffer)
     {
         var newPosition = position + buffer.Length;
