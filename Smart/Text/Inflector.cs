@@ -13,7 +13,7 @@ public static class Inflector
 
     // ReSharper disable once RedundantUnsafeContext
     [SkipLocalsInit]
-    public static unsafe string Camelize(ReadOnlySpan<char> word, bool toUpper)
+    public static string Camelize(ReadOnlySpan<char> word, bool toUpper)
     {
         if (word.IsEmpty)
         {
@@ -79,7 +79,7 @@ public static class Inflector
 
     // ReSharper disable once RedundantUnsafeContext
     [SkipLocalsInit]
-    private static unsafe string SplitJoin(ReadOnlySpan<char> word, char splitter, bool toUpper)
+    private static string SplitJoin(ReadOnlySpan<char> word, char splitter, bool toUpper)
     {
         if (word.IsEmpty)
         {

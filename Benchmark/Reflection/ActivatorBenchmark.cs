@@ -4,6 +4,7 @@ using BenchmarkDotNet.Attributes;
 
 using Smart.Reflection;
 
+#pragma warning disable CA1034
 [Config(typeof(BenchmarkConfig))]
 public class ActivatorBenchmark
 {
@@ -146,3 +147,4 @@ public class ActivatorBenchmark
         }
     }
 }
+#pragma warning restore CA1034

@@ -8,6 +8,7 @@ using BenchmarkDotNet.Attributes;
 using Smart.ComponentModel;
 using Smart.Reflection;
 
+#pragma warning disable CA1034
 [Config(typeof(BenchmarkConfig))]
 public class DelegateFactoryBenchmark
 {
@@ -95,10 +96,10 @@ public class DelegateFactoryBenchmark
         typedFactory1Dynamic = DynamicDelegateFactory.Default.CreateFactory<string, Data1>();
         typedFactory2Dynamic = DynamicDelegateFactory.Default.CreateFactory<string, int, Data2>();
 
-        getterIntDynamic = DynamicDelegateFactory.Default.CreateGetter(Pii)!;
-        getterStringDynamic = DynamicDelegateFactory.Default.CreateGetter(Pis)!;
-        getterHolderIntDynamic = DynamicDelegateFactory.Default.CreateGetter(PiHi)!;
-        getterHolderStringDynamic = DynamicDelegateFactory.Default.CreateGetter(PiHs)!;
+        getterIntDynamic = DynamicDelegateFactory.Default.CreateGetter(Pii);
+        getterStringDynamic = DynamicDelegateFactory.Default.CreateGetter(Pis);
+        getterHolderIntDynamic = DynamicDelegateFactory.Default.CreateGetter(PiHi);
+        getterHolderStringDynamic = DynamicDelegateFactory.Default.CreateGetter(PiHs);
 
         typedGetterIntDynamic = DynamicDelegateFactory.Default.CreateGetter<MemberData, int>(Pii);
         typedGetterStringDynamic = DynamicDelegateFactory.Default.CreateGetter<MemberData, string>(Pis);
@@ -320,3 +321,4 @@ public class DelegateFactoryBenchmark
         }
     }
 }
+#pragma warning restore CA1034

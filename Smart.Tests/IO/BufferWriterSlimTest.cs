@@ -260,6 +260,7 @@ public sealed class BufferWriterSlimTest
     // Non-byte generic (int)
     //--------------------------------------------------------------------------------
 
+#pragma warning disable CA1861
     [Fact]
     public void WorksWithIntType()
     {
@@ -275,4 +276,5 @@ public sealed class BufferWriterSlimTest
 
         writer.Dispose();
     }
+#pragma warning restore CA1861
 }

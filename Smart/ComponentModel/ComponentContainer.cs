@@ -84,7 +84,7 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
             return true;
         }
 
-        value = default!;
+        value = default;
         return false;
     }
 

@@ -2,6 +2,7 @@ namespace Smart.Linq;
 
 using System.Collections.ObjectModel;
 
+#pragma warning disable CA1861
 public sealed class EnumerableExtensionsMapToTest
 {
     //--------------------------------------------------------------------------------
@@ -339,3 +340,4 @@ public sealed class EnumerableExtensionsMapToTest
         Assert.Equal(new[] { 0, 10, 20 }, result);
     }
 }
+#pragma warning restore CA1861

@@ -4,6 +4,7 @@ using BenchmarkDotNet.Attributes;
 
 using Smart.ComponentModel;
 
+#pragma warning disable CA1034
 [Config(typeof(BenchmarkConfig))]
 public class ComponentContainerBenchmark
 {
@@ -80,3 +81,4 @@ public class ComponentContainerBenchmark
     {
     }
 }
+#pragma warning restore CA1034

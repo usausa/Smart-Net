@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 public static class Enums<T>
     where T : struct, Enum
 {
+#pragma warning disable CA1810
     private static readonly Dictionary<T, string> ValueToNames;
 
     private static readonly Dictionary<string, T> NameToValues;
@@ -48,6 +49,7 @@ public static class Enums<T>
         NameToValuesLookup = NameToValues.GetAlternateLookup<ReadOnlySpan<char>>();
 #endif
     }
+#pragma warning restore CA1810
     // ReSharper restore UseCollectionExpression
 
     public static string GetName(T value)

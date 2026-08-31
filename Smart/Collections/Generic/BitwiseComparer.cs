@@ -3,6 +3,7 @@ namespace Smart.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
+#pragma warning disable CA1000
 public sealed class BitwiseComparer<T> : IEqualityComparer<T>, IComparer<T>
     where T : unmanaged
 {
@@ -54,3 +55,4 @@ public sealed class BitwiseComparer<T> : IEqualityComparer<T>, IComparer<T>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public int Compare(T x, T y) => CompareStatic(in x, in y);
 }
+#pragma warning restore CA1000

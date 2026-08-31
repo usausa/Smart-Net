@@ -32,7 +32,7 @@ public static class TaskExtensions
             await task.ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
             if (task.IsFaulted)
             {
-                var exception = task.Exception!;
+                var exception = task.Exception;
                 handler(exception.InnerException ?? exception);
             }
             else if (task.IsCanceled)
@@ -51,7 +51,7 @@ public static class TaskExtensions
             await task.ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
             if (task.IsFaulted)
             {
-                var exception = task.Exception!;
+                var exception = task.Exception;
                 handler(exception.InnerException ?? exception, state);
             }
             else if (task.IsCanceled)

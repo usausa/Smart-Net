@@ -2,6 +2,7 @@ namespace Smart;
 
 public sealed class ArrayExtensionTest
 {
+#pragma warning disable CA1861
     [Fact]
     public void TestArrayRemoveAt()
     {
@@ -10,7 +11,9 @@ public sealed class ArrayExtensionTest
         Assert.Equal([1, 2], new[] { 1, 2, 3 }.RemoveAt(2));
         Assert.Equal([1, 2, 3], new[] { 1, 2, 3 }.RemoveAt(3));
     }
+#pragma warning restore CA1861
 
+#pragma warning disable CA1861
     [Fact]
     public void TestArrayRemoveRange()
     {
@@ -19,4 +22,5 @@ public sealed class ArrayExtensionTest
         Assert.Equal([1, 2], new[] { 1, 2, 3, 4 }.RemoveRange(2, 2));
         Assert.Equal([1, 2, 3], new[] { 1, 2, 3, 4 }.RemoveRange(3, 2));
     }
+#pragma warning restore CA1861
 }

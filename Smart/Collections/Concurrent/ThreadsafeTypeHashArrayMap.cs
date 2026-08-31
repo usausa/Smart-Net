@@ -6,6 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 
+#pragma warning disable CA1034
 [DebuggerDisplay("{" + nameof(Diagnostics) + "}")]
 public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePair<Type, TValue>>
 {
@@ -409,3 +410,4 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
         public override string ToString() => $"Count={Count}, Width={Width}, Depth={Depth}";
     }
 }
+#pragma warning restore CA1034

@@ -10,6 +10,7 @@ using System.Runtime.CompilerServices;
 public static class PrimitiveConvert
 {
     // ReSharper disable NotAccessedPositionalProperty.Local
+#pragma warning disable CA1810
     private readonly record struct RecordKey(Type ParameterType, Type ReturnType);
     // ReSharper restore NotAccessedPositionalProperty.Local
 
@@ -20,6 +21,7 @@ public static class PrimitiveConvert
         Methods = typeof(PrimitiveConvert).GetMethods(BindingFlags.Public | BindingFlags.Static)
             .ToDictionary(static x => new RecordKey(x.GetParameters()[0].ParameterType, x.ReturnType), static x => x);
     }
+#pragma warning restore CA1810
 
     [RequiresUnreferencedCode("PrimitiveConvert uses reflection to build method dictionary; members may be trimmed in AOT environments.")]
     public static MethodInfo? GetMethod(Type parameterType, Type returnType) =>

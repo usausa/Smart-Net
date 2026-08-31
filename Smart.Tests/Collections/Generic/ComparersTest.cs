@@ -1,5 +1,6 @@
 namespace Smart.Collections.Generic;
 
+#pragma warning disable CA1861
 public sealed class ComparersTest
 {
     //--------------------------------------------------------------------------------
@@ -10,7 +11,7 @@ public sealed class ComparersTest
     public void ChainComparerUsesFirstDifferentResult()
     {
         var c = Comparers.Chain(
-            Comparer<string>.Create(static (x, y) => string.Compare(x, y, StringComparison.Ordinal)),
+            Comparer<string>.Create(static (x, y) => String.Compare(x, y, StringComparison.Ordinal)),
             Comparer<string>.Create(static (x, y) => y.Length - x.Length));
 
         // First comparer: "abc" < "xyz" → negative
@@ -98,7 +99,7 @@ public sealed class ComparersTest
     public void DelegateEqualityComparerEquals()
     {
         var c = Comparers.DelegateEquality<string>(
-            static (x, y) => string.Equals(x, y, StringComparison.OrdinalIgnoreCase),
+            static (x, y) => String.Equals(x, y, StringComparison.OrdinalIgnoreCase),
             static x => x.ToUpperInvariant().GetHashCode(StringComparison.Ordinal));
 
         Assert.True(c.Equals("Hello", "hello"));
@@ -121,7 +122,7 @@ public sealed class ComparersTest
     {
         // Per IEqualityComparer<T> contract: if Equals(x,y) == true, then GetHashCode(x) == GetHashCode(y)
         var c = Comparers.DelegateEquality<string>(
-            static (x, y) => string.Equals(x, y, StringComparison.OrdinalIgnoreCase),
+            static (x, y) => String.Equals(x, y, StringComparison.OrdinalIgnoreCase),
             static x => x.ToUpperInvariant().GetHashCode(StringComparison.Ordinal));
 
         Assert.Equal(c.GetHashCode("Hello"), c.GetHashCode("hello"));
@@ -272,3 +273,4 @@ public sealed class ComparersTest
         Assert.Same(original, reversed.OriginalComparer);
     }
 }
+#pragma warning restore CA1861

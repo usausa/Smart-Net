@@ -81,13 +81,13 @@ public static class TypeExtensions
             return type.GetElementType();
         }
 
-        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IEnumerable<>))
+        if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(IEnumerable<>)))
         {
             return type.GenericTypeArguments[0];
         }
 
         var enumerableType = type.GetInterfaces()
-            .FirstOrDefault(static t => t.IsGenericType && t.GetGenericTypeDefinition() == typeof(IEnumerable<>));
+            .FirstOrDefault(static t => t.IsGenericType && (t.GetGenericTypeDefinition() == typeof(IEnumerable<>)));
         if (enumerableType is not null)
         {
             return enumerableType.GenericTypeArguments[0];
@@ -110,7 +110,7 @@ public static class TypeExtensions
         }
 
         var genericType = Nullable.GetUnderlyingType(type);
-        return genericType is not null && genericType.IsEnum ? genericType : null;
+        return (genericType is not null) && genericType.IsEnum ? genericType : null;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -121,7 +121,7 @@ public static class TypeExtensions
             return true;
         }
 
-        return type.GetInterfaces().Any(static it => it.IsGenericType && it.GetGenericTypeDefinition() == typeof(IValueHolder<>));
+        return type.GetInterfaces().Any(static it => it.IsGenericType && (it.GetGenericTypeDefinition() == typeof(IValueHolder<>)));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -129,12 +129,12 @@ public static class TypeExtensions
     [return: DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces | DynamicallyAccessedMemberTypes.PublicProperties)]
     public static Type? GetValueHolderType([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.Interfaces | DynamicallyAccessedMemberTypes.PublicProperties)] this Type type)
     {
-        if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(IValueHolder<>))
+        if (type.IsGenericType && (type.GetGenericTypeDefinition() == typeof(IValueHolder<>)))
         {
             return type;
         }
 
-        return type.GetInterfaces().FirstOrDefault(static it => it.IsGenericType && it.GetGenericTypeDefinition() == typeof(IValueHolder<>));
+        return type.GetInterfaces().FirstOrDefault(static it => it.IsGenericType && (it.GetGenericTypeDefinition() == typeof(IValueHolder<>)));
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

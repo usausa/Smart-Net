@@ -1,11 +1,15 @@
 namespace Smart;
 
+#pragma warning disable CA1000
 public static class Functions<T>
 {
+#pragma warning disable CA1720
     public static Func<T, T> Identity => static x => x;
 
     public static Func<T, string?> String => static x => x?.ToString();
+#pragma warning restore CA1720
 }
+#pragma warning restore CA1000
 
 public static class Functions
 {

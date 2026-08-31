@@ -3,6 +3,7 @@ namespace Smart.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 
+#pragma warning disable CA1000
 public sealed class ObjectEqualityComparer<T> : IEqualityComparer<T>
     where T : class
 {
@@ -16,3 +17,4 @@ public sealed class ObjectEqualityComparer<T> : IEqualityComparer<T>
 
     public int GetHashCode([DisallowNull] T obj) => RuntimeHelpers.GetHashCode(obj);
 }
+#pragma warning restore CA1000

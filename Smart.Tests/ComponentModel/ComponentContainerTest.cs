@@ -1,5 +1,6 @@
 namespace Smart.ComponentModel;
 
+#pragma warning disable CA1034
 public sealed class ComponentContainerTest
 {
     [Fact]
@@ -383,3 +384,4 @@ public sealed class ComponentContainerTest
         }
     }
 }
+#pragma warning restore CA1034

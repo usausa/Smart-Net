@@ -2,6 +2,7 @@ namespace Smart;
 
 using System.Runtime.CompilerServices;
 
+#pragma warning disable CA1034
 public static partial class SpanExtensions
 {
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -51,3 +52,4 @@ public static partial class SpanExtensions
         }
     }
 }
+#pragma warning restore CA1034

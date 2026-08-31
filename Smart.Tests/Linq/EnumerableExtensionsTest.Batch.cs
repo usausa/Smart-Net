@@ -1,5 +1,6 @@
 namespace Smart.Linq;
 
+#pragma warning disable CA1861
 public sealed class EnumerableExtensionsBatchTest
 {
     //--------------------------------------------------------------------------------
@@ -135,3 +136,4 @@ public sealed class EnumerableExtensionsBatchTest
         Assert.Equal(["5"], result[2]);
     }
 }
+#pragma warning restore CA1861
