@@ -4,7 +4,6 @@ using System.Buffers;
 using System.Runtime.CompilerServices;
 
 #pragma warning disable IDE0032
-#pragma warning disable CA1000
 public sealed class MemoryOwner<T> : IMemoryOwner<T>
 {
     private readonly int length;
@@ -66,5 +65,4 @@ public sealed class MemoryOwner<T> : IMemoryOwner<T>
         return owner;
     }
 }
-#pragma warning restore CA1000
 #pragma warning restore IDE0032
