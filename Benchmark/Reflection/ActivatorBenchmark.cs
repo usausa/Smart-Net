@@ -109,9 +109,7 @@ public class ActivatorBenchmark
 
     // Data
 
-    public sealed class Data0
-    {
-    }
+    public sealed class Data0;
 
     public sealed class Data1
     {

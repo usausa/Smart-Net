@@ -1,5 +1,3 @@
 namespace Smart.Collections.Generic;
 
-public static partial class ComparersEnumerable
-{
-}
+public static partial class ComparersEnumerable;

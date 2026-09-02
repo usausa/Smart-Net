@@ -95,9 +95,7 @@ public class MemberData
 }
 
 #pragma warning disable CA1812
-internal sealed class InternalData
-{
-}
+internal sealed class InternalData;
 #pragma warning restore CA1812
 
 #pragma warning disable CA1044
@@ -125,9 +123,7 @@ public class NullableParameterClass
     }
 }
 
-public class Data0
-{
-}
+public class Data0;
 
 public class Data1
 {

@@ -59,26 +59,16 @@ public class ComponentContainerBenchmark
     public object? GetServiceEnumerable() => container.GetService(EnumerableServiceType);
 
 #pragma warning disable CA1040
-    public interface IService
-    {
-    }
+    public interface IService;
 #pragma warning restore CA1040
 
-    public sealed class ServiceA : IService
-    {
-    }
+    public sealed class ServiceA : IService;
 
-    public sealed class ServiceB : IService
-    {
-    }
+    public sealed class ServiceB : IService;
 
-    public sealed class SingleObject
-    {
-    }
+    public sealed class SingleObject;
 
     // ReSharper disable once ClassNeverInstantiated.Global
-    public sealed class UnregisteredObject
-    {
-    }
+    public sealed class UnregisteredObject;
 }
 #pragma warning restore CA1034

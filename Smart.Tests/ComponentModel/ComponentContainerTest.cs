@@ -1,6 +1,5 @@
 namespace Smart.ComponentModel;
 
-#pragma warning disable CA1034
 public sealed class ComponentContainerTest
 {
     [Fact]
@@ -321,23 +320,15 @@ public sealed class ComponentContainerTest
         Assert.All(results, x => Assert.Same(results[0], x));
     }
 
-    public sealed class SimpleObject
-    {
-    }
+    public sealed class SimpleObject;
 
 #pragma warning disable CA1040
-    public interface ICalcService
-    {
-    }
+    public interface ICalcService;
 #pragma warning restore CA1040
 
-    public sealed class AddCalcService : ICalcService
-    {
-    }
+    public sealed class AddCalcService : ICalcService;
 
-    public sealed class SubCalcService : ICalcService
-    {
-    }
+    public sealed class SubCalcService : ICalcService;
 
     public sealed class IntComparer : IComparer<int>
     {
@@ -384,4 +375,3 @@ public sealed class ComponentContainerTest
         }
     }
 }
-#pragma warning restore CA1034

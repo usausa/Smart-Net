@@ -294,9 +294,7 @@ public class DelegateFactoryBenchmark
         public IValueHolder<int> NotificationIntValue { get; } = new NotificationValue<int>();
     }
 
-    public sealed class Data0
-    {
-    }
+    public sealed class Data0;
 
     public sealed class Data1
     {
