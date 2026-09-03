@@ -100,7 +100,9 @@ public static class StreamExtensions
 
         if (stream.TryGetBuffer(out var segment))
         {
+#pragma warning disable IDE0028
             return segment.AsSpan(position, length - position).ToArray();
+#pragma warning restore IDE0028
         }
 
         var buffer = new byte[length - position];
