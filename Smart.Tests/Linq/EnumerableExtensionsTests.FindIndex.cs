@@ -2,7 +2,7 @@ namespace Smart.Linq;
 
 using System.Collections.Generic;
 
-public sealed class EnumerableExtensionsFindIndexTest
+public sealed class EnumerableExtensionsFindIndexTests
 {
     //--------------------------------------------------------------------------------
     // FindIndex — Span<T>

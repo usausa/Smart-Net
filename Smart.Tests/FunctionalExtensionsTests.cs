@@ -1,6 +1,6 @@
 namespace Smart;
 
-public sealed class FunctionalExtensionsTest
+public sealed class FunctionalExtensionsTests
 {
     //--------------------------------------------------------------------------------
     // IfNotNull — class

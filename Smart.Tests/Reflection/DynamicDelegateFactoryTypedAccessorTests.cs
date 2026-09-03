@@ -1,6 +1,6 @@
 namespace Smart.Reflection;
 
-public sealed class DynamicDelegateFactoryTypedAccessorTest
+public sealed class DynamicDelegateFactoryTypedAccessorTests
 {
     //--------------------------------------------------------------------------------
     // Non static

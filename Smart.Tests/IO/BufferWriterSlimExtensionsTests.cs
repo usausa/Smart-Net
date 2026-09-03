@@ -2,7 +2,7 @@ namespace Smart.IO;
 
 using System.Globalization;
 
-public sealed class BufferWriterSlimExtensionsTest
+public sealed class BufferWriterSlimExtensionsTests
 {
     //--------------------------------------------------------------------------------
     // WriteLine

@@ -1,6 +1,6 @@
 namespace Smart;
 
-public sealed class BinarySearchTest
+public sealed class BinarySearchTests
 {
     private static void AssertIndex(List<int> expects, List<int> actuals)
     {

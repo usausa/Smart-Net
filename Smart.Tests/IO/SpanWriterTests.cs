@@ -3,7 +3,7 @@ namespace Smart.IO;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-public sealed class SpanWriterTest
+public sealed class SpanWriterTests
 {
     //--------------------------------------------------------------------------------
     // Properties

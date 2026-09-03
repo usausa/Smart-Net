@@ -1,6 +1,6 @@
 namespace Smart.Reflection;
 
-public sealed class DynamicDelegateFactoryActivatorTest
+public sealed class DynamicDelegateFactoryActivatorTests
 {
     //--------------------------------------------------------------------------------
     // Struct

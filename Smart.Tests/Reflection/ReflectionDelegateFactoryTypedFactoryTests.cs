@@ -1,6 +1,6 @@
 namespace Smart.Reflection;
 
-public sealed class ReflectionDelegateFactoryTypedFactoryTest
+public sealed class ReflectionDelegateFactoryTypedFactoryTests
 {
     [Fact]
     public void FactoryStruct()

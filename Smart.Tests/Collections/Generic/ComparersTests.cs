@@ -1,7 +1,7 @@
 namespace Smart.Collections.Generic;
 
 #pragma warning disable CA1861
-public sealed class ComparersTest
+public sealed class ComparersTests
 {
     //--------------------------------------------------------------------------------
     // ChainComparer

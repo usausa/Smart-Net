@@ -1,6 +1,6 @@
 namespace Smart.Collections.Generic;
 
-public sealed class ProjectionReadOnlyListTest
+public sealed class ProjectionReadOnlyListTests
 {
     [Fact]
     public void ProjectionMapsElements()

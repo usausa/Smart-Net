@@ -1,6 +1,6 @@
 namespace Smart.ComponentModel;
 
-public sealed class ComponentContainerTest
+public sealed class ComponentContainerTests
 {
     [Fact]
     public void ComponentIsResolved()

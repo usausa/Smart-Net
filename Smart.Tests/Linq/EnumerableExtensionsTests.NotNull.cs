@@ -1,6 +1,6 @@
 namespace Smart.Linq;
 
-public sealed class EnumerableExtensionsNotNullTest
+public sealed class EnumerableExtensionsNotNullTests
 {
     private static IEnumerable<T> Lazy<T>(IEnumerable<T> source)
     {

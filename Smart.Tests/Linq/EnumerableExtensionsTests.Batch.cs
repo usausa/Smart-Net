@@ -1,7 +1,7 @@
 namespace Smart.Linq;
 
 #pragma warning disable CA1861
-public sealed class EnumerableExtensionsBatchTest
+public sealed class EnumerableExtensionsBatchTests
 {
     //--------------------------------------------------------------------------------
     // Batch<T>

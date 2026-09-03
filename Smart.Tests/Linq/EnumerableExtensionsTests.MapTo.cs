@@ -3,7 +3,7 @@ namespace Smart.Linq;
 using System.Collections.ObjectModel;
 
 #pragma warning disable CA1861
-public sealed class EnumerableExtensionsMapToTest
+public sealed class EnumerableExtensionsMapToTests
 {
     //--------------------------------------------------------------------------------
     // MapToArray — Span<T>

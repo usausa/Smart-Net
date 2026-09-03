@@ -1,6 +1,6 @@
 namespace Smart;
 
-public sealed class ArrayExtensionTest
+public sealed class ArrayExtensionTests
 {
 #pragma warning disable CA1861
     [Fact]

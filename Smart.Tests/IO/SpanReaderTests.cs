@@ -1,6 +1,6 @@
 namespace Smart.IO;
 
-public sealed class SpanReaderTest
+public sealed class SpanReaderTests
 {
     //--------------------------------------------------------------------------------
     // Properties

@@ -2,7 +2,7 @@ namespace Smart.IO;
 
 using System.Buffers;
 
-public sealed class PooledMemoryStreamTest
+public sealed class PooledMemoryStreamTests
 {
     //--------------------------------------------------------------------------------
     // Write / Read

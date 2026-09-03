@@ -1,6 +1,6 @@
 namespace Smart.Reflection;
 
-public sealed class DynamicDelegateFactoryArrayTest
+public sealed class DynamicDelegateFactoryArrayTests
 {
     [Fact]
     public void ArrayAllocator()

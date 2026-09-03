@@ -1,6 +1,6 @@
 namespace Smart.IO;
 
-public sealed class BufferWriterSlimTest
+public sealed class BufferWriterSlimTests
 {
     //--------------------------------------------------------------------------------
     // Initial state

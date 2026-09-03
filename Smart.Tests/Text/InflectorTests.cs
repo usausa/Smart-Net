@@ -1,6 +1,6 @@
 namespace Smart.Text;
 
-public sealed class InflectorTest
+public sealed class InflectorTests
 {
     [Fact]
     public void ToUnderscore()

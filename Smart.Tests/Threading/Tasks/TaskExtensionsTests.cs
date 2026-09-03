@@ -1,6 +1,6 @@
 namespace Smart.Threading.Tasks;
 
-public sealed class TaskExtensionsTest
+public sealed class TaskExtensionsTests
 {
     //--------------------------------------------------------------------------------
     // Forget
