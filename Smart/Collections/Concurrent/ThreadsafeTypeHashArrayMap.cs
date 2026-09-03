@@ -56,6 +56,7 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
     private static int CalculateCount(Node[] targetNodes)
     {
         var count = 0;
+        // ReSharper disable once ForCanBeConvertedToForeach
         for (var i = 0; i < targetNodes.Length; i++)
         {
             var node = targetNodes[i];
@@ -90,6 +91,7 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
     {
         var depth = 0;
 
+        // ReSharper disable once ForCanBeConvertedToForeach
         for (var i = 0; i < targetNodes.Length; i++)
         {
             var node = targetNodes[i];
@@ -306,6 +308,7 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
     {
         var copy = nodes;
 
+        // ReSharper disable once ForCanBeConvertedToForeach
         for (var i = 0; i < copy.Length; i++)
         {
             var node = copy[i];

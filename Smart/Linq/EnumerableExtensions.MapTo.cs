@@ -199,6 +199,7 @@ public static partial class EnumerableExtensions
     public static List<TResult> MapToList<TSource, TResult>(this ObservableCollection<TSource> source, Func<TSource, TResult> selector)
     {
         var destination = new List<TResult>(source.Count);
+        // ReSharper disable once ForCanBeConvertedToForeach
         for (var i = 0; i < source.Count; i++)
         {
             destination.Add(selector(source[i]));
