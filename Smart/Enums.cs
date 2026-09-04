@@ -2,6 +2,7 @@ namespace Smart;
 
 using System.Collections.ObjectModel;
 
+// ReSharper disable StaticMemberInGenericType
 #pragma warning disable CA1000
 public static class Enums<T>
     where T : struct, Enum
@@ -86,3 +87,4 @@ public static class Enums<T>
     }
 }
 #pragma warning restore CA1000
+// ReSharper restore StaticMemberInGenericType

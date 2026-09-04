@@ -11,6 +11,7 @@ public static class ArrayExtensions
     public static T[] Combine<T>(this T[] array, params T[]?[] others)
     {
         var length = array.Length;
+        // ReSharper disable once ForCanBeConvertedToForeach
         for (var i = 0; i < others.Length; i++)
         {
             var other = others[i];
@@ -30,6 +31,7 @@ public static class ArrayExtensions
         array.AsSpan().CopyTo(result.AsSpan());
         var offset = array.Length;
 
+        // ReSharper disable once ForCanBeConvertedToForeach
         for (var i = 0; i < others.Length; i++)
         {
             var other = others[i];

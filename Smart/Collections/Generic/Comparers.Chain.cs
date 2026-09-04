@@ -12,6 +12,7 @@ public sealed class ChainComparer<T> : IComparer<T>
     public int Compare(T? x, T? y)
     {
         var local = comparers;
+        // ReSharper disable once ForCanBeConvertedToForeach
         for (var i = 0; i < local.Length; i++)
         {
             var ret = local[i].Compare(x, y);
