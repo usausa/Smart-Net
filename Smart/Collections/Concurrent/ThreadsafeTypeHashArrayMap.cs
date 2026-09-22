@@ -126,12 +126,12 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
     {
         if (node == EmptyNode)
         {
-            node = addNode;
+            Volatile.Write(ref node, addNode);
         }
         else
         {
             var last = FindLastNode(node);
-            last.Next = addNode;
+            Volatile.Write(ref last.Next, addNode);
         }
     }
 
@@ -178,8 +178,6 @@ public sealed class ThreadsafeTypeHashArrayMap<TValue> : IEnumerable<KeyValuePai
         }
         else
         {
-            Interlocked.MemoryBarrier();
-
             UpdateLink(ref currentNodes[TypeHash(node.Key) & (currentNodes.Length - 1)], node);
 
             depth = Math.Max(CalculateDepth(currentNodes[TypeHash(node.Key) & (currentNodes.Length - 1)]), depth);
