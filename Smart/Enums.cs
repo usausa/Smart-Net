@@ -22,7 +22,6 @@ public static class Enums<T>
 
     public static Type UnderlyingType { get; }
 
-    // ReSharper disable UseCollectionExpression
     static Enums()
     {
         var type = typeof(T);
@@ -30,15 +29,11 @@ public static class Enums<T>
         var names = Enum.GetNames<T>();
 
         UnderlyingType = Enum.GetUnderlyingType(type);
-#pragma warning disable IDE0028
         Values = new ReadOnlyCollection<T>(values);
         Names = new ReadOnlyCollection<string>(names);
-#pragma warning restore IDE0028
 
-#pragma warning disable IDE0028
         ValueToNames = new Dictionary<T, string>(values.Length);
         NameToValues = new Dictionary<string, T>(values.Length);
-#pragma warning restore IDE0028
 
         for (var i = 0; i < values.Length; i++)
         {
@@ -51,7 +46,6 @@ public static class Enums<T>
 #endif
     }
 #pragma warning restore CA1810
-    // ReSharper restore UseCollectionExpression
 
     public static string GetName(T value)
     {
