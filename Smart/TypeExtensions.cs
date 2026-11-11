@@ -14,9 +14,6 @@ public static class TypeExtensions
 
     private static readonly Func<Type, object?> NullFactory = static _ => null;
 
-    [UnconditionalSuppressMessage("Trimming", "IL2067", Justification = "GetDefaultValue only calls Activator.CreateInstance for value types whose parameterless constructor is preserved by the DynamicallyAccessedMembers annotation on the type parameter.")]
-    private static readonly Func<Type, object?> ValueFactory = static type => Activator.CreateInstance(type);
-
     static TypeExtensions()
     {
         DefaultValues.AddIfNotExist(typeof(bool), default(bool));
@@ -51,10 +48,16 @@ public static class TypeExtensions
                 return DefaultValues.AddIfNotExist(type, NullFactory);
             }
 
-            return DefaultValues.AddIfNotExist(type, ValueFactory);
+            return DefaultValues.AddIfNotExist(type, CreateValue);
         }
 
         return null;
+    }
+
+    [UnconditionalSuppressMessage("Trimming", "IL2067", Justification = "GetDefaultValue only calls Activator.CreateInstance for value types whose parameterless constructor is preserved by the DynamicallyAccessedMembers annotation on the type parameter.")]
+    private static object? CreateValue(Type type)
+    {
+        return Activator.CreateInstance(type);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
