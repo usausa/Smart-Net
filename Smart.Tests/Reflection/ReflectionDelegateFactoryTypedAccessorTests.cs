@@ -323,4 +323,19 @@ public sealed class ReflectionDelegateFactoryTypedAccessorTests
         Assert.Equal(1, structValue.X);
         Assert.Equal(2, structValue.Y);
     }
+
+    //--------------------------------------------------------------------------------
+    // Invoker
+    //--------------------------------------------------------------------------------
+
+    [Fact]
+    public void TypedAccessorThrowsPropertyException()
+    {
+        var getter = ReflectionDelegateFactory.Default.CreateGetter<ThrowingPropertyData, int>(nameof(ThrowingPropertyData.Value))!;
+        var setter = ReflectionDelegateFactory.Default.CreateSetter<ThrowingPropertyData, int>(nameof(ThrowingPropertyData.Value))!;
+        var data = new ThrowingPropertyData();
+
+        Assert.Throws<InvalidOperationException>(() => getter(data));
+        Assert.Throws<InvalidOperationException>(() => setter(data, 1));
+    }
 }

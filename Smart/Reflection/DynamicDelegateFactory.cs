@@ -24,7 +24,9 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
 
     // Typed factory cache
 
-    private readonly ConcurrentDictionary<ConstructorInfo, Delegate> typedFactoryCache = new();
+    private readonly ConcurrentDictionary<(ConstructorInfo Constructor, Type DelegateType), Delegate> typedFactoryCache = new();
+
+    private readonly ConcurrentDictionary<Type, Delegate> typedFactoryTypeCache = new();
 
     // Default structure cache
 
@@ -46,13 +48,13 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
 
     // Typed Property cache
 
-    private readonly ConcurrentDictionary<PropertyInfo, Delegate?> typedGetterCache = new();
+    private readonly ConcurrentDictionary<(PropertyInfo Property, Type TargetType), Delegate?> typedGetterCache = new();
 
-    private readonly ConcurrentDictionary<PropertyInfo, Delegate?> typedExtensionGetterCache = new();
+    private readonly ConcurrentDictionary<(PropertyInfo Property, Type TargetType), Delegate?> typedExtensionGetterCache = new();
 
-    private readonly ConcurrentDictionary<PropertyInfo, Delegate?> typedSetterCache = new();
+    private readonly ConcurrentDictionary<(PropertyInfo Property, Type TargetType), Delegate?> typedSetterCache = new();
 
-    private readonly ConcurrentDictionary<PropertyInfo, Delegate?> typedExtensionSetterCache = new();
+    private readonly ConcurrentDictionary<(PropertyInfo Property, Type TargetType), Delegate?> typedExtensionSetterCache = new();
 
     // Property
 
@@ -136,13 +138,20 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             return Unsafe.As<Func<T>>(typedDefaultStructDelegateCache.GetOrAdd(type, static x => CreateDefaultStructFactoryInternal(true, x, Type.EmptyTypes)));
         }
 
+        if (typedFactoryTypeCache.TryGetValue(typeof(Func<T>), out var cached))
+        {
+            return Unsafe.As<Func<T>>(cached);
+        }
+
         var ci = type.GetConstructor(Type.EmptyTypes);
         if (ci?.DeclaringType is null)
         {
             throw new ArgumentException($"Constructor not found. type=[{type}]", nameof(type));
         }
 
-        return Unsafe.As<Func<T>>(typedFactoryCache.GetOrAdd(ci, static x => CreateFactoryInternal(x, x.DeclaringType!, Type.EmptyTypes)));
+        var factory = typedFactoryCache.GetOrAdd((ci, typeof(Func<T>)), static x => CreateFactoryInternal(x.Constructor, x.Constructor.DeclaringType!, Type.EmptyTypes));
+        typedFactoryTypeCache.TryAdd(typeof(Func<T>), factory);
+        return Unsafe.As<Func<T>>(factory);
     }
 
     // Factory Helper
@@ -244,18 +253,33 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
         var dynamicMethod = new DynamicMethod(string.Empty, returnType, parameterTypes, true);
         var il = dynamicMethod.GetILGenerator();
 
-        for (var i = 0; i < ci.GetParameters().Length; i++)
+        var parameters = ci.GetParameters();
+        for (var i = 0; i < parameters.Length; i++)
         {
+            var parameterType = parameters[i].ParameterType;
             il.EmitLdarg(i + 1);
             if (argumentTypes[i] == typeof(object))
             {
-                il.EmitTypeConversion(ci.GetParameters()[i].ParameterType);
+                il.EmitTypeConversion(parameterType);
             }
-            else if (ci.GetParameters()[i].ParameterType.IsNullableType() && !argumentTypes[i].IsNullableType())
+            else if (parameterType.IsNullableType() && !argumentTypes[i].IsNullableType())
             {
-                var underlyingType = Nullable.GetUnderlyingType(ci.GetParameters()[i].ParameterType);
-                var nullableCtor = ci.GetParameters()[i].ParameterType.GetConstructor([underlyingType!])!;
+                var underlyingType = Nullable.GetUnderlyingType(parameterType);
+                var nullableCtor = parameterType.GetConstructor([underlyingType!])!;
                 il.Emit(OpCodes.Newobj, nullableCtor);
+            }
+            else if (argumentTypes[i].IsValueType && !parameterType.IsValueType)
+            {
+                il.Emit(OpCodes.Box, argumentTypes[i]);
+            }
+            else if (parameterType.IsPrimitive)
+            {
+                var sourceType = argumentTypes[i].IsEnum ? Enum.GetUnderlyingType(argumentTypes[i]) : argumentTypes[i];
+                var convertMethod = PrimitiveConvert.GetMethod(sourceType, parameterType);
+                if (convertMethod is not null)
+                {
+                    il.Emit(OpCodes.Call, convertMethod);
+                }
             }
         }
 
@@ -285,14 +309,19 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
         }
 
-        var holderType = !extension ? null : pi.GetValueHolderType();
-        var isValueHolder = holderType is not null;
-        var tpi = isValueHolder ? holderType!.GetValueHolderProperty()! : pi;
+        if ((extension ? extensionGetterCache : getterCache).TryGetValue(pi, out var cached))
+        {
+            return cached;
+        }
+
+        var vpi = !extension ? null : pi.GetValueHolderProperty();
+        var isValueHolder = vpi is not null;
+        var tpi = vpi ?? pi;
         var memberType = tpi.PropertyType.IsValueType ? typeof(object) : tpi.PropertyType;
 
         return extension
-            ? extensionGetterCache.GetOrAdd(pi, x => Unsafe.As<Func<object?, object?>?>(CreateGetterInternal(x, tpi, isValueHolder, typeof(object), memberType)))
-            : getterCache.GetOrAdd(pi, x => Unsafe.As<Func<object?, object?>?>(CreateGetterInternal(x, tpi, false, typeof(object), memberType)));
+            ? extensionGetterCache.GetOrAdd(pi, static (x, s) => Unsafe.As<Func<object?, object?>?>(CreateGetterInternal(x, s.Property, s.IsValueHolder, typeof(object), s.MemberType)), (Property: tpi, IsValueHolder: isValueHolder, MemberType: memberType))
+            : getterCache.GetOrAdd(pi, static (x, s) => Unsafe.As<Func<object?, object?>?>(CreateGetterInternal(x, s.Property, false, typeof(object), s.MemberType)), (Property: tpi, MemberType: memberType));
     }
 
     public Action<object?, object?>? CreateSetter(PropertyInfo pi)
@@ -307,13 +336,18 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
         }
 
-        var holderType = !extension ? null : pi.GetValueHolderType();
-        var isValueHolder = holderType is not null;
-        var tpi = isValueHolder ? holderType!.GetValueHolderProperty()! : pi;
+        if ((extension ? extensionSetterCache : setterCache).TryGetValue(pi, out var cached))
+        {
+            return cached;
+        }
+
+        var vpi = !extension ? null : pi.GetValueHolderProperty();
+        var isValueHolder = vpi is not null;
+        var tpi = vpi ?? pi;
 
         return extension
-            ? extensionSetterCache.GetOrAdd(pi, x => Unsafe.As<Action<object?, object?>?>(CreateSetterInternal(x, tpi, isValueHolder, typeof(object), typeof(object))))
-            : setterCache.GetOrAdd(pi, x => Unsafe.As<Action<object?, object?>?>(CreateSetterInternal(x, tpi, false, typeof(object), typeof(object))));
+            ? extensionSetterCache.GetOrAdd(pi, static (x, s) => Unsafe.As<Action<object?, object?>?>(CreateSetterInternal(x, s.Property, s.IsValueHolder, typeof(object), typeof(object))), (Property: tpi, IsValueHolder: isValueHolder))
+            : setterCache.GetOrAdd(pi, static (x, s) => Unsafe.As<Action<object?, object?>?>(CreateSetterInternal(x, s, false, typeof(object), typeof(object))), tpi);
     }
 
     // Accessor
@@ -330,9 +364,16 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
         }
 
-        var holderType = !extension ? null : pi.GetValueHolderType();
-        var isValueHolder = holderType is not null;
-        var tpi = isValueHolder ? holderType!.GetValueHolderProperty()! : pi;
+        if ((extension ? typedExtensionGetterCache : typedGetterCache).TryGetValue((pi, typeof(T)), out var cached) && (cached is not null))
+        {
+            return cached.GetType() == typeof(Func<T?, TMember?>)
+                ? Unsafe.As<Func<T?, TMember?>>(cached)
+                : throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
+        }
+
+        var vpi = !extension ? null : pi.GetValueHolderProperty();
+        var isValueHolder = vpi is not null;
+        var tpi = vpi ?? pi;
 
         if (tpi.PropertyType != typeof(TMember))
         {
@@ -340,8 +381,8 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
         }
 
         return Unsafe.As<Func<T?, TMember?>?>(extension
-            ? typedExtensionGetterCache.GetOrAdd(pi, x => CreateGetterInternal(x, tpi, isValueHolder, typeof(T), typeof(TMember)))
-            : typedGetterCache.GetOrAdd(pi, x => CreateGetterInternal(x, tpi, false, typeof(T), typeof(TMember))));
+            ? typedExtensionGetterCache.GetOrAdd((pi, typeof(T)), static (x, s) => CreateGetterInternal(x.Property, s.Property, s.IsValueHolder, typeof(T), typeof(TMember)), (Property: tpi, IsValueHolder: isValueHolder))
+            : typedGetterCache.GetOrAdd((pi, typeof(T)), static (x, s) => CreateGetterInternal(x.Property, s, false, typeof(T), typeof(TMember)), tpi));
     }
 
     public Action<T?, TMember?>? CreateSetter<T, TMember>(PropertyInfo pi)
@@ -356,9 +397,16 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
         }
 
-        var holderType = !extension ? null : pi.GetValueHolderType();
-        var isValueHolder = holderType is not null;
-        var tpi = isValueHolder ? holderType!.GetValueHolderProperty()! : pi;
+        if ((extension ? typedExtensionSetterCache : typedSetterCache).TryGetValue((pi, typeof(T)), out var cached) && (cached is not null))
+        {
+            return cached.GetType() == typeof(Action<T?, TMember?>)
+                ? Unsafe.As<Action<T?, TMember?>>(cached)
+                : throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
+        }
+
+        var vpi = !extension ? null : pi.GetValueHolderProperty();
+        var isValueHolder = vpi is not null;
+        var tpi = vpi ?? pi;
 
         if (tpi.PropertyType != typeof(TMember))
         {
@@ -366,8 +414,8 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
         }
 
         return Unsafe.As<Action<T?, TMember?>?>(extension
-            ? typedExtensionSetterCache.GetOrAdd(pi, x => CreateSetterInternal(x, tpi, isValueHolder, typeof(T), typeof(TMember)))
-            : typedSetterCache.GetOrAdd(pi, x => CreateSetterInternal(x, tpi, false, typeof(T), typeof(TMember))));
+            ? typedExtensionSetterCache.GetOrAdd((pi, typeof(T)), static (x, s) => CreateSetterInternal(x.Property, s.Property, s.IsValueHolder, typeof(T), typeof(TMember)), (Property: tpi, IsValueHolder: isValueHolder))
+            : typedSetterCache.GetOrAdd((pi, typeof(T)), static (x, s) => CreateSetterInternal(x.Property, s, false, typeof(T), typeof(TMember)), tpi));
     }
 
     // Accessor helper
@@ -390,7 +438,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
         if (!pi.GetGetMethod()!.IsStatic)
         {
             il.Emit(OpCodes.Ldarg_1);
-            if (targetType == typeof(object))
+            if (!pi.DeclaringType!.IsAssignableFrom(targetType))
             {
                 il.Emit(OpCodes.Castclass, pi.DeclaringType!);
             }
@@ -460,7 +508,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             if (!isStatic)
             {
                 il.Emit(OpCodes.Ldarg_1);
-                if (targetType == typeof(object))
+                if (!pi.DeclaringType!.IsAssignableFrom(targetType))
                 {
                     il.Emit(OpCodes.Castclass, pi.DeclaringType!);
                 }
@@ -494,7 +542,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             if (!isStatic)
             {
                 il.Emit(OpCodes.Ldarg_1);
-                if (targetType == typeof(object))
+                if (!pi.DeclaringType!.IsAssignableFrom(targetType))
                 {
                     il.Emit(OpCodes.Castclass, pi.DeclaringType!);
                 }
@@ -517,7 +565,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             if (!isStatic)
             {
                 il.Emit(OpCodes.Ldarg_1);
-                if (targetType == typeof(object))
+                if (!pi.DeclaringType!.IsAssignableFrom(targetType))
                 {
                     il.Emit(OpCodes.Castclass, pi.DeclaringType!);
                 }
@@ -549,8 +597,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
 
     public Type GetExtendedPropertyType(PropertyInfo pi)
     {
-        var holderType = pi.GetValueHolderType();
-        var tpi = holderType is null ? pi : holderType.GetValueHolderProperty()!;
+        var tpi = pi.GetValueHolderProperty() ?? pi;
         return tpi.PropertyType;
     }
 }

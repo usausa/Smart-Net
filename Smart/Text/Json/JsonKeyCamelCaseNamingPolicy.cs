@@ -13,7 +13,7 @@ public sealed class JsonKeyCamelCaseNamingPolicy : JsonNamingPolicy
 
     public override string ConvertName(string name)
     {
-        if (String.IsNullOrEmpty(name))
+        if (String.IsNullOrEmpty(name) || !IsConversionRequired(name))
         {
             return name;
         }
@@ -36,5 +36,28 @@ public sealed class JsonKeyCamelCaseNamingPolicy : JsonNamingPolicy
                 }
             }
         });
+    }
+
+    private static bool IsConversionRequired(string name)
+    {
+        var toLower = true;
+        foreach (var c in name)
+        {
+            if (toLower)
+            {
+                if (Char.ToLowerInvariant(c) != c)
+                {
+                    return true;
+                }
+
+                toLower = false;
+            }
+            else if (c == '.')
+            {
+                toLower = true;
+            }
+        }
+
+        return false;
     }
 }

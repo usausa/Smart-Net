@@ -323,4 +323,85 @@ public sealed class DynamicDelegateFactoryTypedAccessorTests
         Assert.Equal(1, structValue.X);
         Assert.Equal(2, structValue.Y);
     }
+
+    //--------------------------------------------------------------------------------
+    // Target type
+    //--------------------------------------------------------------------------------
+
+    [Fact]
+    public void TypedGetterIsCreatedForEachTargetType()
+    {
+        var pi = typeof(TypedAccessorData).GetProperty(nameof(TypedAccessorData.Value))!;
+        var typedGetter = DynamicDelegateFactory.Default.CreateGetter<TypedAccessorData, int>(pi)!;
+        var objectGetter = DynamicDelegateFactory.Default.CreateGetter<object, int>(pi)!;
+
+        Assert.Equal(1, typedGetter(new TypedAccessorData { Value = 1 }));
+        Assert.Equal(2, objectGetter(new TypedAccessorData { Value = 2 }));
+        Assert.Throws<InvalidCastException>(() => objectGetter(new TypedAccessorOtherData()));
+    }
+
+    [Fact]
+    public void TypedSetterIsCreatedForEachTargetType()
+    {
+        var pi = typeof(TypedAccessorData).GetProperty(nameof(TypedAccessorData.Value))!;
+        var typedSetter = DynamicDelegateFactory.Default.CreateSetter<TypedAccessorData, int>(pi)!;
+        var objectSetter = DynamicDelegateFactory.Default.CreateSetter<object, int>(pi)!;
+
+        var data = new TypedAccessorData();
+        typedSetter(data, 1);
+        Assert.Equal(1, data.Value);
+        objectSetter(data, 2);
+        Assert.Equal(2, data.Value);
+        Assert.Throws<InvalidCastException>(() => objectSetter(new TypedAccessorOtherData(), 3));
+    }
+
+    [Fact]
+    public void TypedAccessorCastsBaseTargetType()
+    {
+        var pi = typeof(TypedAccessorData).GetProperty(nameof(TypedAccessorData.Value))!;
+        var getter = DynamicDelegateFactory.Default.CreateGetter<TypedAccessorBaseData, int>(pi)!;
+        var setter = DynamicDelegateFactory.Default.CreateSetter<TypedAccessorBaseData, int>(pi)!;
+
+        var data = new TypedAccessorData();
+        setter(data, 3);
+        Assert.Equal(3, getter(data));
+        Assert.Throws<InvalidCastException>(() => getter(new TypedAccessorBaseData()));
+        Assert.Throws<InvalidCastException>(() => setter(new TypedAccessorBaseData(), 4));
+    }
+
+    [Fact]
+    public void TypedAccessorFromCacheRejectsOtherMemberType()
+    {
+        var pi = typeof(TypedAccessorTextData).GetProperty(nameof(TypedAccessorTextData.Text))!;
+        var getter = DynamicDelegateFactory.Default.CreateGetter<TypedAccessorTextData, string>(pi);
+        var setter = DynamicDelegateFactory.Default.CreateSetter<TypedAccessorTextData, string>(pi);
+
+        Assert.Same(getter, DynamicDelegateFactory.Default.CreateGetter<TypedAccessorTextData, string>(pi));
+        Assert.Same(setter, DynamicDelegateFactory.Default.CreateSetter<TypedAccessorTextData, string>(pi));
+        Assert.Throws<ArgumentException>(() => DynamicDelegateFactory.Default.CreateGetter<TypedAccessorTextData, object>(pi));
+        Assert.Throws<ArgumentException>(() => DynamicDelegateFactory.Default.CreateSetter<TypedAccessorTextData, object>(pi));
+        Assert.Throws<ArgumentException>(() => DynamicDelegateFactory.Default.CreateGetter<TypedAccessorTextData, int>(pi));
+    }
+
+    [Fact]
+    public void AccessorFromCacheDoesNotAllocate()
+    {
+        var pi = typeof(TypedAccessorData).GetProperty(nameof(TypedAccessorData.Value))!;
+        var factory = DynamicDelegateFactory.Default;
+        _ = factory.CreateGetter(pi);
+        _ = factory.CreateSetter(pi);
+        _ = factory.CreateGetter<TypedAccessorData, int>(pi);
+        _ = factory.CreateSetter<TypedAccessorData, int>(pi);
+
+        var before = GC.GetAllocatedBytesForCurrentThread();
+        for (var i = 0; i < 100; i++)
+        {
+            _ = factory.CreateGetter(pi);
+            _ = factory.CreateSetter(pi);
+            _ = factory.CreateGetter<TypedAccessorData, int>(pi);
+            _ = factory.CreateSetter<TypedAccessorData, int>(pi);
+        }
+
+        Assert.InRange(GC.GetAllocatedBytesForCurrentThread() - before, 0, 99);
+    }
 }

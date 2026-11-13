@@ -10,11 +10,25 @@ public static partial class EnumerableExtensions
 
     public static bool Any<TSource, TState>(this IEnumerable<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
-        foreach (var element in source)
+        if (source is IList<TSource> list)
         {
-            if (predicate(element, state))
+            var size = list.Count;
+            for (var i = 0; i < size; i++)
             {
-                return true;
+                if (predicate(list[i], state))
+                {
+                    return true;
+                }
+            }
+        }
+        else
+        {
+            foreach (var element in source)
+            {
+                if (predicate(element, state))
+                {
+                    return true;
+                }
             }
         }
 
@@ -27,11 +41,25 @@ public static partial class EnumerableExtensions
 
     public static bool All<TSource, TState>(this IEnumerable<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
-        foreach (var element in source)
+        if (source is IList<TSource> list)
         {
-            if (!predicate(element, state))
+            var size = list.Count;
+            for (var i = 0; i < size; i++)
             {
-                return false;
+                if (!predicate(list[i], state))
+                {
+                    return false;
+                }
+            }
+        }
+        else
+        {
+            foreach (var element in source)
+            {
+                if (!predicate(element, state))
+                {
+                    return false;
+                }
             }
         }
 
@@ -45,13 +73,27 @@ public static partial class EnumerableExtensions
     public static int Count<TSource, TState>(this IEnumerable<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
         var count = 0;
-        foreach (var element in source)
+        if (source is IList<TSource> list)
         {
-            checked
+            var size = list.Count;
+            for (var i = 0; i < size; i++)
             {
-                if (predicate(element, state))
+                if (predicate(list[i], state))
                 {
                     count++;
+                }
+            }
+        }
+        else
+        {
+            foreach (var element in source)
+            {
+                checked
+                {
+                    if (predicate(element, state))
+                    {
+                        count++;
+                    }
                 }
             }
         }
@@ -65,11 +107,26 @@ public static partial class EnumerableExtensions
 
     public static TSource First<TSource, TState>(this IEnumerable<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
-        foreach (var element in source)
+        if (source is IList<TSource> list)
         {
-            if (predicate(element, state))
+            var size = list.Count;
+            for (var i = 0; i < size; i++)
             {
-                return element;
+                var element = list[i];
+                if (predicate(element, state))
+                {
+                    return element;
+                }
+            }
+        }
+        else
+        {
+            foreach (var element in source)
+            {
+                if (predicate(element, state))
+                {
+                    return element;
+                }
             }
         }
 
@@ -78,11 +135,26 @@ public static partial class EnumerableExtensions
 
     public static TSource? FirstOrDefault<TSource, TState>(this IEnumerable<TSource> source, TState state, Func<TSource, TState, bool> predicate)
     {
-        foreach (var element in source)
+        if (source is IList<TSource> list)
         {
-            if (predicate(element, state))
+            var size = list.Count;
+            for (var i = 0; i < size; i++)
             {
-                return element;
+                var element = list[i];
+                if (predicate(element, state))
+                {
+                    return element;
+                }
+            }
+        }
+        else
+        {
+            foreach (var element in source)
+            {
+                if (predicate(element, state))
+                {
+                    return element;
+                }
             }
         }
 

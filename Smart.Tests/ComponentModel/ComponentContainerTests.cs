@@ -122,6 +122,58 @@ public sealed class ComponentContainerTests
     }
 
     [Fact]
+    public void ComponentIsResolvedWithValueTypeArrayArgument()
+    {
+        var config = new ComponentConfig();
+        config.Add<ValueArrayParameterObject>();
+        config.Add(1);
+        config.Add(2);
+
+        using var container = config.ToContainer();
+        var obj = container.Get<ValueArrayParameterObject>();
+
+        Assert.Equal([1, 2], Assert.IsType<int[]>(obj.Values));
+    }
+
+    [Fact]
+    public void ComponentIsResolvedWithValueTypeEnumerableArgument()
+    {
+        var config = new ComponentConfig();
+        config.Add<ValueEnumerableParameterObject>();
+        config.Add(1);
+        config.Add(2);
+
+        using var container = config.ToContainer();
+        var obj = container.Get<ValueEnumerableParameterObject>();
+
+        Assert.Equal([1, 2], Assert.IsType<int[]>(obj.Values));
+    }
+
+    [Fact]
+    public void ValueTypeComponentIsMultipleResolvedByGetService()
+    {
+        var config = new ComponentConfig();
+        config.Add(1);
+        config.Add(2);
+
+        using var container = config.ToContainer();
+        var values = container.GetService(typeof(IEnumerable<int>));
+
+        Assert.Equal([1, 2], Assert.IsType<int[]>(values));
+    }
+
+    [Fact]
+    public void ValueTypeComponentIsResolvedAsEmptyEnumerableWhenNotRegistered()
+    {
+        var config = new ComponentConfig();
+
+        using var container = config.ToContainer();
+        var values = container.GetService(typeof(IEnumerable<Guid>));
+
+        Assert.Empty(Assert.IsType<Guid[]>(values));
+    }
+
+    [Fact]
     public void ComponentIsResolvedByDefaultConstructor()
     {
         var config = new ComponentConfig();
@@ -209,6 +261,73 @@ public sealed class ComponentContainerTests
 
         Assert.NotNull(services);
         Assert.Empty(services);
+    }
+
+    [Fact]
+    public void ComponentIsResolvedAsSameEmptyEnumerableWhenNotRegistered()
+    {
+        var config = new ComponentConfig();
+
+        using var container = config.ToContainer();
+        var first = container.GetService(typeof(IEnumerable<ICalcService>));
+        var second = container.GetService(typeof(IEnumerable<ICalcService>));
+        var other = container.GetService(typeof(IEnumerable<SimpleObject>));
+
+        Assert.Empty(Assert.IsType<ICalcService[]>(first));
+        Assert.Same(first, second);
+        Assert.Empty(Assert.IsType<SimpleObject[]>(other));
+    }
+
+    [Fact]
+    public void ComponentIsResolvedAsEmptyEnumerableWithoutAllocationWhenNotRegistered()
+    {
+        var config = new ComponentConfig();
+
+        using var container = config.ToContainer();
+        container.GetService(typeof(IEnumerable<ICalcService>));
+
+        var before = GC.GetAllocatedBytesForCurrentThread();
+        for (var i = 0; i < 100; i++)
+        {
+            container.GetService(typeof(IEnumerable<ICalcService>));
+        }
+
+        Assert.InRange(GC.GetAllocatedBytesForCurrentThread() - before, 0, 99);
+    }
+
+    [Fact]
+    public void ComponentIsResolvedAsSameEmptyEnumerableUnderConcurrency()
+    {
+        const int count = 8;
+        var config = new ComponentConfig();
+
+        for (var trial = 0; trial < 100; trial++)
+        {
+            var container = config.ToContainer();
+            var results = new object?[count];
+            using var barrier = new Barrier(count);
+            var threads = new Thread[count];
+            for (var i = 0; i < count; i++)
+            {
+                threads[i] = new Thread(static state =>
+                {
+                    var (target, values, gate, index) = ((ComponentContainer, object?[], Barrier, int))state!;
+                    gate.SignalAndWait();
+                    values[index] = target.GetService(typeof(IEnumerable<ICalcService>));
+                });
+                threads[i].Start((container, results, barrier, i));
+            }
+
+            foreach (var thread in threads)
+            {
+                thread.Join();
+            }
+
+            container.Dispose();
+
+            Assert.Empty(Assert.IsType<ICalcService[]>(results[0]));
+            Assert.All(results, x => Assert.Same(results[0], x));
+        }
     }
 
     [Fact]
@@ -356,6 +475,26 @@ public sealed class ComponentContainerTests
         }
     }
 #pragma warning restore CA1819
+
+    public sealed class ValueArrayParameterObject
+    {
+        public IReadOnlyList<int> Values { get; }
+
+        public ValueArrayParameterObject(int[] values)
+        {
+            Values = values;
+        }
+    }
+
+    public sealed class ValueEnumerableParameterObject
+    {
+        public IEnumerable<int> Values { get; }
+
+        public ValueEnumerableParameterObject(IEnumerable<int> values)
+        {
+            Values = values;
+        }
+    }
 
     public sealed class MultiConstructorObject
     {

@@ -14,7 +14,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
         }
 
-        return (p1) => ci.Invoke(new[] { p1 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1) => invoker.Invoke(p1);
     }
 
     public Func<object?, object?, object> CreateFactory2(ConstructorInfo ci)
@@ -24,7 +25,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
         }
 
-        return (p1, p2) => ci.Invoke(new[] { p1, p2 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2) => invoker.Invoke(p1, p2);
     }
 
     public Func<object?, object?, object?, object> CreateFactory3(ConstructorInfo ci)
@@ -34,7 +36,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
         }
 
-        return (p1, p2, p3) => ci.Invoke(new[] { p1, p2, p3 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3) => invoker.Invoke(p1, p2, p3);
     }
 
     public Func<object?, object?, object?, object?, object> CreateFactory4(ConstructorInfo ci)
@@ -44,7 +47,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
         }
 
-        return (p1, p2, p3, p4) => ci.Invoke(new[] { p1, p2, p3, p4 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4) => invoker.Invoke(p1, p2, p3, p4);
     }
 
     public Func<object?, object?, object?, object?, object?, object> CreateFactory5(ConstructorInfo ci)
@@ -54,7 +58,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
         }
 
-        return (p1, p2, p3, p4, p5) => ci.Invoke(new[] { p1, p2, p3, p4, p5 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5) => invoker.Invoke([p1, p2, p3, p4, p5]);
     }
 
     public Func<object?, object?, object?, object?, object?, object?, object> CreateFactory6(ConstructorInfo ci)
@@ -64,7 +69,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
         }
 
-        return (p1, p2, p3, p4, p5, p6) => ci.Invoke(new[] { p1, p2, p3, p4, p5, p6 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6) => invoker.Invoke([p1, p2, p3, p4, p5, p6]);
     }
 
     public Func<object?, object?, object?, object?, object?, object?, object?, object> CreateFactory7(ConstructorInfo ci)
@@ -74,7 +80,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7) => ci.Invoke(new[] { p1, p2, p3, p4, p5, p6, p7 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7) => invoker.Invoke([p1, p2, p3, p4, p5, p6, p7]);
     }
 
     public Func<object?, object?, object?, object?, object?, object?, object?, object?, object> CreateFactory8(ConstructorInfo ci)
@@ -84,7 +91,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7, p8) => ci.Invoke(new[] { p1, p2, p3, p4, p5, p6, p7, p8 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7, p8) => invoker.Invoke([p1, p2, p3, p4, p5, p6, p7, p8]);
     }
 
     public Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object> CreateFactory9(ConstructorInfo ci)
@@ -94,7 +102,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7, p8, p9) => ci.Invoke(new[] { p1, p2, p3, p4, p5, p6, p7, p8, p9 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7, p8, p9) => invoker.Invoke([p1, p2, p3, p4, p5, p6, p7, p8, p9]);
     }
 
     public Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object> CreateFactory10(ConstructorInfo ci)
@@ -104,7 +113,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10) => ci.Invoke(new[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10) => invoker.Invoke([p1, p2, p3, p4, p5, p6, p7, p8, p9, p10]);
     }
 
     public Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object> CreateFactory11(ConstructorInfo ci)
@@ -114,7 +124,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11) => ci.Invoke(new[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11) => invoker.Invoke([p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11]);
     }
 
     public Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object> CreateFactory12(ConstructorInfo ci)
@@ -124,7 +135,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12) => ci.Invoke(new[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12) => invoker.Invoke([p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12]);
     }
 
     public Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object> CreateFactory13(ConstructorInfo ci)
@@ -134,7 +146,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13) => ci.Invoke(new[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13) => invoker.Invoke([p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13]);
     }
 
     public Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object> CreateFactory14(ConstructorInfo ci)
@@ -144,7 +157,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14) => ci.Invoke(new[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14) => invoker.Invoke([p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14]);
     }
 
     public Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object> CreateFactory15(ConstructorInfo ci)
@@ -154,7 +168,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15) => ci.Invoke(new[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15) => invoker.Invoke([p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15]);
     }
 
     public Func<object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object?, object> CreateFactory16(ConstructorInfo ci)
@@ -164,7 +179,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException($"Constructor parameter length is invalid. length={ci.GetParameters().Length}", nameof(ci));
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16) => ci.Invoke(new[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16) => invoker.Invoke([p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16]);
     }
 
     public Func<TP1?, T> CreateFactory<TP1, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
@@ -175,7 +191,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (p1) => (T)ci.Invoke(new object?[] { p1 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1) => (T)invoker.Invoke(p1);
     }
 
     public Func<TP1?, TP2?, T> CreateFactory<TP1, TP2, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
@@ -186,7 +203,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (p1, p2) => (T)ci.Invoke(new object?[] { p1, p2 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2) => (T)invoker.Invoke(p1, p2);
     }
 
     public Func<TP1?, TP2?, TP3?, T> CreateFactory<TP1, TP2, TP3, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
@@ -197,7 +215,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (p1, p2, p3) => (T)ci.Invoke(new object?[] { p1, p2, p3 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3) => (T)invoker.Invoke(p1, p2, p3);
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, T> CreateFactory<TP1, TP2, TP3, TP4, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
@@ -208,7 +227,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (p1, p2, p3, p4) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4) => (T)invoker.Invoke(p1, p2, p3, p4);
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
@@ -219,7 +239,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (p1, p2, p3, p4, p5) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5) => (T)invoker.Invoke([p1, p2, p3, p4, p5]);
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
@@ -230,7 +251,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (p1, p2, p3, p4, p5, p6) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6) => (T)invoker.Invoke([p1, p2, p3, p4, p5, p6]);
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
@@ -241,7 +263,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6, p7 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7) => (T)invoker.Invoke([p1, p2, p3, p4, p5, p6, p7]);
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
@@ -252,7 +275,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7, p8) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6, p7, p8 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7, p8) => (T)invoker.Invoke([p1, p2, p3, p4, p5, p6, p7, p8]);
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
@@ -263,7 +287,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7, p8, p9) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6, p7, p8, p9 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7, p8, p9) => (T)invoker.Invoke([p1, p2, p3, p4, p5, p6, p7, p8, p9]);
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
@@ -274,7 +299,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10) => (T)invoker.Invoke([p1, p2, p3, p4, p5, p6, p7, p8, p9, p10]);
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
@@ -285,7 +311,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11) => (T)invoker.Invoke([p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11]);
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
@@ -296,7 +323,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12) => (T)invoker.Invoke([p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12]);
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
@@ -307,7 +335,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13) => (T)invoker.Invoke([p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13]);
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
@@ -318,7 +347,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14) => (T)invoker.Invoke([p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14]);
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
@@ -329,7 +359,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15) => (T)invoker.Invoke([p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15]);
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, TP16?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
@@ -340,7 +371,8 @@ public sealed partial class ReflectionDelegateFactory
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16) => (T)ci.Invoke(new object?[] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16 });
+        var invoker = ConstructorInvoker.Create(ci);
+        return (p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16) => (T)invoker.Invoke([p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16]);
     }
 
 }

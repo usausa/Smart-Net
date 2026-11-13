@@ -1,5 +1,8 @@
 namespace Smart;
 
+using Smart.ComponentModel;
+using Smart.Reflection;
+
 public sealed class TypeExtensionsTests
 {
     private static int createdCount;
@@ -77,5 +80,40 @@ public sealed class TypeExtensionsTests
 
         Assert.Equal(1, createdCount);
         Assert.All(results, x => Assert.Same(results[0], x));
+    }
+
+    [Fact]
+    public void IsValueHolderTypeFindsImplementedInterface()
+    {
+        Assert.True(typeof(IValueHolder<int>).IsValueHolderType());
+        Assert.True(typeof(NotificationValue<string>).IsValueHolderType());
+        Assert.True(typeof(ExplicitValueHolder).IsValueHolderType());
+        Assert.False(typeof(int).IsValueHolderType());
+    }
+
+    [Fact]
+    public void GetValueHolderTypeReturnsImplementedInterface()
+    {
+        Assert.Equal(typeof(IValueHolder<int>), typeof(IValueHolder<int>).GetValueHolderType());
+        Assert.Equal(typeof(IValueHolder<string>), typeof(NotificationValue<string>).GetValueHolderType());
+        Assert.Equal(typeof(IValueHolder<int>), typeof(ExplicitValueHolder).GetValueHolderType());
+        Assert.Null(typeof(int).GetValueHolderType());
+        Assert.Equal(typeof(IValueHolder<int>), typeof(ValueHolderData).GetProperty(nameof(ValueHolderData.ClassIntValue))!.GetValueHolderType());
+        Assert.Null(typeof(ValueHolderData).GetProperty(nameof(ValueHolderData.IntValue))!.GetValueHolderType());
+    }
+
+    [Fact]
+    public void GetValueHolderPropertyReturnsValueOfInterface()
+    {
+        var pi = typeof(ExplicitValueHolder).GetValueHolderProperty()!;
+        Assert.Equal(typeof(IValueHolder<int>), pi.DeclaringType);
+        Assert.Equal(typeof(int), pi.PropertyType);
+        Assert.True(pi.CanRead);
+        Assert.True(pi.CanWrite);
+        Assert.Equal(typeof(string), typeof(NotificationValue<string>).GetValueHolderProperty()!.PropertyType);
+        Assert.Equal(typeof(MyStruct), typeof(IValueHolder<MyStruct>).GetValueHolderProperty()!.PropertyType);
+        Assert.Null(typeof(int).GetValueHolderProperty());
+        Assert.Equal(typeof(int), typeof(ValueHolderData).GetProperty(nameof(ValueHolderData.ClassIntValue))!.PropertyType.GetValueHolderProperty()!.PropertyType);
+        Assert.Null(typeof(ValueHolderData).GetProperty(nameof(ValueHolderData.IntValue))!.PropertyType.GetValueHolderProperty());
     }
 }

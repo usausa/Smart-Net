@@ -13,6 +13,17 @@ public sealed class ReflectionDelegateFactoryArrayTests
     }
 
     [Fact]
+    public void ArrayAllocatorForValueType()
+    {
+        var func = ReflectionDelegateFactory.Default.CreateArrayAllocator(typeof(int));
+
+        var array = func(2);
+
+        Assert.Equal(typeof(int[]), array.GetType());
+        Assert.Equal(2, array.Length);
+    }
+
+    [Fact]
     public void ArrayAllocatorForInternal()
     {
         var func = ReflectionDelegateFactory.Default.CreateArrayAllocator(typeof(InternalData));

@@ -1,5 +1,7 @@
 namespace Smart.Reflection;
 
+using Smart.ComponentModel;
+
 public sealed class ReflectionDelegateFactoryAccessorTests
 {
     //--------------------------------------------------------------------------------
@@ -345,6 +347,44 @@ public sealed class ReflectionDelegateFactoryAccessorTests
         Assert.Equal(0, structValue.Y);
     }
 
+    [Fact]
+    public void AccessValueHolderImplementationProperty()
+    {
+        var pi = typeof(ValueHolderData).GetProperty(nameof(ValueHolderData.ClassIntValue))!;
+        var getter = ReflectionDelegateFactory.Default.CreateGetter(pi)!;
+        var setter = ReflectionDelegateFactory.Default.CreateSetter(pi)!;
+
+        var data = new ValueHolderData();
+
+        setter(data, 1);
+        Assert.Equal(1, data.ClassIntValue.Value);
+        Assert.Equal(1, getter(data));
+    }
+
+    [Fact]
+    public void AccessExplicitValueHolderProperty()
+    {
+        var pi = typeof(ValueHolderData).GetProperty(nameof(ValueHolderData.ExplicitIntValue))!;
+        var getter = ReflectionDelegateFactory.Default.CreateGetter(pi)!;
+        var setter = ReflectionDelegateFactory.Default.CreateSetter(pi)!;
+
+        var data = new ValueHolderData();
+
+        setter(data, 1);
+        Assert.Equal(1, ((IValueHolder<int>)data.ExplicitIntValue).Value);
+        Assert.Equal(1, getter(data));
+    }
+
+    [Fact]
+    public void GetExtendedPropertyTypeOfValueHolder()
+    {
+        Assert.Equal(typeof(int), ReflectionDelegateFactory.Default.GetExtendedPropertyType(typeof(MemberData).GetProperty(nameof(MemberData.NotificationIntValue))!));
+        Assert.Equal(typeof(string), ReflectionDelegateFactory.Default.GetExtendedPropertyType(typeof(MemberData).GetProperty(nameof(MemberData.NotificationStringValue))!));
+        Assert.Equal(typeof(int), ReflectionDelegateFactory.Default.GetExtendedPropertyType(typeof(ValueHolderData).GetProperty(nameof(ValueHolderData.ClassIntValue))!));
+        Assert.Equal(typeof(int), ReflectionDelegateFactory.Default.GetExtendedPropertyType(typeof(ValueHolderData).GetProperty(nameof(ValueHolderData.ExplicitIntValue))!));
+        Assert.Equal(typeof(int), ReflectionDelegateFactory.Default.GetExtendedPropertyType(typeof(ValueHolderData).GetProperty(nameof(ValueHolderData.IntValue))!));
+    }
+
     //--------------------------------------------------------------------------------
     // Static
     //--------------------------------------------------------------------------------
@@ -471,5 +511,21 @@ public sealed class ReflectionDelegateFactoryAccessorTests
         structValue = (MyStruct)getter(null)!;
         Assert.Equal(0, structValue.X);
         Assert.Equal(0, structValue.Y);
+    }
+
+    //--------------------------------------------------------------------------------
+    // Invoker
+    //--------------------------------------------------------------------------------
+
+    [Fact]
+    public void AccessorThrowsPropertyException()
+    {
+        var pi = typeof(ThrowingPropertyData).GetProperty(nameof(ThrowingPropertyData.Value))!;
+        var getter = ReflectionDelegateFactory.Default.CreateGetter(pi)!;
+        var setter = ReflectionDelegateFactory.Default.CreateSetter(pi)!;
+        var data = new ThrowingPropertyData();
+
+        Assert.Throws<InvalidOperationException>(() => getter(data));
+        Assert.Throws<InvalidOperationException>(() => setter(data, 1));
     }
 }

@@ -112,13 +112,38 @@ public static class DictionaryExtensions
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void CopyTo<TKey, TValue>(this IDictionary<TKey, TValue> src, IDictionary<TKey, TValue> dst)
+        where TKey : notnull
     {
         src.CopyTo(dst, false);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static void CopyTo<TKey, TValue>(this IDictionary<TKey, TValue> src, IDictionary<TKey, TValue> dst, bool replace)
+        where TKey : notnull
     {
+        if (src is Dictionary<TKey, TValue> dictionary)
+        {
+            if (!replace && (dst is Dictionary<TKey, TValue> target))
+            {
+                foreach (var (key, value) in dictionary)
+                {
+                    target.TryAdd(key, value);
+                }
+
+                return;
+            }
+
+            foreach (var (key, value) in dictionary)
+            {
+                if (replace || !dst.ContainsKey(key))
+                {
+                    dst[key] = value;
+                }
+            }
+
+            return;
+        }
+
         foreach (var (key, value) in src)
         {
             if (replace || !dst.ContainsKey(key))

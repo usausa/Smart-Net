@@ -1,5 +1,7 @@
 namespace Smart.Reflection;
 
+using System.Runtime.CompilerServices;
+
 public sealed class ReflectionDelegateFactoryTypedFactoryTests
 {
     [Fact]
@@ -299,5 +301,56 @@ public sealed class ReflectionDelegateFactoryTypedFactoryTests
         Assert.Equal("14", data.Param14);
         Assert.Equal(15, data.Param15);
         Assert.Equal("16", data.Param16);
+    }
+
+    [Fact]
+    public void TypedFactoryDoesNotAllocateArguments()
+    {
+        var factory1 = ReflectionDelegateFactory.Default.CreateFactory<string, TextParameterData>();
+        var factory5 = ReflectionDelegateFactory.Default.CreateFactory<string, string, string, string, string, TextParameterData5>();
+        for (var i = 0; i < 3; i++)
+        {
+            _ = factory1("a");
+            _ = factory5("a", "b", "c", "d", "e");
+        }
+
+        _ = RuntimeHelpers.GetUninitializedObject(typeof(TextParameterData));
+        _ = RuntimeHelpers.GetUninitializedObject(typeof(TextParameterData5));
+
+        var before = GC.GetAllocatedBytesForCurrentThread();
+        for (var i = 0; i < 100; i++)
+        {
+            _ = RuntimeHelpers.GetUninitializedObject(typeof(TextParameterData));
+            _ = RuntimeHelpers.GetUninitializedObject(typeof(TextParameterData5));
+        }
+
+        var instances = GC.GetAllocatedBytesForCurrentThread() - before;
+
+        before = GC.GetAllocatedBytesForCurrentThread();
+        for (var i = 0; i < 100; i++)
+        {
+            _ = factory1("a");
+            _ = factory5("a", "b", "c", "d", "e");
+        }
+
+        Assert.InRange(GC.GetAllocatedBytesForCurrentThread() - before - instances, 0, 99);
+    }
+
+    [Fact]
+    public void TypedFactoryThrowsConstructorException()
+    {
+        var factory1 = ReflectionDelegateFactory.Default.CreateFactory<int, ThrowingConstructorData>();
+        var factory5 = ReflectionDelegateFactory.Default.CreateFactory<int, int, int, int, int, ThrowingConstructorData>();
+
+        Assert.Throws<InvalidOperationException>(() => factory1(1));
+        Assert.Throws<InvalidOperationException>(() => factory5(1, 2, 3, 4, 5));
+    }
+
+    [Fact]
+    public void TypedFactoryConvertsArguments()
+    {
+        var factory = ReflectionDelegateFactory.Default.CreateFactory<int, DoubleParameterData>();
+
+        Assert.Equal(2d, factory(2).Value);
     }
 }

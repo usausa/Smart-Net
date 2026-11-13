@@ -70,14 +70,38 @@ public static class TaskExtensions
     public static void Forget<TState>(this ValueTask task, TState state, Action<Exception, TState> exceptionHandler) =>
         task.AsTask().Forget(state, exceptionHandler);
 
-    public static void Forget<TResult>(this ValueTask<TResult> task) =>
+    public static void Forget<TResult>(this ValueTask<TResult> task)
+    {
+        if (task.IsCompletedSuccessfully)
+        {
+            _ = task.Result;
+            return;
+        }
+
         task.AsTask().Forget();
+    }
 
-    public static void Forget<TResult>(this ValueTask<TResult> task, Action<Exception> exceptionHandler) =>
+    public static void Forget<TResult>(this ValueTask<TResult> task, Action<Exception> exceptionHandler)
+    {
+        if (task.IsCompletedSuccessfully)
+        {
+            _ = task.Result;
+            return;
+        }
+
         task.AsTask().Forget(exceptionHandler);
+    }
 
-    public static void Forget<TResult, TState>(this ValueTask<TResult> task, TState state, Action<Exception, TState> exceptionHandler) =>
+    public static void Forget<TResult, TState>(this ValueTask<TResult> task, TState state, Action<Exception, TState> exceptionHandler)
+    {
+        if (task.IsCompletedSuccessfully)
+        {
+            _ = task.Result;
+            return;
+        }
+
         task.AsTask().Forget(state, exceptionHandler);
+    }
 
     //--------------------------------------------------------------------------------
     // TryWaitAsync
@@ -91,12 +115,9 @@ public static class TaskExtensions
             return true;
         }
 
-        using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        var delay = Task.Delay(timeout, cts.Token);
-        var completed = await Task.WhenAny(task, delay).ConfigureAwait(false);
-        if (completed == task)
+        await task.WaitAsync(timeout, cancellationToken).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
+        if (task.IsCompleted)
         {
-            await cts.CancelAsync().ConfigureAwait(false);
             await task.ConfigureAwait(false);
             return true;
         }
@@ -112,12 +133,9 @@ public static class TaskExtensions
             return (true, await task.ConfigureAwait(false));
         }
 
-        using var cts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-        var delay = Task.Delay(timeout, cts.Token);
-        var completed = await Task.WhenAny(task, delay).ConfigureAwait(false);
-        if (completed == task)
+        await ((Task)task.WaitAsync(timeout, cancellationToken)).ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
+        if (task.IsCompleted)
         {
-            await cts.CancelAsync().ConfigureAwait(false);
             return (true, await task.ConfigureAwait(false));
         }
 

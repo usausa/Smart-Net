@@ -162,242 +162,354 @@ public sealed partial class DynamicDelegateFactory
 
     public Func<TP1?, T> CreateFactory<TP1, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
+        if (typedFactoryTypeCache.TryGetValue(typeof(Func<TP1, T>), out var cached))
+        {
+            return (Func<TP1?, T>)cached;
+        }
+
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1) });
         if (ci is null)
         {
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (Func<TP1?, T>)typedFactoryCache
-            .GetOrAdd(ci, static x => CreateFactoryInternal(
-                x,
-                x.DeclaringType!,
+        var factory = typedFactoryCache
+            .GetOrAdd((ci, typeof(Func<TP1, T>)), static x => CreateFactoryInternal(
+                x.Constructor,
+                x.Constructor.DeclaringType!,
                 new[] { typeof(TP1), }));
+        typedFactoryTypeCache.TryAdd(typeof(Func<TP1, T>), factory);
+        return (Func<TP1?, T>)factory;
     }
 
     public Func<TP1?, TP2?, T> CreateFactory<TP1, TP2, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
+        if (typedFactoryTypeCache.TryGetValue(typeof(Func<TP1, TP2, T>), out var cached))
+        {
+            return (Func<TP1?, TP2?, T>)cached;
+        }
+
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2) });
         if (ci is null)
         {
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (Func<TP1?, TP2?, T>)typedFactoryCache
-            .GetOrAdd(ci, static x => CreateFactoryInternal(
-                x,
-                x.DeclaringType!,
+        var factory = typedFactoryCache
+            .GetOrAdd((ci, typeof(Func<TP1, TP2, T>)), static x => CreateFactoryInternal(
+                x.Constructor,
+                x.Constructor.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), }));
+        typedFactoryTypeCache.TryAdd(typeof(Func<TP1, TP2, T>), factory);
+        return (Func<TP1?, TP2?, T>)factory;
     }
 
     public Func<TP1?, TP2?, TP3?, T> CreateFactory<TP1, TP2, TP3, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
+        if (typedFactoryTypeCache.TryGetValue(typeof(Func<TP1, TP2, TP3, T>), out var cached))
+        {
+            return (Func<TP1?, TP2?, TP3?, T>)cached;
+        }
+
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3) });
         if (ci is null)
         {
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (Func<TP1?, TP2?, TP3?, T>)typedFactoryCache
-            .GetOrAdd(ci, static x => CreateFactoryInternal(
-                x,
-                x.DeclaringType!,
+        var factory = typedFactoryCache
+            .GetOrAdd((ci, typeof(Func<TP1, TP2, TP3, T>)), static x => CreateFactoryInternal(
+                x.Constructor,
+                x.Constructor.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), }));
+        typedFactoryTypeCache.TryAdd(typeof(Func<TP1, TP2, TP3, T>), factory);
+        return (Func<TP1?, TP2?, TP3?, T>)factory;
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, T> CreateFactory<TP1, TP2, TP3, TP4, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
+        if (typedFactoryTypeCache.TryGetValue(typeof(Func<TP1, TP2, TP3, TP4, T>), out var cached))
+        {
+            return (Func<TP1?, TP2?, TP3?, TP4?, T>)cached;
+        }
+
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4) });
         if (ci is null)
         {
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (Func<TP1?, TP2?, TP3?, TP4?, T>)typedFactoryCache
-            .GetOrAdd(ci, static x => CreateFactoryInternal(
-                x,
-                x.DeclaringType!,
+        var factory = typedFactoryCache
+            .GetOrAdd((ci, typeof(Func<TP1, TP2, TP3, TP4, T>)), static x => CreateFactoryInternal(
+                x.Constructor,
+                x.Constructor.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), }));
+        typedFactoryTypeCache.TryAdd(typeof(Func<TP1, TP2, TP3, TP4, T>), factory);
+        return (Func<TP1?, TP2?, TP3?, TP4?, T>)factory;
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
+        if (typedFactoryTypeCache.TryGetValue(typeof(Func<TP1, TP2, TP3, TP4, TP5, T>), out var cached))
+        {
+            return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, T>)cached;
+        }
+
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5) });
         if (ci is null)
         {
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, T>)typedFactoryCache
-            .GetOrAdd(ci, static x => CreateFactoryInternal(
-                x,
-                x.DeclaringType!,
+        var factory = typedFactoryCache
+            .GetOrAdd((ci, typeof(Func<TP1, TP2, TP3, TP4, TP5, T>)), static x => CreateFactoryInternal(
+                x.Constructor,
+                x.Constructor.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), }));
+        typedFactoryTypeCache.TryAdd(typeof(Func<TP1, TP2, TP3, TP4, TP5, T>), factory);
+        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, T>)factory;
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
+        if (typedFactoryTypeCache.TryGetValue(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, T>), out var cached))
+        {
+            return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, T>)cached;
+        }
+
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6) });
         if (ci is null)
         {
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, T>)typedFactoryCache
-            .GetOrAdd(ci, static x => CreateFactoryInternal(
-                x,
-                x.DeclaringType!,
+        var factory = typedFactoryCache
+            .GetOrAdd((ci, typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, T>)), static x => CreateFactoryInternal(
+                x.Constructor,
+                x.Constructor.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), }));
+        typedFactoryTypeCache.TryAdd(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, T>), factory);
+        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, T>)factory;
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
+        if (typedFactoryTypeCache.TryGetValue(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, T>), out var cached))
+        {
+            return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, T>)cached;
+        }
+
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7) });
         if (ci is null)
         {
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, T>)typedFactoryCache
-            .GetOrAdd(ci, static x => CreateFactoryInternal(
-                x,
-                x.DeclaringType!,
+        var factory = typedFactoryCache
+            .GetOrAdd((ci, typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, T>)), static x => CreateFactoryInternal(
+                x.Constructor,
+                x.Constructor.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), }));
+        typedFactoryTypeCache.TryAdd(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, T>), factory);
+        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, T>)factory;
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
+        if (typedFactoryTypeCache.TryGetValue(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, T>), out var cached))
+        {
+            return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, T>)cached;
+        }
+
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8) });
         if (ci is null)
         {
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, T>)typedFactoryCache
-            .GetOrAdd(ci, static x => CreateFactoryInternal(
-                x,
-                x.DeclaringType!,
+        var factory = typedFactoryCache
+            .GetOrAdd((ci, typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, T>)), static x => CreateFactoryInternal(
+                x.Constructor,
+                x.Constructor.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), }));
+        typedFactoryTypeCache.TryAdd(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, T>), factory);
+        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, T>)factory;
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
+        if (typedFactoryTypeCache.TryGetValue(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, T>), out var cached))
+        {
+            return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, T>)cached;
+        }
+
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9) });
         if (ci is null)
         {
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, T>)typedFactoryCache
-            .GetOrAdd(ci, static x => CreateFactoryInternal(
-                x,
-                x.DeclaringType!,
+        var factory = typedFactoryCache
+            .GetOrAdd((ci, typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, T>)), static x => CreateFactoryInternal(
+                x.Constructor,
+                x.Constructor.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), }));
+        typedFactoryTypeCache.TryAdd(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, T>), factory);
+        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, T>)factory;
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
+        if (typedFactoryTypeCache.TryGetValue(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, T>), out var cached))
+        {
+            return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, T>)cached;
+        }
+
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10) });
         if (ci is null)
         {
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, T>)typedFactoryCache
-            .GetOrAdd(ci, static x => CreateFactoryInternal(
-                x,
-                x.DeclaringType!,
+        var factory = typedFactoryCache
+            .GetOrAdd((ci, typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, T>)), static x => CreateFactoryInternal(
+                x.Constructor,
+                x.Constructor.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), }));
+        typedFactoryTypeCache.TryAdd(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, T>), factory);
+        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, T>)factory;
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
+        if (typedFactoryTypeCache.TryGetValue(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, T>), out var cached))
+        {
+            return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, T>)cached;
+        }
+
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11) });
         if (ci is null)
         {
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, T>)typedFactoryCache
-            .GetOrAdd(ci, static x => CreateFactoryInternal(
-                x,
-                x.DeclaringType!,
+        var factory = typedFactoryCache
+            .GetOrAdd((ci, typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, T>)), static x => CreateFactoryInternal(
+                x.Constructor,
+                x.Constructor.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), }));
+        typedFactoryTypeCache.TryAdd(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, T>), factory);
+        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, T>)factory;
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
+        if (typedFactoryTypeCache.TryGetValue(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, T>), out var cached))
+        {
+            return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, T>)cached;
+        }
+
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12) });
         if (ci is null)
         {
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, T>)typedFactoryCache
-            .GetOrAdd(ci, static x => CreateFactoryInternal(
-                x,
-                x.DeclaringType!,
+        var factory = typedFactoryCache
+            .GetOrAdd((ci, typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, T>)), static x => CreateFactoryInternal(
+                x.Constructor,
+                x.Constructor.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), }));
+        typedFactoryTypeCache.TryAdd(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, T>), factory);
+        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, T>)factory;
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
+        if (typedFactoryTypeCache.TryGetValue(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, T>), out var cached))
+        {
+            return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, T>)cached;
+        }
+
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13) });
         if (ci is null)
         {
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, T>)typedFactoryCache
-            .GetOrAdd(ci, static x => CreateFactoryInternal(
-                x,
-                x.DeclaringType!,
+        var factory = typedFactoryCache
+            .GetOrAdd((ci, typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, T>)), static x => CreateFactoryInternal(
+                x.Constructor,
+                x.Constructor.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), }));
+        typedFactoryTypeCache.TryAdd(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, T>), factory);
+        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, T>)factory;
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
+        if (typedFactoryTypeCache.TryGetValue(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, T>), out var cached))
+        {
+            return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, T>)cached;
+        }
+
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14) });
         if (ci is null)
         {
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, T>)typedFactoryCache
-            .GetOrAdd(ci, static x => CreateFactoryInternal(
-                x,
-                x.DeclaringType!,
+        var factory = typedFactoryCache
+            .GetOrAdd((ci, typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, T>)), static x => CreateFactoryInternal(
+                x.Constructor,
+                x.Constructor.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), }));
+        typedFactoryTypeCache.TryAdd(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, T>), factory);
+        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, T>)factory;
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
+        if (typedFactoryTypeCache.TryGetValue(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, T>), out var cached))
+        {
+            return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, T>)cached;
+        }
+
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), typeof(TP15) });
         if (ci is null)
         {
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, T>)typedFactoryCache
-            .GetOrAdd(ci, static x => CreateFactoryInternal(
-                x,
-                x.DeclaringType!,
+        var factory = typedFactoryCache
+            .GetOrAdd((ci, typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, T>)), static x => CreateFactoryInternal(
+                x.Constructor,
+                x.Constructor.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), typeof(TP15), }));
+        typedFactoryTypeCache.TryAdd(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, T>), factory);
+        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, T>)factory;
     }
 
     public Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, TP16?, T> CreateFactory<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
+        if (typedFactoryTypeCache.TryGetValue(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, T>), out var cached))
+        {
+            return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, TP16?, T>)cached;
+        }
+
         var ci = typeof(T).GetConstructor(new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), typeof(TP15), typeof(TP16) });
         if (ci is null)
         {
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, TP16?, T>)typedFactoryCache
-            .GetOrAdd(ci, static x => CreateFactoryInternal(
-                x,
-                x.DeclaringType!,
+        var factory = typedFactoryCache
+            .GetOrAdd((ci, typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, T>)), static x => CreateFactoryInternal(
+                x.Constructor,
+                x.Constructor.DeclaringType!,
                 new[] { typeof(TP1), typeof(TP2), typeof(TP3), typeof(TP4), typeof(TP5), typeof(TP6), typeof(TP7), typeof(TP8), typeof(TP9), typeof(TP10), typeof(TP11), typeof(TP12), typeof(TP13), typeof(TP14), typeof(TP15), typeof(TP16), }));
+        typedFactoryTypeCache.TryAdd(typeof(Func<TP1, TP2, TP3, TP4, TP5, TP6, TP7, TP8, TP9, TP10, TP11, TP12, TP13, TP14, TP15, TP16, T>), factory);
+        return (Func<TP1?, TP2?, TP3?, TP4?, TP5?, TP6?, TP7?, TP8?, TP9?, TP10?, TP11?, TP12?, TP13?, TP14?, TP15?, TP16?, T>)factory;
     }
 
 }

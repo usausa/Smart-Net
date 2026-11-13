@@ -2,6 +2,7 @@
 #nullable enable
 namespace Smart.Reflection;
 
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 public sealed partial class DynamicDelegateFactory
@@ -20,17 +21,24 @@ public sealed partial class DynamicDelegateFactory
 <# for (var i = 1; i <= 16; i++) { #>
     public Func<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>?, <# } #>T> CreateFactory<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>, <# } #>[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
+        if (typedFactoryTypeCache.TryGetValue(typeof(Func<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>, <# } #>T>), out var cached))
+        {
+            return (Func<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>?, <# } #>T>)cached;
+        }
+
         var ci = typeof(T).GetConstructor(<# if (i == 0) { #>Type.EmptyTypes<# } else { #>new[] { typeof(TP1)<# for (var j = 1; j < i; j++) { #>, typeof(TP<#= j + 1 #>)<# } #> }<# } #>);
         if (ci is null)
         {
             throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        return (Func<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>?, <# } #>T>)typedFactoryCache
-            .GetOrAdd(ci, static x => CreateFactoryInternal(
-                x,
-                x.DeclaringType!,
+        var factory = typedFactoryCache
+            .GetOrAdd((ci, typeof(Func<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>, <# } #>T>)), static x => CreateFactoryInternal(
+                x.Constructor,
+                x.Constructor.DeclaringType!,
                 <# if (i == 0) { #>Type.EmptyTypes<# } else { #>new[] { <# for (var j = 1; j <= i; j++) { #>typeof(TP<#= j #>), <# } #>}<# } #>));
+        typedFactoryTypeCache.TryAdd(typeof(Func<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>, <# } #>T>), factory);
+        return (Func<<# for (var j = 1; j <= i; j++) { #>TP<#= j #>?, <# } #>T>)factory;
     }
 
 <# } #>

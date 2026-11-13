@@ -1,6 +1,7 @@
 namespace Smart.IO;
 
 using System.Buffers;
+using System.Runtime.InteropServices;
 
 public sealed class PooledMemoryStreamTests
 {
@@ -63,6 +64,271 @@ public sealed class PooledMemoryStreamTests
         var buf = new byte[5];
         var read = ms.Read(buf, 0, buf.Length);
         Assert.Equal(0, read);
+    }
+
+    [Fact]
+    public void ReadByteReturnsBytesThenMinusOne()
+    {
+        using var ms = new PooledMemoryStream();
+        ms.Write([1, 2, 3], 0, 3);
+        ms.Position = 1;
+
+        Assert.Equal(2, ms.ReadByte());
+        Assert.Equal(3, ms.ReadByte());
+        Assert.Equal(-1, ms.ReadByte());
+        Assert.Equal(3L, ms.Position);
+
+        ms.Position = 10;
+        Assert.Equal(-1, ms.ReadByte());
+        Assert.Equal(10L, ms.Position);
+    }
+
+    [Fact]
+    public void WriteByteGrowsAndZeroFillsGap()
+    {
+        using var ms = new PooledMemoryStream(4);
+        var expected = new byte[23];
+        for (var i = 0; i < 20; i++)
+        {
+            ms.WriteByte((byte)(i + 1));
+            expected[i] = (byte)(i + 1);
+        }
+
+        ms.Position = 22;
+        ms.WriteByte(99);
+        expected[22] = 99;
+
+        Assert.Equal(23L, ms.Length);
+        Assert.Equal(23L, ms.Position);
+        Assert.Equal(expected, ms.GetRawBuffer().AsSpan(0, 23).ToArray());
+    }
+
+    [Fact]
+    public void ReadByteWriteByteDoNotAllocate()
+    {
+        using var ms = new PooledMemoryStream();
+        ms.SetLength(200);
+        ReadAndWrite(ms);
+
+        var before = GC.GetAllocatedBytesForCurrentThread();
+        for (var i = 0; i < 100; i++)
+        {
+            ReadAndWrite(ms);
+        }
+
+        Assert.InRange(GC.GetAllocatedBytesForCurrentThread() - before, 0, 99);
+
+        static void ReadAndWrite(PooledMemoryStream stream)
+        {
+            stream.Position = 0;
+            _ = stream.ReadByte();
+            stream.WriteByte(1);
+        }
+    }
+
+    [Fact]
+    public async Task WriteAsyncReadAsyncCompleteSynchronously()
+    {
+        var ms = new PooledMemoryStream(4);
+        await using (ms.ConfigureAwait(true))
+        {
+            var data = new byte[] { 1, 2, 3, 4, 5 };
+            var cancellationToken = TestContext.Current.CancellationToken;
+
+            var write = ms.WriteAsync(data, 0, 3, cancellationToken);
+            Assert.True(write.IsCompletedSuccessfully);
+            await write.ConfigureAwait(true);
+            var writeMemory = ms.WriteAsync(data.AsMemory(3, 2), cancellationToken).AsTask();
+            Assert.True(writeMemory.IsCompletedSuccessfully);
+            await writeMemory.ConfigureAwait(true);
+            Assert.Equal(5L, ms.Length);
+
+            ms.Position = 0;
+            var buf = new byte[5];
+            var read = ms.ReadAsync(buf, 0, 3, cancellationToken);
+            Assert.True(read.IsCompletedSuccessfully);
+            Assert.Equal(3, await read.ConfigureAwait(true));
+            var readMemory = ms.ReadAsync(buf.AsMemory(3, 2), cancellationToken).AsTask();
+            Assert.True(readMemory.IsCompletedSuccessfully);
+            Assert.Equal(2, await readMemory.ConfigureAwait(true));
+            Assert.Equal(data, buf);
+        }
+    }
+
+    [Fact]
+    public async Task ReadAsyncReusesTaskForSameCount()
+    {
+        var ms = new PooledMemoryStream();
+        await using (ms.ConfigureAwait(true))
+        {
+            ms.SetLength(32);
+            var cancellationToken = TestContext.Current.CancellationToken;
+
+            var buf = new byte[16];
+            var first = ms.ReadAsync(buf, 0, buf.Length, cancellationToken);
+            var second = ms.ReadAsync(buf, 0, buf.Length, cancellationToken);
+            Assert.Same(first, second);
+            Assert.Equal(16, await second.ConfigureAwait(true));
+            var third = ms.ReadAsync(buf, 0, buf.Length, cancellationToken);
+            Assert.NotSame(second, third);
+            Assert.Equal(0, await third.ConfigureAwait(true));
+        }
+    }
+
+    [Fact]
+    public void AsyncMembersReturnCanceledTaskWhenCanceled()
+    {
+        using var ms = new PooledMemoryStream();
+        using var cts = new CancellationTokenSource();
+        cts.Cancel();
+
+        var buffer = new byte[3];
+        Assert.True(ms.WriteAsync(buffer, 0, buffer.Length, cts.Token).IsCanceled);
+        Assert.True(ms.WriteAsync(buffer.AsMemory(), cts.Token).AsTask().IsCanceled);
+        Assert.True(ms.ReadAsync(buffer, 0, buffer.Length, cts.Token).IsCanceled);
+        Assert.True(ms.ReadAsync(buffer.AsMemory(), cts.Token).AsTask().IsCanceled);
+        Assert.True(ms.FlushAsync(cts.Token).IsCanceled);
+        Assert.Equal(0L, ms.Length);
+    }
+
+    //--------------------------------------------------------------------------------
+    // CopyTo / CopyToAsync
+    //--------------------------------------------------------------------------------
+
+    [Fact]
+    public void CopyToWritesFromRawBufferInOneCall()
+    {
+        using var ms = new PooledMemoryStream();
+        ms.SetLength(200_000);
+        ms.Position = 1_000;
+        using var destination = new RecordingStream();
+
+        ms.CopyTo(destination);
+
+        var (buffer, offset, count) = Assert.Single(destination.Writes);
+        Assert.Same(ms.GetRawBuffer(), buffer);
+        Assert.Equal(1_000, offset);
+        Assert.Equal(199_000, count);
+        Assert.Equal(200_000L, ms.Position);
+    }
+
+    [Fact]
+    public async Task CopyToAsyncCopiesRemainingToMemoryStreams()
+    {
+        var ms = new PooledMemoryStream(4);
+        await using (ms.ConfigureAwait(true))
+        {
+            var cancellationToken = TestContext.Current.CancellationToken;
+            await ms.WriteAsync(new byte[] { 1, 2, 3, 4, 5 }, cancellationToken).ConfigureAwait(true);
+
+            var memory = new MemoryStream();
+            await using (memory.ConfigureAwait(true))
+            {
+                ms.Position = 1;
+                await ms.CopyToAsync(memory, cancellationToken).ConfigureAwait(true);
+                Assert.Equal(new byte[] { 2, 3, 4, 5 }, memory.ToArray());
+                Assert.Equal(5L, ms.Position);
+            }
+
+            var pooled = new PooledMemoryStream(4);
+            await using (pooled.ConfigureAwait(true))
+            {
+                ms.Position = 2;
+                await ms.CopyToAsync(pooled, cancellationToken).ConfigureAwait(true);
+                Assert.Equal(new byte[] { 3, 4, 5 }, pooled.GetRawBuffer().AsSpan(0, (int)pooled.Length).ToArray());
+                Assert.Equal(5L, ms.Position);
+            }
+        }
+    }
+
+    [Fact]
+    public async Task CopyToAsyncToMemoryStreamWritesInOneCall()
+    {
+        var ms = new PooledMemoryStream();
+        await using (ms.ConfigureAwait(true))
+        {
+            ms.SetLength(200_000);
+            ms.Position = 0;
+            var destination = new MemoryStream(new byte[150_000]);
+            await using (destination.ConfigureAwait(true))
+            {
+                await Assert.ThrowsAsync<NotSupportedException>(() => ms.CopyToAsync(destination, TestContext.Current.CancellationToken)).ConfigureAwait(true);
+                Assert.Equal(0L, destination.Position);
+                Assert.Equal(200_000L, ms.Position);
+            }
+        }
+    }
+
+    [Fact]
+    public async Task CopyToAsyncToOtherStreamDoesNotPassRawBuffer()
+    {
+        var ms = new PooledMemoryStream();
+        await using (ms.ConfigureAwait(true))
+        {
+            ms.SetLength(100);
+            ms.Position = 0;
+            var destination = new RecordingStream();
+            await using (destination.ConfigureAwait(true))
+            {
+                await ms.CopyToAsync(destination, TestContext.Current.CancellationToken).ConfigureAwait(true);
+
+                var (buffer, _, count) = Assert.Single(destination.Writes);
+                Assert.NotSame(ms.GetRawBuffer(), buffer);
+                Assert.Equal(100, count);
+                Assert.Equal(100L, ms.Position);
+            }
+        }
+    }
+
+    [Fact]
+    public async Task CopyToAsyncReturnsCanceledTaskWhenCanceled()
+    {
+        var ms = new PooledMemoryStream();
+        await using (ms.ConfigureAwait(true))
+        {
+            ms.SetLength(3);
+            ms.Position = 0;
+            var destination = new MemoryStream();
+            await using (destination.ConfigureAwait(true))
+            {
+                await Assert.ThrowsAnyAsync<OperationCanceledException>(() => ms.CopyToAsync(destination, new CancellationToken(true))).ConfigureAwait(true);
+                Assert.Equal(0L, ms.Position);
+                Assert.Equal(0L, destination.Length);
+            }
+        }
+    }
+
+    [Fact]
+    public void CopyToSelfAppendsRemaining()
+    {
+        using var ms = new PooledMemoryStream(new PoisonPool(), 5);
+        ms.Write([1, 2, 3, 4, 5], 0, 5);
+        ms.Position = 2;
+
+        ms.CopyTo(ms);
+
+        Assert.Equal(8L, ms.Position);
+        ms.Position = 0;
+        var buf = new byte[8];
+        ms.ReadExactly(buf, 0, buf.Length);
+        Assert.Equal(new byte[] { 1, 2, 3, 4, 5, 3, 4, 5 }, buf);
+    }
+
+    [Fact]
+    public async Task CopyToAsyncSelfAppendsRemaining()
+    {
+        var ms = new PooledMemoryStream(new PoisonPool(), 5);
+        await using (ms.ConfigureAwait(true))
+        {
+            var cancellationToken = TestContext.Current.CancellationToken;
+            await ms.WriteAsync(new byte[] { 1, 2, 3, 4, 5 }, cancellationToken).ConfigureAwait(true);
+            ms.Position = 2;
+
+            await ms.CopyToAsync(ms, cancellationToken).ConfigureAwait(true);
+
+            Assert.Equal(8L, ms.Position);
+            Assert.Equal(new byte[] { 1, 2, 3, 4, 5, 3, 4, 5 }, ms.GetRawBuffer().AsSpan(0, (int)ms.Length).ToArray());
+        }
     }
 
     //--------------------------------------------------------------------------------
@@ -269,6 +535,27 @@ public sealed class PooledMemoryStreamTests
     }
 
     [Fact]
+    public void WriteDoublesCapacityWhenPoolReturnsExactSize()
+    {
+        var pool = new ExactPool();
+        using var ms = new PooledMemoryStream(pool, 1024);
+        var chunk = new byte[1024];
+        for (var i = 0; i < 64; i++)
+        {
+            chunk.AsSpan().Fill((byte)i);
+            ms.Write(chunk, 0, chunk.Length);
+        }
+
+        int[] expected = [1024, 2048, 4096, 8192, 16384, 32768, 65536];
+        Assert.Equal(expected, pool.Rented);
+        Assert.Equal(65536L, ms.Length);
+        for (var i = 0; i < 64; i++)
+        {
+            Assert.Equal(-1, ms.GetRawBuffer().AsSpan(i * 1024, 1024).IndexOfAnyExcept((byte)i));
+        }
+    }
+
+    [Fact]
     public void MultipleWritesAccumulate()
     {
         using var ms = new PooledMemoryStream(4);
@@ -308,6 +595,59 @@ public sealed class PooledMemoryStreamTests
         Assert.False(ms.CanSeek);
     }
 
+    [Fact]
+    public void MembersThrowAfterDispose()
+    {
+        var ms = new PooledMemoryStream();
+        ms.Write([1, 2, 3], 0, 3);
+        ms.Dispose();
+
+        var buffer = new byte[3];
+        Assert.Throws<ObjectDisposedException>(() => ms.Write([4], 0, 1));
+        Assert.Throws<ObjectDisposedException>(() => ms.Write(buffer.AsSpan()));
+        Assert.Throws<ObjectDisposedException>(() => ms.Read(buffer, 0, buffer.Length));
+        Assert.Throws<ObjectDisposedException>(() => ms.Read(buffer.AsSpan()));
+        Assert.Throws<ObjectDisposedException>(() => ms.Seek(0, SeekOrigin.Begin));
+        Assert.Throws<ObjectDisposedException>(() => ms.SetLength(0));
+        Assert.Throws<ObjectDisposedException>(() => ms.Length);
+        Assert.Throws<ObjectDisposedException>(() => ms.Position);
+        Assert.Throws<ObjectDisposedException>(() => ms.Position = 0);
+        Assert.Throws<ObjectDisposedException>(ms.GetRawBuffer);
+        Assert.Throws<ObjectDisposedException>(() => ms.ReadByte());
+        Assert.Throws<ObjectDisposedException>(() => ms.WriteByte(1));
+        using var destination = new MemoryStream();
+        Assert.Throws<ObjectDisposedException>(() => ms.CopyTo(destination));
+    }
+
+    [Fact]
+    public async Task AsyncMembersFaultAfterDispose()
+    {
+        var ms = new PooledMemoryStream();
+        await ms.DisposeAsync().ConfigureAwait(true);
+        var cancellationToken = TestContext.Current.CancellationToken;
+
+        var buffer = new byte[3];
+        Task[] tasks =
+        [
+            ms.WriteAsync(buffer, 0, buffer.Length, cancellationToken),
+            ms.WriteAsync(buffer.AsMemory(), cancellationToken).AsTask(),
+            ms.ReadAsync(buffer, 0, buffer.Length, cancellationToken),
+            ms.ReadAsync(buffer.AsMemory(), cancellationToken).AsTask()
+        ];
+        foreach (var task in tasks)
+        {
+            Assert.True(task.IsFaulted);
+            await Assert.ThrowsAsync<ObjectDisposedException>(() => task).ConfigureAwait(true);
+        }
+
+        Assert.True(ms.FlushAsync(cancellationToken).IsCompletedSuccessfully);
+        var destination = new MemoryStream();
+        await using (destination.ConfigureAwait(true))
+        {
+            await Assert.ThrowsAsync<ObjectDisposedException>(() => ms.CopyToAsync(destination, cancellationToken)).ConfigureAwait(true);
+        }
+    }
+
     //--------------------------------------------------------------------------------
     // GetRawBuffer
     //--------------------------------------------------------------------------------
@@ -341,6 +681,13 @@ public sealed class PooledMemoryStreamTests
         ms.Flush(); // no-op; should not throw
     }
 
+    [Fact]
+    public void FlushAsyncCompletesSynchronously()
+    {
+        using var ms = new PooledMemoryStream();
+        Assert.True(ms.FlushAsync(TestContext.Current.CancellationToken).IsCompletedSuccessfully);
+    }
+
     //--------------------------------------------------------------------------------
     // Custom ArrayPool constructor
     //--------------------------------------------------------------------------------
@@ -355,5 +702,78 @@ public sealed class PooledMemoryStreamTests
         var buf = new byte[1];
         ms.ReadExactly(buf, 0, 1);
         Assert.Equal(42, buf[0]);
+    }
+
+    private sealed class PoisonPool : ArrayPool<byte>
+    {
+        public override byte[] Rent(int minimumLength) => new byte[minimumLength];
+
+        public override void Return(byte[] array, bool clearArray = false) => array.AsSpan().Fill(0xFF);
+    }
+
+    private sealed class ExactPool : ArrayPool<byte>
+    {
+        public List<int> Rented { get; } = [];
+
+        public override byte[] Rent(int minimumLength)
+        {
+            Rented.Add(minimumLength);
+            return new byte[minimumLength];
+        }
+
+        public override void Return(byte[] array, bool clearArray = false)
+        {
+        }
+    }
+
+    private abstract class WriteOnlyStream : Stream
+    {
+        public override bool CanRead => false;
+
+        public override bool CanSeek => false;
+
+        public override bool CanWrite => true;
+
+        public override long Length => throw new NotSupportedException();
+
+        public override long Position
+        {
+            get => throw new NotSupportedException();
+            set => throw new NotSupportedException();
+        }
+
+        public override void Flush()
+        {
+        }
+
+        public override int Read(byte[] buffer, int offset, int count) => throw new NotSupportedException();
+
+        public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
+
+        public override void SetLength(long value) => throw new NotSupportedException();
+    }
+
+    private sealed class RecordingStream : WriteOnlyStream
+    {
+        public List<(byte[] Buffer, int Offset, int Count)> Writes { get; } = [];
+
+        public override void Write(byte[] buffer, int offset, int count) => Writes.Add((buffer, offset, count));
+
+        public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+        {
+            Write(buffer, offset, count);
+            return Task.CompletedTask;
+        }
+
+        public override ValueTask WriteAsync(ReadOnlyMemory<byte> buffer, CancellationToken cancellationToken = default)
+        {
+            if (!MemoryMarshal.TryGetArray(buffer, out var segment))
+            {
+                throw new NotSupportedException();
+            }
+
+            Write(segment.Array!, segment.Offset, segment.Count);
+            return ValueTask.CompletedTask;
+        }
     }
 }

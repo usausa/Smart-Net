@@ -277,6 +277,45 @@ public sealed class DynamicDelegateFactoryTypedFactoryTests
     }
 
     [Fact]
+    public void TypedFactoryIsCreatedForEachArgumentType()
+    {
+        var fromInt = DynamicDelegateFactory.Default.CreateFactory<int, NullableParameterData>();
+        var fromNullable = DynamicDelegateFactory.Default.CreateFactory<int?, NullableParameterData>();
+
+        Assert.Equal(1, fromInt(1).Value);
+        Assert.Equal(2, fromNullable(2).Value);
+        Assert.Null(fromNullable(null).Value);
+    }
+
+    [Fact]
+    public void TypedFactoryWidensNumericArgument()
+    {
+        var fromInt = DynamicDelegateFactory.Default.CreateFactory<int, DoubleParameterData>();
+        var fromUInt = DynamicDelegateFactory.Default.CreateFactory<uint, DoubleParameterData>();
+        var fromFloat = DynamicDelegateFactory.Default.CreateFactory<float, DoubleParameterData>();
+
+        Assert.Equal(2d, fromInt(2).Value);
+        Assert.Equal(4294967295d, fromUInt(UInt32.MaxValue).Value);
+        Assert.Equal(1.5d, fromFloat(1.5f).Value);
+    }
+
+    [Fact]
+    public void TypedFactoryWidensEnumArgument()
+    {
+        var factory = DynamicDelegateFactory.Default.CreateFactory<MyEnum, LongParameterData>();
+
+        Assert.Equal((long)MyEnum.One, factory(MyEnum.One).Value);
+    }
+
+    [Fact]
+    public void TypedFactoryBoxesValueArgument()
+    {
+        var factory = DynamicDelegateFactory.Default.CreateFactory<int, ObjectParameterData>();
+
+        Assert.Equal(2, factory(2).Value);
+    }
+
+    [Fact]
     public void TypedFactoryData16()
     {
         var factory = DynamicDelegateFactory.Default.CreateFactory<int, string, int, string, int, string, int, string, int, string, int, string, int, string, int, string, Data16>();
@@ -299,5 +338,39 @@ public sealed class DynamicDelegateFactoryTypedFactoryTests
         Assert.Equal("14", data.Param14);
         Assert.Equal(15, data.Param15);
         Assert.Equal("16", data.Param16);
+    }
+
+    [Fact]
+    public void TypedFactoryFromCacheIsSame()
+    {
+        Assert.Same(DynamicDelegateFactory.Default.CreateFactory<Data0>(), DynamicDelegateFactory.Default.CreateFactory<Data0>());
+        Assert.Same(DynamicDelegateFactory.Default.CreateFactory<int, Data1>(), DynamicDelegateFactory.Default.CreateFactory<int, Data1>());
+        Assert.Same(DynamicDelegateFactory.Default.CreateFactory<int, string, int, Data3>(), DynamicDelegateFactory.Default.CreateFactory<int, string, int, Data3>());
+    }
+
+    [Fact]
+    public void TypedFactoryFromCacheDoesNotAllocate()
+    {
+        var factory = DynamicDelegateFactory.Default;
+        _ = factory.CreateFactory<Data0>();
+        _ = factory.CreateFactory<int, Data1>();
+        _ = factory.CreateFactory<int, string, int, Data3>();
+
+        var before = GC.GetAllocatedBytesForCurrentThread();
+        for (var i = 0; i < 100; i++)
+        {
+            _ = factory.CreateFactory<Data0>();
+            _ = factory.CreateFactory<int, Data1>();
+            _ = factory.CreateFactory<int, string, int, Data3>();
+        }
+
+        Assert.InRange(GC.GetAllocatedBytesForCurrentThread() - before, 0, 99);
+    }
+
+    [Fact]
+    public void TypedFactoryWithoutConstructorThrowsEveryTime()
+    {
+        Assert.Throws<ArgumentException>(static () => DynamicDelegateFactory.Default.CreateFactory<string, Data1>());
+        Assert.Throws<ArgumentException>(static () => DynamicDelegateFactory.Default.CreateFactory<string, Data1>());
     }
 }

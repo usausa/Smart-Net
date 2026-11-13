@@ -19,7 +19,7 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
     // Array
     //--------------------------------------------------------------------------------
 
-    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Array.CreateInstance is used for array allocation; the element type is supplied by the caller.")]
+    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Arrays of reference types need no dynamic code. For value types, the caller makes the array type available, for example by referencing typeof(T[]).")]
     public Func<int, Array> CreateArrayAllocator(Type type)
     {
         return length => Array.CreateInstance(type, length);
@@ -58,8 +58,8 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
         }
 
         return ci.GetParameters().Length == 0
-            ? _ => ci.Invoke(null)
-            : ci.Invoke;
+            ? _ => ci.Invoke(BindingFlags.DoNotWrapExceptions, null, null, null)
+            : args => ci.Invoke(BindingFlags.DoNotWrapExceptions, null, args, null);
     }
 
     public Func<object> CreateFactory0(ConstructorInfo ci)
@@ -70,7 +70,7 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
         }
 
         // specialized
-        return () => ci.Invoke(null);
+        return () => ci.Invoke(BindingFlags.DoNotWrapExceptions, null, null, null);
     }
 
     public Func<T> CreateFactory<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
@@ -94,15 +94,15 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
         }
 
-        var holderType = !extension ? null : pi.GetValueHolderType();
-        if (holderType is null)
+        var vpi = !extension ? null : pi.GetValueHolderProperty();
+        if (vpi is null)
         {
             if (!pi.CanRead)
             {
                 return null;
             }
 
-            return pi.GetValue;
+            return obj => pi.GetValue(obj, BindingFlags.DoNotWrapExceptions, null, null, null);
         }
 
         if (!pi.CanRead)
@@ -110,11 +110,10 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
         }
 
-        var vpi = holderType.GetValueHolderProperty()!;
         return obj =>
         {
-            var holder = pi.GetValue(obj, null);
-            return vpi.GetValue(holder, null);
+            var holder = pi.GetValue(obj, BindingFlags.DoNotWrapExceptions, null, null, null);
+            return vpi.GetValue(holder, BindingFlags.DoNotWrapExceptions, null, null, null);
         };
     }
 
@@ -130,15 +129,16 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
         }
 
-        var holderType = !extension ? null : pi.GetValueHolderType();
-        if (holderType is null)
+        var vpi = !extension ? null : pi.GetValueHolderProperty();
+        if (vpi is null)
         {
             if (!pi.CanWrite)
             {
                 return null;
             }
 
-            return pi.SetValue;
+            var setter = MethodInvoker.Create(pi.SetMethod!);
+            return (obj, value) => setter.Invoke(obj, value);
         }
 
         if (!pi.CanRead)
@@ -146,11 +146,12 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
         }
 
-        var vpi = holderType.GetValueHolderProperty()!;
+        var holderGetter = MethodInvoker.Create(pi.GetMethod!);
+        var valueSetter = MethodInvoker.Create(vpi.SetMethod!);
         return (obj, value) =>
         {
-            var holder = pi.GetValue(obj, null);
-            vpi.SetValue(holder, value, null);
+            var holder = holderGetter.Invoke(obj);
+            valueSetter.Invoke(holder, value);
         };
     }
 
@@ -168,15 +169,15 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
         }
 
-        var holderType = !extension ? null : pi.GetValueHolderType();
-        if (holderType is null)
+        var vpi = !extension ? null : pi.GetValueHolderProperty();
+        if (vpi is null)
         {
             if (!pi.CanRead)
             {
                 return null;
             }
 
-            return obj => (TMember?)pi.GetValue(obj, null)!;
+            return obj => (TMember?)pi.GetValue(obj, BindingFlags.DoNotWrapExceptions, null, null, null);
         }
 
         if (!pi.CanRead)
@@ -184,11 +185,10 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
         }
 
-        var vpi = holderType.GetValueHolderProperty()!;
         return obj =>
         {
-            var holder = pi.GetValue(obj, null);
-            return (TMember?)vpi.GetValue(holder, null)!;
+            var holder = pi.GetValue(obj, BindingFlags.DoNotWrapExceptions, null, null, null);
+            return (TMember?)vpi.GetValue(holder, BindingFlags.DoNotWrapExceptions, null, null, null);
         };
     }
 
@@ -204,15 +204,16 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Invalid type parameter. name=[{pi.Name}]", nameof(pi));
         }
 
-        var holderType = !extension ? null : pi.GetValueHolderType();
-        if (holderType is null)
+        var vpi = !extension ? null : pi.GetValueHolderProperty();
+        if (vpi is null)
         {
             if (!pi.CanWrite)
             {
                 return null;
             }
 
-            return (obj, value) => pi.SetValue(obj, value, null);
+            var setter = MethodInvoker.Create(pi.SetMethod!);
+            return (obj, value) => setter.Invoke(obj, value);
         }
 
         if (!pi.CanRead)
@@ -220,11 +221,12 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
             throw new ArgumentException($"Value holder is not readable. name=[{pi.Name}]", nameof(pi));
         }
 
-        var vpi = holderType.GetValueHolderProperty()!;
+        var holderGetter = MethodInvoker.Create(pi.GetMethod!);
+        var valueSetter = MethodInvoker.Create(vpi.SetMethod!);
         return (obj, value) =>
         {
-            var holder = pi.GetValue(obj, null);
-            vpi.SetValue(holder, value, null);
+            var holder = holderGetter.Invoke(obj);
+            valueSetter.Invoke(holder, value);
         };
     }
 
@@ -234,8 +236,7 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
 
     public Type GetExtendedPropertyType(PropertyInfo pi)
     {
-        var holderType = pi.GetValueHolderType();
-        var tpi = holderType is null ? pi : holderType.GetValueHolderProperty()!;
+        var tpi = pi.GetValueHolderProperty() ?? pi;
         return tpi.PropertyType;
     }
 }

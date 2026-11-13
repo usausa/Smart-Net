@@ -222,9 +222,9 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
 
         lock (sync)
         {
-            if (!slots.TryGetValue(elementType, out var slot))
+            if (!slots.TryGetValue(elementType, out var slot) && !enumerableSlots.TryGetValue(serviceType, out slot))
             {
-                return CreateArray(elementType, EmptyResult);
+                slot = new Slot([]);
             }
 
             var typed = slot.GetTyped();
@@ -306,7 +306,7 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
         return null;
     }
 
-    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Array.CreateInstance is used for component resolution; element types are registered by the caller who is responsible for AOT compatibility.")]
+    [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Arrays of reference types need no dynamic code. For value types, the caller makes the array type available, for example by referencing typeof(T[]).")]
     private static Array CreateArray(Type elementType, object[] source)
     {
         var array = Array.CreateInstance(elementType, source.Length);

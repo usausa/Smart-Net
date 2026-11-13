@@ -1,5 +1,7 @@
 namespace Smart.Reflection;
 
+using Smart.ComponentModel;
+
 public sealed class DynamicDelegateFactoryAccessorTests
 {
     //--------------------------------------------------------------------------------
@@ -343,6 +345,44 @@ public sealed class DynamicDelegateFactoryAccessorTests
         structValue = (MyStruct)getter(data)!;
         Assert.Equal(0, structValue.X);
         Assert.Equal(0, structValue.Y);
+    }
+
+    [Fact]
+    public void AccessValueHolderImplementationProperty()
+    {
+        var pi = typeof(ValueHolderData).GetProperty(nameof(ValueHolderData.ClassIntValue))!;
+        var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+        var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
+
+        var data = new ValueHolderData();
+
+        setter(data, 1);
+        Assert.Equal(1, data.ClassIntValue.Value);
+        Assert.Equal(1, getter(data));
+    }
+
+    [Fact]
+    public void AccessExplicitValueHolderProperty()
+    {
+        var pi = typeof(ValueHolderData).GetProperty(nameof(ValueHolderData.ExplicitIntValue))!;
+        var getter = DynamicDelegateFactory.Default.CreateGetter(pi)!;
+        var setter = DynamicDelegateFactory.Default.CreateSetter(pi)!;
+
+        var data = new ValueHolderData();
+
+        setter(data, 1);
+        Assert.Equal(1, ((IValueHolder<int>)data.ExplicitIntValue).Value);
+        Assert.Equal(1, getter(data));
+    }
+
+    [Fact]
+    public void GetExtendedPropertyTypeOfValueHolder()
+    {
+        Assert.Equal(typeof(int), DynamicDelegateFactory.Default.GetExtendedPropertyType(typeof(MemberData).GetProperty(nameof(MemberData.NotificationIntValue))!));
+        Assert.Equal(typeof(string), DynamicDelegateFactory.Default.GetExtendedPropertyType(typeof(MemberData).GetProperty(nameof(MemberData.NotificationStringValue))!));
+        Assert.Equal(typeof(int), DynamicDelegateFactory.Default.GetExtendedPropertyType(typeof(ValueHolderData).GetProperty(nameof(ValueHolderData.ClassIntValue))!));
+        Assert.Equal(typeof(int), DynamicDelegateFactory.Default.GetExtendedPropertyType(typeof(ValueHolderData).GetProperty(nameof(ValueHolderData.ExplicitIntValue))!));
+        Assert.Equal(typeof(int), DynamicDelegateFactory.Default.GetExtendedPropertyType(typeof(ValueHolderData).GetProperty(nameof(ValueHolderData.IntValue))!));
     }
 
     //--------------------------------------------------------------------------------

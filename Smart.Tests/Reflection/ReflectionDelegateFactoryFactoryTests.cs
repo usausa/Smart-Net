@@ -1,5 +1,7 @@
 namespace Smart.Reflection;
 
+using System.Runtime.CompilerServices;
+
 public sealed class ReflectionDelegateFactoryActivatorTests
 {
     //--------------------------------------------------------------------------------
@@ -444,5 +446,76 @@ public sealed class ReflectionDelegateFactoryActivatorTests
         var data2 = factory(null);
         Assert.NotNull(data2);
         Assert.Null(data2.Parameter);
+    }
+
+    //--------------------------------------------------------------------------------
+    // Invoker
+    //--------------------------------------------------------------------------------
+
+    [Fact]
+    public void FactoryDoesNotAllocateArguments()
+    {
+        var factory1 = ReflectionDelegateFactory.Default.CreateFactory1(typeof(TextParameterData).GetConstructors().First());
+        var factory5 = ReflectionDelegateFactory.Default.CreateFactory5(typeof(TextParameterData5).GetConstructors().First());
+        for (var i = 0; i < 3; i++)
+        {
+            _ = factory1("a");
+            _ = factory5("a", "b", "c", "d", "e");
+        }
+
+        _ = RuntimeHelpers.GetUninitializedObject(typeof(TextParameterData));
+        _ = RuntimeHelpers.GetUninitializedObject(typeof(TextParameterData5));
+
+        var before = GC.GetAllocatedBytesForCurrentThread();
+        for (var i = 0; i < 100; i++)
+        {
+            _ = RuntimeHelpers.GetUninitializedObject(typeof(TextParameterData));
+            _ = RuntimeHelpers.GetUninitializedObject(typeof(TextParameterData5));
+        }
+
+        var instances = GC.GetAllocatedBytesForCurrentThread() - before;
+
+        before = GC.GetAllocatedBytesForCurrentThread();
+        for (var i = 0; i < 100; i++)
+        {
+            _ = factory1("a");
+            _ = factory5("a", "b", "c", "d", "e");
+        }
+
+        Assert.InRange(GC.GetAllocatedBytesForCurrentThread() - before - instances, 0, 99);
+    }
+
+    [Fact]
+    public void FactoryThrowsConstructorException()
+    {
+        var ci0 = typeof(ThrowingConstructorData).GetConstructor(Type.EmptyTypes)!;
+        var ci1 = typeof(ThrowingConstructorData).GetConstructor([typeof(int)])!;
+        var ci5 = typeof(ThrowingConstructorData).GetConstructor([typeof(int), typeof(int), typeof(int), typeof(int), typeof(int)])!;
+        var factory = ReflectionDelegateFactory.Default;
+
+        Assert.Throws<InvalidOperationException>(() => factory.CreateFactory(ci1)([1]));
+        Assert.Throws<InvalidOperationException>(() => factory.CreateFactory0(ci0)());
+        Assert.Throws<InvalidOperationException>(() => factory.CreateFactory1(ci1)(1));
+        Assert.Throws<InvalidOperationException>(() => factory.CreateFactory5(ci5)(1, 2, 3, 4, 5));
+    }
+
+    [Fact]
+    public void FactoryConvertsArguments()
+    {
+        var factory = ReflectionDelegateFactory.Default.CreateFactory1(typeof(DoubleParameterData).GetConstructors().First());
+
+        Assert.Equal(1d, ((DoubleParameterData)factory(1)).Value);
+        Assert.Equal(0d, ((DoubleParameterData)factory(null)).Value);
+    }
+
+    [Fact]
+    public void FactoryAcceptsCovariantArray()
+    {
+        var factory = ReflectionDelegateFactory.Default.CreateFactory(typeof(TextParameterData).GetConstructors().First());
+
+        string[] args = ["a"];
+        // ReSharper disable once CoVariantArrayConversion
+        var data = (TextParameterData)factory(args);
+        Assert.Equal("a", data.Value);
     }
 }

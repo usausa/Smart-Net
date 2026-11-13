@@ -77,13 +77,13 @@ public record struct BufferWriterSlimInterpolatedStringHandler
 
     public void AppendFormatted<T>(T value, string? format)
     {
-        if (typeof(ISpanFormattable).IsAssignableFrom(typeof(T)) && (value is not null))
+        if (value is ISpanFormattable spanFormattable)
         {
             var hint = 1;
             while (true)
             {
                 var span = GetSpan(hint);
-                if (((ISpanFormattable)value).TryFormat(span, out var written, format, provider))
+                if (spanFormattable.TryFormat(span, out var written, format, provider))
                 {
                     position += written;
                     return;

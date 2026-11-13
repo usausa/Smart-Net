@@ -98,6 +98,20 @@ public class MemberData
 internal sealed class InternalData;
 #pragma warning restore CA1812
 
+public sealed class ExplicitValueHolder : IValueHolder<int>
+{
+    int IValueHolder<int>.Value { get; set; }
+}
+
+public class ValueHolderData
+{
+    public NotificationValue<int> ClassIntValue { get; } = new();
+
+    public ExplicitValueHolder ExplicitIntValue { get; } = new();
+
+    public int IntValue { get; set; }
+}
+
 #pragma warning disable CA1044
 public class ReadWriteOnlyData
 {
@@ -308,5 +322,111 @@ public class Data17 : Data16
         : base(p1, p2, p3, p4, p5, p6, p7, p8, p9, p10, p11, p12, p13, p14, p15, p16)
     {
         Param17 = p17;
+    }
+}
+
+public class TypedAccessorBaseData;
+
+public sealed class TypedAccessorData : TypedAccessorBaseData
+{
+    public int Value { get; set; }
+}
+
+public sealed class TypedAccessorOtherData
+{
+    public int Other { get; set; } = 777;
+}
+
+public sealed class TypedAccessorTextData
+{
+    public string? Text { get; set; }
+}
+
+public sealed class NullableParameterData
+{
+    public int? Value { get; }
+
+    public NullableParameterData(int? value)
+    {
+        Value = value;
+    }
+}
+
+public sealed class DoubleParameterData
+{
+    public double Value { get; }
+
+    public DoubleParameterData(double value)
+    {
+        Value = value;
+    }
+}
+
+public sealed class LongParameterData
+{
+    public long Value { get; }
+
+    public LongParameterData(long value)
+    {
+        Value = value;
+    }
+}
+
+public sealed class ObjectParameterData
+{
+    public object? Value { get; }
+
+    public ObjectParameterData(object? value)
+    {
+        Value = value;
+    }
+}
+
+public sealed class TextParameterData
+{
+    public string? Value { get; }
+
+    public TextParameterData(string? value)
+    {
+        Value = value;
+    }
+}
+
+public sealed class TextParameterData5
+{
+    public string? Value { get; }
+
+    public TextParameterData5(string? p1, string? p2, string? p3, string? p4, string? p5)
+    {
+        Value = p1 ?? p2 ?? p3 ?? p4 ?? p5;
+    }
+}
+
+public sealed class ThrowingConstructorData
+{
+    public ThrowingConstructorData()
+    {
+        throw new InvalidOperationException("Constructor0");
+    }
+
+    public ThrowingConstructorData(int value)
+    {
+        throw new InvalidOperationException($"Constructor1 {value}");
+    }
+
+    public ThrowingConstructorData(int p1, int p2, int p3, int p4, int p5)
+    {
+        throw new InvalidOperationException($"Constructor5 {p1 + p2 + p3 + p4 + p5}");
+    }
+}
+
+public sealed class ThrowingPropertyData
+{
+    private readonly string name = "Value";
+
+    public int Value
+    {
+        get => throw new InvalidOperationException(name);
+        set => throw new InvalidOperationException($"{name} {value}");
     }
 }
