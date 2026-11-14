@@ -7,11 +7,7 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
 {
     private static readonly object[] EmptyResult = [];
 
-#if NET9_0_OR_GREATER
     private readonly Lock sync = new();
-#else
-    private readonly object sync = new();
-#endif
 
     private readonly Dictionary<Type, Slot> slots;
 

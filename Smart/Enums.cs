@@ -16,9 +16,7 @@ public static class Enums<T>
 
     private static readonly Dictionary<string, T> NameToValues;
 
-#if NET9_0_OR_GREATER
     private static readonly Dictionary<string, T>.AlternateLookup<ReadOnlySpan<char>> NameToValuesLookup;
-#endif
 
     public static ReadOnlyCollection<T> Values { get; }
 
@@ -45,9 +43,7 @@ public static class Enums<T>
             NameToValues[names[i]] = values[i];
         }
 
-#if NET9_0_OR_GREATER
         NameToValuesLookup = NameToValues.GetAlternateLookup<ReadOnlySpan<char>>();
-#endif
     }
 #pragma warning restore CA1810
 
@@ -68,20 +64,12 @@ public static class Enums<T>
 
     public static T ParseValue(ReadOnlySpan<char> name)
     {
-#if NET9_0_OR_GREATER
         return NameToValuesLookup.TryGetValue(name, out var value) ? value : Enum.Parse<T>(name);
-#else
-        return Enum.Parse<T>(name);
-#endif
     }
 
     public static bool TryParseValue(ReadOnlySpan<char> name, out T value)
     {
-#if NET9_0_OR_GREATER
         return NameToValuesLookup.TryGetValue(name, out value) || Enum.TryParse(name, out value);
-#else
-        return Enum.TryParse(name, out value);
-#endif
     }
 }
 #pragma warning restore CA1000
