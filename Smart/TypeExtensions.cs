@@ -54,10 +54,10 @@ public static class TypeExtensions
         return null;
     }
 
-    [UnconditionalSuppressMessage("Trimming", "IL2067", Justification = "GetDefaultValue only calls Activator.CreateInstance for value types whose parameterless constructor is preserved by the DynamicallyAccessedMembers annotation on the type parameter. Only Instance and Public flags are passed, so non-public constructors are never used.")]
+    [UnconditionalSuppressMessage("Trimming", "IL2067", Justification = "GetDefaultValue only calls Activator.CreateInstance for value types whose parameterless constructor is preserved by the DynamicallyAccessedMembers annotation on the type parameter.")]
     private static object CreateValue(Type type)
     {
-        return Activator.CreateInstance(type, BindingFlags.Instance | BindingFlags.Public | BindingFlags.DoNotWrapExceptions, null, null, null)!;
+        return Activator.CreateInstance(type)!;
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]

@@ -1,5 +1,7 @@
 namespace Smart;
 
+using System.Reflection;
+
 using Smart.ComponentModel;
 using Smart.Reflection;
 
@@ -64,9 +66,9 @@ public sealed class TypeExtensionsTests
     }
 
     [Fact]
-    public void GetDefaultValueThrowsOriginalExceptionFromStructConstructor()
+    public void GetDefaultValueWrapsExceptionFromStructConstructor()
     {
-        Assert.Throws<InvalidOperationException>(() => typeof(Throwing).GetDefaultValue());
+        Assert.Throws<TargetInvocationException>(() => typeof(Throwing).GetDefaultValue());
     }
 
     [Fact]
