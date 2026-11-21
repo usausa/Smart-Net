@@ -28,6 +28,43 @@ public sealed class ReflectionDelegateFactoryActivatorTests
         Assert.Equal(2, data.Y);
     }
 
+    //--------------------------------------------------------------------------------
+    // Exception
+    //--------------------------------------------------------------------------------
+
+    private readonly struct ThrowingStruct
+    {
+        public ThrowingStruct()
+        {
+            throw new InvalidOperationException("StructConstructor0");
+        }
+    }
+
+    [Fact]
+    public void FactoryTypeThrowsOriginalException()
+    {
+        var type = typeof(ThrowingConstructorData);
+        var factory = ReflectionDelegateFactory.Default.CreateFactory(type);
+
+        Assert.Throws<InvalidOperationException>(factory);
+    }
+
+    [Fact]
+    public void FactoryTypeWithEmptyParameterThrowsOriginalException()
+    {
+        var factory = ReflectionDelegateFactory.Default.CreateFactory(typeof(ThrowingStruct), Type.EmptyTypes);
+
+        Assert.Throws<InvalidOperationException>(() => factory(null));
+    }
+
+    [Fact]
+    public void FactoryTypedThrowsOriginalException()
+    {
+        var factory = ReflectionDelegateFactory.Default.CreateFactory<ThrowingConstructorData>();
+
+        Assert.Throws<InvalidOperationException>(factory);
+    }
+
     [Fact]
     public void FactoryTypeWithEmptyParameter()
     {

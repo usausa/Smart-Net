@@ -25,6 +25,14 @@ public sealed class TypeExtensionsTests
         public int X { get; }
     }
 
+    private readonly struct Throwing
+    {
+        public Throwing()
+        {
+            throw new InvalidOperationException("StructConstructor0");
+        }
+    }
+
     [Fact]
     public void GetDefaultValueReturnsNullForReferenceType()
     {
@@ -53,6 +61,12 @@ public sealed class TypeExtensionsTests
     public void GetDefaultValueRunsParameterlessConstructorOfStruct()
     {
         Assert.Equal(1, Assert.IsType<WithConstructor>(typeof(WithConstructor).GetDefaultValue()).X);
+    }
+
+    [Fact]
+    public void GetDefaultValueThrowsOriginalExceptionFromStructConstructor()
+    {
+        Assert.Throws<InvalidOperationException>(() => typeof(Throwing).GetDefaultValue());
     }
 
     [Fact]

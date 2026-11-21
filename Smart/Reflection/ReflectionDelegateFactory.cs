@@ -31,14 +31,20 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
 
     public Func<object> CreateFactory([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type)
     {
-        return () => Activator.CreateInstance(type)!;
+        var ci = type.GetConstructor(Type.EmptyTypes);
+        return ci is not null
+            ? () => ci.Invoke(BindingFlags.DoNotWrapExceptions, null, null, null)
+            : () => Activator.CreateInstance(type)!;
     }
 
     public Func<object?[]?, object> CreateFactory([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type, Type[] argumentTypes)
     {
         if (type.IsValueType && (argumentTypes.Length == 0))
         {
-            return _ => Activator.CreateInstance(type)!;
+            var defaultConstructor = type.GetConstructor(Type.EmptyTypes);
+            return defaultConstructor is not null
+                ? _ => defaultConstructor.Invoke(BindingFlags.DoNotWrapExceptions, null, null, null)
+                : _ => Activator.CreateInstance(type)!;
         }
 
         var ci = type.GetConstructor(argumentTypes);
@@ -75,7 +81,10 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
 
     public Func<T> CreateFactory<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] T>()
     {
-        return Activator.CreateInstance<T>;
+        var ci = typeof(T).GetConstructor(Type.EmptyTypes);
+        return ci is not null
+            ? () => (T)ci.Invoke(BindingFlags.DoNotWrapExceptions, null, null, null)
+            : Activator.CreateInstance<T>;
     }
 
     //--------------------------------------------------------------------------------

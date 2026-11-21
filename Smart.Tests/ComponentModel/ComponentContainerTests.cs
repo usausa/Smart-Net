@@ -14,6 +14,25 @@ public sealed class ComponentContainerTests
         Assert.NotNull(obj);
     }
 
+    public sealed class ThrowingObject
+    {
+        public ThrowingObject()
+        {
+            throw new InvalidOperationException("Constructor0");
+        }
+    }
+
+    [Fact]
+    public void ComponentConstructorThrowsOriginalException()
+    {
+        var config = new ComponentConfig();
+        config.Add<ThrowingObject>();
+
+        using var container = config.ToContainer();
+
+        Assert.Throws<InvalidOperationException>(container.Get<ThrowingObject>);
+    }
+
     [Fact]
     public void ComponentIsMultipleResolved()
     {

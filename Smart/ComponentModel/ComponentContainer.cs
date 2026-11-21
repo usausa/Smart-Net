@@ -1,6 +1,7 @@
 namespace Smart.ComponentModel;
 
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 
 public sealed class ComponentContainer : IDisposable, IServiceProvider
@@ -246,7 +247,7 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
             var parameters = ci.GetParameters();
             if (parameters.Length == 0)
             {
-                return ci.Invoke(null);
+                return ci.Invoke(BindingFlags.DoNotWrapExceptions, null, null, null);
             }
 
             var match = true;
@@ -275,7 +276,7 @@ public sealed class ComponentContainer : IDisposable, IServiceProvider
                 continue;
             }
 
-            return ci.Invoke(arguments);
+            return ci.Invoke(BindingFlags.DoNotWrapExceptions, null, arguments, null);
         }
 
         throw new InvalidOperationException($"Constructor parameter unresolved. type=[{type.Name}]");
