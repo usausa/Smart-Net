@@ -34,11 +34,15 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
         var ci = type.GetConstructor(Type.EmptyTypes);
         if (ci is null)
         {
+            if (!type.IsValueType)
+            {
+                throw new ArgumentException($"Constructor not found. type=[{type}]", nameof(type));
+            }
+
             return () => Activator.CreateInstance(type)!;
         }
 
-        var invoker = ConstructorInvoker.Create(ci);
-        return invoker.Invoke;
+        return () => ci.Invoke(BindingFlags.DoNotWrapExceptions, null, null, null);
     }
 
     public Func<object?[]?, object> CreateFactory([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type, Type[] argumentTypes)
@@ -51,8 +55,7 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
                 return _ => Activator.CreateInstance(type)!;
             }
 
-            var defaultInvoker = ConstructorInvoker.Create(defaultConstructor);
-            return _ => defaultInvoker.Invoke();
+            return _ => defaultConstructor.Invoke(BindingFlags.DoNotWrapExceptions, null, null, null);
         }
 
         var ci = type.GetConstructor(argumentTypes);
@@ -97,11 +100,10 @@ public sealed partial class ReflectionDelegateFactory : IDelegateFactory
         var ci = typeof(T).GetConstructor(Type.EmptyTypes);
         if (ci is null)
         {
-            return Activator.CreateInstance<T>;
+            throw new ArgumentException("Constructor type parameter is invalid.");
         }
 
-        var invoker = ConstructorInvoker.Create(ci);
-        return () => (T)invoker.Invoke();
+        return () => (T)ci.Invoke(BindingFlags.DoNotWrapExceptions, null, null, null);
     }
 
     //--------------------------------------------------------------------------------

@@ -66,6 +66,20 @@ public sealed class ReflectionDelegateFactoryActivatorTests
     }
 
     [Fact]
+    public void FactoryTypeWithoutDefaultConstructorThrowsArgumentException()
+    {
+        var type = typeof(Data1);
+
+        Assert.Throws<ArgumentException>(() => ReflectionDelegateFactory.Default.CreateFactory(type));
+    }
+
+    [Fact]
+    public void FactoryTypedWithoutDefaultConstructorThrowsArgumentException()
+    {
+        Assert.Throws<ArgumentException>(static () => ReflectionDelegateFactory.Default.CreateFactory<Data1>());
+    }
+
+    [Fact]
     public void FactoryTypeWithEmptyParameter()
     {
         var factory = ReflectionDelegateFactory.Default.CreateFactory(typeof(StructWithConstructor), Type.EmptyTypes);
