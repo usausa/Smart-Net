@@ -435,7 +435,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
         var dynamicMethod = new DynamicMethod(string.Empty, memberType, [typeof(object), targetType], true);
         var il = dynamicMethod.GetILGenerator();
 
-        if (!pi.GetGetMethod()!.IsStatic)
+        if (!pi.GetMethod!.IsStatic)
         {
             il.Emit(OpCodes.Ldarg_1);
             if (!pi.DeclaringType!.IsAssignableFrom(targetType))
@@ -444,11 +444,11 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             }
         }
 
-        il.EmitCallMethod(pi.GetGetMethod()!);
+        il.EmitCallMethod(pi.GetMethod!);
 
         if (isValueHolder)
         {
-            il.Emit(OpCodes.Callvirt, tpi.GetGetMethod()!);
+            il.Emit(OpCodes.Callvirt, tpi.GetMethod!);
         }
 
         if ((memberType == typeof(object)) && tpi.PropertyType.IsValueType)
@@ -492,7 +492,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
             return null;
         }
 
-        var isStatic = isValueHolder ? pi.GetGetMethod()!.IsStatic : pi.GetSetMethod()!.IsStatic;
+        var isStatic = isValueHolder ? pi.GetMethod!.IsStatic : pi.SetMethod!.IsStatic;
 
         var dynamicMethod = new DynamicMethod(string.Empty, typeof(void), [typeof(object), targetType, memberType], true);
         var il = dynamicMethod.GetILGenerator();
@@ -516,7 +516,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
 
             if (isValueHolder)
             {
-                il.EmitCallMethod(pi.GetGetMethod()!);
+                il.EmitCallMethod(pi.GetMethod!);
             }
 
             var type = tpi.PropertyType.IsEnum ? tpi.PropertyType.GetEnumUnderlyingType() : tpi.PropertyType;
@@ -532,7 +532,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
                 il.Emit(OpCodes.Ldloc_0);
             }
 
-            il.EmitCallMethod(tpi.GetSetMethod()!);
+            il.EmitCallMethod(tpi.SetMethod!);
 
             il.Emit(OpCodes.Ret);
 
@@ -550,13 +550,13 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
 
             if (isValueHolder)
             {
-                il.EmitCallMethod(pi.GetGetMethod()!);
+                il.EmitCallMethod(pi.GetMethod!);
             }
 
             il.Emit(OpCodes.Ldarg_2);
             il.Emit(OpCodes.Unbox_Any, tpi.PropertyType);
 
-            il.EmitCallMethod(tpi.GetSetMethod()!);
+            il.EmitCallMethod(tpi.SetMethod!);
 
             il.Emit(OpCodes.Ret);
         }
@@ -573,7 +573,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
 
             if (isValueHolder)
             {
-                il.EmitCallMethod(pi.GetGetMethod()!);
+                il.EmitCallMethod(pi.GetMethod!);
             }
 
             il.Emit(OpCodes.Ldarg_2);
@@ -582,7 +582,7 @@ public sealed partial class DynamicDelegateFactory : IDelegateFactory
                 il.Emit(OpCodes.Castclass, tpi.PropertyType);
             }
 
-            il.EmitCallMethod(tpi.GetSetMethod()!);
+            il.EmitCallMethod(tpi.SetMethod!);
 
             il.Emit(OpCodes.Ret);
         }

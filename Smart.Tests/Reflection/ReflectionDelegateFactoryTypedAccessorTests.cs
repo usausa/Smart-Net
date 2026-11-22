@@ -1,5 +1,7 @@
 namespace Smart.Reflection;
 
+using System.Reflection;
+
 public sealed class ReflectionDelegateFactoryTypedAccessorTests
 {
     //--------------------------------------------------------------------------------
@@ -167,6 +169,34 @@ public sealed class ReflectionDelegateFactoryTypedAccessorTests
         var structValue = getter(data);
         Assert.Equal(1, structValue.X);
         Assert.Equal(2, structValue.Y);
+    }
+
+    [Fact]
+    public void TypedAccessPrivateSetterClassProperty()
+    {
+        var pi = typeof(NonPublicMemberData).GetProperty(nameof(NonPublicMemberData.PrivateSetterStringValue))!;
+        var getter = ReflectionDelegateFactory.Default.CreateGetter<NonPublicMemberData, string>(pi)!;
+        var setter = ReflectionDelegateFactory.Default.CreateSetter<NonPublicMemberData, string>(pi)!;
+
+        var data = new NonPublicMemberData();
+
+        setter(data, "abc");
+        Assert.Equal("abc", data.PrivateSetterStringValue);
+        Assert.Equal("abc", getter(data));
+    }
+
+    [Fact]
+    public void TypedAccessNonPublicProperty()
+    {
+        var pi = typeof(NonPublicMemberData).GetProperty(nameof(NonPublicMemberData.InternalStringValue), BindingFlags.Instance | BindingFlags.NonPublic)!;
+        var getter = ReflectionDelegateFactory.Default.CreateGetter<NonPublicMemberData, string>(pi)!;
+        var setter = ReflectionDelegateFactory.Default.CreateSetter<NonPublicMemberData, string>(pi)!;
+
+        var data = new NonPublicMemberData();
+
+        setter(data, "abc");
+        Assert.Equal("abc", data.InternalStringValue);
+        Assert.Equal("abc", getter(data));
     }
 
     //--------------------------------------------------------------------------------

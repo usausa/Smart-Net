@@ -1,5 +1,7 @@
 namespace Smart.Reflection;
 
+using System.Reflection;
+
 using Smart.ComponentModel;
 
 public sealed class ReflectionDelegateFactoryAccessorTests
@@ -221,6 +223,57 @@ public sealed class ReflectionDelegateFactoryAccessorTests
         Assert.Equal(0, structValue.Y);
     }
 
+    [Fact]
+    public void AccessPrivateSetterClassProperty()
+    {
+        var pi = typeof(NonPublicMemberData).GetProperty(nameof(NonPublicMemberData.PrivateSetterStringValue))!;
+        var getter = ReflectionDelegateFactory.Default.CreateGetter(pi)!;
+        var setter = ReflectionDelegateFactory.Default.CreateSetter(pi)!;
+
+        var data = new NonPublicMemberData();
+
+        setter(data, "abc");
+        Assert.Equal("abc", data.PrivateSetterStringValue);
+        Assert.Equal("abc", getter(data));
+
+        setter(data, null);
+        Assert.Null(getter(data));
+    }
+
+    [Fact]
+    public void AccessPrivateSetterValueTypeProperty()
+    {
+        var pi = typeof(NonPublicMemberData).GetProperty(nameof(NonPublicMemberData.PrivateSetterIntValue))!;
+        var getter = ReflectionDelegateFactory.Default.CreateGetter(pi)!;
+        var setter = ReflectionDelegateFactory.Default.CreateSetter(pi)!;
+
+        var data = new NonPublicMemberData();
+
+        setter(data, 1);
+        Assert.Equal(1, data.PrivateSetterIntValue);
+        Assert.Equal(1, getter(data));
+
+        setter(data, null);
+        Assert.Equal(0, getter(data));
+    }
+
+    [Fact]
+    public void AccessNonPublicProperty()
+    {
+        var pi = typeof(NonPublicMemberData).GetProperty(nameof(NonPublicMemberData.InternalStringValue), BindingFlags.Instance | BindingFlags.NonPublic)!;
+        var getter = ReflectionDelegateFactory.Default.CreateGetter(pi)!;
+        var setter = ReflectionDelegateFactory.Default.CreateSetter(pi)!;
+
+        var data = new NonPublicMemberData();
+
+        setter(data, "abc");
+        Assert.Equal("abc", data.InternalStringValue);
+        Assert.Equal("abc", getter(data));
+
+        setter(data, null);
+        Assert.Null(getter(data));
+    }
+
     //--------------------------------------------------------------------------------
     // Non static nullable
     //--------------------------------------------------------------------------------
@@ -373,6 +426,40 @@ public sealed class ReflectionDelegateFactoryAccessorTests
         setter(data, 1);
         Assert.Equal(1, ((IValueHolder<int>)data.ExplicitIntValue).Value);
         Assert.Equal(1, getter(data));
+    }
+
+    [Fact]
+    public void AccessNonPublicValueHolderClassProperty()
+    {
+        var pi = typeof(NonPublicMemberData).GetProperty(nameof(NonPublicMemberData.InternalNotificationStringValue), BindingFlags.Instance | BindingFlags.NonPublic)!;
+        var getter = ReflectionDelegateFactory.Default.CreateGetter(pi)!;
+        var setter = ReflectionDelegateFactory.Default.CreateSetter(pi)!;
+
+        var data = new NonPublicMemberData();
+
+        setter(data, "abc");
+        Assert.Equal("abc", data.InternalNotificationStringValue.Value);
+        Assert.Equal("abc", getter(data));
+
+        setter(data, null);
+        Assert.Null(getter(data));
+    }
+
+    [Fact]
+    public void AccessNonPublicValueHolderValueTypeProperty()
+    {
+        var pi = typeof(NonPublicMemberData).GetProperty(nameof(NonPublicMemberData.InternalNotificationIntValue), BindingFlags.Instance | BindingFlags.NonPublic)!;
+        var getter = ReflectionDelegateFactory.Default.CreateGetter(pi)!;
+        var setter = ReflectionDelegateFactory.Default.CreateSetter(pi)!;
+
+        var data = new NonPublicMemberData();
+
+        setter(data, 1);
+        Assert.Equal(1, data.InternalNotificationIntValue.Value);
+        Assert.Equal(1, getter(data));
+
+        setter(data, null);
+        Assert.Equal(0, getter(data));
     }
 
     [Fact]

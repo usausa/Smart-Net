@@ -112,6 +112,19 @@ public class ValueHolderData
     public int IntValue { get; set; }
 }
 
+public class NonPublicMemberData
+{
+    public string? PrivateSetterStringValue { get; private set; }
+
+    public int PrivateSetterIntValue { get; private set; }
+
+    internal string? InternalStringValue { get; set; }
+
+    internal IValueHolder<string> InternalNotificationStringValue { get; } = new NotificationValue<string>();
+
+    internal IValueHolder<int> InternalNotificationIntValue { get; } = new NotificationValue<int>();
+}
+
 #pragma warning disable CA1044
 public class ReadWriteOnlyData
 {
