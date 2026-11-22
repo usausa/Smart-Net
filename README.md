@@ -41,7 +41,7 @@ Foundation library for building other Smart libraries.
 
 ### Threading
 
-* `TaskExtensions` — `Forget` (fire-and-forget) and `TryWaitAsync` (timeout-aware wait) for `Task` / `ValueTask`
+* `TaskExtensions` — `Forget` (fire-and-forget), `TryWaitAsync` (timeout-aware wait) and `IgnoreCancellationAsync` (ignores cancellation, rethrows other faults) for `Task` / `ValueTask`
 
 ### Algorithms
 

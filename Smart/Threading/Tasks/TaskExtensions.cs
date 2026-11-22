@@ -142,4 +142,44 @@ public static class TaskExtensions
         cancellationToken.ThrowIfCancellationRequested();
         return (false, default);
     }
+
+    //--------------------------------------------------------------------------------
+    // IgnoreCancellationAsync
+    //--------------------------------------------------------------------------------
+
+    public static Task IgnoreCancellationAsync(this Task task)
+    {
+        if (task.IsCompleted)
+        {
+            return IsNonCancellationFault(task) ? task : Task.CompletedTask;
+        }
+
+        return Awaited(task);
+
+        static async Task Awaited(Task task)
+        {
+            await task.ConfigureAwait(ConfigureAwaitOptions.SuppressThrowing);
+            if (IsNonCancellationFault(task))
+            {
+                await task.ConfigureAwait(false);
+            }
+        }
+    }
+
+    public static ValueTask IgnoreCancellationAsync(this ValueTask task) =>
+        new(task.AsTask().IgnoreCancellationAsync());
+
+    public static ValueTask IgnoreCancellationAsync<TResult>(this ValueTask<TResult> task)
+    {
+        if (task.IsCompletedSuccessfully)
+        {
+            _ = task.Result;
+            return default;
+        }
+
+        return new(task.AsTask().IgnoreCancellationAsync());
+    }
+
+    private static bool IsNonCancellationFault(Task task) =>
+        task.IsFaulted && (task.Exception.InnerException is not OperationCanceledException);
 }

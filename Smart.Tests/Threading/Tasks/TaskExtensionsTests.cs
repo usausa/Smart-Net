@@ -291,4 +291,123 @@ public sealed class TaskExtensionsTests
         var exception = await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => tcs.Task.TryWaitAsync(TimeSpan.FromMilliseconds(-2), TestContext.Current.CancellationToken)).ConfigureAwait(true);
         Assert.Equal("timeout", exception.ParamName);
     }
+
+    //--------------------------------------------------------------------------------
+    // IgnoreCancellationAsync
+    //--------------------------------------------------------------------------------
+
+    [Fact]
+    public async Task IgnoreCancellationAsyncCompletesForCompletedTask()
+    {
+        await Task.CompletedTask.IgnoreCancellationAsync().ConfigureAwait(true);
+        await Task.FromCanceled(new CancellationToken(true)).IgnoreCancellationAsync().ConfigureAwait(true);
+        await Task.FromException(new OperationCanceledException()).IgnoreCancellationAsync().ConfigureAwait(true);
+    }
+
+    [Fact]
+    public async Task IgnoreCancellationAsyncPropagatesCompletedTaskException()
+    {
+        var task = Task.FromException(new InvalidOperationException("inner"));
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(task.IgnoreCancellationAsync).ConfigureAwait(true);
+        Assert.Equal("inner", exception.Message);
+    }
+
+    [Fact]
+    public async Task IgnoreCancellationAsyncIgnoresLaterCancellation()
+    {
+        using var cts = new CancellationTokenSource();
+
+        var task = Task.Delay(Timeout.Infinite, cts.Token).IgnoreCancellationAsync();
+        await cts.CancelAsync().ConfigureAwait(true);
+
+        await task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken).ConfigureAwait(true);
+    }
+
+    [Fact]
+    public async Task IgnoreCancellationAsyncIgnoresLaterCancellationException()
+    {
+        var tcs = new TaskCompletionSource();
+
+        var task = tcs.Task.IgnoreCancellationAsync();
+        tcs.SetException(new OperationCanceledException());
+
+        await task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken).ConfigureAwait(true);
+    }
+
+    [Fact]
+    public async Task IgnoreCancellationAsyncPropagatesLaterException()
+    {
+        var tcs = new TaskCompletionSource();
+
+        var task = tcs.Task.IgnoreCancellationAsync();
+        tcs.SetException(new InvalidOperationException("later"));
+
+        var exception = await Assert.ThrowsAsync<InvalidOperationException>(() => task).ConfigureAwait(true);
+        Assert.Equal("later", exception.Message);
+    }
+
+    [Fact]
+    public async Task IgnoreCancellationAsyncCompletesAfterLaterResult()
+    {
+        var tcs = new TaskCompletionSource<int>();
+
+        var task = tcs.Task.IgnoreCancellationAsync();
+        tcs.SetResult(42);
+
+        await task.WaitAsync(TimeSpan.FromSeconds(5), TestContext.Current.CancellationToken).ConfigureAwait(true);
+    }
+
+    [Fact]
+    public async Task IgnoreCancellationAsyncValueTask()
+    {
+        await default(ValueTask).IgnoreCancellationAsync().ConfigureAwait(true);
+        await new ValueTask(Task.FromCanceled(new CancellationToken(true))).IgnoreCancellationAsync().ConfigureAwait(true);
+
+        await Assert.ThrowsAsync<InvalidOperationException>(() => new ValueTask(Task.FromException(new InvalidOperationException())).IgnoreCancellationAsync().AsTask()).ConfigureAwait(true);
+    }
+
+    [Fact]
+    public async Task IgnoreCancellationAsyncValueTaskWithResult()
+    {
+        await new ValueTask<int>(123).IgnoreCancellationAsync().ConfigureAwait(true);
+        await new ValueTask<int>(Task.FromCanceled<int>(new CancellationToken(true))).IgnoreCancellationAsync().ConfigureAwait(true);
+
+        await Assert.ThrowsAsync<InvalidOperationException>(() => new ValueTask<int>(Task.FromException<int>(new InvalidOperationException())).IgnoreCancellationAsync().AsTask()).ConfigureAwait(true);
+    }
+
+    [Fact]
+    public async Task IgnoreCancellationAsyncCompletedValueTaskWithResultConsumesSource()
+    {
+        var source = new ResultSource();
+
+        await source.Complete(1).IgnoreCancellationAsync().ConfigureAwait(true);
+
+        Assert.Equal(1, source.GetResultCount);
+    }
+
+    [Fact]
+    public void IgnoreCancellationAsyncCompletedDoesNotAllocate()
+    {
+        var canceled = Task.FromCanceled(new CancellationToken(true));
+        IgnoreAll(canceled);
+
+        var before = GC.GetAllocatedBytesForCurrentThread();
+        for (var i = 0; i < 100; i++)
+        {
+            IgnoreAll(canceled);
+        }
+
+        Assert.InRange(GC.GetAllocatedBytesForCurrentThread() - before, 0, 99);
+
+        static void IgnoreAll(Task canceled)
+        {
+            Assert.True(Task.CompletedTask.IgnoreCancellationAsync().IsCompletedSuccessfully);
+            Assert.True(canceled.IgnoreCancellationAsync().IsCompletedSuccessfully);
+            AssertCompleted(default(ValueTask).IgnoreCancellationAsync());
+            AssertCompleted(new ValueTask<int>(123).IgnoreCancellationAsync());
+        }
+
+        static void AssertCompleted(ValueTask task) => Assert.True(task.IsCompletedSuccessfully);
+    }
 }
